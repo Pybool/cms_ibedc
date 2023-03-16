@@ -20,6 +20,7 @@ export class LoginComponent implements OnInit {
   getState: Observable<any>;
   errorMessage: string | null;
   Loginpayload:any;
+  log;
   
   constructor(
     private store: Store<AppState>

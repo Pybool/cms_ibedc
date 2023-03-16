@@ -1,0 +1,168 @@
+<div style="padding-top:10px;" class="container">
+    <h4 style="width:70%;">Billing History for {{bills[0]?.CustomerName}}</h4>
+    <div id = "norecord_found" style="display:none; color:orange;"></div>
+    <div class="nk-block" style="width:100%;max-height: 700px; overflow-y: auto; overflow-x: hidden;">
+    <div class="nk-data" style="width:100%;max-height: 700px; overflow-y: auto; overflow-x: hidden;">
+    <div style="width:100%;max-height: 700px; overflow-y: auto; overflow-x: hidden;">
+        <table id="cust_bills" role="grid" style="width:100%;background:#f5f6fa;; overflow-y: auto; overflow-x: hidden;" class="data-table-init dataTable nowrap nk-tb-list is-separate shadow responsive" data-auto-responsive="true">
+    
+                <thead id="cust_bills_header" style="position:sticky;top:0;background:black">
+                    <th class="nk-tb-col">Customer Name</th>
+                    <th class="nk-tb-col">Account Number</th>
+                    <th class="nk-tb-col">Tarrif Code</th>
+                    <th class="nk-tb-col">Billing Date</th>
+                    <th class="nk-tb-col">Due Date</th>
+                    <th class="nk-tb-col">Consumption (kw/h)</th>
+                    <th class="nk-tb-col">Net Arrears</th>
+                    <th class="nk-tb-col">Total Due</th>
+                    <th class="nk-tb-col">Back Balance</th>
+                    <th class="nk-tb-col">BUID</th>
+                    <th class="nk-tb-col">BU Name</th>
+                    <th class="nk-tb-col">BM Mobile</th>
+                    <th class="nk-tb-col">CSO Mobile</th>
+                    <th class="nk-tb-col">Bill ID</th>
+                    <th class="nk-tb-col">Account Type</th>
+                    <th class="nk-tb-col">Bill Year</th>
+                    <th class="nk-tb-col">Bill Month</th>
+                    <th class="nk-tb-col">Previous Balance</th>
+                    <th class="nk-tb-col">Meter Number</th>
+                    <th class="nk-tb-col">Payment</th>
+                    <th class="nk-tb-col">Service Address 1</th>
+                    <th class="nk-tb-col">Service Address 2</th>
+                    <th class="nk-tb-col">Service Address 3</th>
+                    <th class="nk-tb-col">ADC</th>
+                    <th class="nk-tb-col">Adjustment</th>
+                    <th class="nk-tb-col">Dials</th>
+                    <th class="nk-tb-col">Energy Read Date</th>
+                    <th class="nk-tb-col">Minimum CHG Read Date</th>
+                    <th class="nk-tb-col">Minimum Current CHG</th>
+                    <th class="nk-tb-col">Present KWH</th>
+                    <th class="nk-tb-col">Previous KWH</th>
+                    <th class="nk-tb-col">Demand Read Date</th>
+                    <th class="nk-tb-col">Present Demand</th>
+                    <th class="nk-tb-col">Previous Demand</th>
+                    <th class="nk-tb-col">Multiplier</th>
+                    <th class="nk-tb-col">Consumption MD</th>
+                    <th class="nk-tb-col">Current KWH</th>
+                    <th class="nk-tb-col">Current MD</th>
+                    <th class="nk-tb-col">Rate</th>
+                    <th class="nk-tb-col">FC</th>
+                    <th class="nk-tb-col">MMF</th>
+                    <th class="nk-tb-col">Reconnection Fee</th>
+                    <th class="nk-tb-col">Last Pay</th>
+                    <th class="nk-tb-col">Current CHG Total</th>
+                    <th class="nk-tb-col">VAT</th>
+                    <th class="nk-tb-col">Customer Care</th>
+                    <th class="nk-tb-col">Old Account No</th>
+                    <th class="nk-tb-col">Vat No</th>
+                    <th class="nk-tb-col">Lar Date</th>
+                    <th class="nk-tb-col">Lar</th>
+                    <th class="nk-tb-col">Mobile</th>
+                    <th class="nk-tb-col">Last Pay Amount</th>
+                    <th class="nk-tb-col">Email</th>
+                    <th class="nk-tb-col">E-mail2</th>
+                    <th class="nk-tb-col">E-mail3</th>
+                    <th class="nk-tb-col">Is Selected</th>
+                    <th class="nk-tb-col">Is Confirmed</th>
+                    <th class="nk-tb-col">Is Sms Sent</th>
+                    <th class="nk-tb-col">Read Mode</th>
+                    <th class="nk-tb-col">Row Guid</th>
+                    <th class="nk-tb-col">Refund</th>
+                    <th class="nk-tb-col">Back Arrears</th>
+                    <th class="nk-tb-col">Back Charge</th>
+                    <th class="nk-tb-col">Back Kwh</th>
+                    <th class="nk-tb-col">B Vat</th>
+                    <th class="nk-tb-col">Net Back Arrears</th>
+                    <th class="nk-tb-col">Grand Total</th>
+                    <th class="nk-tb-col">Service Id</th>
+                    <th class="nk-tb-col">Band Adjustment</th>
+                    
+                    
+                </thead>
+                <tbody>
+                    <tr class="nk-tb-item" *ngFor="let bill of bills;">
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.CustomerName}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.AccountNo}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.TariffCode}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.Billdate}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.DueDate}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.ConsumptionKWH}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.NetArrears}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.TotalDue}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.BackBalance}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.BUID}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.BUName1}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.BMMobile}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.CSOMobile}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.BillID}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.AcctTye}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.BillYear}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.BillMonthName}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.PrevBalance}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.MeterNo}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.Payment}}</td>
+
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.ServiceAddress1}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.ServiceAddress2}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.ServiceAddress3}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.ADC}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.Adjustment}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.DIALS}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.EnergyReadDate}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.MinimumChgReadDate}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.MinimumCurrentChg}}</td>
+
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.PresentKWH}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.PreviousKWH}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.DemandReadDate}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.PresentDemand}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.PreviousDemand}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.Multiplier}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.ConsumptionMD}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.CurrentKWH}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.CurrentMD}}</td>
+
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.Rate}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.FC}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.MMF}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.ReconnectionFee}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.LastPay}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.CurrentChgTotal}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.VAT}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.CustomerCare}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.OldAcctNo}}</td>
+
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.VATNo}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.LARDate}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.LAR}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.Mobile}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.LastPayAmount}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.email}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.email2}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.email3}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.IsSelected}}</td>
+
+
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.IsConfirmed}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.isSmsSent}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.ReadMode}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.rowguid}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.Refund}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.BackArrears}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.BackCharges}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.BackKWH}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.BVat}}</td>
+
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.NetBackArrears}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.GrandTotaldue}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.ServiceID}}</td>
+                        <td class="nk-tb-col nk-tb-col-check">{{bill.BandAdjustment}}</td>
+                        
+                    </tr>
+                </tbody>
+            </table>
+            
+        </div>
+    </div>
+    </div>
+</div>

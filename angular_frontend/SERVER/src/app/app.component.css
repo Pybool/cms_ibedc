@@ -1,0 +1,25 @@
+.parent-container{
+    background: whitesmoke!important;
+}
+
+.nk-sidebar{
+    width:250px!important;
+}
+
+
+@media (min-width: 1200px) {
+    
+    .nk-header-fixed {
+        left: 250px !important;
+    }
+}
+
+@media (min-width: 1200px) {
+    .has-sidebar .nk-wrap {
+        padding-left: 250px !important;
+    }
+}
+
+.searchbar-switch{
+    padding-top:30px!important;
+}

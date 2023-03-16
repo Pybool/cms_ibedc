@@ -1,0 +1,101 @@
+<div class="nk-content" style="background-color: #f5f6fa;padding-top: 100px;">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+                <input id="accounttype" type = 'text' t-att-value="customerdata['accounttype']" hidden='1' />
+                <!-- <div id="template_parent"></div> -->
+                <div class="nk-content-body">
+                    <div class="nk-block">
+                        <div class="card">
+                            <div class="card-aside-wrap">
+                                <div style="width:100%;" class="card">
+                                    <router-outlet></router-outlet>
+                                </div>
+                                <div class="card-aside card-aside-left user-aside toggle-slide toggle-slide-left toggle-break-lg" data-content="userAside" data-toggle-screen="lg" data-toggle-overlay="true">
+                                    <div class="card-inner-group" >
+                                        <div class="card-inner">
+                                            <div class="user-card">
+                                                <div class="user-avatar bg-primary">
+                                                    <span t-esc="this.abbreviateName(customerdata['name'])"></span>
+                                                </div>
+                                                <div class="user-info">
+                                                    <span class="lead-text" t-esc="customerdata['name']"></span>
+                                                    <span class="sub-text" t-esc="customerdata['email']"></span>
+                                                </div>
+                                                <div class="user-action">
+                                                    <div class="dropdown">
+                                                        <a class="btn btn-icon btn-trigger mr-n2" data-toggle="dropdown" href="#"><em class="icon ni ni-more-v"></em></a>
+                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                            <ul class="link-list-opt no-bdr">
+                                                                <li><a href="#"><em class="icon ni ni-camera-fill"></em><span>Change Photo</span></a></li>
+                                                                <li><a href="#"><em class="icon ni ni-edit-fill"></em><span>Update Profile</span></a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><!-- .user-card -->
+                                        </div><!-- .card-inner -->
+                                        <div class="card-inner">
+                                            <div class="user-account-info py-0">
+                                                <h6 class="overline-title-alt">OUTSTANDING AMOUNT</h6>
+                                                <div class="user-balance" t-esc="'₦ ' + customerdata['outstanding_amnt'] if customerdata['outstanding_amnt'] != None else '₦ 0.00'"><small class="currency"></small></div>
+                                                <div class="user-balance-sub">Last Payment on: 12/03/2020</div>
+                                            </div>
+                                        </div><!-- .card-inner -->
+                                        <div class="card-inner p-0">
+                                            <ul class="link-list-menu">
+                                                <!-- onclick="loadPersonalInfoTemplate('personal_info_template')"  [routerLink]="['/route/path', {param1: value1, param2: value2}]"-->
+                                               <li class="custlink "><a class="pointer" (click)="navigateToPage($event,'customer/information/basic-information')"  ><em class="icon ni ni-user-fill-c"></em><span><b>Personal Infomation</b></span></a></li>
+                                               <li class="custlink "><a class="pointer" (click)="navigateToPage($event,'customer/information/billing-information')"  ><em class="icon ni ni-todo-fill pointer"></em><span><b>Billing History</b></span></a></li>
+                                               <li class="custlink "><a class="pointer" (click)="navigateToPage($event,'customer/information/payment-information')" ><em class="icon ni ni-money pointer"></em><span><b>Payment History</b></span></a></li>
+                                               <li class="custlink "><a class="pointer" (click)="navigateToPage($event,'customer/information/metering-information')"  ><em class="icon ni ni-meter pointer"></em><span><b>Metering Information</b></span></a></li>
+                                               <li class="custlink "><a class="pointer" (click)="navigateToPage($event,'customer/information/assets-information')"  ><em class="icon ni ni-property pointer"></em><span><b>Assets Information</b></span></a></li>
+                                               <li class="custlink "><a class="pointer"  ><em class="icon ni ni-comments pointer"></em><span><b>Complaints</b></span></a></li>
+                                               <li class="custlink "><a class="pointer" ><em class="icon ni ni-user-circle pointer"></em><span><b>CAAD</b></span></a></li>
+                                            </ul>
+                                        </div><!-- .card-inner -->
+                                    </div><!-- .card-inner-group -->
+                                </div><!-- card-aside -->
+                            </div><!-- .card-aside-wrap -->
+                        </div><!-- .card -->
+                    </div><!-- .nk-block -->
+                </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" id="modalAlert" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <a href="javascript:closeModal('modalAlert')" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross"></em></a>
+            <div class="modal-body modal-body-lg text-center">
+                <div class="nk-modal">
+                <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-check bg-success"></em>
+                <h4 id="success-title" class="nk-modal-title"></h4>
+                <div class="nk-modal-text">
+                    <div id="success-msg" class="caption-text"></div>
+                    <span id="success-sub-msg" class="sub-text-sm"></span>
+                </div>
+                <div class="nk-modal-action"><a href="javascript:closeModal('modalAlert')" class="btn btn-lg btn-mw btn-primary" data-bs-dismiss="modal">OK</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" tabindex="-1" id="fail-modalAlert" style="display: none;" aria-modal="true" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <a href="javascript:closeModal('fail-modalAlert')" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross"></em></a>
+            <div class="modal-body modal-body-lg text-center">
+                <div class="nk-modal">
+                <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>
+                <h4 id="fail-title" class="nk-modal-title"></h4>
+                <div class="nk-modal-text">
+                    <p id="fail-msg" class="lead"></p>
+                    <p id="fail-sub-msg" class="text-soft"></p>
+                </div>
+                <div class="nk-modal-action mt-5"><a autofocus="1" href="javascript:closeModal('fail-modalAlert')" class="btn btn-lg btn-mw " data-bs-dismiss="modal">Return</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

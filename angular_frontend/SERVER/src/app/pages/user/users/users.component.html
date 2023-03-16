@@ -1,0 +1,365 @@
+<div style="padding-top: 100px;" class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Ibedc Users</h3>
+                            <div class="nk-block-des text-soft">
+                                <p>You have total of 20 Users.</p>
+                            </div>
+                        </div>
+                        <div class="nk-block-head-content">
+                            <div class="toggle-wrap nk-block-tools-toggle">
+                                <a class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu"><em class="icon ni ni-menu-alt-r"></em></a>
+                                <div class="toggle-expand-content show" data-content="pageMenu">
+                                    <ul class="nk-block-tools g-3">
+                                        <li><a  (click)="createUserForm()" class="btn btn-white btn-outline-light"><em class="icon ni ni-download-cloud"></em><span>New User</span></a></li>
+                                        <li class="nk-block-tools-opt">
+                                            <a (click)="createUserForm()" class="dropdown-toggle btn btn-icon btn-primary" data-bs-toggle="dropdown"><em class="icon ni ni-plus"></em></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="height:98%" class="nk-block">
+                    <div class="card card-bordered">
+                        <div class="card-inner-group">
+                            <div style="max-height:80%;overflow-y:auto;overflow-x:hidden;" class="card-inner position-relative card-tools-toggle">
+                                <div>
+                                    <div>
+                                        <div class="card-inner position-relative card-tools-toggle">
+                                            <div class="card-title-group">
+                                                <div class="card-tools">
+                                                    <div class="form-inline flex-nowrap gx-3">
+                                                        <div class="form-wrap w-150px">
+                                                            <select class="form-select" data-search="off" data-placeholder="----" >
+                                                                <option value="" data-select2-id="3">Activate</option>
+                                                                <option value="email">Activate</option>
+                                                                <option value="suspend">Suspend User</option>
+                                                            </select>
+                                                            <!-- <span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="2" style="width: 134px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-rx8f-container"><span class="select2-selection__rendered" id="select2-rx8f-container" role="textbox" aria-readonly="true"><span class="select2-selection__placeholder">----</span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span> -->
+                                                        </div>
+                                                        <div class="btn-wrap"><span class="d-none d-md-block"><button (click)="viewMode()" class="btn btn-dim btn-outline-light">Toggle View</button></span><span class="d-md-none"><button class="btn btn-dim btn-outline-light btn-icon disabled"><em class="icon ni ni-arrow-right"></em></button></span></div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-tools me-n1">
+                                                    <ul class="btn-toolbar gx-1">
+                                                        <li><a href="#" class="btn btn-icon search-toggle toggle-search" data-target="search"><em class="icon ni ni-search"></em></a></li>
+                                                        <li class="btn-toolbar-sep"></li>
+                                                        <li>
+                                                            <div class="toggle-wrap">
+                                                                <a href="#" class="btn btn-icon btn-trigger toggle" data-target="cardTools"><em class="icon ni ni-menu-right"></em></a>
+                                                                <div class="toggle-content" data-content="cardTools">
+                                                                    <ul class="btn-toolbar gx-1">
+                                                                        <li class="toggle-close"><a href="#" class="btn btn-icon btn-trigger toggle" data-target="cardTools"><em class="icon ni ni-arrow-left"></em></a></li>
+                                                                        <li>
+                                                                            <div class="dropdown">
+                                                                                <a href="#" class="btn btn-trigger btn-icon dropdown-toggle" data-bs-toggle="dropdown">
+                                                                                    <div class="dot dot-primary"></div>
+                                                                                    <em class="icon ni ni-filter-alt"></em>
+                                                                                </a>
+                                                                                <div class="filter-wg dropdown-menu dropdown-menu-xl dropdown-menu-end">
+                                                                                    <div class="dropdown-head">
+                                                                                        <span class="sub-title dropdown-title">Filter Users</span>
+                                                                                        <div class="dropdown"><a href="#" class="btn btn-sm btn-icon"><em class="icon ni ni-more-h"></em></a></div>
+                                                                                    </div>
+                                                                                    <div class="dropdown-body dropdown-body-rg">
+                                                                                        <div class="row gx-6 gy-3">
+                                                                                            <form id="user_filter_form" class="form-validate is-alter row gx-6 gy-3" autocomplete="off" (ngSubmit)="submitFilter()" ngNativeValidate>
+                                                                                                <div class="col-6">
+                                                                                                    <div class="custom-control custom-control-sm custom-checkbox"><input [(ngModel)]="filter.can_create_user" name="can_create_user" type="checkbox" class="custom-control-input" id="can-create-users"><label class="custom-control-label" for="can-create-users">Can Create Users</label></div>
+                                                                                                </div>
+                                                                                                <div class="col-6">
+                                                                                                    <div class="custom-control custom-control-sm custom-checkbox"><input [(ngModel)]="filter.can_approve_caad" name="can_approve_caad" type="checkbox" class="custom-control-input" id="can-approve-caad"><label class="custom-control-label" for="can-approve-caad">Can Approve CAAD</label></div>
+                                                                                                </div>
+                                                                                                <div class="col-6">
+                                                                                                    <div class="custom-control custom-control-sm custom-checkbox"><input [(ngModel)]="filter.can_create_customers" name="can_create_customers" type="checkbox" class="custom-control-input" id="can-create-customers"><label class="custom-control-label" for="can-create-customers">Can Create Customers</label></div>
+                                                                                                </div>
+                                                                                                <div class="col-6">
+                                                                                                    <div class="custom-control custom-control-sm custom-checkbox"><input [(ngModel)]="filter.can_approve" name="can_approve" type="checkbox" class="custom-control-input" id="can-approve-customer"><label class="custom-control-label" for="can-approve-customer">Can Approve Customers</label></div>
+                                                                                                </div>
+                                                                                                <div class="col-6">
+                                                                                                    <div class="custom-control custom-control-sm custom-checkbox"><input [(ngModel)]="filter.can_manage_2fa" name="can_manage_2fa" type="checkbox" class="custom-control-input" id="can-manage-2fa"><label class="custom-control-label" for="can-manage-2fa">Can Manage 2FA</label></div>
+                                                                                                </div>
+                                                                                                <div class="col-6">
+                                                                                                </div>
+                                                                                                <div class="col-6">
+                                                                                                    <div class="form-group">
+                                                                                                        <label class="overline-title overline-title-alt">Positions</label>
+                                                                                                        <select [(ngModel)]="filter.position" class="form-select" name = "position" data-select2-id="4" tabindex="-1" aria-hidden="true">
+                                                                                                            <option value="any" data-select2-id="6">Any Role</option>
+                                                                                                            <option value="investor">Investor</option>
+                                                                                                            <option value="seller">Seller</option>
+                                                                                                            <option value="buyer">Buyer</option>
+                                                                                                        </select>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="col-6">
+                                                                                                    <div class="form-group">
+                                                                                                        <label class="overline-title overline-title-alt">Permission</label>
+                                                                                                        <select [(ngModel)]="filter.permissions_hierarchy" class="form-select" name = "permissions_hierarchy" data-select2-id="7" tabindex="-1" aria-hidden="true">
+                                                                                                            <option value="any" data-select2-id="9">Any Status</option>
+                                                                                                            <option value="active">Active</option>
+                                                                                                            <option value="pending">Pending</option>
+                                                                                                            <option value="suspend">Suspend</option>
+                                                                                                            <option value="deleted">Deleted</option>
+                                                                                                        </select>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="col-6">
+                                                                                                    <div class="form-group">
+                                                                                                        <label class="overline-title overline-title-alt">Region</label>
+                                                                                                        <select [(ngModel)]="filter.region" class="form-select" name = "region" data-select2-id="reg" tabindex="-1" aria-hidden="true">
+                                                                                                            <option value="any" data-select2-id="region">Any Role</option>
+                                                                                                            <option value="investor">Investor</option>
+                                                                                                            <option value="seller">Seller</option>
+                                                                                                            <option value="buyer">Buyer</option>
+                                                                                                        </select>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="col-6">
+                                                                                                    <div class="form-group">
+                                                                                                        <label class="overline-title overline-title-alt">Business Units</label>
+                                                                                                        <select [(ngModel)]="filter.business_unit" class="form-select"  name = "business_unit" data-select2-id="biz" tabindex="-1" aria-hidden="true">
+                                                                                                            <option value="any" data-select2-id="bizhub">Any Status</option>
+                                                                                                            <option value="active">Active</option>
+                                                                                                            <option value="pending">Pending</option>
+                                                                                                            <option value="suspend">Suspend</option>
+                                                                                                            <option value="deleted">Deleted</option>
+                                                                                                        </select>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="col-6">
+                                                                                                    <div class="form-group">
+                                                                                                        <label class="overline-title overline-title-alt">Service Center</label>
+                                                                                                        <select [(ngModel)]="filter.servicecenter" class="form-select"  name = "servicecenter" data-select2-id="sc" tabindex="-1" aria-hidden="true">
+                                                                                                            <option value="any" data-select2-id="servicecenter">Any Status</option>
+                                                                                                            <option value="active">Active</option>
+                                                                                                            <option value="pending">Pending</option>
+                                                                                                            <option value="suspend">Suspend</option>
+                                                                                                            <option value="deleted">Deleted</option>
+                                                                                                        </select>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="col-6">
+                                                                                                    <div class="form-group">
+                                                                                                        <label class="overline-title overline-title-alt">Status</label>
+                                                                                                        <select [(ngModel)]="filter.status" class="form-select" name="status" data-select2-id="st" tabindex="-1" aria-hidden="true">
+                                                                                                            <option value="any" data-select2-id="status">Any Status</option>
+                                                                                                            <option value="active">Active</option>
+                                                                                                            <option value="pending">Pending</option>
+                                                                                                            <option value="suspend">Suspend</option>
+                                                                                                            <option value="deleted">Deleted</option>
+                                                                                                        </select>
+                                                                                                        <!-- <span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="8" style="width: auto;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-dq1i-container"><span class="select2-selection__rendered" id="select2-dq1i-container" role="textbox" aria-readonly="true" title="Any Status">Any Status</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span> -->
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="col-12">
+                                                                                                    <div class="form-group"><button type="submit" class="btn btn-secondary">Filter</button></div>
+                                                                                                </div>
+
+                                                                                            </form>
+                                                                                            
+                                                                                            
+                                                                                            
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="dropdown-foot between"><a class="clickable" (click)="resetFilter()" href="javscript:void(0)">Reset Filter</a></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </li>
+                                                                        <li>
+                                                                            <div class="dropdown">
+                                                                                <a href="#" class="btn btn-trigger btn-icon dropdown-toggle" data-bs-toggle="dropdown"><em class="icon ni ni-setting"></em></a>
+                                                                                <div class="dropdown-menu dropdown-menu-xs dropdown-menu-end">
+                                                                                    <ul class="link-check">
+                                                                                        <li><span>Show</span></li>
+                                                                                        <li class="active"><a href="#">10</a></li>
+                                                                                        <li><a href="#">20</a></li>
+                                                                                        <li><a href="#">50</a></li>
+                                                                                    </ul>
+                                                                                    <ul class="link-check">
+                                                                                        <li><span>Order</span></li>
+                                                                                        <li class="active"><a href="#">DESC</a></li>
+                                                                                        <li><a href="#">ASC</a></li>
+                                                                                    </ul>
+                                                                                </div>
+                                                                            </div>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="card-search search-wrap" data-search="search">
+                                                <div class="card-body">
+                                                    <div class="search-content"><a href="#" class="search-back btn btn-icon toggle-search" data-target="search"><em class="icon ni ni-arrow-left"></em></a><input type="text" class="form-control border-transparent form-focus-none" placeholder="Search by user or email"><button class="search-submit btn btn-icon"><em class="icon ni ni-search"></em></button></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="max-height:60vh; overflow-y:auto" class="card-inner p-0">
+                                            <div class="nk-tb-list nk-tb-ulist is-compact">
+                                                <div class="nk-tb-item nk-tb-head">
+                                                    <div class="nk-tb-col nk-tb-col-check">
+                                                        <div class="custom-control custom-control-sm custom-checkbox notext"><input type="checkbox" class="custom-control-input" id="uid"><label class="custom-control-label" for="uid"></label></div>
+                                                    </div>
+                                                    <div class="nk-tb-col"><b><span class="sub-text">Name</span></b></div>
+                                                    <div class="nk-tb-col tb-col-md"><b><span class="sub-text">Email</span></b></div>
+                                                    <div class="nk-tb-col tb-col-sm"><b><span class="sub-text">Permission Level</span></b></div>
+                                                    <div class="nk-tb-col tb-col-md"><b><span class="sub-text">Region</span></b></div>
+                                                    <div class="nk-tb-col tb-col-md"><b><span class="sub-text">Business Unit</span></b></div>
+                                                    <div class="nk-tb-col tb-col-md"><b><span class="sub-text">Service Center</span></b></div>
+                                                    <!-- <ng-container *ngIf="dev_perm == true">
+                                                        <div class="nk-tb-col tb-col-xxl"><span><b>Groups</b></span></div>
+                                                    </ng-container> -->
+                                                    <!-- <div class="nk-tb-col tb-col-xxl"><b><span class="sub-text">Role</span></b></div> -->
+                                                    <div class="nk-tb-col tb-col-md"><b><span class="sub-text">Position</span></b></div>
+                                                    <div class="nk-tb-col tb-col-md"><b><span class="sub-text">Last SignedIn</span></b></div>
+                                                    <div class="nk-tb-col-sm"><span class="sub-text"><b>Status</b></span></div>
+                                                    <div class="nk-tb-col nk-tb-col-tools text-end">
+                                                        <div class="dropdown">
+                                                            <a href="#" class="btn btn-xs btn-outline-light btn-icon dropdown-toggle" data-bs-toggle="dropdown" data-offset="0,5"><em class="icon ni ni-plus"></em></a>
+                                                            <div class="dropdown-menu dropdown-menu-xs dropdown-menu-end">
+                                                                <ul class="link-tidy sm no-bdr">
+                                                                    <li>
+                                                                        <div class="custom-control custom-control-sm custom-checkbox checked"><input type="checkbox" class="custom-control-input" checked="" id="bl"><label class="custom-control-label" for="bl">Balance</label></div>
+                                                                    </li>
+                                                                    <li>
+                                                                        <div class="custom-control custom-control-sm custom-checkbox checked"><input type="checkbox" class="custom-control-input" checked="" id="ph"><label class="custom-control-label" for="ph">Phone</label></div>
+                                                                    </li>
+                                                                    <li>
+                                                                        <div class="custom-control custom-control-sm custom-checkbox"><input type="checkbox" class="custom-control-input" id="vri"><label class="custom-control-label" for="vri">Verified</label></div>
+                                                                    </li>
+                                                                    <li>
+                                                                        <div class="custom-control custom-control-sm custom-checkbox"><input type="checkbox" class="custom-control-input" id="st"><label class="custom-control-label" for="st">Status</label></div>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <ng-container *ngFor="let user of usersData;">
+                                                    <div id="{{user.id}}" style="cursor:pointer;" class="nk-tb-item">
+                                                        <div class="nk-tb-col nk-tb-col-check">
+                                                            <div class="custom-control custom-control-sm custom-checkbox notext">
+                                                                <input type="checkbox" class="custom-control-input" name="check" id="{{user.id}}">
+                                                                <label class="custom-control-label" for="{{user.id}}"></label>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="nk-tb-col tb-col-md"><span>{{user.name}}</span></div>
+                                                        <div class="nk-tb-col tb-col-sm"><span>{{user.email}}</span></div>
+
+                                                        <div *ngIf="user.permission_hierarchy == 'Service Center'" class="nk-tb-col tb-col-md"><span>Service Center</span></div>
+                                                        <div *ngIf="user.permission_hierarchy == 'Region'" class="nk-tb-col tb-col-md"><span>Regional</span></div>
+                                                        <div *ngIf="user.permission_hierarchy == 'Business Hub'" class="nk-tb-col tb-col-md"><span>Business Unit</span></div>
+                                                        <div *ngIf="user.permission_hierarchy == 'Head Quarters'" class="nk-tb-col tb-col-md"><span>Head Quarters</span></div>
+
+                                                        <div *ngIf="user.region != 'granted'" class="nk-tb-col tb-col-md"><span>{{user.region || ''}}</span></div>
+                                                        <div *ngIf="user.region == 'granted'" class="nk-tb-col tb-col-md"><i style="color:orange" class="material-icons">verified_user</i></div>
+                                                        
+                                                        <div *ngIf="user.business_unit != 'granted'" class="nk-tb-col tb-col-md"><span>{{user.business_unit || ''}}</span></div>
+                                                        <div *ngIf="user.business_unit == 'granted'" class="nk-tb-col tb-col-md"><i style="color:orange" class="material-icons">verified_user</i></div>
+                                                        
+                                                        <div *ngIf="user.servicecenter != 'granted'" class="nk-tb-col tb-col-md"><span>{{user.service_center}}</span></div>
+                                                        <div *ngIf="user.servicecenter == 'granted'" class="nk-tb-col tb-col-md"><i style="color:orange" class="material-icons">verified_user</i></div>
+
+                                                        <!-- <div *ngIf="user.servicecenter == 'granted'" class="nk-tb-col tb-col-md"><i style="color:lightgreen" class="material-icons">verified_user</i></div> -->
+                                                        <!-- <ng-container *ngIf="user.groups.includes('Access Rights') and user.includes('Settings')">
+                                                            <ng-container *ngIf="user['can_approve'];else block1">
+                                                                <div style="color:orange;" class="nk-tb-col tb-col-md">Admin (Can approve)</div>
+                                                            </ng-container>
+                                                            <ng-template #block1>
+                                                                <div style="color:orange;" class="nk-tb-col tb-col-md">Admin</div>
+                                                            </ng-template>
+                                                        </ng-container>  
+                                                        <ng-container *ngIf="user.groups.includes('Settings') and user.includes('Access Rights');else block3">
+                                                            <ng-container *ngIf="user['can_approve'];else block2">
+                                                                <div style="color:purple;" class="nk-tb-col tb-col-md">Root Admin (Can approve)</div>
+                                                            </ng-container>
+                                                            <ng-template #block2>
+                                                                <div style="color:purple;" class="nk-tb-col tb-col-md">Root Admin</div>
+                                                            </ng-template>
+                                                        </ng-container>  
+                                                        <ng-template #block3>
+                                                            <ng-container *ngIf="user['can_approve']">
+                                                                <div style="color:lightgreen;" class="nk-tb-col tb-col-md">Regular (Can approve)</div>
+                                                            </ng-container>
+                                                            <ng-template #block4>
+                                                                <div class="nk-tb-col tb-col-md">Regular</div>
+                                                            </ng-template>
+                                                        </ng-template> -->
+
+                                                        <!-- <div class="nk-tb-col tb-col-xxl" ><span style="padding-left: 30%;">{{user.notifications}}</span></div> -->
+                                                        <div class="nk-tb-col tb-col-lg">
+                                                            <ul class="list-status">
+                                                                <li><em class="icon ni ni-check-circle" [ngClass]="user.text"></em> <span>{{user.position}}</span></li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="nk-tb-col tb-col-xxl"><span>{{user.last_login}}</span></div>
+                                                        <div style="color:orange;" *ngIf="user.active" class="nk-tb-col"><span class="tb-status" [ngClass]="user.text">Active</span></div>
+                                                        <div style="color:gray;" *ngIf="!user.active" class="nk-tb-col"><span class="tb-status" [ngClass]="user.text">Suspended</span></div>
+                                                        <div class="nk-tb-col nk-tb-col-tools">
+                                                            <ul class="nk-tb-actions gx-2">
+                                                                <li (click)="getSingleUser(user.id)" value="{{user.id}}" class="nk-tb-action-hidden"><a class="btn btn-sm btn-icon btn-trigger" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit" aria-label="Edit"><em id="{{user.public_id}}" title = {{user.name}}  class="icon material-icons">edit</em></a></li>
+                                                                <li (click)="getSuspendUser(user.id)" value="{{user.id}}" class="nk-tb-action-hidden"><a class="btn btn-sm btn-icon btn-trigger" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Suspend" aria-label="Suspend"><em class="icon ni ni-user-cross-fill"></em></a></li>
+                                                                <li>
+                                                                    <div class="drodown">
+                                                                        <a href="#" class="btn btn-sm btn-icon btn-trigger dropdown-toggle" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                                                        <div class="dropdown-menu dropdown-menu-end">
+                                                                            <ul class="link-list-opt no-bdr">
+                                                                                <li (click)="getSingleUser(user.id)" value="{{user.id}}"><a href="javascript:void(0)"><em class="icon ni ni-eye"></em><span>View Details</span></a></li>
+                                                                                <li class="divider"></li>
+                                                                                <li (click)="getResetUser2FA(user.id)" value="{{user.id}}"><a href="javascript:void(0)"><em class="icon ni ni-shield-off"></em><span>Reset 2FA</span></a></li>
+                                                                                <li (click)="getSuspendUser(user.id)" value="{{user.id}}"><a href="javascript:void(0)"><em class="icon ni ni-na"></em><span>Suspend User</span></a></li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <div class="card-inner">
+                                <ul class="pagination justify-content-center justify-content-md-start">
+                                    <li class="page-item"><a class="page-link" href="#">Prev</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><span class="page-link"><em class="icon ni ni-more-h"></em></span></li>
+                                    <li class="page-item"><a class="page-link" href="#">6</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">7</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <div class="row"><app-thermostat></app-thermostat></div> -->
+<div #edituserplaceholder></div>
+<div #createuserplaceholder></div>
+<!-- <app-edituser></app-edituser>
+<app-createuser></app-createuser> -->
+
+
+
+
+
+
+
+
+

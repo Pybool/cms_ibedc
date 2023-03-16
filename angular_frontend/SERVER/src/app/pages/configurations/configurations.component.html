@@ -1,0 +1,93 @@
+
+<div style="padding-top:100px;" class="nk-app-root">
+<!-- main @s -->
+
+<div style="padding-top:100px;" class="nk-content" style="background-color: #f5f6fa;">
+    <div  class="container-fluid">
+        <div class="nk-content-inner">
+            <input id="accounttype" type = 'text' t-att-value="'...'" hidden='1' />
+            <!-- <div id="template_parent"></div> -->
+            <div class="nk-content-body">
+                <div class="nk-block">
+                    <div class="card">
+                        <div class="card-aside-wrap">
+                            <div class="card-inner card-inner-lg">
+                                <div class="nk-block-head-content align-self-start d-lg-none">
+                                    <a href="#" class="toggle btn btn-icon btn-trigger mt-n1" data-target="userAside"><em class="icon ni ni-menu-alt-r"></em></a>
+                                </div>
+                                <!-- <div #template_parent></div> -->
+                                <router-outlet></router-outlet>
+                            </div>
+                            <div class="card-aside card-aside-left user-aside toggle-slide toggle-slide-left toggle-break-lg" data-content="userAside" data-toggle-screen="lg" data-toggle-overlay="true">
+                                <div class="card-inner-group" >
+                                    <div class="card-inner">
+                                        <div class="user-card">
+                                            <div class="user-info">
+                                                <h3 class="nk-block-title page-title">Settings</h3>
+                                                <span class="sub-text" t-esc="'Here you can customize the cms application'"></span>
+                                            </div>
+                                        </div>
+                                        <!-- .user-card -->
+                                    </div>
+                                    <!-- .card-inner -->
+                                    <div class="card-inner p-0">
+                                        <ul class="link-list-menu">
+                                            <li class="custlink"><a [routerLink]="['customer-configurations/']" ><em class="icon ni ni-user-fill-c"></em><span><b>Customer</b></span></a></li>
+                                            <li class="custlink"><a [routerLink]="['user-configurations/']" ><em class="icon ni ni-user-fill-c"></em><span><b>Users</b></span></a></li>
+                                        </ul>
+                                    </div>
+                                    <!-- .card-inner -->
+                                </div>
+                                <!-- .card-inner-group -->
+                            </div>
+                            <!-- card-aside -->
+                        </div>
+                        <!-- .card-aside-wrap -->
+                    </div>
+                    <!-- .card -->
+                </div>
+                <!-- .nk-block -->
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="customizeModal" style="display: none;" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <a href="javascript:void(0)" (click)="modalclose()" id="Modal_close" class="close" data-bs-dismiss="modal" aria-label="Close"><em class="icon ni ni-cross-sm"></em></a>
+            <div style="text-transform:capitalize;" class="modal-body modal-body-md">
+                <h5 class="modal-title">... Account Types</h5>
+                <div class="mt-2">
+                    <div class="row g-gs">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <div class="form-control-wrap">
+                                    <div class="_box">
+                                        <label id="inner-text" for="tagList">...</label>
+                                        <input required="1" placeholder="Type and Press enter..." style="border: 1px solid !important;" type="text" class="form-control" id="newTag" value=""/>
+                                        <div id="user-settings" class="user-settings">
+                                            <input required="1" placeholder="Type Position Code and Press ENTER..." style="border: 1px solid !important;" type="text" class="form-control" id="position_code" value=""/>
+                                            <br/>
+                                            <select value="" class="form-control shadow caps" id="sel_position_code">
+                                                <option disabled="1" value="">Select process stream for user</option>
+                                                <option *ngFor="let process of processes" [value]="process['code']" t-esc="process['name']">{{process.name}}</option>
+                                            </select>
+                                            <br/>
+                                            <input value="-1" placeholder="Type Precedence code and press enter..." style="border: 1px solid !important;" type="number" class="form-control" id="precedence"/>
+                                        </div>
+                                        <ul class="tagList" id="tagList">
+                                            <!-- All TagList Here! -->
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <button id="modal-save" type="button" (click)="saveOptions($event)" style="color:white;" class="btn btn-lg btn-primary">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,13 @@
+__pycache__/
+
+# Ignore Node.js modules
+node_modules/
+
+# Ignore Python virtual environment
+venv/
+
+env/
+
+.angular/
+
+.vscode/

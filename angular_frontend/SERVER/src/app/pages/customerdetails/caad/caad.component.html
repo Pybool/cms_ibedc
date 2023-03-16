@@ -1,0 +1,443 @@
+<div style="padding: 40px;" id="caad_div">
+    <div class="nk-block-head nk-block-head-lg">
+            <div style="width:100%;" class="nk-block-between">
+                <div style="width:100%;" class="nk-block-head-content">
+                    <div style="width:100%;" class="flex-row">
+                        <h4 style="width:100%;font-size:2vh;" class="nk-block-title">Customer Account Adjustment Document (CAAD) <span style="font-size:1vh;color:lightgreen;" id="caad-update"></span></h4>
+                    </div>
+                    
+                </div>
+            </div>
+            <ul class="nav nav-tabs mt-n3">
+                <li class="nav-item"><a onclick="swaptab('caad-history')" class="nav-link caad-review-tabs active" data-bs-toggle="tab" id="caad-history" href="#caad-history" value="#caad-history"><em class="icon ni ni-user"></em><span>CAAD History</span></a></li>
+                <li class="nav-item"><a onclick="swaptab('new-caad-request')" class="nav-link caad-review-tabs" data-bs-toggle="tab" id="new-caad-request" href="#new-caad-request"  value="#new-caad-request"><em class="icon ni ni-account-setting"></em><span>New CAAD</span></a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane" id="caad-history-pane">
+                    <div style="height:70vh" class="card card-bordered">
+                        <div style="height:70vh" class="card-inner-group">
+                            <div style="max-height:100%;overflow-y:auto;overflow-x:hidden;" class="card-inner position-relative card-tools-toggle">
+                                <div>
+                                    <div>
+                                        <div class="card-inner position-relative card-tools-toggle">
+                                            <div class="card-title-group">
+                                                <div class="card-tools">
+                                                    <div class="form-inline flex-nowrap gx-3">
+                                                        <div class="form-wrap w-150px">
+                                                            <select class="form-select" data-search="off" data-placeholder="----" >
+                                                                <option value="" data-select2-id="3">Activate</option>
+                                                                <option value="email">Activate</option>
+                                                                <option value="suspend">Suspend queue</option>
+                                                            </select>
+                                                            <!-- <span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="2" style="width: 134px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-rx8f-container"><span class="select2-selection__rendered" id="select2-rx8f-container" role="textbox" aria-readonly="true"><span class="select2-selection__placeholder">----</span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span> -->
+                                                        </div>
+                                                        <div class="btn-wrap"><span class="d-none d-md-block"><button  class="btn btn-dim btn-outline-light">Toggle View</button></span><span class="d-md-none"><button class="btn btn-dim btn-outline-light btn-icon disabled"><em class="icon ni ni-arrow-right"></em></button></span></div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-tools me-n1">
+                                                    <ul class="btn-toolbar gx-1">
+                                                        <li><a href="#" class="btn btn-icon search-toggle toggle-search" data-target="search"><em class="icon ni ni-search"></em></a></li>
+                                                        <li class="btn-toolbar-sep"></li>
+                                                        <li>
+                                                            <div class="toggle-wrap">
+                                                                <a href="#" class="btn btn-icon btn-trigger toggle" data-target="cardTools"><em class="icon ni ni-menu-right"></em></a>
+                                                                <div class="toggle-content" data-content="cardTools">
+                                                                    <ul class="btn-toolbar gx-1">
+                                                                        <li class="toggle-close"><a href="#" class="btn btn-icon btn-trigger toggle" data-target="cardTools"><em class="icon ni ni-arrow-left"></em></a></li>
+                                                                        <li>
+                                                                            <div class="dropdown">
+                                                                                <a href="#" class="btn btn-trigger btn-icon dropdown-toggle" data-bs-toggle="dropdown">
+                                                                                    <div class="dot dot-primary"></div>
+                                                                                    <em class="icon ni ni-filter-alt"></em>
+                                                                                </a>
+                                                                            </div>
+                                                                        </li>
+                                                                        <li>
+                                                                            <div class="dropdown">
+                                                                                <a href="#" class="btn btn-trigger btn-icon dropdown-toggle" data-bs-toggle="dropdown"><em class="icon ni ni-setting"></em></a>
+                                                                                <div class="dropdown-menu dropdown-menu-xs dropdown-menu-end">
+                                                                                    <ul class="link-check">
+                                                                                        <li><span>Show</span></li>
+                                                                                        <li class="active"><a href="#">10</a></li>
+                                                                                        <li><a href="#">20</a></li>
+                                                                                        <li><a href="#">50</a></li>
+                                                                                    </ul>
+                                                                                    <ul class="link-check">
+                                                                                        <li><span>Order</span></li>
+                                                                                        <li class="active"><a href="#">DESC</a></li>
+                                                                                        <li><a href="#">ASC</a></li>
+                                                                                    </ul>
+                                                                                </div>
+                                                                            </div>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="card-search search-wrap" data-search="search">
+                                                <div class="card-body">
+                                                    <div class="search-content"><a href="#" class="search-back btn btn-icon toggle-search" data-target="search"><em class="icon ni ni-arrow-left"></em></a><input type="text" class="form-control border-transparent form-focus-none" placeholder="Search by queue or email"><button class="search-submit btn btn-icon"><em class="icon ni ni-search"></em></button></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="height:60vh; overflow-y:auto" class="card-inner p-0">
+                                            <div class="nk-tb-list nk-tb-ulist is-compact">
+                                                <div class="nk-tb-item nk-tb-head">
+                                                    <div class="nk-tb-col nk-tb-col-check">
+                                                        <div class="custom-control custom-control-sm custom-checkbox notext">
+                                                            <input onClick="toggle(this)" type="checkbox" class="custom-control-input" id="uid"/>
+                                                            <label class="custom-control-label" for="uid"></label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="nk-tb-col"><span><b>Customer Name</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Account Number</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Service Center</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Business Hub</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>State</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Refunded Amount</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Date Initiated</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Date Completed</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Status</b></span></div>
+                                                </div>
+                                                    <div  t-att-value="queue.account_no" onclick="edit_caad_request(this)" t-att-id="'row_'+str(queue.id)" class="nk-tb-item">
+                                                        <div class="nk-tb-col nk-tb-col-check">
+                                                            <div class="custom-control custom-control-sm custom-checkbox notext">
+                                                                <input t-att-value="queue.customer_name" type="checkbox" class="custom-control-input check_locations" t-att-id="queue.id"/>
+                                                                <label class="custom-control-label" t-att-for="queue.customer_name"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="nk-tb-col">
+                                                            <span class="tb-sub bold" t-esc="queue.customer_name"></span>
+                                                        </div>
+                                                        <div class="nk-tb-col">
+                                                            <span class="tb-sub bold" t-esc="queue.account_no"></span>
+                                                        </div>
+                                                        <div class="nk-tb-col">
+                                                            <span class="tb-sub bold" t-esc="queue.business_hub"></span>
+                                                        </div>
+                                                        <div class="nk-tb-col">
+                                                            <span class="tb-sub bold" t-esc="queue.total_accrued"></span>
+                                                        </div>
+                                                        <div class="nk-tb-col">
+                                                            <span class="tb-sub" t-esc="queue.vat"></span>
+                                                        </div>
+                                                        <div class="nk-tb-col">
+                                                            <span class="tb-sub" t-esc="queue.current_outstanding_bal"></span>
+                                                        </div>
+                                                        <div class="nk-tb-col">
+                                                            <span class="tb-sub" t-esc="queue.refund_amount"></span>
+                                                        </div>
+                                                        <div class="nk-tb-col">
+                                                            <span class="tb-sub" t-esc="queue.is_metered"></span>
+                                                        </div>
+                                                        <div class="nk-tb-col">
+                                                            <span class="tb-sub" t-esc="queue.total_estimate"></span>
+                                                        </div>
+                                                        <div class="nk-tb-col">
+                                                        </div>
+                                                    </div>
+                                                        
+                                                <!-- </ng-container> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-inner">
+                                    <ul class="pagination justify-content-center justify-content-md-start">
+                                        <li class="page-item"><a class="page-link" href="#">Prev</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                        <li class="page-item"><span class="page-link"><em class="icon ni ni-more-h"></em></span></li>
+                                        <li class="page-item"><a class="page-link" href="#">6</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">7</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane active" id="new-caad-request-pane">
+                    <div class="nk-block">
+                        <div style="max-height:700px!important;overflow-y:auto!important;overflow-x: hidden;" class="nk-data data-list">
+                            <div class="data-head">
+                                <h6 class="overline-title">Customer Basic Infomation</h6>
+                            </div>
+                            <div class="row g-3">
+                                
+                                <input value="0" hidden="1" id = "caad_line_items_table_last" type="text"/>
+                                
+                                <div id="accordion" class="accordion">
+                                    <div class="accordion-item">
+                                       <a id="basic_information_accordion" href="javascript:void(0)" class="accordion-head" data-bs-toggle="collapse" data-bs-target="#accordion-item-1">
+                                          <h6 class="title">Basic Information</h6>
+                                          <span class="accordion-icon"></span>      
+                                       </a>
+                                       <div class="accordion-body collapse" id="accordion-item-1" data-bs-parent="#accordion">
+                                          <div style="padding:0px;" class="accordion-inner">
+                                            <div style="padding:0px;" class="col-12">
+                                                <div class="card pointer shadow" value="customers_created">
+                                                    <div class="nk-ecwg nk-ecwg6">
+                                                        <div class="card-inner">
+                                                            <div class="data">
+                                                                <div class="form-control-wrap">
+                                                                    <ul style="max-height:50vh;overflow-y: auto;" class="link-list-opt">
+                                                                        <li >
+                                                                            <div class="col-12 row g-3">
+                                                                                <label class="col-3">Titles</label>
+                                                                                <a class="col-3" href="javascript:void(0)" >
+                                                                                    <span>{{activeCustomer?.title || 'N/A'}}</span>
+                                                                                </a>
+                                                                                <label class="col-3">Firstname</label>
+                                                                                <a class="col-3" href="javascript:void(0)" >
+                                                                                    <span>{{activeCustomer?.firstname || 'N/A'}}</span>
+                                                                                </a>
+                                                                            </div>
+                                                                            
+                                                                        </li>
+                                                                        <li >
+                                                                            <div class="col-12 row g-3">
+                                                                                <label class="col-3">Surname</label>
+                                                                                <a class="col-3" href="javascript:void(0)" >
+                                                                                    <span>{{activeCustomer?.surname || 'N/A'}}</span>
+                                                                                </a>
+                                                                                <label class="col-3">Othernames</label>
+                                                                                <a class="col-3" href="javascript:void(0)" >
+                                                                                    <span>{{activeCustomer?.othernames || 'N/A'}}</span>
+                                                                                </a>
+                                                                            </div>
+                                                                            
+                                                                        </li>
+                                                                        <li >
+                                                                            <div class="col-12 row g-3">
+                                                                                <label class="col-3">Gender</label>
+                                                                                <a class="col-3" href="javascript:void(0)" >
+                                                                                    <span>{{activeCustomer?.gender || 'N/A'}}</span>
+                                                                                </a>
+                                                                                <label class="col-3">Email Address</label>
+                                                                                <a class="col-3" href="javascript:void(0)" >
+                                                                                    <span>{{activeCustomer?.email || 'N/A'}}</span>
+                                                                                </a>
+                                                                            </div>
+                                                                            
+                                                                        </li>
+                                                                        <li >
+                                                                            <div class="col-12 row g-3">
+                                                                                <label class="col-3">Mobile</label>
+                                                                                <a class="col-3" href="javascript:void(0)" >
+                                                                                    <span>{{activeCustomer?.mobile || 'N/A'}}</span>
+                                                                                </a>
+                                                                                <label class="col-3">Is Metered</label>
+                                                                                <a class="col-3" href="javascript:void(0)" >
+                                                                                    <span *ngIf="is_metered">Metered</span>
+                                                                                    <span *ngIf="!is_metered">Unmetered</span>
+                                                                                </a>
+                                                                            </div>
+                                                                            
+                                                                        </li>
+                                                                       
+                                                                    </ul>
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    
+                                    <div class="accordion-item">
+                                       <a id="location_information_accordion" href="javascript:void(0)" class="accordion-head" data-bs-toggle="collapse" data-bs-target="#accordion-item-3">
+                                          <h6 class="title">Value Added Tax and Estimates</h6>
+                                          <span class="accordion-icon"></span>      
+                                       </a>
+                                       <div class="accordion-body collapse" id="accordion-item-3" data-bs-parent="#accordion">
+                                          <div style="padding:0px;" class="accordion-inner">
+                                            <div class="col-12" style="width:100%;height:auto;max-height:85%; padding:0px;" >
+                                                <div style="width:100%;max-height: 100%; overflow-y: auto;">
+                                                    <div style="padding-left:0px!important;" class="col-12">
+                                                        <div class="card pointer shadow" value="customers_created">
+                                                            <div class="nk-ecwg nk-ecwg6">
+                                                                <div class="card-inner">
+                                                                    <div class="data">
+                                                                        <div class="form-control-wrap">
+                                                                            <ul style="max-height:50vh;overflow-y: auto;" class="link-list-opt">
+                                                                                <li >
+                                                                                    <div class="col-8 row g-3">
+                                                                                        <label class="col-2">VAT</label>
+                                                                                        <a class="col-6" href="javascript:void(0)" >
+                                                                                            <select [(ngModel)]="selectedVat" id="vat-sel" class="form-select"> 
+                                                                                                <option disabled selected>Select Vat</option>
+                                                                                                <ng-container *ngFor="let vat of vats;">
+                                                                                                    <option [value]="vat.name" >{{vat.name}}</option>
+                                                                                                </ng-container>
+                                                                                            </select>
+                                                                                        </a>
+                                                                                        <!-- (change)="selectVatOption($event)" -->
+                                                                                        
+                                                                                    </div>
+                                                                                    <div class="col-8 row g-3">
+                                                                                        <label class="col-2">Estimate</label>
+                                                                                        <a class="col-6" href="javascript:void(0)" >
+                                                                                            <input [(ngModel)]= "totalEstimate" (keyup)="calculateRefund()" placeholder="Enter Total Estimation" type='number' id="total-estimation" class="form-control"/>
+                                                                                        </a>
+                                                                                    </div>
+                                                                                </li>
+                                                                                <li >
+                                                                                    
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    
+                                                </div>
+                                            </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="accordion-item">
+                                       <a id="asset_information_accordion" href="javascript:void(0)" class="accordion-head" data-bs-toggle="collapse" data-bs-target="#accordion-item-4">
+                                          <h6 class="title">CAAD Line Items</h6>
+                                          <span class="accordion-icon"></span>      
+                                       </a>
+                                       <div class="accordion-body collapse" id="accordion-item-4" data-bs-parent="#accordion">
+                                          <div style="padding:0px;" class="accordion-inner">
+                                            <form class="form-validate is-alter" autocomplete="off" (ngSubmit)="submit()" ngNativeValidate>
+                                                <table style="width:100%; text-align:center;overflow-x: hidden;" id="caad_line_items_table" class="datatable-init dataTable nowrap nk-tb-list is-separate shadow" data-auto-responsive="true">
+                                                    <thead class="" style="position:sticky;top:0;">
+                                                        <th id='checkbox-th' style="display:none;">.</th>
+                                                        <th><b>From</b></th>
+                                                        <th><b>To</b></th>
+                                                        <th><b>Months</b></th>
+                                                        <th><b>Tarrif</b></th>
+                                                        <ng-container *ngIf="is_metered">
+                                                            <th><b>Present Reading</b></th>
+                                                            <th><b>Last Actual Reading</b></th>
+                                                            <th><b>Consumed</b></th>
+                                                        </ng-container>
+                                                        <th><b>Recom Unit</b></th>
+                                                        <th><b>MAB</b></th>
+                                                        <th><b>EBM</b></th>
+                                                        <th><b></b></th>
+                                                    </thead>
+                                                    <tbody>
+                                                        <ng-container *ngIf="is_metered">
+                                                            <tr  *ngFor="let lineItem of lineItems; trackBy: trackByFn" [id]="'caad-line-item_'+ lineItem.index" style="height:30px;padding:5px!important;align-items:center;justify-content:center;" class="nk-tb-item is-separate">
+                                                                <!-- <td class="nk-tb-col nk-tb-col-check">
+                                                                    <div style="z-index:1;" class="custom-control custom-control-sm custom-checkbox notext ">
+                                                                        <div class="custom-control custom-control-sm custom-checkbox notext">
+                                                                            <input type="checkbox" class="custom-control-input error-lineitem" id="err-flag_1">
+                                                                            <label class="custom-control-label" for="err-flag_1"></label>
+                                                                        </div>
+                                                                    </div>
+                                                                </td> -->
+                                                                <td  class="nk-tb-col date"><input [disabled]="!totalEstimate || !selectedVat" [(ngModel)]="lineItem.from_date" [ngModelOptions]="{standalone: true}" name="'from_'+ lineItem.index" (change)="enableToDate($event,lineItem.index)" class="form-control line_item_from_date" style="width:100%;" type="date"  placeholder="From date"></td>
+                                                                <td  class="nk-tb-col date"><input [disabled]="!totalEstimate || !selectedVat" [id]="'to_'+ lineItem.index" disabled [(ngModel)]="lineItem.to_date" [ngModelOptions]="{standalone: true}" [name]="'to_'+ lineItem.index" class="form-control line_item_to_date" style="width:100%;" type="date" (change)="lineItemHandler($event,lineItem.index);" placeholder="To date" onfocus="(this.type='date')"></td>
+                                                                <td class="nk-tb-col"><input disabled type="text" [(ngModel)]="lineItem.months" [ngModelOptions]="{standalone: true}" name="'months_'+ lineItem.index" class="caadmonths form-control" id="caad-months"/></td>
+                                                                <td class="nk-tb-col"><select [disabled]="!totalEstimate || !selectedVat" [(ngModel)]="lineItem.tarrif" style="width:200px;" [ngModelOptions]="{standalone: true}" name="1" (change)="tarrifSelected(lineItem.index)" class="form-select"><option></option><option value="24.5">24.5</option><option value="38.7">38.7</option></select></td>
+                                                                <td class="nk-tb-col"><input [disabled]="!totalEstimate || !selectedVat" [disabled]="!totalEstimate || !selectedVat" [(ngModel)]="lineItem.present_reading" [ngModelOptions]="{standalone: true}" id="" name="1" (keyup)="recomUnits($event,lineItem.index-1)" class="present-reading form-control"  type="text"></td>
+                                                                <td class="nk-tb-col"><input [disabled]="!totalEstimate || !selectedVat"  [(ngModel)]="lineItem.last_actual_reading" [ngModelOptions]="{standalone: true}" id="" name="1" (keyup)="recomUnits($event,lineItem.index-1)" class="last-actual-reading form-control"  type="text"></td>
+                                                                <td class="nk-tb-col"><input [(ngModel)]="lineItem.consumed" [ngModelOptions]="{standalone: true}" name="1" class="form-control consumed" readonly="1" type="text" value=""></td>
+                                                                                
+                                                                <td class="nk-tb-col"><input [(ngModel)]="lineItem.recom_unit" [ngModelOptions]="{standalone: true}" disabled="1" name="1"  class="form-control recoms" type="text"></td>
+                                                                <td class="nk-tb-col"><input [(ngModel)]="lineItem.mab" [ngModelOptions]="{standalone: true}" name="1" class="form-control" readonly="1" type="text" value=""></td>
+                                                                <td class="nk-tb-col"><input [(ngModel)]="lineItem.ebm" [ngModelOptions]="{standalone: true}" type="text" disabled class="form-control" class="ebm" name="1"/></td>
+                                                                <td class="pointer" (click)="deleteLineItem(lineItem.uuid)"><i class="material-icons">delete</i></td>
+                                                            </tr>
+                                                        </ng-container>
+                                                        <ng-container *ngIf="!is_metered">
+                                                            <tr *ngFor="let lineItem of lineItems;" [id]="'caad-line-item_'+ lineItem.index" style="height:30px;padding:5px!important;align-items:center;justify-content:center;" class="nk-tb-item is-separate">
+                                                                <!-- <td class="nk-tb-col nk-tb-col-check">
+                                                                    <div style="z-index:1;" class="custom-control custom-control-sm custom-checkbox notext ">
+                                                                        <div class="custom-control custom-control-sm custom-checkbox notext">
+                                                                            <input type="checkbox" class="custom-control-input error-lineitem" id="err-flag_1">
+                                                                            <label class="custom-control-label" for="err-flag_1"></label>
+                                                                        </div>
+                                                                    </div>
+                                                                </td> -->
+                                                                <td  class="nk-tb-col date"><input [disabled]="!totalEstimate || !selectedVat" [(ngModel)]="lineItem.from_date" [ngModelOptions]="{standalone: true}" name="'from_'+ lineItem.index" (change)="enableToDate($event,lineItem.index)" class="form-control line_item_from_date" style="width:100%;" type="date"  placeholder="From date"></td>
+                                                                <td  class="nk-tb-col date"><input [disabled]="!totalEstimate || !selectedVat" [id]="'to_'+ lineItem.index" disabled [(ngModel)]="lineItem.to_date" [ngModelOptions]="{standalone: true}" [name]="'to_'+ lineItem.index" class="form-control line_item_to_date" style="width:100%;" type="date" (change)="lineItemHandler($event,lineItem.index);" placeholder="To date" onfocus="(this.type='date')"></td>
+                                                                <td class="nk-tb-col"><input disabled type="text" [(ngModel)]="lineItem.months" [ngModelOptions]="{standalone: true}" name="'months_'+ lineItem.index" class="caadmonths form-control" id="caad-months"/></td>
+                                                                <td class="nk-tb-col"><select [disabled]="!totalEstimate || !selectedVat" [(ngModel)]="lineItem.tarrif" style="width:200px;" [ngModelOptions]="{standalone: true}" name="1" (change)="tarrifSelected(lineItem.index)" class="form-select"><option></option><option value="24.5">24.5</option><option value="38.7">38.7</option></select></td>
+                                                                
+                                                                <td class="nk-tb-col"><input [disabled]="!totalEstimate || !selectedVat" [(ngModel)]="lineItem.recom_unit" [ngModelOptions]="{standalone: true}" (keyup)="recomUnits($event,lineItem.index-1)" name="1"  class="form-control recoms" type="text"></td>
+                                                                <td class="nk-tb-col"><input [(ngModel)]="lineItem.mab" [ngModelOptions]="{standalone: true}" name="1" class="form-control" readonly="1" type="text" value=""></td>
+                                                                <td class="nk-tb-col"><input [(ngModel)]="lineItem.ebm" [ngModelOptions]="{standalone: true}" type="text" disabled class="form-control" class="ebm" name="1"/></td>
+                                                                <td class="pointer" (click)="deleteLineItem(lineItem.uuid)"><i class="material-icons">delete</i></td>
+                                                            </tr>
+                                                        </ng-container>
+                                                      
+                                                    </tbody>
+                                                   
+                                                    <input id="is_metered" hidden="1" type="text" t-att-value="customerdata['is_metered']"/>
+                                                    <input id="caad_rows_count" hidden="1" type="text"/>
+                                                </table>
+                                                <br>
+                                                <div class="col-12 row g-3">
+                                                    <ul style="padding:10px;" class="nk-block-tools g-3 col-8">
+                                                        <li class="nk-block-tools-opt">
+                                                            <button [disabled]="!totalEstimate || !selectedVat" class="dropdown-toggle btn btn-icon btn-primary" (click)="addCaadLineItem($event)" data-bs-toggle="dropdown"><em class="icon ni ni-plus"></em></button>
+                                                        </li>
+                                                        <li><button [disabled]="!totalEstimate || !selectedVat" type="submit" class="btn btn-white btn-outline-light"><em class="icon ni ni-download-cloud"></em><span>Submit</span></button></li>
+                                                        
+                                                        <li *ngIf="!totalEstimate || !selectedVat">You have not completed the Value Added Tax and Estimate section, widgets here will be disabled.</li>
+                                                    </ul>
+                                                    <ul style="max-height:50vh;overflow-y: auto;" class="link-list-opt col-4">
+                                                        <li ><div class="col-12 row g-3"><label class="col-6">Summation Expected Billing</label><a class="col-6" href="javascript:void(0)" ><input [value]="sebm" type="text" class="input-display"/></a></div></li>
+                                                        <li ><div class="col-12 row g-3"><label class="col-6">Total Expected Billing (Vat: 0.0%)</label><a class="col-6" href="javascript:void(0)" ><input [value]="tebm" type="text" class="input-display"/></a></div></li>
+                                                        <li ><div class="col-12 row g-3"><label class="col-6">Refund Amount</label><a class="col-6" href="javascript:void(0)" ><input [value]="refundAmount" type="text" class="input-display"/></a></div></li>
+                                                        
+                                                    </ul>
+                                                </div>
+                                                
+                                                <!-- <div class="flex-row-gap-20"> 
+                                                    <a id="add-caad-line-item" t-att-value="customerdata['is_metered']"  class="btn" type="button">Add New Lineitem</a>
+                                                    <button id="caad-submit" name='' value='create' class="btn" type="submit">Submit</button>
+                                                </div> -->
+                                            </form>
+                                            
+                                          </div>
+                                       </div>
+                                    </div>
+                                    
+                                           
+                                 </div>
+
+                            </div>
+                            
+                        </div>
+                        <!-- data-list -->
+                        
+                        <div style="width:100%;" class="flex-row-wrap-gap-space flex-row-end">
+                            <input hidden="1" id = "caad_header_id" type="text"/>
+                            <ng-container *ngIf="caad_roles_list.includes(position)";else disabledTextarea >
+                                <textarea id="caad-revert-comment" placeholder="Type in revert comments" rows="2" cols="30" type="text" style="max-width:50%;" class="form-control"></textarea>
+                            </ng-container>
+                            <ng-template #disabledTextarea>
+                                <textarea disabled="1" id="caad-revert-comment" placeholder="Comments from last revert are shown here!" rows="4" cols="50" type="text" style="max-width:50%;" class="form-control"></textarea>
+                            </ng-template>
+                            
+                        </div>
+                        <br/>
+                        <ng-container *ngIf="caad_roles_list.includes(position)">
+                            <div class="flex-row-gap-20">
+                                <a id="caad-validate" onclick="caadApproval(1)" style="color:white;" type='button' value="approve" class="btn btn-primary">Approve</a>&nbsp;
+                                <a id="caad-revert" onclick="caadApproval(0)" style="color:white;" type='button' value="Revert" class="btn btn-danger">Revert</a>
+                            </div>
+                        </ng-container>
+                    </div>
+                    <!-- .nk-block -->
+                </div>
+            </div>
+        </div><!-- .nk-block-head -->
+</div>

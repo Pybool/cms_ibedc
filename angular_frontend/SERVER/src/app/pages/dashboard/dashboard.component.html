@@ -1,0 +1,330 @@
+
+<!-- Dashboard Template -->
+
+<div id="dashboard_template" style="padding-top: 100px;" class="nk-content ">
+    <div class="nk-block-head nk-block-head-sm">
+        <div class="nk-block-between">
+            <div class="nk-block-head-content">
+                <h3 id="dashboardtitle" class="nk-block-title page-title">Dashboard</h3>
+            </div>
+            <!-- .nk-block-head-content -->
+            <div class="nk-block-head-content">
+                <div class="toggle-wrap nk-block-tools-toggle">
+                <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>
+                <div  class="toggle-expand-content" data-content="pageMenu">
+                    <ul class="nk-block-tools g-3">
+                        <li>
+                            <div>
+                            <div class="form-group input-group mb30">
+                                <input type="text" onchange="handler();" placeholder="Start date" name="start_date" class="form-control form_control date-widget" onfocus="(this.type='date')" />
+                                <input type="text" onchange="handler();" placeholder="End date" name="end_date" class="form-control form_control date-widget" onfocus="(this.type='date')" />
+                            </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                </div>
+            </div>
+            <!-- .nk-block-head-content -->
+        </div>
+        <!-- .nk-block-between -->
+    </div>
+    <div class="nk-block">
+        <div class="row g-gs">
+           <div class="col-xxl-3 col-sm-6">
+              <div id="prepaid-card" class="card pointer zoom skeleton-box">
+                 <div class="nk-ecwg nk-ecwg6">
+                    <div class="card-inner">
+                       <div class="card-title-group">
+                          <div class="card-title">
+                             <h6 class="">Prepaid Customers</h6>
+                          </div>
+                       </div>
+                       <div class="data">
+                          <div class="data-group">
+                             <div id="prepaid_count" class="post-skeleton-show amount">{{accounts_data?.prepaid_customers || 0 | number:'1.0'}}</div>
+                             <div class="nk-ecwg6-ck">
+                                <canvas class="post-skeleton-show ecommerce-line-chart-s3" id="prepaid_customers"></canvas>
+                             </div>
+                          </div>
+                          <!-- <div class="post-skeleton-show info"><i style="color:gray;" class="material-icons">block</i>&amp;nbsp<span style="color:gray!important;" t-esc="this.percent_not_available()" class="change up text-danger"></span><span></span></div> -->
+                       </div>
+                    </div>
+                    <!-- .card-inner -->
+                 </div>
+                 <!-- .nk-ecwg -->
+              </div>
+              <!-- .card -->
+           </div>
+           <!-- .col -->
+           <div class="col-xxl-3 col-sm-6">
+              <div id="postpaid-card" class="card pointer zoom skeleton-box">
+                 <div class="nk-ecwg nk-ecwg6">
+                    <div class="card-inner">
+                       <div class="card-title-group">
+                          <div class="card-title">
+                             <h6 class="title">Postpaid Customers</h6>
+                          </div>
+                       </div>
+                       <div class="data">
+                          <div class="data-group">
+                             <div id="postpaid_count" class="post-skeleton-show amount">{{accounts_data?.postpaid_customers || 0 | number:'1.0'}}</div>
+                             <div class="nk-ecwg6-ck">
+                                <canvas class="ecommerce-line-chart-s3" id="postpaid_customers"></canvas>
+                             </div>
+                          </div>
+                          <!-- <div class="post-skeleton-show info"><i style="color:gray;" class="material-icons">block</i>&amp;nbsp<span style="color:gray!important;" t-esc="this.percent_not_available()" class="change up text-danger"></span><span></span></div> -->
+                       </div>
+                    </div>
+                    <!-- .card-inner -->
+                 </div>
+                 <!-- .nk-ecwg -->
+              </div>
+              <!-- .card -->
+           </div>
+           <!-- .col -->
+           <div class="col-xxl-3 col-sm-6">
+              <div id="today-collections-card" data-bs-toggle="tooltip" data-bs-placement="right" [title]="today_collections_breakdown" class="card pointer zoom skeleton-box">
+                 <div class="nk-ecwg nk-ecwg6">
+                    <div class="card-inner">
+                       <div class="card-title-group">
+                          <div class="card-title">
+                             <h6 class="title">Today Collections</h6>
+                          </div>
+                       </div>
+                       <div class="data">
+                          <div class="data-group">
+                             <div id="today_collections_count" class="post-skeleton-show amount">&#x020A6; {{todayCollectionsSum || 0.00 | number:'1.0'}}</div>
+                             <div class="nk-ecwg6-ck">
+                                <canvas style="display:block;" class="ecommerce-line-chart-s3 chartjs-render-monitor" id="todays_collections"></canvas>
+                             </div>
+                          </div>
+                          <!-- <div class="post-skeleton-show info"><i style="color:gray;" class="material-icons">block</i>&amp;nbsp<span style="color:gray!important;" t-esc="this.percent_not_available()" class="change up text-danger"></span><span></span></div> -->
+                       </div>
+                    </div>
+                    <!-- .card-inner -->
+                 </div>
+                 <!-- .nk-ecwg -->
+              </div>
+              <!-- .card -->
+           </div>
+           <!-- .col -->
+           <div class="col-xxl-3 col-sm-6">
+              <div id="online-feeders-card" class="card pointer zoom skeleton-box">
+                 <div class="nk-ecwg nk-ecwg6">
+                    <div class="card-inner">
+                       <div class="card-title-group">
+                          <div class="card-title">
+                             <h6 class="title">Online Feeders</h6>
+                          </div>
+                       </div>
+                       <div class="data">
+                          <div class="data-group">
+                             <div id="feeders_count" class="post-skeleton-show amount">{{feedersSum || 0 | number:'1.0'}}</div>
+                             <div class="nk-ecwg6-ck">
+                                <canvas class="ecommerce-line-chart-s3" id="online_feeders"></canvas>
+                             </div>
+                          </div>
+                          <!-- <div class="post-skeleton-show info"><i style="color:gray;" class="material-icons">block</i>&amp;nbsp<span style="color:gray!important;" t-esc="this.percent_not_available()" class="change up text-danger"></span><span></span></div> -->
+                       </div>
+                    </div>
+                    <!-- .card-inner -->
+                 </div>
+                 <!-- .nk-ecwg -->
+              </div>
+              <!-- .card -->
+           </div>
+           <!-- .col -->
+           <div class="col-xxl-6">
+              <div class="card pointer card-full skeleton-box">
+                 <div class="nk-ecwg nk-ecwg8 h-100">
+                    <div class="card-inner">
+                       <div class="card-title-group mb-3">
+                          <div class="card-title">
+                             <h6 class="title">Collection Statistics</h6>
+                          </div>
+                       </div>
+                       <div class="post-skeleton-show "  style="width: 100%; height: 500px;color:black;" id="chartdiv"></div>
+                       <!-- <div id="chartdiv" style="width: 100%; height: 500px"></div> -->
+                    </div>
+                    <!-- .card-inner -->
+                 </div>
+              </div>
+              <!-- .card -->
+           </div>
+           <!-- .col -->
+           <div class="col-xxl-3 col-md-6">
+              <div class="card card-full skeleton-box overflow-hidden">
+                 <div class="nk-ecwg nk-ecwg7 h-100">
+                    <div class="card-inner flex-grow-1">
+                       <div class="card-title-group mb-4">
+                          <div class="card-title">
+                             <h6 class="title">Metering Statistics</h6>
+                          </div>
+                       </div>
+                       <div value="" style="margin: 0 auto; display:flex;justify-content: center; width:15vw;" class="chartdiv" id="chartdivc"></div>
+                       <ul id="meter-legend" class="post-skeleton-show flex-row-gap-20">
+                          <li>
+                             <div class="title">
+                                <div class="legend-box" style="background:#6771dc;"></div>
+                                <div>Meters Installed</div>
+                             </div>
+                          </li>
+                          <li>
+                             <div class="title">
+                                <div class="legend-box" style="background:#67b7dc;"></div>
+                                <div>Pending Installations</div>
+                             </div>
+                          </li>
+                          <li>
+                             <div class="title">
+                                <div class="legend-box" style="background:#dc67ce;"></div>
+                                <div>New Requests</div>
+                             </div>
+                          </li>
+                       </ul>
+                    </div>
+                    <!-- .card-inner -->
+                 </div>
+              </div>
+              <!-- .card -->
+           </div>
+           <!-- .col -->
+           <div class="col-xxl-3 col-md-6">
+              <div class="card skeleton-box h-100">
+                 <div class="card-inner">
+                    <div class="card-title-group mb-2">
+                       <div class="card-title">
+                          <h6 class="title">Operation Statistics</h6>
+                       </div>
+                    </div>
+                    <ul id="ops_data" class="post-skeleton-show nk-store-statistics">
+                       <li class="item">
+                          <div class="info">
+                             <div><a value = "ops_bill_distribution,ops.bill_distribution" href="javascript:clickloadOpsManagerTemplate('ops_bill_distribution','ops.bill_distribution')">Bills Distributed</a></div>
+                             <div id="bills_count" class="count">{{opsmanager?.prepaid_bill_distribution + opsmanager?.postpaid_bill_distribution | number:'1.0'}}</div>
+                          </div>
+                          <em class="icon bg-primary-dim ni ni-bag"></em>
+                       </li>
+                       <li class="item">
+                          <div class="info">
+                             <div><a value = "ops_meter_reading,ops.meter_reading" href="javascript:clickloadOpsManagerTemplate('ops_meter_reading','ops.meter_reading')">Meter Readings</a></div>
+                             <div id="meter_readings_count" class="count">{{opsmanager?.prepaid_meter_reading + opsmanager?.postpaid_meter_reading | number:'1.0'}}</div>
+                          </div>
+                          <em class="icon bg-info-dim ni ni-users"></em>
+                       </li>
+                       <li class="item">
+                          <div class="info">
+                             <div><a value = "ops_evaluated_customers,ops.evaluated_customers" href="javascript:clickloadOpsManagerTemplate('ops_evaluated_customers','ops.evaluated_customers')" >Evaluated Customers</a></div>
+                             <div id="ev_cust_count" class="count">{{opsmanager?.prepaid_ev_cust + opsmanager?.postpaid_ev_cust | number:'1.0'}}</div>
+                          </div>
+                          <em class="icon bg-pink-dim ni ni-box"></em>
+                       </li>
+                       <li class="item">
+                          <div class="info">
+                             <div><a value = "ops_enumerated_customers,ops.enumerated_customers" href="javascript:clickloadOpsManagerTemplate('ops_enumerated_customers','ops.enumerated_customers')">Enumerated Customers</a></div>
+                             <div id="en_cust_count" class="count">{{opsmanager?.prepaid_en_cust + opsmanager?.postpaid_en_cust | number:'1.0'}}</div>
+                          </div>
+                          <em class="icon bg-purple-dim ni ni-server"></em>
+                       </li>
+                    </ul>
+                 </div>
+                 <!-- .card-inner -->
+              </div>
+              <!-- .card -->
+           </div>
+           <!-- .col -->
+           <div class="col-xxl-12">
+              <div id="recent_payments_card" style="height:400px;overflow-y:auto;overflow-x: hidden;" class="card skeleton-box card-full">
+                 <div class="card-inner">
+                    <div class="card-title-group">
+                       <div class="card-title">
+                          <h6 class="title">Recent Payments</h6>
+                       </div>
+                       <div style="display:flex;justify-content:left;max-width:400px!important;" class="btn-group" data-toggle="buttons">
+                          <label id="prepaid_radio" class="btn btn-default active">
+                          <input type="radio" name="options"  autocomplete="off" checked='1' />Prepaid
+                          </label>
+                          <label id="postpaid_radio" class="btn btn-default">
+                          <input type="radio" name="options"  autocomplete="off" />Postpaid
+                          </label>
+                          <!-- <a href="javascript:window.top.location.reload(true)" class="continue">Continue</a> -->
+                       </div>
+                    </div>
+                 </div>
+                 <div id="replaceable_recent_payments" class="nk-tb-list mt-n2">
+                    <div class="nk-tb-item nk-tb-head">
+                       <div class="nk-tb-col"><span>Customer</span></div>
+                       <div class="nk-tb-col tb-col-sm"><span>Account No</span></div>
+                       <div class="nk-tb-col"><span>Account Type</span></div>
+                       <div class="nk-tb-col"><span>Units</span></div>
+                       <div class="nk-tb-col"><span>Cost Units</span></div>
+                       <div class="nk-tb-col"><span>Trans Date</span></div>
+                       <div class="nk-tb-col"><span>Trans Amount</span></div>
+                       <div class="nk-tb-col"><span>State</span></div>
+                       <div class="nk-tb-col"><span>Buid</span></div>
+                       <div class="nk-tb-col"><span>Service Center</span></div>
+                       <div class="nk-tb-col"><span>Token</span></div>
+                       <div class="nk-tb-col"><span class="d-none d-sm-inline">Status</span></div>
+                    </div>
+                    <ng-container *ngFor="let recent_payment of recent_payments;">
+                     <div  class="nk-tb-item" value="54130284539" onclick="dashboardCustomerRouter(this.getAttribute('value'))">
+                                        
+                        <div class="nk-tb-col tb-col-sm">
+                            <div class="user-card">
+                                <div class="user-avatar sm bg-purple-dim">
+                                    <span id="{{recent_payment.Firstname + ' ' + recent_payment.Surname + ' ' + recent_payment.Othernames}}">IO</span>
+                                </div>
+                                <div class="user-name">
+                                    <a href="javascript:void(0)" name="recent_payment.AccountNo" onclick="dashboardCustomerRouter(this.getAttribute('value'))" class="tb-lead">{{recent_payment?.Firstname || '' + ' ' + recent_payment?.Surname  + ' ' + recent_payment?.OtherNames }}</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nk-tb-col"> 
+                            <a href="javascript:void(0)" onclick="dashboardCustomerRouter(this.getAttribute('value'))" class="tb-sub" id="recent_payment.AccountNo">{{recent_payment.AccountNo}}</a>
+                        </div>
+                        
+                        <div class="nk-tb-col"> 
+                            <span class="tb-sub">{{recent_payment.AccountType}}</span>
+                        </div>
+                        <div class="nk-tb-col tb-col-md"> 
+                            <span class="tb-sub">{{recent_payment.Units}}</span>
+                        </div>
+                        <div class="nk-tb-col"> 
+                            <span class="tb-sub">{{recent_payment.CostOfUnits}}</span>
+                        </div>
+                        <div class="nk-tb-col"> 
+                            <span class="tb-sub">{{recent_payment.transdate}}</span>
+                        </div>
+                        <div class="nk-tb-col"> 
+                            <span class="tb-sub">{{recent_payment.transamount}}</span>
+                        </div>
+                        <div class="nk-tb-col"> 
+                           <span class="tb-sub">{{recent_payment.State || '' |uppercase}}</span>
+                       </div>
+                        <div class="nk-tb-col"> 
+                            <span class="tb-sub">{{recent_payment.BUID || ''}}</span>
+                        </div>
+                        <div class="nk-tb-col"> 
+                           <span class="tb-sub">{{recent_payment.ServiceCenter || ''}}</span>
+                       </div>
+                        <div class="nk-tb-col"> 
+                            <span class="tb-sub">{{recent_payment.Token || ''}}</span>
+                        </div>
+                        <div class="nk-tb-col"> 
+                            <span class="tb-sub">{{recent_payment.transstatus}}</span>
+                        </div>
+   
+                    </div>
+
+                    </ng-container>
+                    
+                 </div>
+              </div>
+              <!-- .card -->
+           </div>
+        </div>
+        <!-- .row -->
+     </div>
+
+</div>

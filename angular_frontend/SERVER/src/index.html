@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Ibedc Customer Management System</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script type="text/javascript" src="/assets/js/dropscript.js"></script>
+  <script type="text/javascript" src="/assets/js/datatables.js"></script>
+  <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap.css">
+    <script type="text/javascript" src="/assets/js/dropscript.js?version=0.0.3"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.js"></script>
+  <!-- <script src="/assets/js/bootstrap.bundle.min.js?version=0.0.3"></script>
+  <script src="/assets/js/popper.min.js?version=0.0.3"></script> -->
+  <!-- <script type="text/javascript"  src="/assets/js/datatables/dataTables.buttons.min.js?version=0.0.3"></script>
+  <script type="text/javascript"  src="/assets/js/datatables/jszip.min.js?version=0.0.3"></script>
+  <script type="text/javascript" src="/assets/js/datatables/pdfmake.min.js" ></script>
+  <script type="text/javascript"  src="/assets/js/datatables/vfs_fonts.js?version=0.0.3"></script>
+  <script type="text/javascript" src="/assets/js/datatables/buttons.html5.js?version=0.0.3"></script>
+  <script type="text/javascript" src="/assets/js/datatables/buttons.print.js?version=0.0.3"></script> -->
+</head>
+<body>
+  <app-root></app-root>
+  <script>
+    
+function updateCustomerForm(){
+  console.log(document.getElementById('edit_customer').classList)
+  document.getElementById('edit_customer').classList.add("content-active")
+}
+
+function waitForElm(selector) {
+   return new Promise(resolve => {
+      if (document.querySelector(selector)) {
+         return resolve(document.querySelector(selector));
+      }
+      const observer = new MutationObserver(mutations => {
+         if (document.querySelector(selector)) {
+            resolve(document.querySelector(selector));
+            observer.disconnect();
+         }
+      });
+
+      observer.observe(document.body, {
+         childList: true,
+         subtree: true
+      });
+   }).catch(err => console.log());
+}
+       
+ </script>
+ <script type="text/javascript" >
+  window.DataTable = DataTable
+  try{setNavBorder(4)
+      waitForElm('#cust_bills').then((elm) => {
+          let table = new DataTable('#cust_bills', {
+              destroy: true,"pageLength": 250,"bPaginate": false,
+              "responsive": true,
+              "processing": true,
+              "searching":false,
+              dom: 'Bfrtip',
+              buttons: [
+                  'copy', 'csv', 'excel', 'pdf', 'print'
+              ]
+          });
+      });
+      }
+  catch(err){ }
+</script>
+</body>
+  <style>
+ 
+
+ html{
+  font-size: 16px!important;
+ }
+
+:root {
+--hue: 223;
+--bg: hsl(var(--hue),10%,70%);
+--fg: hsl(var(--hue),10%,10%);
+--primary: hsl(var(--hue),90%,55%);
+--trans-dur: 0.3s;
+}
+</style>
+  <script src="/assets/js/bundle19ce.js?ver=3.0.3"></script>
+  <script src="/assets/js/scripts19ce.js?ver=3.0.3"></script>
+  <script src="/assets/js/demo-settings19ce.js?ver=3.0.3"></script>
+</html>

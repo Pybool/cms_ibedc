@@ -1,0 +1,736 @@
+<div id="create_customer" style="border-left:2px solid ;height:90%;width:70%;border-color:#FF7518; right: 0px; bottom: 0px;" class="nk-add-product toggle-slide toggle-slide-right" data-content="editCustomer" data-toggle-screen="any" data-toggle-overlay="true" data-toggle-body="true" data-simplebar='1'>
+    <div class="nk-block-head">
+       <div class="nk-block-head-content">
+          <h5 id="create_edit_user_title" class="nk-block-title"></h5>
+          <div class="nk-block-des">
+             <div class="data-head">
+                <h5 id="form_title" class="overline-title">{{formHeader}}</h5>
+             </div>
+          </div>
+          <div style="display:none;" id="field_pending_cont" class="col-6">
+             <div class="show" role="alert" aria-live="assertive" aria-atomic="true">
+                  <div class="toast-header"><strong class="me-auto text-primary">Notification!</strong><button type="button" class="close" data-dismiss="toast" aria-label="Close"></button></div>
+                  <div style="color:lightgreen" id="field_pending" class="toast-body"><a href="">Load Customer Draft</a></div>
+              </div>
+          </div>
+       </div>
+    </div>
+    <!-- .nk-block-head -->
+    <div class="nk-block">
+       <form id="customer_edit_form" class="form-validate is-alter" autocomplete="off" (ngSubmit)="submit()" ngNativeValidate>
+          <div style="height:80%;overflow:auto" class="row g-3">
+             <div style="width:100%;overflow:auto" class="card card-bordered card-preview">
+                <div class="card-inner">
+                   <ul class="nav nav-tabs mt-n3">
+                      <li class="nav-item"><a id="basic-info-tab" class="nav-link customer-review-tabs active" data-bs-toggle="tab" href="#customer-basic-info" value="#customer-basic-info"><em class="icon ni ni-user"></em><span>Basic Information</span></a></li>
+                      <li class="nav-item"><a class="nav-link customer-review-tabs" data-bs-toggle="tab" href="#customer-account-info"  value="#customer-account-info"><em class="icon ni ni-account-setting"></em><span>Account Information</span></a></li>
+                      <li class="nav-item"><a class="nav-link customer-review-tabs" data-bs-toggle="tab" href="#customer-location-info" value="#customer-location-info" ><em class="icon ni ni-location"></em><span>Location / Residence</span></a></li>
+                      <li class="nav-item"><a class="nav-link customer-review-tabs" data-bs-toggle="tab" href="#customer-assets-info" value="#customer-assets-info"><em class="icon ni ni-link"></em><span>Assets Information</span></a></li>
+                      <li class="nav-item"><a class="nav-link customer-review-tabs" data-bs-toggle="tab" href="#customer-property-type-info" value="#customer-property-type-info"><em class="icon ni ni-property"></em><span>Property Type</span></a></li>
+                      <li class="nav-item"><a id="creation-draft" class="nav-link customer-review-tabs" data-bs-toggle="tab" href="#drafts" (click)="fetchDrafts()" value="#drafts"><em class="icon ni ni-property"></em><span>Drafts</span></a></li>
+                   </ul>
+                   <div class="tab-content">
+                      <div class="tab-pane active" id="customer-basic-info">
+                         <div class="col-12">
+                            <div class="card pointer shadow" value="customers_created">
+                               <div class="nk-ecwg nk-ecwg6">
+                                  <div class="card-inner">
+                                     <div class="data">
+                                        <div class="form-control-wrap">
+                                           <div class="row g-3">
+                                              <div class="col-12 nk-block-head">
+                                                 <div class="nk-block-head-content">
+                                                    <h5 id="create_edit_user_title" class="nk-block-title"></h5>
+                                                    <div class="nk-block-des">
+                                                       <div class="data-head">
+                                                          <h5 class="overline-title">Basic Information</h5>
+                                                       </div>
+                                                    </div>
+                                                 </div>
+                                              </div>
+                                              <!-- .nk-block-head -->
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="title"><b>Title(s)</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <input [(ngModel)]="newCustomer.title" name="title" type="text" class="form-control shadow caps" appTitlecase id="title"/>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="surname"><b>Surname</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <input [(ngModel)]="newCustomer.surname" name="surname" type="text" class="form-control shadow caps" appTitlecase id="surname"/>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="firstname"><b>First Name</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <input [(ngModel)]="newCustomer.firstname" name="firstname" type="text" class="form-control shadow caps" appTitlecase id="firstname"/>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="othernames"><b>Othername</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <input [(ngModel)]="newCustomer.othernames" name="othernames" type="text" class="form-control shadow caps" appTitlecase id="othernames"/>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="gender"><b>Gender</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <select [(ngModel)]="newCustomer.gender" name="gender" class="form-select" id="gender">
+                                                    <option value="Male">Male</option>
+                                                    <option value="Female">Female</option>
+                                                 </select>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="email"><b>Email</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <input [(ngModel)]="newCustomer.email" name="email" type="email" class="form-control shadow" id="email"/>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="mobile"><b>Mobile</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <input [(ngModel)]="newCustomer.mobile" name="mobile" type="mobile" class="form-control shadow caps" id="mobile"/>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <a style="color:white;" (click)="saveDraft($event,'basic_information')" type="button" tab="basicInfo" class= "btn btn-primary kyc-save">Save</a>
+                                        </div>
+                                     </div>
+                                  </div>
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+                      <div class="tab-pane" id="customer-account-info">
+                         <div class="col-12">
+                            <div class="card pointer shadow" value="customers_created">
+                               <div class="nk-ecwg nk-ecwg6">
+                                  <div class="card-inner">
+                                     <div class="data">
+                                        <div class="form-control-wrap">
+                                           <div class="row g-3">
+                                              <div class="col-12 nk-block-head">
+                                                 <div class="nk-block-head-content">
+                                                    <h5 id="create_edit_user_title" class="nk-block-title"></h5>
+                                                    <div class="nk-block-des">
+                                                       <div class="data-head">
+                                                          <h5 class="overline-title">Account Information</h5>
+                                                       </div>
+                                                    </div>
+                                                 </div>
+                                              </div>
+                                              <!-- .nk-block-head -->
+                                           </div>
+                                           <br/>
+                                           <div id="account_no_group" class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="accountno"><b>Account No</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <input disabled [(ngModel)]="newCustomer.accountno" name="accountno"  type="text" class="form-control shadow caps" id="accountno"/>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="accounttype"><b>Account Type</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <select [(ngModel)]="newCustomer.accounttype" name="accounttype"  class="form-select shadow " id="accounttype">
+                                                    <option *ngFor="let accounttype of accounttypes" [value]="accounttype.name">{{accounttype.name}}</option>
+                                                 </select>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="customer_type"><b>Customer Type</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <select [(ngModel)]="newCustomer.customer_type" name="customer_type"  class="shadow form-select " id="customer_type">
+                                                   <option *ngFor="let customer_type of customer_types" [value]="customer_type.code">{{customer_type.name}}</option>
+                                                 </select>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="business_type"><b>Business Type</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <input [(ngModel)]="newCustomer.business_type" name="business_type" type="text" class="form-control shadow caps" id="business_type"/>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="statuscode"><b>Status Code</b></label>
+                                              </div>
+                                              <div class="dropdown col-10">
+                                                <select [(ngModel)]="newCustomer.statuscode" name="statuscode"  class="form-select" id="statuscode">
+                                                   <option value="A">Active (A)</option>
+                                                   <option value="I">Inactive (I)</option>
+                                                   <option value="P">Prepaid (P)</option>
+                                                   <option value="S">Suspended (S)</option>
+                                                </select>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="cin"><b>CIN</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <input [(ngModel)]="newCustomer.cin" name="cin" type="text" class="form-control shadow caps" id="cin"/>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <br/>
+                                           <a style="color:white;" (click)="saveDraft($event,'account_information')" type="button" tab="accountInfo" class= " kyc-save btn btn-primary">Save</a>
+                                        </div>
+                                     </div>
+                                  </div>
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+                      <div class="tab-pane" id="customer-location-info">
+                         <div class="col-12">
+                            <div class="card pointer shadow" value="customers_created">
+                               <div class="nk-ecwg nk-ecwg6">
+                                  <div class="card-inner">
+                                     <div class="data">
+                                        <div class="form-control-wrap">
+                                           <div class="row g-3">
+                                              <div class="col-12 nk-block-head">
+                                                 <div class="nk-block-head-content">
+                                                    <h5 id="create_edit_user_title" class="nk-block-title"></h5>
+                                                    <div class="nk-block-des">
+                                                       <div class="data-head">
+                                                          <h5 class="overline-title">Residence/Location Information</h5>
+                                                       </div>
+                                                    </div>
+                                                 </div>
+                                              </div>
+                                              <!-- .nk-block-head -->
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="building_description"><b>Building Description</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <select [(ngModel)]="newCustomer.building_description" name="building_description" class="form-select shadow" id="building_description">
+                                                   <option *ngFor="let building_description of building_descriptions" [value]="building_description.code">{{building_description.name}}</option>
+                                                 </select>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="premise_type"><b>Premises Type</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <select [(ngModel)]="newCustomer.premise_type" name="premise_type" class="form-select shadow" id="premise_type">
+                                                   <option *ngFor="let premise_type of premise_types" [value]="premise_type.code">{{premise_type.name}}</option>
+                                                 </select>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="address1"><b>Address</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <input *ngIf="newCustomer.address1";else blockaddress [(ngModel)]="newCustomer.address1" name="address1" type="text" class="form-control shadow caps" id="address1"/>
+                                                 <ng-container #blockaddress>
+                                                   <input [(ngModel)]="newCustomer.address" name="address1" type="text" class="form-control shadow caps" id="address1"/>
+                                                 </ng-container>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="lga"><b>Local Govt</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <input [(ngModel)]="newCustomer.lga" name="lga" type="text" class="form-control shadow caps" id="lga"/>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div *ngIf="permission_hierarchy != 'region' && permission_hierarchy != 'business_unit' && permission_hierarchy != 'service_center'" class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="region"><b>Region</b></label>
+                                              </div>
+                                              <div class="dropdown col-10">
+                                                <select (change)="fetchBusinessUnits($event)" [(ngModel)]="newCustomer.region" name="region" class="form-select shadow" id="region">
+                                                   <option value="Oyo">Oyo</option>
+                                                   <option value="Osun">Osun</option>
+                                                </select>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div *ngIf="permission_hierarchy != 'business_unit' && permission_hierarchy != 'service_center'" class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="buid"><b>Business Hub</b></label>
+                                              </div>
+                                              <div class="dropdown col-10">
+                                                <select *ngIf="!userFetched" (change)="fetchServiceCenters($event)" [(ngModel)]="newCustomer.buid" name="buid" class="form-select shadow" id="buid">
+                                                   <option *ngFor="let location of locations;" [value]="location.name | lowercase">{{location.name }}</option>
+                                                </select>
+                                                <select *ngIf="userFetched" (change)="fetchServiceCenters($event)" [(ngModel)]="newCustomer.buid" name="buid" class="form-select shadow" id="buid">
+                                                   <option *ngFor="let business_unit of business_units;" [value]="business_unit.name | lowercase">{{business_unit.name}}</option>
+                                                </select>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div *ngIf="permission_hierarchy != 'service_center'" class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="servicecenter"><b>Service Center</b></label>
+                                              </div>
+                                              <div class="dropup col-10">
+                                                <select [(ngModel)]="newCustomer.servicecenter" name="servicecenter" class="form-select shadow" id="servicecenter">
+                                                   <option *ngFor="let servicecenter of service_centers;" [value]="servicecenter.name | lowercase">{{servicecenter.name}}</option>
+                                                </select>
+                                                 
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="city"><b>City</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <input [(ngModel)]="newCustomer.city" name="city" type="text" class="form-control shadow caps" id="city"/>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="state"><b>State</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <select [(ngModel)]="newCustomer.state" name="state" class="form-select shadow caps" id="state">
+                                                   <option value="Oyo">Oyo</option>
+                                                   <option value="Osun">Osun</option>
+                                                 </select>
+                                              </div>
+                                           </div>
+                                           
+                                           <br/>
+                                           <a style="color:white;" (click)="saveDraft($event,'location_information')" type="button" tab="locationInfo" class= " kyc-save btn btn-primary">Save</a>
+                                        </div>
+                                     </div>
+                                  </div>
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+                      <div class="tab-pane" id="customer-assets-info">
+                         <div class="col-12">
+                            <div class="card pointer shadow" value="customers_created">
+                               <div class="nk-ecwg nk-ecwg6">
+                                  <div class="card-inner">
+                                     <div class="data">
+                                        <div class="form-control-wrap">
+                                           <div class="row g-3">
+                                              <div class="col-12 nk-block-head">
+                                                 <div class="nk-block-head-content">
+                                                    <h5 id="create_edit_user_title" class="nk-block-title"></h5>
+                                                    <div class="nk-block-des">
+                                                       <div class="data-head">
+                                                          <h5 class="overline-title">Assets Information</h5>
+                                                       </div>
+                                                    </div>
+                                                 </div>
+                                              </div>
+                                              <!-- .nk-block-head -->
+                                           </div>
+                                           <br/>
+                                           <div class="row">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="dss_owner"><b>DSS Owner</b></label>
+                                              </div>
+                                              <div class="dropdown col-4">
+                                                 <a href="#" (click)="getGisAssetdata('dss_owner')" id="dss_owner" style="width:100%;" class="shadow pointer dropdown-toggle dropdown-indicator btn " data-bs-toggle="dropdown" aria-expanded="false">Select DSS Owner</a>
+                                                 <div style="width:100%;" class="dropdown-menu">
+                                                    <ul id="dss_owner_list" style="width:100%;max-height:20vh!important;overflow-y:auto!important;" class="link-list-opt pointer">
+                                                    </ul>
+                                                 </div>
+                                              </div>
+                                              <div class="col-2">
+                                                 <label class="form-label" for="dss_owner"><b>DSS Name</b></label>
+                                              </div>
+                                              <div class="dropdown col-4">
+                                                 <button [(ngModel)]="newCustomer.dss_id" name="dss_id" (click)="getGisAssetdata('dss')" id="dss_id" style="width:100%;" class="shadow pointer dropdown-toggle dropdown-indicator btn " data-bs-toggle="dropdown" aria-expanded="false">Select DSS Name</button>
+                                                 <div style="width:100%;"  class="dropdown-menu">
+                                                    <ul id="dss_list" style="width:100%;max-height:20vh!important;overflow-y:auto!important;" class="link-list-opt pointer">
+                                                    </ul>
+                                                 </div>
+                                              </div>
+                                              <input hidden="1" type="text" class="form-control shadow caps" id="dss_name"/>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="feeder_type"><b>Feeder Type</b></label>
+                                              </div>
+                                              <div class=" col-4">
+                                                 <a disabled='1' href="#" id="feeder_type" style="width:100%;" class="shadow pointer dropdown-toggle btn " data-bs-toggle="dropdown" aria-expanded="false">Select Feeder Type</a>
+                                              </div>
+                                              <div class="col-2">
+                                                 <label class="form-label" for="feeder_name"><b>Feeder Name</b></label>
+                                              </div>
+                                              <div class=" col-4">
+                                                 <button  [(ngModel)]="newCustomer.feederid" name="feederid" id="feederid" style="width:100%;" class="shadow dropdown-toggle pointer btn " data-bs-toggle="dropdown" aria-expanded="false">Select Feeder Name</button>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="service_band"><b>Service Band</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <select [(ngModel)]="newCustomer.service_band" name="service_band" class="form-select shadow" id="service_band">
+                                                   <option *ngFor="let service_band of service_bands;" [value]="service_band.name">{{service_band.name}}</option>
+                                                 </select>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="injectionstation"><b>Injection Substation</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <input [(ngModel)]="newCustomer.injection_sub_station" name="injection_sub_station" type="text" class="form-control shadow caps" id="injection_sub_station"/>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="meteroem"><b>Meter OEM</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <input [(ngModel)]="newCustomer.meteroem" name="meteroem" type="text" class="form-control shadow caps" id="meteroem"/>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="ltpoleid"><b>Low Tension Pole ID</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <input [(ngModel)]="newCustomer.ltpoleid" name="ltpoleid" type="text" class="form-control shadow caps" id="ltpoleid"/>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <a style="color:white;" (click)="saveDraft($event,'asset_information')" type="button" tab="assetsInfo" class= " kyc-save btn btn-primary">Save</a>
+                                        </div>
+                                     </div>
+                                  </div>
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+                      <div class="tab-pane" id="customer-property-type-info">
+                         <div class="col-12">
+                            <div class="card pointer shadow" value="customers_created">
+                               <div class="nk-ecwg nk-ecwg6">
+                                  <div class="card-inner">
+                                     <div class="data">
+                                        <div class="form-control-wrap">
+                                           <div class="row g-3">
+                                              <div class="col-12 nk-block-head">
+                                                 <div class="nk-block-head-content">
+                                                    <h5 id="create_edit_user_title" class="nk-block-title"></h5>
+                                                    <div class="nk-block-des">
+                                                       <div class="data-head">
+                                                          <h5 class="overline-title">Property Ownership</h5>
+                                                       </div>
+                                                    </div>
+                                                 </div>
+                                              </div>
+                                              <!-- .nk-block-head -->
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="lname"><b>Landlord Name</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <input [(ngModel)]="newCustomer.landlord_name" name="landlord_name" type="text" class="form-control shadow caps" id="lname"/>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="lphone"><b>Landlord Phone</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <input [(ngModel)]="newCustomer.landlord_phone" name="landlord_phone" type="text" class="form-control shadow caps" id="lphone"/>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <a style="color:white;" (click)="saveDraft($event,'landlord_information')" type="button" tab="propertyInfo" class= " kyc-save btn btn-primary">Save</a>
+                                        </div>
+                                     </div>
+                                  </div>
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+                      <div class="tab-pane" id="drafts">
+                         <div class="col-12">
+                            <div class="card pointer shadow" value="customers_created">
+                               <div class="nk-ecwg nk-ecwg6">
+                                  <div class="card-inner">
+                                     <div class="data">
+                                        <div class="form-control-wrap">
+                                           <div class="row g-3">
+                                              <div class="col-12 nk-block-head">
+                                                 <div class="nk-block-head-content">
+                                                    <h5 id="create_edit_user_title" class="nk-block-title"></h5>
+                                                    <div class="nk-block-des">
+                                                       <div class="data-head">
+                                                          <h5 class="overline-title">Customer Creation Drafts</h5>
+                                                       </div>
+                                                    </div>
+                                                 </div>
+                                              </div>
+                                              <!-- .nk-block-head -->
+                                           </div>
+                                           <br/>
+                                           <div style="width:auto;max-height: 70%; overflow: auto;">
+                                              <table role="grid" style="width:100%;background:#F1F7F9; overflow: auto;" id="drafts_table" class="datatable-init datatable-init-export nowrap nk-tb-list is-separate shadow" data-auto-responsive="true">
+                                                  <thead>
+                                                      <th class="nk-tb-col">Tagname</th>
+                                                      <th class="nk-tb-col">Surname</th>
+                                                      <th class="nk-tb-col">Firstname</th>
+                                                      <th class="nk-tb-col">Othernames</th>
+                                                      <th class="nk-tb-col">Email</th>
+                                                      <th class="nk-tb-col">Mobile</th>
+                                                  </thead>
+                                                  <tbody>
+                                                   <tr  class="nk-tb-item" *ngFor="let draft of drafts;">
+                                                      <td [id]="draft.draft_tag" (click)="loadDraft($event)" class="nk-tb-col">{{draft.draft_tag.split("##")[0]}}</td>
+                                                      <td class="nk-tb-col">{{draft.surname}}</td>
+                                                      <td class="nk-tb-col">{{draft.firstname}}</td>
+                                                      <td class="nk-tb-col">{{draft.othernames}}</td>
+                                                      <td class="nk-tb-col">{{draft.email}}</td>
+                                                      <td class="nk-tb-col">{{draft.mobile}}</td>
+                                                   </tr>
+                                                  </tbody>
+                                              </table>
+                                           </div>
+                                        </div>
+                                     </div>
+                                  </div>
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+                <script>
+                try{
+                   var customerReviewTabs = document.querySelectorAll('.customer-review-tabs');
+                   customerReviewTabs.forEach(customerReviewTab => {
+                       customerReviewTab.addEventListener('click', function handleClick(event) {
+                           let activeTabs = Array.from(document.querySelectorAll('.customer-review-tabs.active'))
+                           for (let tab of activeTabs) {
+                               tab.classList.remove('active')
+                           }
+                           let activePanes = Array.from(document.querySelectorAll('.tab-pane.active'))
+                           for (let pane of activePanes) {
+                               pane.classList.remove('active')
+                           }
+                           customerReviewTab.classList.add('active')
+                           var paneId = customerReviewTab.getAttribute('value')
+                           console.log("PaneId ", paneId)
+                           $(''+paneId).addClass('active')
+                       });
+                   });
+                }
+                   catch(err){console.log(err)}
+                </script>
+             </div>
+             <br/>
+             <div class="flex-row-gap-20 col-12">
+                <button id="save_btn"  type="submit" style="width:10%;color:white;text-align:center;" class="btn btn-success "><span><b>Submit</b></span></button>&nbsp;
+                <button id="close_btn" (click)="closeSlideModal();" type="button" style="width:10%;color:white;" class="btn btn-danger "><span><b>Exit</b></span></button>
+             </div>
+             <br/>
+             
+          </div>
+         </form>
+       
+    </div>
+ </div>
+
+ <div class="modal fade" tabindex="-1" id="exists-modalAlert" style="display: none;" aria-modal="true" role="dialog">
+   <div class="modal-dialog modal-lg" role="document">
+       <div class="modal-content center" style="width:80vw;">
+           <a href="javascript:closeModal('exists-modalAlert')" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross"></em></a>
+           <div class="modal-body modal-body-lg text-center" style="width:80vw;">
+               <div class="nk-modal" style="width:76vw;">
+               <em style="font-size:90px;" class="material-icons">search</em>
+               <h4 id="exists-title" class="nk-modal-title"></h4>
+               <div class="nk-modal-text">
+                   <p id="exists-msg" class="lead">(Under active development)</p>
+                   <div id="accordion" class="accordion">
+                     <div class="accordion-item">
+                        <a href="javascript:void(0)" class="accordion-head" data-bs-toggle="collapse" data-bs-target="#accordion-item-1">
+                           <h6 class="title">EMAIL ADDRESS</h6>
+                           <span class="accordion-icon"></span>      
+                        </a>
+                        <div class="accordion-body collapse show" id="accordion-item-1" data-bs-parent="#accordion">
+                           <div class="accordion-inner">
+                              <table id="email-exists-table" style="width:100%; background:whitesmoke;overflow-y:auto;" class="data-table-init nowrap nk-tb-list is-separate" data-auto-responsive="false">
+                                 <thead>
+                                    <tr class="nk-tb-item">
+                                       <th class="nk-tb-col">Surname</th>
+                                       <th class="nk-tb-col">Firstname</th>
+                                       <th class="nk-tb-col">Othernames</th>
+                                       <th style="background:#FF7518!important;;" class="nk-tb-col">Email</th>
+                                       <th class="nk-tb-col">Mobile</th>
+                                       <th class="nk-tb-col">Region</th>
+                                       <th class="nk-tb-col">BizHub</th>
+                                       <th class="nk-tb-col">Service Center</th>
+                                       <th class="nk-tb-col">Created</th>
+                                       <th class="nk-tb-col">Updated</th>
+                                    </tr>
+                                 </thead>
+                                 <tbody id="email-exists-list">
+                                   <tr id="{{emailExistsRow.id}}" (click)="createUpdateAwaitingCustomer($event)" class="nk-tb-item" *ngFor="let emailExistsRow of emailExistsRows;">
+                                      <td class="nk-tb-col">{{emailExistsRow.surname}}</td>
+                                      <td class="nk-tb-col">{{emailExistsRow.firstname}}</td>
+                                      <td class="nk-tb-col">{{emailExistsRow.othernames}}</td>
+                                      <td class="nk-tb-col">{{emailExistsRow.email}}</td>
+                                      <td class="nk-tb-col">{{emailExistsRow.mobile}}</td>
+                                      <td class="nk-tb-col">{{emailExistsRow.region}}</td>
+                                      <td class="nk-tb-col">{{emailExistsRow.buid}}</td>
+                                      <td class="nk-tb-col">{{emailExistsRow.servicecenter}}</td>
+                                      <td class="nk-tb-col">{{emailExistsRow.created_date}}</td>
+                                      <td class="nk-tb-col">{{emailExistsRow.edited_date}}</td>
+                                   </tr>
+                                 </tbody>
+                              </table>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="accordion-item">
+                        <a href="javascript:void(0)" class="accordion-head" data-bs-toggle="collapse" data-bs-target="#accordion-item-2">
+                           <h6 class="title">MOBILE NUMBER</h6>
+                           <span class="accordion-icon"></span>      
+                        </a>
+                        <div class="accordion-body collapse" id="accordion-item-2" data-bs-parent="#accordion">
+                           <div class="accordion-inner">
+                              <table id="mobile-exists-table" style="width:100%; background:whitesmoke;overflow:auto" class="data-table-init nowrap nk-tb-list is-separate" data-auto-responsive="false">
+                                 <thead>
+                                    <tr class="nk-tb-item">
+                                       <th class="nk-tb-col">Surname</th>
+                                       <th class="nk-tb-col">Firstname</th>
+                                       <th class="nk-tb-col">Othernames</th>
+                                       <th class="nk-tb-col">Email</th>
+                                       <th style="background:#FF7518!important;" class="nk-tb-col">Mobile</th>
+                                       <th class="nk-tb-col">Region</th>
+                                       <th class="nk-tb-col">BizHub</th>
+                                       <th class="nk-tb-col">Service Center</th>
+                                       <th class="nk-tb-col">Created</th>
+                                       <th class="nk-tb-col">Updated</th>
+                                    </tr>
+                                 </thead>
+                                 <tbody id="mobile-exists-list">
+                                    <tr id="{{mobileExistsRow.id}}" (click)="createUpdateAwaitingCustomer($event)" class="nk-tb-item" *ngFor="let mobileExistsRow of mobileExistsRows;">
+                                       <td class="nk-tb-col">{{mobileExistsRow.surname}}</td>
+                                       <td class="nk-tb-col">{{mobileExistsRow.firstname}}</td>
+                                       <td class="nk-tb-col">{{mobileExistsRow.othernames}}</td>
+                                       <td class="nk-tb-col">{{mobileExistsRow.email}}</td>
+                                       <td class="nk-tb-col">{{mobileExistsRow.mobile}}</td>
+                                       <td class="nk-tb-col">{{mobileExistsRow.region}}</td>
+                                       <td class="nk-tb-col">{{mobileExistsRow.buid}}</td>
+                                       <td class="nk-tb-col">{{mobileExistsRow.servicecenter}}</td>
+                                       <td class="nk-tb-col">{{mobileExistsRow.created_date}}</td>
+                                       <td class="nk-tb-col">{{mobileExistsRow.edited_date}}</td>
+                                    </tr>
+                                  </tbody>
+                              </table>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="accordion-item">
+                        <a href="javascript:void(0)" class="accordion-head" data-bs-toggle="collapse" data-bs-target="#accordion-item-3">
+                           <h6 class="title">ACCOUNT NUMBER</h6>
+                           <span class="accordion-icon"></span>      
+                        </a>
+                        <div class="accordion-body collapse" id="accordion-item-3" data-bs-parent="#accordion">
+                           <div class="accordion-inner">
+                              <table id="accountno-exists-table" style="width:100%; background:whitesmoke;overflow:auto" class="data-table-init nowrap nk-tb-list is-separate" data-auto-responsive="false">
+                                 <thead>
+                                    <tr class="nk-tb-item">
+                                       <th class="nk-tb-col">Surname</th>
+                                       <th class="nk-tb-col">Firstname</th>
+                                       <th class="nk-tb-col">Othernames</th>
+                                       <th class="nk-tb-col">Email</th>
+                                       <th class="nk-tb-col">Mobile</th>
+                                       <th class="nk-tb-col">Region</th>
+                                       <th class="nk-tb-col">BizHub</th>
+                                       <th class="nk-tb-col">Service Center</th>
+                                       <th class="nk-tb-col">Created</th>
+                                       <th class="nk-tb-col">Updated</th>
+                                    </tr>
+                                 </thead>
+                                 <tbody id="accountno-exists-list">
+                                    <tr id="{{accountnoExistsRow.id}}" (click)="createUpdateAwaitingCustomer($event)" class="nk-tb-item" *ngFor="let accountnoExistsRow of accountnoExistsRows;">
+                                       <td class="nk-tb-col">{{accountnoExistsRow.surname}}</td>
+                                       <td class="nk-tb-col">{{accountnoExistsRow.firstname}}</td>
+                                       <td class="nk-tb-col">{{accountnoExistsRow.othernames}}</td>
+                                       <td class="nk-tb-col">{{accountnoExistsRow.email}}</td>
+                                       <td class="nk-tb-col">{{accountnoExistsRow.mobile}}</td>
+                                       <td class="nk-tb-col">{{accountnoExistsRow.region}}</td>
+                                       <td class="nk-tb-col">{{accountnoExistsRow.buid}}</td>
+                                       <td class="nk-tb-col">{{accountnoExistsRow.servicecenter}}</td>
+                                       <td class="nk-tb-col">{{accountnoExistsRow.created_date}}</td>
+                                       <td class="nk-tb-col">{{accountnoExistsRow.edited_date}}</td>
+                                    </tr>
+                                  </tbody>
+                              </table>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+
+               </div>
+               <div class="nk-modal-action mt-5">
+                   <a autofocus="1" href="javascript:closeModal('exists-modalAlert')" class="btn btn-lg btn-mw " data-bs-dismiss="modal">Return</a>
+                   <a (click)="createUpdateAwaitingCustomer($event,true)" href="javascript:void(0)" class="btn btn-lg btn-mw " data-bs-dismiss="modal">Create New Record</a>
+               </div>
+               </div>                                
+           </div>
+       </div>
+   </div>
+</div>

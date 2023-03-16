@@ -1,0 +1,604 @@
+<div id="edit_customer" style="border-left:2px solid ;height:90%;width:70%;border-color:#FF7518; right: 0px; bottom: 0px;" class="nk-add-product toggle-slide toggle-slide-right" data-content="editCustomer" data-toggle-screen="any" data-toggle-overlay="true" data-toggle-body="true" data-simplebar='1'>
+    <div class="nk-block-head">
+       <div class="nk-block-head-content">
+          <h5 id="create_edit_user_title" class="nk-block-title"></h5>
+          <div class="nk-block-des">
+             <div class="data-head">
+                <h5 id="form_title" class="overline-title">Update Customer</h5>
+             </div>
+          </div>
+          <div style="display:none;" id="field_pending_cont-ipdate" class="col-6">
+             <div class="show" role="alert" aria-live="assertive" aria-atomic="true">
+                  <div class="toast-header"><strong class="me-auto text-primary">Notification!</strong><button type="button" class="close" data-dismiss="toast" aria-label="Close"></button></div>
+                  <div style="color:lightgreen" id="field_pending" class="toast-body"><a href="">Load Customer Draft</a></div>
+              </div>
+          </div>
+       </div>
+    </div>
+    <!-- .nk-block-head -->
+    <div class="nk-block">
+       <div id="update_customer_edit_form">
+          <div style="height:80%;overflow:auto" class="row g-3">
+             <div style="width:100%;overflow:auto" class="card card-bordered card-preview">
+                <div class="card-inner">
+                   <ul class="nav nav-tabs mt-n3">
+                      <li class="nav-item"><a id="update-basic-info-tab" class="nav-link customer-review-tabs active" data-bs-toggle="tab" href="#update-customer-basic-info" value="#update-customer-basic-info"><em class="icon ni ni-user"></em><span>Basic Information</span></a></li>
+                      <li class="nav-item"><a class="nav-link customer-review-tabs" data-bs-toggle="tab" href="#update-customer-account-info"  value="#update-customer-account-info"><em class="icon ni ni-account-setting"></em><span>Account Information</span></a></li>
+                      <li class="nav-item"><a class="nav-link customer-review-tabs" data-bs-toggle="tab" href="#update-customer-location-info" value="#update-customer-location-info" ><em class="icon ni ni-location"></em><span>Location / Residence</span></a></li>
+                      <li class="nav-item"><a class="nav-link customer-review-tabs" data-bs-toggle="tab" href="#update-customer-assets-info" value="#update-customer-assets-info"><em class="icon ni ni-link"></em><span>Assets Information</span></a></li>
+                      <li class="nav-item"><a class="nav-link customer-review-tabs" data-bs-toggle="tab" href="#update-customer-property-type-info" value="#update-customer-property-type-info"><em class="icon ni ni-property"></em><span>Property Type</span></a></li>
+                      <li class="nav-item"><a id="update-creation-draft" class="nav-link customer-review-tabs" data-bs-toggle="tab" href="#update-drafts" onclick="getDrafts()" value="#drafts"><em class="icon ni ni-property"></em><span>Drafts</span></a></li>
+                   </ul>
+                   <div class="tab-content">
+                      <div class="tab-pane active" id="update-customer-basic-info">
+                         <div class="col-12">
+                            <div class="card pointer shadow" value="customers_created">
+                               <div class="nk-ecwg nk-ecwg6">
+                                  <div class="card-inner">
+                                     <div class="data">
+                                        <div class="form-control-wrap">
+                                           <div class="row g-3">
+                                              <div class="col-12 nk-block-head">
+                                                 <div class="nk-block-head-content">
+                                                    <h5 id="create_edit_user_title" class="nk-block-title"></h5>
+                                                    <div class="nk-block-des">
+                                                       <div class="data-head">
+                                                          <h5 class="overline-title">Basic Information</h5>
+                                                       </div>
+                                                    </div>
+                                                 </div>
+                                              </div>
+                                              <!-- .nk-block-head -->
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="title"><b>Title(s)</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <input  type="text" class="form-control shadow caps" id="update_title"/>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="surname"><b>Surname</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <input  type="text" class="form-control shadow caps" id="update_surname"/>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="firstname"><b>First Name</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <input  type="text" class="form-control shadow caps" id="update_firstname"/>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="othernames"><b>Othername</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <input  type="text" class="form-control shadow caps" id="update_othernames"/>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="gender"><b>Gender</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <select class="form-select js-select2 shadow caps" id="update_gender">
+                                                    <option value="Male">Male</option>
+                                                    <option value="Female">Female</option>
+                                                 </select>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="email"><b>Email</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <input  type="email" class="form-control shadow" id="update_email"/>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="mobile"><b>Mobile</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <input  type="mobile" class="form-control shadow caps" id="update_mobile"/>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <a style="color:white;" onclick="saveDraft(this)" type="button" tab="basicInfo" class= "btn btn-primary kyc-save">Save</a>
+                                        </div>
+                                     </div>
+                                  </div>
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+                      <div class="tab-pane" id="update_customer-account-info">
+                         <div class="col-12">
+                            <div class="card pointer shadow" value="customers_created">
+                               <div class="nk-ecwg nk-ecwg6">
+                                  <div class="card-inner">
+                                     <div class="data">
+                                        <div class="form-control-wrap">
+                                           <div class="row g-3">
+                                              <div class="col-12 nk-block-head">
+                                                 <div class="nk-block-head-content">
+                                                    <h5 id="update_create_edit_user_title" class="nk-block-title"></h5>
+                                                    <div class="nk-block-des">
+                                                       <div class="data-head">
+                                                          <h5 class="overline-title">Account Information</h5>
+                                                       </div>
+                                                    </div>
+                                                 </div>
+                                              </div>
+                                              <!-- .nk-block-head -->
+                                           </div>
+                                           <br/>
+                                           <div id="update_account_no_group" class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="accountno"><b>Account No</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <input  type="text" class="form-control shadow caps" id="update_account_no"/>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="accounttype"><b>Account Type</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <select class="form-select js-select2 shadow caps" id="update_account_type">
+                                                    <option value="Prepaid">Prepaid</option>
+                                                    <option value="Postpaid">Postpaid</option>
+                                                 </select>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="customer_type"><b>Customer Type</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <select class="shadow caps form-select js-select2" id="update_customer_type">
+                                                    <option value="Residential">Residential</option>
+                                                 </select>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="business_type"><b>Business Type</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <input  type="text" class="form-control shadow caps" id="update_business_type"/>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="statuscode"><b>Status Code</b></label>
+                                              </div>
+                                              <div class="dropdown col-10">
+                                                 <a href="#" style="width:100%;" value="Select Status Code" id="update_statuscode" class="pointer dropdown-toggle dropdown-indicator btn " data-bs-toggle="dropdown" aria-expanded="false">Select Status Code</a>
+                                                 <div style="width:100%;z-index:3;"  class="dropdown-menu">
+                                                    <ul class="link-list-opt pointer">
+                                                       <li><a href="#" value="A" onclick="setdropdown('statuscode',this)"><span>Active (A)</span></a></li>
+                                                       <li><a href="#" value="I" onclick="setdropdown('statuscode',this)"><span>Inactive (I)</span></a></li>
+                                                       <li><a href="#" value="P" onclick="setdropdown('statuscode',this)"><span>Prepaid (P)</span></a></li>
+                                                       <li><a href="#" value="S" onclick="setdropdown('statuscode',this)"><span>Suspended (S)</span></a></li>
+                                                    </ul>
+                                                 </div>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="cin"><b>CIN</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <input  type="text" class="form-control shadow caps" id="update_cin"/>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <br/>
+                                           <a style="color:white;" onclick="saveDraft(this)" type="button" tab="accountInfo" class= " kyc-save btn btn-primary">Save</a>
+                                        </div>
+                                     </div>
+                                  </div>
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+                      <div class="tab-pane" id="update_customer-location-info">
+                         <div class="col-12">
+                            <div class="card pointer shadow" value="customers_created">
+                               <div class="nk-ecwg nk-ecwg6">
+                                  <div class="card-inner">
+                                     <div class="data">
+                                        <div class="form-control-wrap">
+                                           <div class="row g-3">
+                                              <div class="col-12 nk-block-head">
+                                                 <div class="nk-block-head-content">
+                                                    <h5 id="update_create_edit_user_title" class="nk-block-title"></h5>
+                                                    <div class="nk-block-des">
+                                                       <div class="data-head">
+                                                          <h5 class="overline-title">Residence/Location Information</h5>
+                                                       </div>
+                                                    </div>
+                                                 </div>
+                                              </div>
+                                              <!-- .nk-block-head -->
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="building_description"><b>Building Description</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <select class="form-select js-select2 shadow caps" id="update_building_description">
+                                                    <option value="Male">Male</option>
+                                                 </select>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="premise_type"><b>Premises Type</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <select class="form-select js-select2 shadow caps" id="update_premise_type">
+                                                    <option value="Male">Male</option>
+                                                 </select>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="address1"><b>Address 1</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <input  type="text" class="form-control shadow caps" id="update_address1"/>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="lga"><b>Local Govt</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <input  type="text" class="form-control shadow caps" id="update_lga"/>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="region"><b>Region</b></label>
+                                              </div>
+                                              <div class="dropdown col-10">
+                                                 <a href="#" id="update_region" style="width:100%;" class="dropdown-toggle btn "  data-bs-toggle="dropdown" aria-expanded="false">Select a Region</a>
+                                                 <div style="width:100%;"  class="dropdown-menu ">
+                                                    <ul id='region_list'  style="width:100%;max-height:20vh!important;overflow-y:auto!important;" class="link-list-opt">
+                                                       <li><a href="#" class="" value='----' onclick="setdropdown('region',this)"><span>----</span></a></li>
+                                                    </ul>
+                                                 </div>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="buid"><b>Business Hub</b></label>
+                                              </div>
+                                              <div class="dropdown col-10">
+                                                 <a href="#" id="update_buid" style="width:100%;" class="dropdown-toggle btn "  data-bs-toggle="dropdown" aria-expanded="false">Select Business Hub</a>
+                                                 <div style="width:100%;"  class="dropdown-menu">
+                                                    <ul id="update_buid_list"  style="width:100%;max-height:20vh!important;overflow-y:auto!important;" class="link-list-opt">
+                                                       <li ><a href="#" class="" value='----' onclick="setdropdown('buid',this)"><span>----</span></a></li>
+                                                    </ul>
+                                                 </div>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="servicecenter"><b>Service Center</b></label>
+                                              </div>
+                                              <div class="dropup col-10">
+                                                 <a href="#" id="update_servicecenter" style="width:100%;" class="caps dropdown-toggle btn "  data-bs-toggle="dropdown" aria-expanded="false">Select Service Center</a>
+                                                 <div style="width:100%;"  class="dropdown-menu">
+                                                    <ul id="update_servicecenter_list"  style="width:100%;max-height:20vh!important;overflow-y:auto!important;" class="link-list-opt">
+                                                       <li><a href="#" class="shadow" value='----' onclick="setdropdown('servicecenter',this)"><span>----</span></a></li>
+                                                    </ul>
+                                                 </div>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="city"><b>City</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <input  type="text" class="form-control shadow caps" id="update_city"/>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="state"><b>State</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <select class="form-select js-select2 shadow caps" id="update_state">
+                                                    <!-- <t t-foreach="states" t-as="state">
+                                                       <option t-att-value="state" t-esc="state"></option>
+                                                    </t> -->
+                                                 </select>
+                                              </div>
+                                           </div>
+                                           <input id="update_region" type = "text" hidden='1'/>
+                                           <input id="update_buid" type = "text" hidden='1'/>
+                                           <input id="update_servicecenter" type = "text" hidden='1'/>
+                                           <br/>
+                                           <a style="color:white;" onclick="saveDraft(this)" type="button" tab="locationInfo" class= " kyc-save btn btn-primary">Save</a>
+                                        </div>
+                                     </div>
+                                  </div>
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+                      <div class="tab-pane" id="update_customer-assets-info">
+                         <div class="col-12">
+                            <div class="card pointer shadow" value="customers_created">
+                               <div class="nk-ecwg nk-ecwg6">
+                                  <div class="card-inner">
+                                     <div class="data">
+                                        <div class="form-control-wrap">
+                                           <div class="row g-3">
+                                              <div class="col-12 nk-block-head">
+                                                 <div class="nk-block-head-content">
+                                                    <h5 id="update_create_edit_user_title" class="nk-block-title"></h5>
+                                                    <div class="nk-block-des">
+                                                       <div class="data-head">
+                                                          <h5 class="overline-title">Assets Information</h5>
+                                                       </div>
+                                                    </div>
+                                                 </div>
+                                              </div>
+                                              <!-- .nk-block-head -->
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="dss_owner"><b>DSS Owner</b></label>
+                                              </div>
+                                              <div class="dropdown col-4">
+                                                 <a href="#" onclick="getGisAssetdata('dss_owner')" id="update_dss_owner" style="width:100%;" class="pointer dropdown-toggle dropdown-indicator btn " data-bs-toggle="dropdown" aria-expanded="false">Select DSS Owner</a>
+                                                 <div style="width:100%;" class="dropdown-menu">
+                                                    <ul id="update_dss_owner_list" style="width:100%;max-height:20vh!important;overflow-y:auto!important;" class="link-list-opt pointer">
+                                                    </ul>
+                                                 </div>
+                                              </div>
+                                              <div class="col-2">
+                                                 <label class="form-label" for="dss_owner"><b>DSS Name</b></label>
+                                              </div>
+                                              <div class="dropdown col-4">
+                                                 <a href="#" onclick="getGisAssetdata('dss')" id="update_dss_id" style="width:100%;" class="pointer dropdown-toggle dropdown-indicator btn " data-bs-toggle="dropdown" aria-expanded="false">Select DSS Name</a>
+                                                 <div style="width:100%;"  class="dropdown-menu">
+                                                    <ul id="update_dss_list" style="width:100%;max-height:20vh!important;overflow-y:auto!important;" class="link-list-opt pointer">
+                                                    </ul>
+                                                 </div>
+                                              </div>
+                                              <input hidden="1" type="text" class="form-control shadow caps" id="update_dss_name"/>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="feeder_type"><b>Feeder Type</b></label>
+                                              </div>
+                                              <div class=" col-4">
+                                                 <a disabled='1' href="#" id="update_feeder_type" style="width:100%;" class="pointer dropdown-toggle btn " data-bs-toggle="dropdown" aria-expanded="false">Select Feeder Type</a>
+                                                 <!-- <div style="width:100%;"  class="dropdown-menu">
+                                                    <ul id="update_feeder_type_list" style="width:100%;max-height:20vh!important;overflow-y:auto!important;" class="link-list-opt pointer">
+                                                       <li><a href="#" class="shadow pointer" value='11kv' onclick="setdropdown('feeder_type',this)"><span>11KV</span></a></li>
+                                                       <li><a href="#" class="shadow pointer" value='33kv' onclick="setdropdown('feeder_type',this)"><span>33KV</span></a></li>
+                                                    </ul>
+                                                 </div> -->
+                                              </div>
+                                              <div class="col-2">
+                                                 <label class="form-label" for="feeder_name"><b>Feeder Name</b></label>
+                                              </div>
+                                              <div class=" col-4">
+                                                 <a href="#" onclick="getGisAssetdata('feeders')" id="update_feeder_name" style="width:100%;" class="caps dropdown-toggle pointer btn " data-bs-toggle="dropdown" aria-expanded="false">Select Feeder Name</a>
+                                                 <!-- <div style="width:100%;"  class="dropdown-menu">
+                                                    <ul id="update_feeder_list" style="width:100%;max-height:20vh!important;overflow-y:auto!important;" class="link-list-opt pointer">
+                                                       <span id="update_feederholder"></span>
+                                                    </ul>
+                                                 </div> -->
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="service_band"><b>Service Band</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <select class="form-select js-select2 shadow caps" id="update_service_band">
+                                                    <option value="---">---</option>
+                                                 </select>
+                                              </div>
+                                              <input hidden="1" type="text" class="form-control shadow" id="update_upriser_id"/>
+                                              <input hidden="1" type="text" class="form-control shadow" id="update_feeder_id"/>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="injectionstation"><b>Injection Substation</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <input  type="text" class="form-control shadow caps" id="update_injectionstation"/>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="meter_oem"><b>Meter OEM</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <input  type="text" class="form-control shadow caps" id="update_meter_oem"/>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="ltpoleid"><b>Low Tension Pole ID</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <input  type="text" class="form-control shadow caps" id="update_ltpole_id"/>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <a style="color:white;" onclick="saveDraft(this)" type="button" tab="assetsInfo" class= " kyc-save btn btn-primary">Save</a>
+                                        </div>
+                                     </div>
+                                  </div>
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+                      <div class="tab-pane" id="update_customer-property-type-info">
+                         <div class="col-12">
+                            <div class="card pointer shadow" value="customers_created">
+                               <div class="nk-ecwg nk-ecwg6">
+                                  <div class="card-inner">
+                                     <div class="data">
+                                        <div class="form-control-wrap">
+                                           <div class="row g-3">
+                                              <div class="col-12 nk-block-head">
+                                                 <div class="nk-block-head-content">
+                                                    <h5 id="update_create_edit_user_title" class="nk-block-title"></h5>
+                                                    <div class="nk-block-des">
+                                                       <div class="data-head">
+                                                          <h5 class="overline-title">Property Ownership</h5>
+                                                       </div>
+                                                    </div>
+                                                 </div>
+                                              </div>
+                                              <!-- .nk-block-head -->
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="lname"><b>Landlord Name</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <input  type="text" class="form-control shadow caps" id="update_lname"/>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
+                                                 <label class="form-label" for="lphone"><b>Landlord Phone</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <input  type="text" class="form-control shadow caps" id="update_lphone"/>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <a style="color:white;" onclick="saveDraft(this)" type="button" tab="propertyInfo" class= " kyc-save btn btn-primary">Save</a>
+                                        </div>
+                                     </div>
+                                  </div>
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+                      <div class="tab-pane" id="update_drafts">
+                         <div class="col-12">
+                            <div class="card pointer shadow" value="customers_created">
+                               <div class="nk-ecwg nk-ecwg6">
+                                  <div class="card-inner">
+                                     <div class="data">
+                                        <div class="form-control-wrap">
+                                           <div class="row g-3">
+                                              <div class="col-12 nk-block-head">
+                                                 <div class="nk-block-head-content">
+                                                    <h5 id="update_create_edit_user_title" class="nk-block-title"></h5>
+                                                    <div class="nk-block-des">
+                                                       <div class="data-head">
+                                                          <h5 class="overline-title">Customer Creation Drafts</h5>
+                                                       </div>
+                                                    </div>
+                                                 </div>
+                                              </div>
+                                              <!-- .nk-block-head -->
+                                           </div>
+                                           <br/>
+                                           <div style="width:auto;max-height: 70%; overflow: auto;">
+                                              <table role="grid" style="width:100%;background:#F1F7F9; overflow: auto;" id="update_drafts_table" class="datatable-init datatable-init-export nowrap nk-tb-list is-separate shadow" data-auto-responsive="true">
+                                                  <thead>
+                                                      <th>id</th>
+                                                      <th>Surname</th>
+                                                      <th>Firstname</th>
+                                                      <th>Othernames</th>
+                                                      <th>Email</th>
+                                                      <th>Mobile</th>
+                                                  </thead>
+                                              </table>
+                                           </div>
+                                        </div>
+                                     </div>
+                                  </div>
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+                <script>
+                try{
+                   var customerReviewTabs = document.querySelectorAll('.customer-review-tabs');
+                   customerReviewTabs.forEach(customerReviewTab => {
+                       customerReviewTab.addEventListener('click', function handleClick(event) {
+                           let activeTabs = Array.from(document.querySelectorAll('.customer-review-tabs.active'))
+                           for (let tab of activeTabs) {
+                               tab.classList.remove('active')
+                           }
+                           let activePanes = Array.from(document.querySelectorAll('.tab-pane.active'))
+                           for (let pane of activePanes) {
+                               pane.classList.remove('active')
+                           }
+                           customerReviewTab.classList.add('active')
+                           var paneId = customerReviewTab.getAttribute('value')
+                           console.log("PaneId ", paneId)
+                           $(''+paneId).addClass('active')
+                       });
+                   });
+                }
+                   catch(err){console.log(err)}
+                </script>
+             </div>
+             <br/>
+             <div class="flex-row-gap-20 col-12">
+                <button id="save_btn" onclick="EditCustomer(this.getAttribute('value'));" type="button" style="width:10%;color:white;text-align:center;" class="btn btn-success "><span><b>Review</b></span></button>
+                <button id="close_btn" onclick="closeSlideModal('edit_customer');" type="button" style="width:10%;color:white;" class="btn btn-danger "><span><b>Exit</b></span></button>
+             </div>
+             <br/>
+             
+          </div>
+       </div>
+
+       
+    </div>
+ </div>

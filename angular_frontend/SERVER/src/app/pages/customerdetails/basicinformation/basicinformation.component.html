@@ -1,0 +1,265 @@
+
+<div style="padding-top:10px;padding-left:10px;" class="nk-block-head nk-block-head-lg">
+    <div style="width:100%;" class="nk-block-between">
+        <div style="width:100%;" class="nk-block-head-content">
+            <div style="width:100%;" class="flex-row">
+                <h4 style="width:80%;" class="nk-block-title">Customer Basic Information</h4>
+                <!-- <t t-if="error"><h4 style="color:red;width:80%;" class="nk-block-title">No data could be retrieved for this customer!</h4></t> -->
+                <!-- <div class="pointer" style="width:20%;" >
+                    <t t-if="customerdata['statuscode']== 'A'">
+                        <h5 style="color:#90EE90;text-align:right;" t-esc="'Status: '+customerdata['statuscode']"></h5>
+                    </t>
+                    <t t-if="customerdata['statuscode']== 'P'">
+                        <h5 style="color:#FF7518!important;;text-align:right;" t-esc="'Status: '+customerdata['statuscode']"></h5>
+                    </t>
+                    <t t-if="customerdata['statuscode']== 'S'">
+                        <h5 style="color:red;text-align:right;" t-esc="'Status: '+customerdata['statuscode']"></h5>
+                    </t>
+                    <t t-if="customerdata['statuscode']== 'I'">
+                        <h5 style="color:red;text-align:right;" t-esc="'Status: '+customerdata['statuscode']"></h5>
+                    </t>
+                    <t t-if="customerdata['statuscode']=='' or customerdata['statuscode']==None or customerdata['statuscode']=='null'">
+                        <h5 style="color:grey;text-align:right;" >Nil</h5>
+                    </t>
+                </div> -->
+            </div>
+            <div class="nk-block-des">
+                <p>Personal info, for Ibedc Prepaid and PostPaid Customers.</p>
+            </div>
+        </div>
+    </div>
+</div><!-- .nk-block-head -->
+<div class="nk-block">
+    <div style="max-height:730px!important;overflow-y:auto!important;" class="nk-data data-list">
+        
+        <div class="data-head">
+            <h6 class="overline-title" t-esc="" >{{customer?.accounttype + ' Customer Basic Information'}}</h6>
+        </div>
+        <br>
+        
+        <ul style="max-height:50vh;overflow-y: auto;" class="link-list-opt">
+            <li >
+                <div class="col-12 row g-3">
+                    <label class="col-3">Firstname</label>
+                    <a class="col-3" href="javascript:void(0)" >
+                        <span>{{customer?.firstname || 'N/A'}}</span>
+                    </a>
+                    <label class="col-3">Surname</label>
+                    <a class="col-3" href="javascript:void(0)" >
+                        <span>{{customer?.surname || 'N/A'}}</span>
+                    </a>
+                </div>
+                
+            </li>
+            <li >
+                <div class="col-12 row g-3">
+                    
+                    <label class="col-3">Othernames</label>
+                    <a class="col-3" href="javascript:void(0)" >
+                        <span>{{customer?.othernames || 'N/A'}}</span>
+                    </a>
+                    <label class="col-3">Email</label>
+                    <a class="col-3" href="javascript:void(0)" >
+                        <span>{{customer?.email || 'N/A'}}</span>
+                    </a>
+                </div>
+                
+            </li>
+            <li >
+                <div class="col-12 row g-3">
+                    
+                    <label class="col-3">Phone Number</label>
+                    <a class="col-3" href="javascript:void(0)" >
+                        <span>{{customer?.mobile || 'N/A'}}</span>
+                    </a>
+                    <label class="col-3">Home Address</label>
+                    <a class="col-3" href="javascript:void(0)" >
+                        <span >
+                            <span >{{customer?.address1}}</span>,
+                            <span >{{customer?.address2}}</span>,
+                            <span >{{customer?.address}}</span>&nbsp;
+                            <span >{{customer?.state}}</span>
+                        </span>
+                    </a>
+                </div>
+                
+            </li>
+        </ul>
+        
+       
+        <div class="data-head">
+            <h6 class="overline-title">Account Information</h6>
+        </div>
+        <br>
+
+        
+        <ul style="max-height:50vh;overflow-y: auto;" class="link-list-opt">
+            <li >
+                <div class="col-12 row g-3">
+                    <label class="col-3">Account Number</label>
+                    <a class="col-3" href="javascript:void(0)" >
+                        <span>{{customer?.accountno || 'N/A'}}</span>
+                    </a>
+                    <label class="col-3">Account Type</label>
+                    <a class="col-3" href="javascript:void(0)" >
+                        <span>{{customer?.accounttype || 'N/A'}}</span>
+                    </a>
+                </div>
+                
+            </li>
+            <li>
+                <div class="col-12 row g-3">
+                    <label class="col-3">Old Account Number</label>
+                    <a class="col-3" href="javascript:void(0)" >
+                        <span>{{customer?.oldaccountno || 'N/A'}}</span>
+                    </a>
+                    <label class="col-3">Map ID</label>
+                    <a class="col-3" href="javascript:void(0)" >
+                        <span>{{customer?.map_id || 'N/A'}}</span>
+                    </a>
+                </div>
+            </li>
+            <li>
+                <div class="col-12 row g-3">
+                    <label class="col-3">State</label>
+                    <a class="col-3" href="javascript:void(0)" >
+                        <span>{{customer?.state +' State' || 'N/A'}}</span>
+                    </a>
+                    <label class="col-3">Tariff Code</label>
+                    <a class="col-3" href="javascript:void(0)" >
+                        <span>{{customer?.newtariffcode || 'N/A'}}</span>
+                    </a>
+                </div>
+            </li>
+            <li>
+                <div class="col-12 row g-3">
+                    <label class="col-3">Arrears Balance</label>
+                    <a class="col-3" href="javascript:void(0)" >
+                        <span>{{customer?.arrearsbalance  || 'N/A'}}</span>
+                    </a>
+                    <label class="col-3">Application Date</label>
+                    <a class="col-3" href="javascript:void(0)" >
+                        <span>{{customer?.applicationdate || 'N/A'}}</span>
+                    </a>
+                </div>
+            </li>
+            <li>
+                <div class="col-12 row g-3">
+                    <label class="col-3">Guarantor Name</label>
+                    <a class="col-3" href="javascript:void(0)" >
+                        <span>{{customer?.guarantorname  || 'N/A'}}</span>
+                    </a>
+                    <label class="col-3">Guarantor Address</label>
+                    <a class="col-3" href="javascript:void(0)" >
+                        <span>{{customer?.guarantoraddress || 'N/A'}}</span>
+                    </a>
+                </div>
+            </li>
+            
+        </ul>
+
+        <div class="data-head">
+            <h6 class="overline-title">Assets/Location Information</h6>
+        </div>
+        <br>
+        <ul style="max-height:50vh;overflow-y: auto;" class="link-list-opt">
+            <li >
+                <div class="col-12 row g-3">
+                    <label class="col-3">DSS Owner</label>
+                    <a class="col-3" href="javascript:void(0)" >
+                        <span>{{customer?.dss_owner || 'N/A'}}</span>
+                    </a>
+                    <label class="col-3">DSS Name</label>
+                    <a class="col-3" href="javascript:void(0)" >
+                        <span>{{customer?.dss_name || 'N/A'}}</span>
+                    </a>
+                    
+                </div>
+            </li>
+            <li>
+                <div class="col-12 row g-3">
+                    <label class="col-3">DSS ID</label>
+                    <a class="col-3" href="javascript:void(0)" >
+                        <span>{{customer?.dss_id || 'N/A'}}</span>
+                    </a>
+                    <label class="col-3">Feeder Name</label>
+                    <a class="col-3" href="javascript:void(0)" >
+                        <span>{{customer?.feeder_name || 'N/A'}}</span>
+                    </a>
+                </div>
+                
+            </li>
+            <li>
+                <div class="col-12 row g-3">
+                    <label class="col-3">Feeder Type</label>
+                    <a class="col-3" href="javascript:void(0)" >
+                        <span>{{customer?.feeder_type || 'N/A'}}</span>
+                    </a>
+                    <label class="col-3">Feeder ID</label>
+                    <a class="col-3" href="javascript:void(0)" >
+                        <span>{{customer?.feederid || 'N/A'}}</span>
+                    </a>
+                </div>
+                
+            </li>
+            <li>
+                <div class="col-12 row g-3">
+                    
+                    <label class="col-3">Region</label>
+                    <a class="col-3" href="javascript:void(0)" >
+                        <span>{{customer?.region || 'N/A'}}</span>
+                    </a>
+                    <label class="col-3">Business Unit</label>
+                    <a class="col-3" href="javascript:void(0)" >
+                        <span>{{customer?.buid || 'N/A'}}</span>
+                    </a>
+                </div>
+                
+            </li>
+            <li>
+                <div class="col-12 row g-3">
+                    
+                    <label class="col-3">Service Center</label>
+                    <a class="col-3" href="javascript:void(0)" >
+                        <span>{{customer?.servicecenter || 'N/A'}}</span>
+                    </a>
+                    <label class="col-3">Premise Type</label>
+                    <a class="col-3" href="javascript:void(0)" >
+                        <span>{{customer?.premise_type || 'N/A'}}</span>
+                    </a>
+                </div>
+                
+            </li>
+            <li>
+                <div class="col-12 row g-3">
+                    
+                    <label class="col-3">Service Band</label>
+                    <a class="col-3" href="javascript:void(0)" >
+                        <span>{{customer?.service_band || 'N/A'}}</span>
+                    </a>
+                    <label class="col-3">Gis Coordinates</label>
+                    <a class="col-3" href="javascript:void(0)" >
+                        <span>{{customer?.giscoordinate || 'N/A'}}</span>
+                    </a>
+                </div>
+                
+            </li>
+            <li>
+                <div class="col-12 row g-3">
+                    
+                    <label class="col-3">Landlord Name</label>
+                    <a class="col-3" href="javascript:void(0)" >
+                        <span>{{customer?.landlord_name || 'N/A'}}</span>
+                    </a>
+                    <label class="col-3">Landlord Phone</label>
+                    <a class="col-3" href="javascript:void(0)" >
+                        <span>{{customer?.landlord_phone || 'N/A'}}</span>
+                    </a>
+                </div>
+            </li>
+        </ul>
+      
+        
+        
+    </div><!-- data-list -->
+</div><!-- .nk-block -->

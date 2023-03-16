@@ -1,0 +1,153 @@
+<div  id="customer_settings_template">
+    <div class="nk-block-head nk-block-head-lg">
+        <div style="width:100%;" class="nk-block-between">
+            <div style="width:100%;" class="nk-block-head-content">
+                <div style="width:100%;" class="flex-row">
+                    <h4 style="width:80%;" class="nk-block-title">Customer Bounded Fields Settings</h4>
+                </div>
+                <div class="nk-block-des">
+                    <p>Settings page</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- .nk-block-head -->
+    <div class="nk-block">
+        <div class="gy-3 form-settings">
+            <hr/>
+            <div class="row g-3 align-center">
+                <div class="col-lg-5">
+                    <div class="form-group">
+                        <label class="form-label" for="site-name">Account Type</label>
+                        <span class="form-note">Specify the options for customer account types</span>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="form-group">
+                        <div class="form-control-wrap">
+                            <div style="display:flex;gap:10px;" class="form-wrap"><button value="account_type_new" style="color:white;" (click)="handleCustomize($event)" class="btn btn-lg btn-primary">Add</button><button value="account_type_edit" style="color:white;" (click)="handleCustomize($event)" class="btn btn-lg btn-success">Edit</button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+            <div class="row g-3 align-center">
+                <div class="col-lg-5">
+                    <div class="form-group">
+                        <label class="form-label">Building Description</label>
+                        <span class="form-note">Specify the options for customer building description</span>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="form-group">
+                        <div class="form-control-wrap">
+                            <div style="display:flex;gap:10px;" class="form-wrap"><button value="building_description_new" style="color:white;" (click)="handleCustomize($event)" class="btn btn-lg btn-primary">Add</button><button value="building_description_edit" style="color:white;" (click)="handleCustomize($event)" class="btn btn-lg btn-success">Edit</button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+            <div class="row g-3 align-center">
+                <div class="col-lg-5">
+                    <div class="form-group">
+                        <label class="form-label" for="site-address">Customer Category</label>
+                        <span class="form-note">Specify the options for customer category</span>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="form-group">
+                        <div class="form-control-wrap">
+                            <div style="display:flex;gap:10px;" class="form-wrap"><button value="customer_category_new" style="color:white;" (click)="handleCustomize($event)" class="btn btn-lg btn-primary">Add</button><button value="customer_category_edit" style="color:white;" (click)="handleCustomize($event)" class="btn btn-lg btn-success">Edit</button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+            <div class="row g-3 align-center">
+                <div class="col-lg-5">
+                    <div class="form-group">
+                        <label class="form-label" for="site-copyright">Customer Types</label>
+                        <span class="form-note">Specify options for customer types</span>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="form-group">
+                        <div class="form-control-wrap">
+                            <div style="display:flex;gap:10px;" class="form-wrap"><button value="customer_type_new" style="color:white;" (click)="handleCustomize($event)" class="btn btn-lg btn-primary">Add</button><button value="customer_type_edit" style="color:white;" (click)="handleCustomize($event)" class="btn btn-lg btn-success">Edit</button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+            <div class="row g-3 align-center">
+                <div class="col-lg-5">
+                    <div class="form-group">
+                        <label class="form-label">Premise Type</label>
+                        <span class="form-note">Specify options for customer premise types</span>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="form-group">
+                        <div class="form-control-wrap">
+                            <div style="display:flex;gap:10px;" class="form-wrap"><button value="premise_type_new" style="color:white;" (click)="handleCustomize($event)" class="btn btn-lg btn-primary">Add</button><button value="premise_type_edit" style="color:white;" (click)="handleCustomize($event)" class="btn btn-lg btn-success">Edit</button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+            <div class="row g-3 align-center">
+                <div class="col-lg-5">
+                    <div class="form-group">
+                        <label class="form-label">Supply Type</label>
+                        <span class="form-note">Specify options for customer supply types</span>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="form-group">
+                        <div class="form-control-wrap">
+                            <div style="display:flex;gap:10px;" class="form-wrap"><button value="supply_type_new" style="color:white;" (click)="handleCustomize($event)" class="btn btn-lg btn-primary">Add</button><button value="supply_type_edit" style="color:white;" (click)="handleCustomize($event)" class="btn btn-lg btn-success">Edit</button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+            <div class="row g-3 align-center">
+                <div class="col-lg-5">
+                    <div class="form-group">
+                        <label class="form-label">Service Band</label>
+                        <span class="form-note">Specify options for customer service band</span>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="form-group">
+                        <div class="form-control-wrap">
+                            <div style="display:flex;gap:10px;" class="form-wrap">
+                                <button value="service_band_new" style="color:white;" (click)="handleCustomize($event)" class="btn btn-lg btn-primary">Add</button>
+                                <button value="service_band_edit" style="color:white;" (click)="handleCustomize($event)" class="btn btn-lg btn-success">Edit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+            <div class="row g-3 align-center">
+                <div class="col-lg-5">
+                    <div class="form-group">
+                        <label class="form-label">CAAD Vat Options</label>
+                        <span class="form-note">Specify options for caad vat</span>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="form-group">
+                        <div class="form-control-wrap">
+                            <div style="display:flex;gap:10px;" class="form-wrap">
+                                <button value="caad_vat_new" style="color:white;" (click)="handleCustomize($event)" class="btn btn-lg btn-primary">Add</button>
+                                <button value="caad_vat_edit" style="color:white;" (click)="handleCustomize($event)" class="btn btn-lg btn-success">Edit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

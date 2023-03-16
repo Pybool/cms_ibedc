@@ -1,0 +1,422 @@
+<div style="padding-top: 100px;" class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">IBEDC CAAD</h3>
+                            <div class="nk-block-des text-soft">
+                                <p>You have total of {{approvalList.length}} untreated records.</p>
+                            </div>
+                        </div>
+                        <div class="nk-block-head-content">
+                            <div class="toggle-wrap nk-block-tools-toggle">
+                                <a class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu"><em class="icon ni ni-menu-alt-r"></em></a>
+                                <div class="toggle-expand-content show" data-content="pageMenu">
+                                    <ul class="nk-block-tools g-3">
+                                        <li><a  class="btn btn-white btn-outline-light"><em class="icon ni ni-download-cloud"></em><span>New queue</span></a></li>
+                                        <li class="nk-block-tools-opt">
+                                            <a class="dropdown-toggle btn btn-icon btn-primary" data-bs-toggle="dropdown"><em class="icon ni ni-plus"></em></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="height:70vh" class="nk-block">
+                    <div style="height:70vh" class="card card-bordered">
+                        <div style="height:70vh" class="card-inner-group">
+                            <div style="max-height:100%;overflow-y:auto;overflow-x:hidden;" class="card-inner position-relative card-tools-toggle">
+                                <div>
+                                    <div>
+                                        <div class="card-inner position-relative card-tools-toggle">
+                                            <div class="card-title-group">
+                                                <div class="card-tools">
+                                                    <div class="form-inline flex-nowrap gx-3">
+                                                        <div class="form-wrap w-150px">
+                                                            <select class="form-select" data-search="off" data-placeholder="----" >
+                                                                <option value="" data-select2-id="3">Activate</option>
+                                                                <option value="email">Activate</option>
+                                                                <option value="suspend">Suspend queue</option>
+                                                            </select>
+                                                            <!-- <span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="2" style="width: 134px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-rx8f-container"><span class="select2-selection__rendered" id="select2-rx8f-container" role="textbox" aria-readonly="true"><span class="select2-selection__placeholder">----</span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span> -->
+                                                        </div>
+                                                        <div class="btn-wrap"><span class="d-none d-md-block"><button  class="btn btn-dim btn-outline-light">Toggle View</button></span><span class="d-md-none"><button class="btn btn-dim btn-outline-light btn-icon disabled"><em class="icon ni ni-arrow-right"></em></button></span></div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-tools me-n1">
+                                                    <ul class="btn-toolbar gx-1">
+                                                        <li><a href="#" class="btn btn-icon search-toggle toggle-search" data-target="search"><em class="icon ni ni-search"></em></a></li>
+                                                        <li class="btn-toolbar-sep"></li>
+                                                        <li>
+                                                            <div class="toggle-wrap">
+                                                                <a href="#" class="btn btn-icon btn-trigger toggle" data-target="cardTools"><em class="icon ni ni-menu-right"></em></a>
+                                                                <div class="toggle-content" data-content="cardTools">
+                                                                    <ul class="btn-toolbar gx-1">
+                                                                        <li class="toggle-close"><a href="#" class="btn btn-icon btn-trigger toggle" data-target="cardTools"><em class="icon ni ni-arrow-left"></em></a></li>
+                                                                        <li>
+                                                                            <div class="dropdown">
+                                                                                <a href="#" class="btn btn-trigger btn-icon dropdown-toggle" data-bs-toggle="dropdown">
+                                                                                    <div class="dot dot-primary"></div>
+                                                                                    <em class="icon ni ni-filter-alt"></em>
+                                                                                </a>
+                                                                                
+                                                                            </div>
+                                                                        </li>
+                                                                        <li>
+                                                                            <div class="dropdown">
+                                                                                <a href="#" class="btn btn-trigger btn-icon dropdown-toggle" data-bs-toggle="dropdown"><em class="icon ni ni-setting"></em></a>
+                                                                                <div class="dropdown-menu dropdown-menu-xs dropdown-menu-end">
+                                                                                    <ul class="link-check">
+                                                                                        <li><span>Show</span></li>
+                                                                                        <li class="active"><a href="#">10</a></li>
+                                                                                        <li><a href="#">20</a></li>
+                                                                                        <li><a href="#">50</a></li>
+                                                                                    </ul>
+                                                                                    <ul class="link-check">
+                                                                                        <li><span>Order</span></li>
+                                                                                        <li class="active"><a href="#">DESC</a></li>
+                                                                                        <li><a href="#">ASC</a></li>
+                                                                                    </ul>
+                                                                                </div>
+                                                                            </div>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="card-search search-wrap" data-search="search">
+                                                <div class="card-body">
+                                                    <div class="search-content"><a href="#" class="search-back btn btn-icon toggle-search" data-target="search"><em class="icon ni ni-arrow-left"></em></a><input type="text" class="form-control border-transparent form-focus-none" placeholder="Search by queue or email"><button class="search-submit btn btn-icon"><em class="icon ni ni-search"></em></button></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="height:60vh; overflow-y:auto" class="card-inner p-0">
+                                            <div class="nk-tb-list nk-tb-ulist is-compact">
+                                                <div class="nk-tb-item nk-tb-head">
+                                                    <div class="nk-tb-col nk-tb-col-check">
+                                                        <div class="custom-control custom-control-sm custom-checkbox notext">
+                                                            <input onClick="toggle(this)" type="checkbox" class="custom-control-input" id="uid"/>
+                                                            <label class="custom-control-label" for="uid"></label>
+                                                        </div>
+                                                    </div>
+                                                     <div class="nk-tb-col"><span><b>Customer Name</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Account Number</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Region</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Business Hub</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Service Center</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Total Accrued</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>VAT</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Current Outstanding</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Refund Amount</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Is Metered</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Total Estimate</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Created By</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Created Date</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Approval Completion</b></span></div>
+                                                </div>
+                                                
+                                                <ng-container *ngFor="let approvalItem of approvalList" t-as="approvalList">
+                                                    <div  t-att-value="approvalItem.account_no" (click)="viewCaadRecord($event,approvalItem.id)" t-att-id="'row_'+str(approvalItem.id)" class="nk-tb-item">
+                                                        <div class="nk-tb-col nk-tb-col-check">
+                                                            <div class="custom-control custom-control-sm custom-checkbox notext">
+                                                                <input t-att-value="approvalItem.customer_name" type="checkbox" class="custom-control-input check_locations" t-att-id="approvalItem.id"/>
+                                                                <label class="custom-control-label" t-att-for="approvalItem.customer_name"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="nk-tb-col">
+                                                            <span class="tb-sub bold" t-esc="approvalItem.customer_name">{{approvalItem.customer_name}}</span>
+                                                        </div>
+                                                        <div class="nk-tb-col">
+                                                            <span class="tb-sub bold" t-esc="approvalItem.accountno">{{approvalItem.account_no}}</span>
+                                                        </div>
+                                                        <div class="nk-tb-col">
+                                                            <span class="tb-sub bold" t-esc="approvalItem.customer_name">{{approvalItem.region | titlecase}}</span>
+                                                        </div>
+                                                        <div class="nk-tb-col">
+                                                            <span class="tb-sub bold" t-esc="approvalItem.accountno">{{approvalItem.buid | titlecase }}</span>
+                                                        </div>
+                                                        <div class="nk-tb-col">
+                                                            <span class="tb-sub bold" t-esc="approvalItem.buid">{{approvalItem.servicecenter | titlecase}}</span>
+                                                        </div>
+                                                        <div class="nk-tb-col">
+                                                            <span class="tb-sub bold" t-esc="approvalItem.total_accrued">{{approvalItem.total_accrued}}</span>
+                                                        </div>
+                                                        <div class="nk-tb-col">
+                                                            <span class="tb-sub" t-esc="approvalItem.vat">{{approvalItem.vat}}</span>
+                                                        </div>
+                                                        <div class="nk-tb-col">
+                                                            <span class="tb-sub" t-esc="approvalItem.current_outstanding_bal">{{approvalItem.current_outstanding_bal}}</span>
+                                                        </div>
+                                                        <div class="nk-tb-col">
+                                                            <span class="tb-sub" t-esc="approvalItem.refund_amount">{{approvalItem.refund_amount}}</span>
+                                                        </div>
+                                                        <div class="nk-tb-col">
+                                                            <span class="tb-sub" t-esc="approvalItem.is_metered">{{approvalItem.is_metered}}</span>
+                                                        </div>
+                                                        <div class="nk-tb-col">
+                                                            <span class="tb-sub" t-esc="approvalItem.total_estimate">{{approvalItem.total_estimate}}</span>
+                                                        </div>
+                                                        <div class="nk-tb-col">
+                                                            <span class="tb-sub" t-esc="approvalItem.total_estimate">{{approvalItem.created_by}}</span>
+                                                        </div>
+                                                        <div class="nk-tb-col">
+                                                            <span class="tb-sub" t-esc="approvalItem.total_estimate">{{approvalItem.created_date}}</span>
+                                                        </div>
+                                                        
+                                                        <div class="nk-tb-col">
+                                                        
+                                                        </div>
+                                                        <div style="text-align:center;" class="nk-tb-col">
+                                                            <ng-container t-if="int(queue.percentage_approval) == 100"> 
+                                                                <i style="color:orange;font-size:22px;" class="material-icons">verified</i>
+                                                            </ng-container>
+                                                            <ng-container t-else="">
+                                                                <div class="progress">
+                                                                    <ng-container t-if="int(queue.percentage_approval) &lt; 20">
+                                                                        <div style="background:red;width:10%" data-bs-toggle="tooltip" data-bs-placement="right" t-att-title="str(int(queue.percentage_approval)) +'%'" class="progress-bar" t-att-data-progress="queue.percentage_approval"></div>
+                                                                    </ng-container>
+                                                                    <ng-container t-if="int(queue.percentage_approval) &gt; 20 and int(queue.percentage_approval) &lt; 30">
+                                                                        <div data-bs-toggle="tooltip" data-bs-placement="right" t-att-title="str(int(queue.percentage_approval)) +'%'" class="progress-bar" t-att-data-progress="queue.percentage_approval"></div>
+                                                                    </ng-container>
+                                                                    <ng-container t-if="int(queue.percentage_approval) &gt; 30 and int(queue.percentage_approval) &lt; 40">
+                                                                        <div  data-bs-toggle="tooltip" data-bs-placement="right" t-att-title="str(int(queue.percentage_approval)) +'%'" class="progress-bar" t-att-data-progress="queue.percentage_approval"></div>
+                                                                    </ng-container> 
+                                                                    <ng-container t-if="int(queue.percentage_approval) &gt; 40 and int(queue.percentage_approval) &lt; 51">
+                                                                        <div  data-bs-toggle="tooltip" data-bs-placement="right" t-att-title="str(int(queue.percentage_approval)) +'%'" class="progress-bar" t-att-data-progress="queue.percentage_approval"></div>
+                                                                    </ng-container>
+                                                                    <ng-container t-if="int(queue.percentage_approval) &gt; 51 and int(queue.percentage_approval) &lt; 81">
+                                                                        <div  data-bs-toggle="tooltip" data-bs-placement="right" t-att-title="str(int(queue.percentage_approval)) +'%'" class="progress-bar" t-att-data-progress="queue.percentage_approval"></div>
+                                                                    </ng-container>
+                                                                    <ng-container t-if="int(queue.percentage_approval) &gt; 81 and int(queue.percentage_approval) &lt; 99">
+                                                                        <div  data-bs-toggle="tooltip" data-bs-placement="right" t-att-title="str(int(queue.percentage_approval)) +'%'" class="progress-bar" t-att-data-progress="queue.percentage_approval"></div>
+                                                                    </ng-container>
+                                                                </div>
+                                                            </ng-container>
+                                                            <!-- <span class="tb-sub" t-esc="queue.percentage"></span> -->
+                                                        </div>
+                                                        
+                                                    </div><!-- .nk-tb-item -->
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <div class="card-inner">
+                                <ul class="pagination justify-content-center justify-content-md-start">
+                                    <li class="page-item"><a class="page-link" href="#">Prev</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><span class="page-link"><em class="icon ni ni-more-h"></em></span></li>
+                                    <li class="page-item"><a class="page-link" href="#">6</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">7</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="caad_approval" style="border-left:2px solid ;height:80%;width:80%;border-color:#FF7518; right: 1px; bottom: 1px;" class="nk-add-product toggle-slide toggle-slide-right" data-content="editCustomer" data-toggle-screen="any" data-toggle-overlay="true" data-toggle-body="true" data-simplebar='1'>
+    <div class="nk-block-head">
+       <div class="nk-block-head-content">
+          <h5 id="create_edit_user_title" class="nk-block-title"></h5>
+          <div class="nk-block-des">
+             <div class="data-head">
+                <h5 id="form_title" class="overline-title">CAAD Approval Sequence</h5>
+             </div>
+          </div>
+          
+       </div>
+    </div>
+    <!-- .nk-block-head -->
+    <div class="nk-block">
+        <div id="accordion" class="accordion">
+            <div class="accordion-item">
+                <a id="asset_information_accordion" href="javascript:void(0)" class="accordion-head" data-bs-toggle="collapse" data-bs-target="#accordion-item-4">
+                   <h6 class="title">CAAD Line Items</h6>
+                   <span class="accordion-icon"></span>      
+                </a>
+                <div class="accordion-body collapse" id="accordion-item-4" data-bs-parent="#accordion">
+                   <div style="padding:0px;" class="accordion-inner">
+                     <form class="form-validate is-alter" autocomplete="off" (ngSubmit)="submit()" ngNativeValidate>
+                         <table style="width:100%; text-align:center;overflow-x: hidden;" id="caad_line_items_table" class="datatable-init dataTable nowrap nk-tb-list is-separate shadow" data-auto-responsive="true">
+                             <thead class="" style="position:sticky;top:0;">
+                                 <th id='checkbox-th' style="display:none;">.</th>
+                                 <th><b>From</b></th>
+                                 <th><b>To</b></th>
+                                 <th><b>Months</b></th>
+                                 <th><b>Tarrif</b></th>
+                                 <ng-container *ngIf="is_metered">
+                                     <th><b>Present Reading</b></th>
+                                     <th><b>Last Actual Reading</b></th>
+                                     <th><b>Consumed</b></th>
+                                 </ng-container>
+                                 <th><b>Recom Unit</b></th>
+                                 <th><b>MAB</b></th>
+                                 <th><b>EBM</b></th>
+                                 <th><b></b></th>
+                             </thead>
+                             <tbody>
+                                 <ng-container *ngIf="is_metered">
+                                     <tr *ngFor="let lineItem of lineItems; trackBy: trackByFn" [id]="'caad-line-item_'+ lineItem.index" style="height:30px;padding:5px!important;align-items:center;justify-content:center;" class="nk-tb-item is-separate">
+                                         <!-- <td class="nk-tb-col nk-tb-col-check">
+                                             <div style="z-index:1;" class="custom-control custom-control-sm custom-checkbox notext ">
+                                                 <div class="custom-control custom-control-sm custom-checkbox notext">
+                                                     <input type="checkbox" class="custom-control-input error-lineitem" id="err-flag_1">
+                                                     <label class="custom-control-label" for="err-flag_1"></label>
+                                                 </div>
+                                             </div>
+                                         </td> -->
+                                         <td  class="nk-tb-col date"><input [disabled]="true" [(ngModel)]="lineItem.from_date" [ngModelOptions]="{standalone: true}" name="'from_'+ lineItem.index" class="form-control line_item_from_date" style="width:100%;" type="date"  placeholder="From date"></td>
+                                         <td  class="nk-tb-col date"><input [disabled]="true" [id]="'to_'+ lineItem.index" disabled [(ngModel)]="lineItem.to_date" [ngModelOptions]="{standalone: true}" [name]="'to_'+ lineItem.index" class="form-control line_item_to_date" style="width:100%;" type="date"  placeholder="To date" onfocus="(this.type='date')"></td>
+                                         <td class="nk-tb-col"><input disabled type="text" [(ngModel)]="lineItem.months" [ngModelOptions]="{standalone: true}" name="'months_'+ lineItem.index" class="caadmonths form-control" id="caad-months"/></td>
+                                         <td class="nk-tb-col"><select [disabled]="true" [(ngModel)]="lineItem.tarrif" style="width:200px;" [ngModelOptions]="{standalone: true}" name="1"  class="form-select"><option></option><option value="24.5">24.5</option><option value="38.7">38.7</option></select></td>
+                                         <td class="nk-tb-col"><input [disabled]="true" [disabled]="true" [(ngModel)]="lineItem.present_reading" [ngModelOptions]="{standalone: true}" id="" name="1" class="present-reading form-control"  type="text"></td>
+                                         <td class="nk-tb-col"><input [disabled]="true"  [(ngModel)]="lineItem.last_actual_reading" [ngModelOptions]="{standalone: true}" id="" name="1" class="last-actual-reading form-control"  type="text"></td>
+                                         <td class="nk-tb-col"><input [(ngModel)]="lineItem.consumed" [ngModelOptions]="{standalone: true}" name="1" class="form-control consumed" readonly="1" type="text" value=""></td>
+                                                         
+                                         <td class="nk-tb-col"><input [(ngModel)]="lineItem.recom_unit" [ngModelOptions]="{standalone: true}" disabled="1" name="1"  class="form-control recoms" type="text"></td>
+                                         <td class="nk-tb-col"><input [(ngModel)]="lineItem.mab" [ngModelOptions]="{standalone: true}" name="1" class="form-control" readonly="1" type="text" value=""></td>
+                                         <td class="nk-tb-col"><input [(ngModel)]="lineItem.ebm" [ngModelOptions]="{standalone: true}" type="text" disabled class="form-control" class="ebm" name="1"/></td>
+                                         <td class="pointer"><i class="material-icons">delete</i></td>
+                                     </tr>
+                                 </ng-container>
+                                 <ng-container *ngIf="!is_metered">
+                                     <tr *ngFor="let lineItem of lineItems;" [id]="'caad-line-item_'+ lineItem.index" style="height:30px;padding:5px!important;align-items:center;justify-content:center;" class="nk-tb-item is-separate">
+                                         <!-- <td class="nk-tb-col nk-tb-col-check">
+                                             <div style="z-index:1;" class="custom-control custom-control-sm custom-checkbox notext ">
+                                                 <div class="custom-control custom-control-sm custom-checkbox notext">
+                                                     <input type="checkbox" class="custom-control-input error-lineitem" id="err-flag_1">
+                                                     <label class="custom-control-label" for="err-flag_1"></label>
+                                                 </div>
+                                             </div>
+                                         </td> -->
+                                         <td  class="nk-tb-col date"><input [disabled]="true" [(ngModel)]="lineItem.from_date" [ngModelOptions]="{standalone: true}" name="'from_'+ lineItem.index"  class="form-control line_item_from_date" style="width:100%;" type="date"  placeholder="From date"></td>
+                                         <td  class="nk-tb-col date"><input [disabled]="true" [id]="'to_'+ lineItem.index" disabled [(ngModel)]="lineItem.to_date" [ngModelOptions]="{standalone: true}" [name]="'to_'+ lineItem.index" class="form-control line_item_to_date" style="width:100%;" type="date" placeholder="To date" onfocus="(this.type='date')"></td>
+                                         <td class="nk-tb-col"><input disabled type="text" [(ngModel)]="lineItem.months" [ngModelOptions]="{standalone: true}" name="'months_'+ lineItem.index" class="caadmonths form-control" id="caad-months"/></td>
+                                         <td class="nk-tb-col"><select [disabled]="true" [(ngModel)]="lineItem.tarrif" style="width:200px;" [ngModelOptions]="{standalone: true}" name="1" class="form-select"><option></option><option value="24.5">24.5</option><option value="38.7">38.7</option></select></td>
+                                         
+                                         <td class="nk-tb-col"><input [disabled]="true" [(ngModel)]="lineItem.recom_unit" [ngModelOptions]="{standalone: true}" name="1"  class="form-control recoms" type="text"></td>
+                                         <td class="nk-tb-col"><input [(ngModel)]="lineItem.mab" [ngModelOptions]="{standalone: true}" name="1" class="form-control" readonly="1" type="text" value=""></td>
+                                         <td class="nk-tb-col"><input [(ngModel)]="lineItem.ebm" [ngModelOptions]="{standalone: true}" type="text" disabled class="form-control" class="ebm" name="1"/></td>
+                                         <td class="pointer"><i class="material-icons">delete</i></td>
+                                     </tr>
+                                 </ng-container>
+                               
+                             </tbody>
+                            
+                             <input id="is_metered" hidden="1" type="text" t-att-value="customerdata['is_metered']"/>
+                             <input id="caad_rows_count" hidden="1" type="text"/>
+                         </table>
+                         <br>
+                         <div class="col-12 row g-3">
+                             <ul style="padding:10px;" class="nk-block-tools g-3 col-8">
+                                 
+                                 <li><button (click)="approveCaad($event)" type="submit" class="btn btn-success btn-outline-light"><em style="color:white;" class="icon ni ni-download-cloud"></em><span style="color:white;">Approve</span></button></li>
+                                 
+                                 <li><button type="submit" class="btn btn-warning btn-outline-light"><em style="color:white;" class="icon ni ni-download-cloud"></em><span style="color:white;">Decline</span></button></li>
+                             </ul>
+                             <ul style="max-height:50vh;overflow-y: auto;" class="link-list-opt col-4">
+                                 <li ><div class="col-12 row g-3"><label class="col-6">Summation Expected Billing</label><a class="col-6" href="javascript:void(0)" ><input [value]="sebm" type="text" class="input-display"/></a></div></li>
+                                 <li ><div class="col-12 row g-3"><label class="col-6">Total Expected Billing (Vat: 0.0%)</label><a class="col-6" href="javascript:void(0)" ><input [value]="tebm" type="text" class="input-display"/></a></div></li>
+                                 <li ><div class="col-12 row g-3"><label class="col-6">Refund Amount</label><a class="col-6" href="javascript:void(0)" ><input [value]="refundAmount" type="text" class="input-display"/></a></div></li>
+                                 
+                             </ul>
+                         </div>
+                        
+                     </form>
+                     
+                   </div>
+                   
+
+                </div>
+             </div>
+             <div class="accordion-item">
+                <a id="asset_information_accordion" href="javascript:void(0)" class="accordion-head" data-bs-toggle="collapse" data-bs-target="#accordion-item-5">
+                    <h6 class="title">Recent Approvers List</h6>
+                    <span class="accordion-icon"></span>      
+                 </a>
+                 <div class="accordion-body collapse" id="accordion-item-5" data-bs-parent="#accordion">
+                    <div style="padding:0px;" class="accordion-inner">
+                        <div style="height:40vh" class="nk-block">
+                            <div style="height:40vh" class="card card-bordered">
+                                <div style="height:40vh" class="card-inner-group">
+                                    <div style="max-height:100%;overflow-y:auto;overflow-x:hidden;" class="card-inner position-relative card-tools-toggle">
+                                        <div>
+                                            <div>
+                                                <div style="height:40vh; overflow-y:auto" class="card-inner p-0">
+                                                    <div class="nk-tb-list nk-tb-ulist is-compact">
+                                                        <div class="nk-tb-item nk-tb-head">
+                                                            <div class="nk-tb-col nk-tb-col-check">
+                                                                <div class="custom-control custom-control-sm custom-checkbox notext">
+                                                                    <input onClick="toggle(this)" type="checkbox" class="custom-control-input" id="uid"/>
+                                                                    <label class="custom-control-label" for="uid"></label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="nk-tb-col"><span><b>Approver Name</b></span></div>
+                                                            <div class="nk-tb-col"><span><b>Position</b></span></div>
+                                                            <div class="nk-tb-col"><span><b>email</b></span></div>
+                                                            <div class="nk-tb-col"><span><b>Approval Date</b></span></div>
+                                                            <div class="nk-tb-col"><span><b>Comments</b></span></div>
+                                                            
+                                                        </div>
+                                                        
+                                                        <ng-container *ngFor="let approver of approvers" >
+                                                            <div  class="nk-tb-item">
+                                                                <div class="nk-tb-col nk-tb-col-check">
+                                                                    <div class="custom-control custom-control-sm custom-checkbox notext">
+                                                                        <input value="approver.email" type="checkbox" class="custom-control-input check_locations" id="approver.email"/>
+                                                                        <label class="custom-control-label" for="approver.email"></label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="nk-tb-col">
+                                                                    <span class="tb-sub bold" t-esc="approvalItem.customer_name">{{approver.approver_name | titlecase}}</span>
+                                                                </div>
+                                                                <div class="nk-tb-col">
+                                                                    <span class="tb-sub bold" t-esc="approvalItem.accountno">{{approver.approver_position}}</span>
+                                                                </div>
+                                                                <div class="nk-tb-col">
+                                                                    <span class="tb-sub bold" t-esc="approvalItem.customer_name">{{approver.approver_email}}</span>
+                                                                </div>
+                                                                <div class="nk-tb-col">
+                                                                    <span class="tb-sub bold" t-esc="approvalItem.accountno">{{approver.date_approved }}</span>
+                                                                </div>
+                                                                <div class="nk-tb-col">
+                                                                    <span class="tb-sub bold" t-esc="approvalItem.accountno">{{approver.comments }}</span>
+                                                                </div>
+                                                                
+                                                                                                                        
+                                                            </div><!-- .nk-tb-item -->
+                                                        </ng-container>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                    </div>
+                 </div>
+                 
+             </div>
+        </div>
+        <br>
+        <button (click)="exit($event)" type="button" class="btn btn-success btn-outline-light"><em style="color:white;" class="icon ni ni-download-cloud"></em><span style="color:white;">Exit</span></button>
+     
+    </div>
+ </div>
+
+

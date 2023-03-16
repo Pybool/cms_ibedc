@@ -1,0 +1,172 @@
+<div  id="users_settings_template">
+    <div class="nk-block-head nk-block-head-lg">
+        <div style="width:100%;" class="nk-block-between">
+            <div style="width:100%;" class="nk-block-head-content">
+                <div style="width:100%;" class="flex-row">
+                    <h4 style="width:80%;" class="nk-block-title">User Positions Settings</h4>
+                </div>
+                <div class="nk-block-des">
+                    <p>Settings page</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- .nk-block-head -->
+    <div class="nk-block">
+        <div class="gy-3 form-settings">
+            <hr/>
+            <div class="row g-3 align-center">
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label class="form-label" for="site-name">Positions</label>
+                        <span class="form-note">Specify the options for user positions</span>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <div class="form-control-wrap">
+                            <div style="display:flex;gap:10px;" class="form-wrap"><button value="user_positions_new" style="color:white;" onclick="window.handleCustomize(this.getAttribute('value'))" class="btn btn-lg btn-primary">Add</button><button value="user_positions_edit" style="color:white;" onclick="handleCustomize(this.getAttribute('value'))" class="btn btn-lg btn-success">Edit</button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <hr/>
+            <div class="row g-3 align-center">
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label class="form-label" for="site-name">Customer Creation</label>
+                        <span class="form-note">Specify user positions to handle customer creation and edits</span>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <select onchange="window.add_selection_to_tag(this,'customer_creation_users_tagList','cust_creation_users','CUST-CU','cust_cu_template_precendence','db-roles')" class="form-select shadow caps" id="sel_customer_creation_role">
+                            <option disabled="1" value="">Select position for user</option>
+                            <ng-container *ngFor="let user_position of user_positions" >
+                                <option [value]="user_position.position_code" >{{user_position.name}}</option>
+                            </ng-container>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div style="max-width:100%" class="flex-row">
+                <ul class="tagList" id="customer_creation_users_tagList">
+                    <!-- All TagList Here! -->
+                    <ng-container *ngFor="let cust_cu_role of cust_cu_roles" t-as="cust_cu_role">
+                        <li class="option-item cust_creation_users" [value]="cust_cu_role.position_code">
+                            <span t-esc="cust_cu_role.position_code">{{cust_cu_role.position_code}}</span>&nbsp;
+                            <span onclick="removeTag(this,'CUST-CU','db-roles0')" value="cust_cu_role.position_code" class="rmTag">×</span>
+                            <input [name]="cust_cu_role.position_code" [value]="cust_cu_role.precedence" class="cust_cu_template_precendence precedence-input" placeholder="Enter precedence code" required="1" type="text"/>
+                        </li>
+                    </ng-container>
+                </ul>
+                <!-- <input id='db-roles0' hidden="1" type="text" [value]="self.convert_record_to_dict(cust_cu_roles)"/> -->
+                <button id="kyc-roles-save" type="button" onclick="window.saveRoles('CUST-CU','cust_cu_template_precendence')" style="color:white;" class="btn btn-lg btn-primary">Save Roles</button>
+            </div>
+            <br/>
+            <hr/>
+            <div class="row g-3 align-center">
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label class="form-label" for="site-name">Customer Approval</label>
+                        <span class="form-note">Specify user positions to handle customer kyc approval</span>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <select onchange="window.add_selection_to_tag(this,'customer_approval_users_tagList','cust_approval_users','CUST-KYC','cust_kyc_template_precendence','db-roles')" class="form-select shadow caps" id="sel_customer_approval_role">
+                            <option disabled="1" value="">Select position for user</option>
+                            <ng-container *ngFor="let user_position of user_positions" >
+                                <option [value]="user_position.position_code" >{{user_position.name}}</option>
+                            </ng-container>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div style="max-width:100%" class="flex-row">
+                <ul class="tagList" id="customer_approval_users_tagList">
+                    <!-- All TagList Here! -->
+                    <ng-container *ngFor="let cust_kyc_role of cust_kyc_roles" t-as="cust_kyc_role">
+                        <li class="option-item cust_approval_users" value="cust_kyc_role.position_code">
+                            <span t-esc="cust_kyc_role.position_code">{{cust_kyc_role.position_code}}</span>&nbsp;
+                            <span onclick="removeTag(this,'CUST-KYC','db-roles')" value="cust_kyc_role.position_code" class="rmTag">×</span>
+                            <input [name]="cust_kyc_role.position_code" [value]="cust_kyc_role.precedence" class="cust_kyc_template_precendence precedence-input" placeholder="Enter precedence code" required="1" type="text"/>
+                        </li>
+                    </ng-container>
+                </ul>
+                <!-- <input id='db-roles' hidden="1" type="text" t-att-value="self.convert_record_to_dict(cust_kyc_roles)"/> -->
+                <button id="kyc-roles-save" type="button" onclick="window.saveRoles('CUST-KYC','cust_kyc_template_precendence')" style="color:white;" class="btn btn-lg btn-primary">Save Roles</button>
+            </div>
+            <br/>
+            <hr/>
+            <div class="row g-3 align-center">
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label class="form-label" for="site-name">Business Hub Management and Operation Compliance</label>
+                        <span class="form-note">Specify user positions to handle business hub operation compliance</span>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <select onchange="window.add_selection_to_tag(this,'biz_hub_ops_users_tagList' ,'biz_hub_ops_users','BHM-OPC','biz_hub_ops_template_precendence','db-roles2')" class="form-select shadow caps" id="sel_biz_hub_ops_role">
+                            <option disabled="1" value="">Select position for user</option>
+                            <ng-container *ngFor="let user_position of user_positions" >
+                                <option [value]="user_position.position_code" >{{user_position.name}}</option>
+                            </ng-container>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div style="max-width:100%" class="flex-row">
+                <ul class="tagList" id="biz_hub_ops_users_tagList">
+                    <!-- All TagList Here! -->
+                    <ng-container *ngFor="let biz_hub_ops_role of biz_hub_ops_roles" t-as="biz_hub_ops_role">
+                        <li class="option-item biz_hub_ops_users" [value]="biz_hub_ops_role.position_code">
+                            <span t-esc="biz_hub_ops_role.position_code">{{biz_hub_ops_role.position_code}}</span>&nbsp;
+                            <span onclick="removeTag(this,'BHM-OPC','db-roles2')" value="biz_hub_ops_role.position_code" class="rmTag">×</span>
+                            <input [name]="biz_hub_ops_role.position_code" [value]="biz_hub_ops_role.precedence" class="biz_hub_ops_template_precendence precedence-input" placeholder="Enter precedence code" required="1" type="text"/>
+                        </li>
+                    </ng-container>
+                </ul>
+                <!-- <input id='db-roles2' hidden="1" type="text" t-att-value="self.convert_record_to_dict(biz_hub_ops_roles)"/> -->
+                <button id="biz_hub_ops-roles-save" type="button" onclick="window.saveRoles('BHM-OPC','biz_hub_ops_template_precendence')" style="color:white;" class="btn btn-lg btn-primary">Save Roles</button>
+            </div>
+            <br/>
+            <hr/>
+            <div class="row g-3 align-center">
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label class="form-label" for="site-name">CAAD Roles</label>
+                        <span class="form-note">Specify user positions to handle CAAD Refund Approval</span>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <select onchange="window.add_selection_to_tag(this,'caad_users_tagList' ,'caad_users','CAAD','caad_template_precendence','db-roles3')" class="form-select shadow caps" id="sel_caad_role">
+                            <option disabled="1" value="">Select position for user</option>
+                            <ng-container *ngFor="let user_position of user_positions" >
+                                <option [value]="user_position.position_code" >{{user_position.name}}</option>
+                            </ng-container>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div style="max-width:100%" class="flex-row">
+                <ul class="tagList" id="caad_users_tagList">
+                    <ng-container *ngFor="let caad_role of caad_roles" t-as="caad_role">
+                        <li class="option-item caad_users" t-att-value="caad_role.position_code">
+                            <span t-esc="caad_role.position_code">{{caad_role.position_code}}</span>&nbsp;
+                            <span onclick="removeTag(this,'CAAD','db-roles3')" value="caad_role.position_code" class="rmTag">×</span>
+                            <input [name]="caad_role.position_code" [value]="caad_role.precedence" class="caad_template_precendence precedence-input" placeholder="Enter precedence code" required="1" type="text"/>
+                        </li>
+                    </ng-container>
+                </ul>
+                <!-- <input id='db-roles3' hidden="1" type="text" t-att-value="self.convert_record_to_dict(caad_roles)"/> -->
+                <button id="caad-roles-save" type="button" onclick="window.saveRoles('CAAD','caad_template_precendence')" style="color:white;" class="btn btn-lg btn-primary">Save Roles</button>
+            </div>
+            <hr/>
+        </div>
+    </div>
+</div>
+

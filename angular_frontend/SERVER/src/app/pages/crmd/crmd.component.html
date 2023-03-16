@@ -1,0 +1,473 @@
+<div style="padding-top: 100px;" class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">IBEDC CRMD</h3>
+                            <div class="nk-block-des text-soft">
+                                <p>You have total of {{awaitingCustomers?.length}} untreated records.</p>
+                            </div>
+                        </div>
+                        <div class="nk-block-head-content">
+                            <div class="toggle-wrap nk-block-tools-toggle">
+                                <a class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu"><em class="icon ni ni-menu-alt-r"></em></a>
+                                <div class="toggle-expand-content show" data-content="pageMenu">
+                                    <ul class="nk-block-tools g-3">
+                                        <li><a  (click)="createqueueForm()" class="btn btn-white btn-outline-light"><em class="icon ni ni-download-cloud"></em><span>New queue</span></a></li>
+                                        <li class="nk-block-tools-opt">
+                                            <a (click)="createqueueForm()" class="dropdown-toggle btn btn-icon btn-primary" data-bs-toggle="dropdown"><em class="icon ni ni-plus"></em></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="height:70vh" class="nk-block">
+                    <div style="height:70vh" class="card card-bordered">
+                        <div style="height:70vh" class="card-inner-group">
+                            <div style="max-height:100%;overflow-y:auto;overflow-x:hidden;" class="card-inner position-relative card-tools-toggle">
+                                <div>
+                                    <div>
+                                        <div class="card-inner position-relative card-tools-toggle">
+                                            <div class="card-title-group">
+                                                <div class="card-tools">
+                                                    <div class="form-inline flex-nowrap gx-3">
+                                                        <div class="form-wrap w-150px">
+                                                            <select class="form-select" data-search="off" data-placeholder="----" >
+                                                                <option value="" data-select2-id="3">Activate</option>
+                                                                <option value="email">Activate</option>
+                                                                <option value="suspend">Suspend queue</option>
+                                                            </select>
+                                                            <!-- <span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="2" style="width: 134px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-rx8f-container"><span class="select2-selection__rendered" id="select2-rx8f-container" role="textbox" aria-readonly="true"><span class="select2-selection__placeholder">----</span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span> -->
+                                                        </div>
+                                                        <div class="btn-wrap"><span class="d-none d-md-block"><button (click)="viewMode()" class="btn btn-dim btn-outline-light">Toggle View</button></span><span class="d-md-none"><button class="btn btn-dim btn-outline-light btn-icon disabled"><em class="icon ni ni-arrow-right"></em></button></span></div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-tools me-n1">
+                                                    <ul class="btn-toolbar gx-1">
+                                                        <li><a href="#" class="btn btn-icon search-toggle toggle-search" data-target="search"><em class="icon ni ni-search"></em></a></li>
+                                                        <li class="btn-toolbar-sep"></li>
+                                                        <li>
+                                                            <div class="toggle-wrap">
+                                                                <a href="#" class="btn btn-icon btn-trigger toggle" data-target="cardTools"><em class="icon ni ni-menu-right"></em></a>
+                                                                <div class="toggle-content" data-content="cardTools">
+                                                                    <ul class="btn-toolbar gx-1">
+                                                                        <li class="toggle-close"><a href="#" class="btn btn-icon btn-trigger toggle" data-target="cardTools"><em class="icon ni ni-arrow-left"></em></a></li>
+                                                                        <li>
+                                                                            <div class="dropdown">
+                                                                                <a href="#" class="btn btn-trigger btn-icon dropdown-toggle" data-bs-toggle="dropdown">
+                                                                                    <div class="dot dot-primary"></div>
+                                                                                    <em class="icon ni ni-filter-alt"></em>
+                                                                                </a>
+                                                                                <!-- <div class="filter-wg dropdown-menu dropdown-menu-xl dropdown-menu-end">
+                                                                                    <div class="dropdown-head">
+                                                                                        <span class="sub-title dropdown-title">Filter queues</span>
+                                                                                        <div class="dropdown"><a href="#" class="btn btn-sm btn-icon"><em class="icon ni ni-more-h"></em></a></div>
+                                                                                    </div>
+                                                                                    <div class="dropdown-body dropdown-body-rg">
+                                                                                        <div class="row gx-6 gy-3">
+                                                                                            <form id="queue_filter_form" class="form-validate is-alter row gx-6 gy-3" autocomplete="off" (ngSubmit)="submitFilter()" ngNativeValidate>
+                                                                                                <div class="col-6">
+                                                                                                    <div class="custom-control custom-control-sm custom-checkbox"><input [(ngModel)]="filter.can_create_queue" name="can_create_queue" type="checkbox" class="custom-control-input" id="can-create-queues"><label class="custom-control-label" for="can-create-queues">Can Create queues</label></div>
+                                                                                                </div>
+                                                                                                <div class="col-6">
+                                                                                                    <div class="custom-control custom-control-sm custom-checkbox"><input [(ngModel)]="filter.can_approve_caad" name="can_approve_caad" type="checkbox" class="custom-control-input" id="can-approve-caad"><label class="custom-control-label" for="can-approve-caad">Can Approve CAAD</label></div>
+                                                                                                </div>
+                                                                                                <div class="col-6">
+                                                                                                    <div class="custom-control custom-control-sm custom-checkbox"><input [(ngModel)]="filter.can_create_customers" name="can_create_customers" type="checkbox" class="custom-control-input" id="can-create-customers"><label class="custom-control-label" for="can-create-customers">Can Create Customers</label></div>
+                                                                                                </div>
+                                                                                                <div class="col-6">
+                                                                                                    <div class="custom-control custom-control-sm custom-checkbox"><input [(ngModel)]="filter.can_approve" name="can_approve" type="checkbox" class="custom-control-input" id="can-approve-customer"><label class="custom-control-label" for="can-approve-customer">Can Approve Customers</label></div>
+                                                                                                </div>
+                                                                                                <div class="col-6">
+                                                                                                    <div class="custom-control custom-control-sm custom-checkbox"><input [(ngModel)]="filter.can_manage_2fa" name="can_manage_2fa" type="checkbox" class="custom-control-input" id="can-manage-2fa"><label class="custom-control-label" for="can-manage-2fa">Can Manage 2FA</label></div>
+                                                                                                </div>
+                                                                                                <div class="col-6">
+                                                                                                </div>
+                                                                                                <div class="col-6">
+                                                                                                    <div class="form-group">
+                                                                                                        <label class="overline-title overline-title-alt">Positions</label>
+                                                                                                        <select [(ngModel)]="filter.position" class="form-select" name = "position" data-select2-id="4" tabindex="-1" aria-hidden="true">
+                                                                                                            <option value="any" data-select2-id="6">Any Role</option>
+                                                                                                            <option value="investor">Investor</option>
+                                                                                                            <option value="seller">Seller</option>
+                                                                                                            <option value="buyer">Buyer</option>
+                                                                                                        </select>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="col-6">
+                                                                                                    <div class="form-group">
+                                                                                                        <label class="overline-title overline-title-alt">Permission</label>
+                                                                                                        <select [(ngModel)]="filter.permissions_hierarchy" class="form-select" name = "permissions_hierarchy" data-select2-id="7" tabindex="-1" aria-hidden="true">
+                                                                                                            <option value="any" data-select2-id="9">Any Status</option>
+                                                                                                            <option value="active">Active</option>
+                                                                                                            <option value="pending">Pending</option>
+                                                                                                            <option value="suspend">Suspend</option>
+                                                                                                            <option value="deleted">Deleted</option>
+                                                                                                        </select>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="col-6">
+                                                                                                    <div class="form-group">
+                                                                                                        <label class="overline-title overline-title-alt">Region</label>
+                                                                                                        <select [(ngModel)]="filter.region" class="form-select" name = "region" data-select2-id="reg" tabindex="-1" aria-hidden="true">
+                                                                                                            <option value="any" data-select2-id="region">Any Role</option>
+                                                                                                            <option value="investor">Investor</option>
+                                                                                                            <option value="seller">Seller</option>
+                                                                                                            <option value="buyer">Buyer</option>
+                                                                                                        </select>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="col-6">
+                                                                                                    <div class="form-group">
+                                                                                                        <label class="overline-title overline-title-alt">Business Units</label>
+                                                                                                        <select [(ngModel)]="filter.business_unit" class="form-select"  name = "business_unit" data-select2-id="biz" tabindex="-1" aria-hidden="true">
+                                                                                                            <option value="any" data-select2-id="bizhub">Any Status</option>
+                                                                                                            <option value="active">Active</option>
+                                                                                                            <option value="pending">Pending</option>
+                                                                                                            <option value="suspend">Suspend</option>
+                                                                                                            <option value="deleted">Deleted</option>
+                                                                                                        </select>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="col-6">
+                                                                                                    <div class="form-group">
+                                                                                                        <label class="overline-title overline-title-alt">Service Center</label>
+                                                                                                        <select [(ngModel)]="filter.servicecenter" class="form-select"  name = "servicecenter" data-select2-id="sc" tabindex="-1" aria-hidden="true">
+                                                                                                            <option value="any" data-select2-id="servicecenter">Any Status</option>
+                                                                                                            <option value="active">Active</option>
+                                                                                                            <option value="pending">Pending</option>
+                                                                                                            <option value="suspend">Suspend</option>
+                                                                                                            <option value="deleted">Deleted</option>
+                                                                                                        </select>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="col-6">
+                                                                                                    <div class="form-group">
+                                                                                                        <label class="overline-title overline-title-alt">Status</label>
+                                                                                                        <select [(ngModel)]="filter.status" class="form-select" name="status" data-select2-id="st" tabindex="-1" aria-hidden="true">
+                                                                                                            <option value="any" data-select2-id="status">Any Status</option>
+                                                                                                            <option value="active">Active</option>
+                                                                                                            <option value="pending">Pending</option>
+                                                                                                            <option value="suspend">Suspend</option>
+                                                                                                            <option value="deleted">Deleted</option>
+                                                                                                        </select>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="col-12">
+                                                                                                    <div class="form-group"><button type="submit" class="btn btn-secondary">Filter</button></div>
+                                                                                                </div>
+
+                                                                                            </form>
+                                                                                            
+                                                                                            
+                                                                                            
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="dropdown-foot between"><a class="clickable" (click)="resetFilter()" href="javscript:void(0)">Reset Filter</a></div>
+                                                                                </div> -->
+                                                                            </div>
+                                                                        </li>
+                                                                        <li>
+                                                                            <div class="dropdown">
+                                                                                <a href="#" class="btn btn-trigger btn-icon dropdown-toggle" data-bs-toggle="dropdown"><em class="icon ni ni-setting"></em></a>
+                                                                                <div class="dropdown-menu dropdown-menu-xs dropdown-menu-end">
+                                                                                    <ul class="link-check">
+                                                                                        <li><span>Show</span></li>
+                                                                                        <li class="active"><a href="#">10</a></li>
+                                                                                        <li><a href="#">20</a></li>
+                                                                                        <li><a href="#">50</a></li>
+                                                                                    </ul>
+                                                                                    <ul class="link-check">
+                                                                                        <li><span>Order</span></li>
+                                                                                        <li class="active"><a href="#">DESC</a></li>
+                                                                                        <li><a href="#">ASC</a></li>
+                                                                                    </ul>
+                                                                                </div>
+                                                                            </div>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="card-search search-wrap" data-search="search">
+                                                <div class="card-body">
+                                                    <div class="search-content"><a href="#" class="search-back btn btn-icon toggle-search" data-target="search"><em class="icon ni ni-arrow-left"></em></a><input type="text" class="form-control border-transparent form-focus-none" placeholder="Search by queue or email"><button class="search-submit btn btn-icon"><em class="icon ni ni-search"></em></button></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="height:60vh; overflow-y:auto" class="card-inner p-0">
+                                            <div class="nk-tb-list nk-tb-ulist is-compact">
+                                                <div class="nk-tb-item nk-tb-head">
+                                                    <div class="nk-tb-col nk-tb-col-check">
+                                                        <div class="custom-control custom-control-sm custom-checkbox notext"><input type="checkbox" class="custom-control-input" id="uid"><label class="custom-control-label" for="uid"></label></div>
+                                                    </div>
+                                                    <div class="nk-tb-col"><span><b>Firstname</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Surname</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Othernames</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Account No</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Account Type</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Email</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Mobile</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>City</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Region</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Business Unit</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Service Center</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Created By</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Created Date</b></span></div>
+                                                    <div class="nk-tb-col"><span class="sub-text"><b>Status</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Action</b></span></div>
+                                                    
+                                                    <div class="nk-tb-col nk-tb-col-tools text-end">
+                                                        <div class="dropdown">
+                                                            <a href="#" class="btn btn-xs btn-outline-light btn-icon dropdown-toggle" data-bs-toggle="dropdown" data-offset="0,5"><em class="icon ni ni-plus"></em></a>
+                                                            <div class="dropdown-menu dropdown-menu-xs dropdown-menu-end">
+                                                                <ul class="link-tidy sm no-bdr">
+                                                                    <li>
+                                                                        <div class="custom-control custom-control-sm custom-checkbox checked"><input type="checkbox" class="custom-control-input" checked="" id="bl"><label class="custom-control-label" for="bl">Balance</label></div>
+                                                                    </li>
+                                                                    <li>
+                                                                        <div class="custom-control custom-control-sm custom-checkbox checked"><input type="checkbox" class="custom-control-input" checked="" id="ph"><label class="custom-control-label" for="ph">Phone</label></div>
+                                                                    </li>
+                                                                    <li>
+                                                                        <div class="custom-control custom-control-sm custom-checkbox"><input type="checkbox" class="custom-control-input" id="vri"><label class="custom-control-label" for="vri">Verified</label></div>
+                                                                    </li>
+                                                                    <li>
+                                                                        <div class="custom-control custom-control-sm custom-checkbox"><input type="checkbox" class="custom-control-input" id="st"><label class="custom-control-label" for="st">Status</label></div>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <ng-container *ngFor="let queue of awaitingCustomers;">
+                                                    <div id="{{queue.name}}" style="cursor:pointer;" class="nk-tb-item">
+                                                        <div class="nk-tb-col nk-tb-col-check">
+                                                            <div class="custom-control custom-control-sm custom-checkbox notext">
+                                                                <input type="checkbox" class="custom-control-input" name="check" id="{{queue.id}}">
+                                                                <label class="custom-control-label" for="{{queue.id}}"></label>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="nk-tb-col tb-col-md"><span>{{queue.firstname}}</span></div>
+                                                        <div class="nk-tb-col tb-col-sm"><span>{{queue.surname}}</span></div>
+                                                        <div class="nk-tb-col tb-col-md"><span>{{queue.othernames}}</span></div>
+                                                        <div class="nk-tb-col tb-col-sm"><span>{{queue.accountno}}</span></div>
+                                                        <div class="nk-tb-col tb-col-md"><span>{{queue.accounttype}}</span></div>
+                                                        <div class="nk-tb-col tb-col-sm"><span>{{queue.email}}</span></div>
+                                                        <div class="nk-tb-col tb-col-md"><span>{{queue.mobile}}</span></div>
+                                                        <div class="nk-tb-col tb-col-sm"><span>{{queue.city}}</span></div>
+                                                        <div class="nk-tb-col tb-col-sm"><span>{{queue.region | titlecase}}</span></div>
+                                                        <div class="nk-tb-col tb-col-md"><span>{{queue.buid | titlecase}}</span></div>
+                                                        <div class="nk-tb-col tb-col-sm"><span>{{queue.servicecenter | titlecase}}</span></div>
+                                                        <div class="nk-tb-col tb-col-sm"><span>{{queue.created_by}}</span></div>
+                                                        <div class="nk-tb-col tb-col-md"><span>{{queue.created_date}}</span></div>
+                                                        <div *ngIf="queue.status == 'Pending'" class="nk-tb-col tb-col-sm"><span style="color:orange;">{{queue.status | titlecase}}</span></div>
+                                                        <div *ngIf="queue.bhm_approved" class="nk-tb-col tb-col-sm"><span style="color:steelblue;">{{queue.status | titlecase}}</span></div>
+                                                        <div *ngIf="queue.bhm_approved && queue.adt_approved" class="nk-tb-col tb-col-sm"><span style="color:lightgreen;">{{queue.status | titlecase}}</span></div>
+                                                        <div *ngIf="queue.status == 'Declined'" class="nk-tb-col tb-col-sm"><span style="color:red;">{{queue.status | titlecase}}</span></div>
+                                                        <!-- <div *ngIf="queue.servicecenter == 'granted'" class="nk-tb-col tb-col-md"><i style="color:orange" class="material-icons">verified_queue</i></div> --> 
+
+                                                        <div class="nk-tb-col nk-tb-col-tools">
+                                                            <ul class="nk-tb-actions gx-2">
+                                                                <!-- <li (click)="getSinglequeue(queue.id)" value="{{queue.id}}" class="nk-tb-action-hidden"><a class="btn btn-sm btn-icon btn-trigger" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit" aria-label="Edit"><em id="{{queue.public_id}}" title = {{queue.name}}  class="icon material-icons">edit</em></a></li>
+                                                                <li (click)="getSuspendqueue(queue.id)" value="{{queue.id}}" class="nk-tb-action-hidden"><a class="btn btn-sm btn-icon btn-trigger" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Suspend" aria-label="Suspend"><em class="icon ni ni-queue-cross-fill"></em></a></li> -->
+                                                                <li>
+                                                                    <div class="drodown">
+                                                                        <a href="#" class="btn btn-sm btn-icon btn-trigger dropdown-toggle" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                                                        <div class="dropdown-menu dropdown-menu-end">
+                                                                            <ul class="link-list-opt no-bdr">
+                                                                                <li  value="{{queue.id}}"><a href="javascript:void(0)" (click)="viewAwaitingCustomer($event)"><em class="icon ni ni-eye"></em><span>View Details</span></a></li>
+                                                                                <li class="divider"></li>
+                                                                                <li  value="{{queue.id}}"><a href="javascript:void(0)"><em class="icon ni ni-shield-off"></em><span>Revert</span></a></li>
+                                                                                <li  value="{{queue.id}}"><a href="javascript:void(0)"><em class="icon ni ni-na"></em><span>Approve</span></a></li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <div class="card-inner">
+                                <ul class="pagination justify-content-center justify-content-md-start">
+                                    <li class="page-item"><a class="page-link" href="#">Prev</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><span class="page-link"><em class="icon ni ni-more-h"></em></span></li>
+                                    <li class="page-item"><a class="page-link" href="#">6</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">7</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="awaiting_customer_details" style="border-left:2px solid ;height:90%;width:55%;border-color:#FF7518; right: 0px; bottom: 0px;" class="nk-add-product toggle-slide toggle-slide-right" data-content="editCustomer" data-toggle-screen="any" data-toggle-overlay="true" data-toggle-body="true" data-simplebar='1'>
+    <div class="nk-block-head">
+       <div class="nk-block-head-content">
+          <h5 id="create_edit_user_title" class="nk-block-title"></h5>
+          <div class="nk-block-des">
+             <div class="data-head">
+                <h5 id="form_title" class="overline-title">Awaiting Customer Details</h5>
+             </div>
+          </div>
+          
+       </div>
+    </div>
+    <!-- .nk-block-head -->
+    <div class="nk-block">
+      <div id="accordion" class="accordion">
+         <div class="accordion-item">
+            <a id="basic_information_accordion" href="javascript:void(0)" (click)="setActive($event)" class="accordion-head" data-bs-toggle="collapse" data-bs-target="#accordion-item-1">
+               <h6 class="title">Basic Information</h6>
+               <span class="accordion-icon"></span>      
+            </a>
+            <div class="accordion-body collapse" id="accordion-item-1" data-bs-parent="#accordion">
+               <div class="accordion-inner">
+                <ul style="max-height:50vh;overflow-y: auto;" class="link-list-opt">
+                    <li ><div class="col-12 row g-3"><label class="col-6">Titles</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.title || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">Firstname</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.firstname || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">Surname</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.surname || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">Othernames</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.othernames || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">Gender</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.gender || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">Email</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.email || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">Mobile</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.mobile || 'N/A'}}</span></a></div></li>
+                </ul>
+               </div>
+            </div>
+         </div>
+         <div class="accordion-item">
+            <a id="account_information_accordion" href="javascript:void(0)" (click)="setActive($event)" class="accordion-head" data-bs-toggle="collapse" data-bs-target="#accordion-item-2">
+               <h6 class="title">Accounts Information</h6>
+               <span class="accordion-icon"></span>      
+            </a>
+            <div class="accordion-body collapse" id="accordion-item-2" data-bs-parent="#accordion">
+               <div class="accordion-inner">
+                <ul style="max-height:50vh;overflow-y: auto;" class="link-list-opt">
+                    <li ><div class="col-12 row g-3"><label class="col-6">Account Number</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.accountno || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">Account Type</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.accounttype || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">Customer Type</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.customer_type || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">Business Type</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.business_type || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">Status Code</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.statuscode || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">CIN</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.cin || 'N/A'}}</span></a></div></li>
+                </ul>
+               </div>
+            </div>
+         </div>
+         <div class="accordion-item">
+            <a id="location_information_accordion" href="javascript:void(0)" (click)="setActive($event)" class="accordion-head" data-bs-toggle="collapse" data-bs-target="#accordion-item-3">
+               <h6 class="title">Locations Information</h6>
+               <span class="accordion-icon"></span>      
+            </a>
+            <div class="accordion-body collapse" id="accordion-item-3" data-bs-parent="#accordion">
+               <div class="accordion-inner">
+                <ul style="max-height:50vh;overflow-y: auto;" class="link-list-opt">
+                    <li ><div class="col-12 row g-3"><label class="col-6">BUILDING DESCRIPTION</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.building_description || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">PREMISES TYPE</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.premise_type || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">ADDRESS</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.address1 || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">LOCAL GOVT</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.lga || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">REGION</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.region || 'N/A' |titlecase}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">BUSINESS HUB</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.buid || 'N/A' |titlecase}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">SERVICE CENTER</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.servicecenter || 'N/A' |titlecase }}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">CITY</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.city || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">STATE</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.state || 'N/A'}}</span></a></div></li>
+                </ul>
+               </div>
+            </div>
+         </div>
+         <div class="accordion-item">
+            <a id="asset_information_accordion" href="javascript:void(0)" (click)="setActive($event)" class="accordion-head" data-bs-toggle="collapse" data-bs-target="#accordion-item-4">
+               <h6 class="title">Assets Information</h6>
+               <span class="accordion-icon"></span>      
+            </a>
+            <div class="accordion-body collapse" id="accordion-item-4" data-bs-parent="#accordion">
+               <div class="accordion-inner">
+                <ul style="max-height:50vh;overflow-y: auto;" class="link-list-opt">
+                    <li ><div class="col-12 row g-3"><label class="col-6">DSS OWNER</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.dss_owner || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">DSS NAME</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.dss_name || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">DSS ID</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.dss_id || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">FEEDER TYPE</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.feeder_type || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">FEEDER NAME</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.feeder_name || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">FEEDER ID</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.feederid || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">SERVICE BAND</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.service_band || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">INJECTION SUBSTATION</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.injection_sub_station || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">METER OEM</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.meter_oem || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">LOW TENSION POLE ID</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.ltpoleid || 'N/A'}}</span></a></div></li>
+                </ul>
+               </div>
+            </div>
+         </div>
+         <div class="accordion-item">
+            <a id="po_information_accordion" href="javascript:void(0)" (click)="setActive($event)" class="accordion-head" data-bs-toggle="collapse" data-bs-target="#accordion-item-5">
+               <h6 class="title">Property Ownership Information</h6>
+               <span class="accordion-icon"></span>      
+            </a>
+            <div class="accordion-body collapse" id="accordion-item-5" data-bs-parent="#accordion">
+               <div class="accordion-inner">
+                <ul style="max-height:50vh;overflow-y: auto;" class="link-list-opt">
+                    <li ><div class="col-12 row g-3"><label class="col-6">LANDLORD NAME</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.landlord_name || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">LANDLORD PHONE</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.landlord_phone || 'N/A'}}</span></a></div></li>
+                </ul>
+               </div>
+            </div>
+         </div>
+         <br>
+         
+        <div class="nk-block-head">
+            <div class="nk-block-head-content">
+                <h5 id="create_view_update_title" class="nk-block-title"></h5>
+                <div class="nk-block-des">
+                    <div class="data-head">
+                        <h5 class="overline-title">Comments/Observations</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row g-3">
+            <div class="col-12">
+                <textarea id="comments" rows="4" cols="50" type="text" class="form-control shadow" placeholder="Enter your comments...."></textarea>                                                                        
+            </div>
+        </div>
+        <br/>
+                
+        <div class=" row g-3">
+            <div class="col-4">
+                <button id="approve_btn" (click)="queueAction($event,'approve')"  type="button" style="width:100%;color:white;" class="toggle btn btn-success d-none d-md-inline-flex"><span>Approve</span></button>
+            </div>
+            <div class="col-4">
+                <button id="decline_btn" (click)="queueAction($event,'decline')"  type="button" style="width:100%;color:white;" class="toggle btn btn-warning d-none d-md-inline-flex"><span>Decline</span></button>
+            </div>
+            <div class="col-4">
+                <button (click)="exitAwaitingCustomer()" type="button" style="width:100%;color:white;" class="toggle btn btn-primary d-none d-md-inline-flex"><span>Exit</span></button>
+            </div>
+            
+        </div>        
+      </div>
+    </div>
+ </div>
+
+
+
+
+
+
+
+

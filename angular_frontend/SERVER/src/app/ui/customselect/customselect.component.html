@@ -1,0 +1,21 @@
+
+<!-- <div class="form-control-wrap no-padding"> -->
+    <div  style="height: 45px;width:100%!important" class="col-12 dropdown no-padding">
+        <a name = {{value}}  href="#" data-bs-toggle="dropdown"
+        aria-expanded="false" class="dropdown-toggle btn shadow" style="height: 45px;width:100%!important">
+        {{selectedOption?.name ? title : defaultTitle}}&nbsp;&nbsp;
+        <em class="dd-indc icon ni ni-chevron-right"></em>
+        </a>
+        <div class="dropdown-menu" data-popper-placement="bottom-start">
+            <ul style="max-height:50vh;overflow-y: auto;" class="link-list-opt">
+                <li *ngFor="let option of options">
+                    <a href="javascript:void(0)" name="{{option?.code || option?.name || option}}" (click)="onSelect(option)"><span>{{option?.name || option}}</span></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+<!-- </div> -->
+    
+ 
+    
+ 

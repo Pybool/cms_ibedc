@@ -1,0 +1,231 @@
+<div id="edit_customerp" style="width:80%;background:whitesmoke!important;" class="nk-add-product toggle-slide toggle-slide-right" data-content="pending_view" data-toggle-screen="any" data-toggle-overlay="true" data-toggle-body="true" data-simplebar='1'>
+                  
+    <div class="nk-block-head">
+       <div class="nk-block-head-content">
+          <h5 id="create_edit_user_title" class="nk-block-title"></h5>
+          <div class="nk-block-des">
+             <div class="data-head">
+                <h3 class="overline-title">Pending Customer Edits</h3>
+             </div>
+          </div>
+       </div>
+    </div>
+    <!-- .nk-block-head -->
+    <div  class="nk-block">
+       <!-- <form id="customer_edit_form" method="POST"> -->
+       <div class="nk-block-head">
+          <div class="nk-block-head-content">
+             <h5 id="create_edit_user_title" class="nk-block-title"></h5>
+             <div class="nk-block-des">
+                <div class="data-head">
+                   <div style="width:100%;" class="form-control-wrap">
+                      <div class="col-12"></div>
+                   </div>
+                </div>
+             </div>
+          </div>
+          <div class="row g-gs form-control-wrap">
+             <div class="col-xxl-3 col-sm-3">
+                <div class="card pointer shadow zoom" value="approved" onclick="openCity(this, 'Approved')">
+                   <div class="nk-ecwg nk-ecwg6">
+                      <div class="card-inner">
+                         <div class="card-title-group">
+                            <div class="card-title">
+                               <h4 class="title">Approved Updates</h4>
+                            </div>
+                         </div>
+                         <div class="data">
+                            <div class="form-control-wrap">
+                               <i style="color:lightgreen;font-size:48px;" class="material-icons">check_circle</i>
+                               <h3 id='approved_count'></h3>
+                            </div>
+                         </div>
+                      </div>
+                      <!-- .card-inner -->
+                   </div>
+                   <!-- .nk-ecwg -->
+                </div>
+                <!-- .card -->
+                <div  class="dot_cont" style="text-align:center">
+                   <span class="dot"></span>
+                   <span class="dot"></span>
+                   <span class="dot"></span>
+                </div>
+             </div>
+             <div class="col-xxl-3 col-sm-3">
+                <div class="card pointer shadow zoom" value="pending" onclick="openCity(this, 'Pending')">
+                   <div class="nk-ecwg nk-ecwg6">
+                      <div class="card-inner">
+                         <div class="card-title-group">
+                            <div class="card-title">
+                               <h4 class="title">Pending Updates</h4>
+                            </div>
+                         </div>
+                         <div class="data">
+                            <div class="form-control-wrap">
+                               <i style="color:orange;font-size:48px;" class="material-icons">pending_actions</i>
+                               <h3 id='pending_count'></h3>
+                            </div>
+                         </div>
+                      </div>
+                      <!-- .card-inner -->
+                   </div>
+                   <!-- .nk-ecwg -->
+                </div>
+                <!-- .card -->
+                <div class="dot_cont" style="text-align:center">
+                   <span class="dot"></span>
+                   <span class="dot"></span>
+                   <span class="dot"></span>
+                </div>
+             </div>
+             <div class="col-xxl-3 col-sm-3">
+                <div class="card pointer shadow zoom" value="declined" onclick="openCity(this, 'Declined')">
+                   <div class="nk-ecwg nk-ecwg6">
+                      <div class="card-inner">
+                         <div class="card-title-group">
+                            <div class="card-title">
+                               <h4 class="title">Declined Updates</h4>
+                            </div>
+                         </div>
+                         <div class="data">
+                            <div class="form-control-wrap">
+                               <i style="color:#C21E56;font-size:48px;" class="material-icons">no_accounts</i>
+                               <h3 id='declined_count'></h3>
+                            </div>
+                         </div>
+                      </div>
+                      <!-- .card-inner -->
+                   </div>
+                   <!-- .nk-ecwg -->
+                </div>
+                <!-- .card -->
+                <div class="dot_cont" style="text-align:center">
+                   <span class="dot"></span>
+                   <span class="dot"></span>
+                   <span class="dot"></span>
+                </div>
+             </div>
+             <div style="border-width:3px!important;border-color:#FF7518!important;" class="col-xxl-3 col-sm-3">
+                <div class="card pointer shadow zoom" value="customers_created" onclick="openCity(this, 'customers_created')">
+                   <div class="nk-ecwg nk-ecwg6">
+                      <div class="card-inner">
+                         <div class="card-title-group">
+                            <div class="card-title">
+                               <h4 class="title">Customers Created</h4>
+                            </div>
+                         </div>
+                         <div class="data">
+                            <div class="form-control-wrap">
+                               <i style="color:#FF7518!important;;font-size:48px;" class="material-icons">person_add</i>
+                               <h3 id='cms_created_count'></h3>
+                            </div>
+                         </div>
+                      </div>
+                      <!-- .card-inner -->
+                   </div>
+                   <!-- .nk-ecwg -->
+                </div>
+                <!-- .card -->
+                <div class="dot_cont" style="text-align:center">
+                   <span class="dot"></span>
+                   <span class="dot"></span>
+                   <span class="dot"></span>
+                </div>
+             </div>
+          </div>
+       </div>
+       <div style="height:80%;overflow:auto">
+          <div id="loading_mini" style="display:none" class="loading_mini">Loading&#8230;</div>
+          <div class="col-12">
+             <div class="form-group">
+                <div id="Approved" class="tabcontent">
+                   <h3>Approved customer edits</h3>
+                   <table style="width:100%; background:#f5f6fa;overflow:auto" id="approved_edits_widget_history_table" class="datatable-init dataTable nowrap nk-tb-list is-separate pending_custs" data-auto-responsive="false">
+                      <thead style="position:sticky;top:0;">
+                         <th>.</th>
+                         <th class="nk-tb-col">Firstname</th>
+                         <th class="nk-tb-col">Surname</th>
+                         <th class="nk-tb-col">Othernames</th>
+                         <th class="nk-tb-col">Account no</th>
+                         <th class="nk-tb-col">Email</th>
+                         <th class="nk-tb-col">Mobile</th>
+                         <th class="nk-tb-col">City</th>
+                         <th class="nk-tb-col">State</th>
+                         <th class="nk-tb-col">Comments</th>
+                         <th class="nk-tb-col">Approved date</th>
+                         <th>Action</th>
+                      </thead>
+                   </table>
+                </div>
+             </div>
+          </div>
+          <div class="col-12">
+             <div class="form-group">
+                <div id="Pending" class="tabcontent">
+                   <h3>Pending customer edits</h3>
+                   <table style="width:100%; background:#f5f6fa;overflow:auto" id="pending_edits_widget_history_table" class="datatable-init nowrap nk-tb-list is-separate pending_custs" data-auto-responsive="false">
+                      <thead style="position:sticky;top:0;">
+                         <th class="nk-tb-col">Firstname</th>
+                         <th class="nk-tb-col">Surname</th>
+                         <th class="nk-tb-col">Othernames</th>
+                         <th class="nk-tb-col">Account no</th>
+                         <th class="nk-tb-col">Email</th>
+                         <th class="nk-tb-col">Mobile</th>
+                         <th class="nk-tb-col">City</th>
+                         <th class="nk-tb-col">State</th>
+                         <th class="nk-tb-col">Comments</th>
+                      </thead>
+                   </table>
+                </div>
+             </div>
+          </div>
+          <div class="col-12">
+             <div class="form-group">
+                <div id="Declined" class="tabcontent">
+                   <h3>Declined customer edits</h3>
+                   <table style="width:100%; background:#f5f6fa;overflow:auto" id="declined_edits_widget_history_table" class="datatable-init nowrap nk-tb-list is-separate pending_custs" data-auto-responsive="false">
+                      <thead style="position:sticky;top:0;">
+                         <th class="nk-tb-col">Firstname</th>
+                         <th class="nk-tb-col">Surname</th>
+                         <th class="nk-tb-col">Othernames</th>
+                         <th class="nk-tb-col">Account no</th>
+                         <th class="nk-tb-col">Email</th>
+                         <th class="nk-tb-col">Mobile</th>
+                         <th class="nk-tb-col">City</th>
+                         <th class="nk-tb-col">State</th>
+                         <th class="nk-tb-col">Comments</th>
+                      </thead>
+                   </table>
+                </div>
+             </div>
+          </div>
+       </div>
+       <div class="col-12">
+          <div class="form-group">
+             <div id="customers_created" class="tabcontent">
+                <h3>Created Customers</h3>
+                <table style="width:100%; background:#f5f6fa;overflow:auto" id="customers_created_widget_history_table" class="datatable-init nowrap nk-tb-list is-separate pending_custs" data-auto-responsive="false">
+                   <thead style="position:sticky;top:0;">
+                      <th class="nk-tb-col">Firstname</th>
+                      <th class="nk-tb-col">Surname</th>
+                      <th class="nk-tb-col">Othernames</th>
+                      <th class="nk-tb-col">Account no</th>
+                      <th class="nk-tb-col">Account Type</th>
+                      <th class="nk-tb-col">Email</th>
+                      <th class="nk-tb-col">Mobile</th>
+                      <th class="nk-tb-col">Address 1</th>
+                      <th class="nk-tb-col">City</th>
+                      <th class="nk-tb-col">State</th>
+                      <th class="nk-tb-col">Business Unit</th>
+                      <th class="nk-tb-col">Service Center</th>
+                   </thead>
+                </table>
+             </div>
+          </div>
+       </div>
+       <!-- </form> -->
+    </div>
+    <a id="pending_view" data-target="pending_view" class="toggle" style="background:transparent;width:700px" ></a>
+    <!-- <script src="/cms_ibedc/static/src/js/record-exporter.js?version=0.0.3" ></script> -->
+ </div>

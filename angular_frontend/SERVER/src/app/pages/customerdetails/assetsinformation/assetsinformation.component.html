@@ -1,0 +1,198 @@
+<div style="padding-top:10px;" class="container">
+    <div style="width:100%;max-height: 75vh; overflow-y: auto; overflow-x: hidden;">
+        <div class="nk-block-head nk-block-head-lg">
+            <div style="width:100%;" class="nk-block-between">
+                <div style="width:100%;" class="nk-block-head-content">
+                    <div style="width:100%;" class="flex-row">
+                        <h4 style="width:80%;" class="nk-block-title">Customer Assets Information</h4>
+                        
+                    </div>
+                    <div class="nk-block-des">
+                        <p>Assets info, for Ibedc Prepaid and PostPaid Customers.</p>
+                    </div>
+                </div>
+                
+            </div>
+        </div><!-- .nk-block-head -->
+        <div class="nk-block">
+            <div class="nk-data data-list">
+                <div class="data-head">
+                    <h6 class="overline-title" t-esc="customerdata['accounttype'] + ' Customer DSS Details'" >Customer DSS Information</h6>
+                </div>
+                <div class="data-item item_parrent" data-toggle="modal" data-target="#profile-edit">
+                    <div class="data-col">
+                        <div style="width:40%;"><b><b>Dss ID</b></b></div>
+                        <div class="assets_item" style="width:55%;">{{assetsData.dss_id}}</div>
+                    </div>
+                    <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
+                </div><!-- data-item item_parrent -->
+                <div class="data-item item_parrent" data-toggle="modal" data-target="#profile-edit">
+                    <div class="data-col">
+                        <div style="width:40%;"><b><b>Dss Name</b></b></div>
+                        <div class="assets_item" style="width:55%;">{{assetsData.dss_415v_name}}</div>
+                    </div>
+                    <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
+                </div><!-- data-item item_parrent -->
+                <div class="data-item item_parrent" data-toggle="modal" data-target="#profile-edit">
+                    <div class="data-col">
+                        <div style="width:40%;"><b><b>Dss Asset Type</b></b></div>
+                        <div class="assets_item" style="width:55%;">{{assetsData?.asset_type.toString().replaceAll('_',' ')}}</div>
+                    </div>
+                    <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
+                </div><!-- data-item item_parrent -->
+                <div class="data-item item_parrent">
+                    <div class="data-col">
+                        <div style="width:40%;"><b><b>Dss Parent</b></b></div>
+                        <div class="assets_item" style="width:55%;">{{assetsData.dss_415v_parent}}</div>
+                    </div>
+                    <div class="data-col data-col-end"><span class="data-more disable"><em class="icon ni ni-lock-alt"></em></span></div>
+                </div><!-- data-item item_parrent -->
+                <div class="data-item item_parrent" data-toggle="modal" data-target="#profile-edit">
+                    <div class="data-col">
+                        <div style="width:40%;"><b><b>Dss Owner</b></b></div>
+                        <div class="assets_item" style="width:55%;">{{assetsData.dss_415v_owner}}</div>
+                    </div>
+                    <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
+                </div><!-- data-item item_parrent -->
+                <div class="data-item item_parrent" data-toggle="modal" data-target="#profile-edit">
+                    <div class="data-col">
+                        <div style="width:40%;"><b><b>Dss Address</b></b></div>
+                        <div class="assets_item" style="width:55%;">{{assetsData.dss_415v_address}}</div>
+                    </div>
+                    <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
+                </div><!-- data-item item_parrent -->
+                <div class="data-item item_parrent" data-toggle="modal" data-target="#profile-edit" data-tab-target="#address">
+                    <div class="data-col">
+                        <div style="width:40%;"><b><b>Dss Rating</b></b></div>
+                        <div class="assets_item" style="width:55%;">{{assetsData.dss_415v_rating}}</div>
+                    </div>
+                    <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
+                </div><!-- data-item item_parrent -->
+
+                <div class="data-head">
+                    <h6 class="overline-title" t-esc="customerdata['accounttype'] + ' Customer Service Center'" >Customer Service Center Information</h6>
+                </div>
+                <div class="data-item item_parrent" data-toggle="modal" data-target="#profile-edit">
+                    <div class="data-col">
+                        <div style="width:40%;"><b><b>Service Center</b></b></div>
+                        <div class="assets_item" style="width:55%;">{{assetsData.servicecenter}}</div>
+                    </div>
+                    <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
+                </div><!-- data-item item_parrent -->
+                <div class="data-head">
+                    <h6 class="overline-title" t-esc="'Customer Business Hub'" >Customer Business Unit Information</h6>
+                </div>
+                <div class="data-item item_parrent" data-toggle="modal" data-target="#profile-edit">
+                    <div class="data-col">
+                        <div style="width:40%;"><b><b>Business Hub</b></b></div>
+                        <div class="assets_item" style="width:55%;">{{assetsData.biz_hub}}</div>
+                    </div>
+                    <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
+                </div><!-- data-item item_parrent -->
+                <div class="data-head">
+                    <h6 class="overline-title" t-esc="'Customer Region'" >Customer Region Information</h6>
+                </div>
+                <div class="data-item item_parrent" data-toggle="modal" data-target="#profile-edit" data-tab-target="#address">
+                    <div class="data-col">
+                        <div style="width:40%;"><b><b>Region</b></b></div>
+                        <div class="assets_item" style="width:55%;">{{assetsData.region}}</div>
+                    </div>
+                    <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
+                </div><!-- data-item item_parrent -->
+                <div class="data-head">
+                    <h6 class="overline-title" t-esc="'Customer High tension Details'" >Customer High Tension Information</h6>
+                </div>
+                <div class="data-item item_parrent" data-toggle="modal" data-target="#profile-edit" data-tab-target="#address">
+                    <div class="data-col">
+                        <div style="width:40%;"><b><b>High Tension Street</b></b></div>
+                        <div class="assets_item" style="width:55%;">{{assetsData.HT_11KV_Street}}</div>
+                    </div>
+                    <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
+                </div><!-- data-item item_parrent -->
+                <div class="data-item item_parrent" data-toggle="modal" data-target="#profile-edit" data-tab-target="#address">
+                    <div class="data-col">
+                        <div style="width:40%;"><b><b>High Tension Remark</b></b></div>
+                        <div class="assets_item" style="width:55%;">{{assetsData.HT_11KV_Remark}}</div>
+                    </div>
+                    <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
+                </div><!-- data-item item_parrent -->
+
+                <div class="data-head">
+                    <h6 class="overline-title" t-esc="'Customer Feeder Details'" >Customer Feeder Information</h6>
+                </div>
+                <div class="data-item item_parrent" data-toggle="modal" data-target="#profile-edit" data-tab-target="#address">
+                    <div class="data-col">
+                        <div style="width:40%;"><b><b>Feeder Name</b></b></div>
+                        <div class="assets_item" style="width:55%;">{{assetsData.feeder_name}}</div>
+                    </div>
+                    <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
+                </div><!-- data-item item_parrent -->
+                <div class="data-item item_parrent" data-toggle="modal" data-target="#profile-edit" data-tab-target="#address">
+                    <div class="data-col">
+                        <div style="width:40%;"><b><b>Feeder Parent</b></b></div>
+                        <div class="assets_item" style="width:55%;">{{assetsData.feeder_parent}}</div>
+                    </div>
+                    <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
+                </div><!-- data-item item_parrent -->
+                <div class="data-item item_parrent" data-toggle="modal" data-target="#profile-edit" data-tab-target="#address">
+                    <div class="data-col">
+                        <div style="width:40%;"><b><b>Feeder Regional Name</b></b></div>
+                        <div class="assets_item" style="width:55%;">{{assetsData.xxx}}</div>
+                    </div>
+                    <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
+                </div><!-- data-item item_parrent -->
+                
+                <div class="data-head">
+                    <h6 class="overline-title" t-esc="'Customer Power Transformer Name'" >Customer Power Transformer Information</h6>
+                </div>
+                
+                <div class="data-item item_parrent" data-toggle="modal" data-target="#profile-edit">
+                    <div class="data-col">
+                        <div style="width:40%;"><b><b>PT Name</b></b></div>
+                        <div class="assets_item" style="width:55%;">{{assetsData.pt33kv_11kv_name}}</div>
+                    </div>
+                    <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
+                </div><!-- data-item item_parrent -->
+                <div class="data-item item_parrent" data-toggle="modal" data-target="#profile-edit">
+                    <div class="data-col">
+                        <div style="width:40%;"><b><b>PT Make</b></b></div>
+                        <div class="assets_item" style="width:55%;">{{assetsData.pt33kv_11kv_make}}</div>
+                    </div>
+                    <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
+                </div><!-- data-item item_parrent -->
+                
+                <div class="data-head">
+                    <h6 class="overline-title" t-esc="'Customer Iss Details'" >Customer Injection Subs-Station Information</h6>
+                </div>
+                <div class="data-item item_parrent" data-toggle="modal" data-target="#profile-edit" data-tab-target="#address">
+                    <div class="data-col">
+                        <div style="width:40%;"><b><b>ISS Name</b></b></div>
+                        <div class="assets_item" style="width:55%;">{{assetsData.iis_name}}</div>
+                    </div>
+                    <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
+                </div><!-- data-item item_parrent -->
+                <div class="data-item item_parrent" data-toggle="modal" data-target="#profile-edit" data-tab-target="#address">
+                    <div class="data-col">
+                        <div style="width:40%;"><b><b>ISS Naccode</b></b></div>
+                        <div class="assets_item" style="width:55%;">{{assetsData.IIS_naccode}}</div>
+                    </div>
+                    <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
+                </div><!-- data-item item_parrent -->
+                <div class="data-item item_parrent" data-toggle="modal" data-target="#profile-edit" data-tab-target="#address">
+                    <div class="data-col">
+                        <div style="width:40%;"><b><b>ISS Longitude</b></b></div>
+                        <div class="assets_item" style="width:55%;">{{assetsData.IIS_longitude}}</div>
+                    </div>
+                    <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
+                </div><!-- data-item item_parrent -->
+                <div class="data-item item_parrent" data-toggle="modal" data-target="#profile-edit" data-tab-target="#address">
+                    <div class="data-col">
+                        <div style="width:40%;"><b><b>ISS Latitude</b></b></div>
+                        <div class="assets_item" style="width:55%;">{{assetsData.IIS_latitude}}</div>
+                    </div>
+                    <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
+                </div><!-- data-item item_parrent -->
+            </div><!-- data-list -->
+        </div><!-- .nk-block -->
+        </div>
+    </div>

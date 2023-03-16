@@ -1,0 +1,16 @@
+@media (min-width: 1540px){
+.card-aside {
+    width: 300px;
+}
+}
+
+.accordion-inner {
+    padding: 0!important;
+}
+
+@media (min-width: 768px){
+    .accordion-inner {
+        padding: 0rem 0rem 0rem;
+    }
+    
+}

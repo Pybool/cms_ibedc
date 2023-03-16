@@ -14,6 +14,7 @@ import { CustomerService } from 'src/app/services/customer.service';
 import { Router } from '@angular/router';
 import { NgZone } from '@angular/core';
 import { map, tap } from 'rxjs/operators';
+import { DataTablesModule } from 'angular-datatables';
 
 interface CustomWindow extends Window {
   DataTable: (searchTerm: string,{}) => void;
@@ -31,6 +32,7 @@ declare let window: CustomWindow;
 })
 export class CustomersComponent implements OnInit {
   public metaData;
+  dtOptions: DataTables.Settings = {};
   filter:any = new CustomerFilter()
   create_perm:boolean;
   can_approve:boolean;
@@ -104,6 +106,7 @@ export class CustomersComponent implements OnInit {
 
   ngOnInit(): void {
     //Check if user is authenticated
+    
     this.getState = this.store.select(isAuthenticated);
     this.getState.subscribe((state) => {
       this.isAuthenticated = state

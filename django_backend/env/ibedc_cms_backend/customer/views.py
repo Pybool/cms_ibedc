@@ -82,7 +82,6 @@ class PrepaidCustomers(APIView):
         
         if customers:
             customers = self.custom_paginator.paginate_queryset(customers)
-            print("/n/nCustomers ===> ",self.custom_paginator.get_paginated_response(customers))
             response = self.custom_paginator.get_paginated_response(customers)
             response.data["status"] = True
             response.data["message"] = "ECMI Customers were successfully fetched"

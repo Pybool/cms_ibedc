@@ -14,16 +14,31 @@ from rest_framework.pagination import LimitOffsetPagination
 from authentication.cms_authenticate import ( JWTAuthenticationMiddleWare )
 from helper import generate_slug, get_field_name, get_permission_hierarchy
 from ibedc_cms_backend.custompagination import CustomPaginatorClass
+from location.models import EmsBusinessUnit
+# from django.core.cache import cache
+
+def fetch_and_cache_buids():
+    # data = cache.get('buids')
+    # if not data:
+    data = list(EmsBusinessUnit.objects.filter().values('buid','name','state'))
+        # cache.set('buids', data)
+    return data
+
+def search_for_buid(name,state,lst):
+    for d in lst:
+        if d["name"].lower() == name.lower() and d["state"].lower() == state.lower():
+            return d["buid"]
+    return None
 
 class SingleCustomer(APIView):
     authentication_classes = [JWTAuthenticationMiddleWare]
     def get(self, request):
         accounttype = request.GET.get('accounttype')
         accountno = request.GET.get('accountno')
-        if accounttype == 'postpaid':
-            customer = EmsCustomersNew.objects.filter(accountno__iexact=accountno).values(*EMS_FIELDS)
-        else:
+        if accounttype == 'prepaid':
             customer = EcmiCustomersNew.objects.filter(accountno__iexact=accountno).values(*ECMI_FIELDS) 
+        else:
+            customer = EmsCustomersNew.objects.filter(accountno__iexact=accountno).values(*EMS_FIELDS)
         if customer:
             response = {"status": True, "data": customer}
         else:
@@ -94,6 +109,7 @@ class PrepaidCustomers(APIView):
       
 class PostpaidCustomers(APIView):
     authentication_classes = [JWTAuthenticationMiddleWare]
+    pagination_class = LimitOffsetPagination
     def get(self, request):
         start_date = request.GET.get('start_date')
         end_date = request.GET.get('end_date')
@@ -108,30 +124,53 @@ class PostpaidCustomers(APIView):
             response = {"status":False, "message":"Hierarchy specified does not match legacy", "data":[]}
             return Response(response)
         
-        limit = 250
-        paginator = LimitOffsetPagination()
-        paginator.default_limit = limit
+        self.custom_paginator = CustomPaginatorClass(PrepaidCustomers.pagination_class,request)
         customers = None
-        total_customers = EmsCustomersNew.objects.all().count()
+        total_customers = 0
+        
         if start_date != end_date:
             if field_name is not None:
-                customers = EmsCustomersNew.objects.filter(**{f"{field_name}__icontains": getattr(user, location)}).filter(applicationdate__range=[start_date, end_date]).values(*EMS_FIELDS)
+                if field_name == 'region':
+                    customers = EmsCustomersNew.objects.filter(**{f"{field_name}__icontains": getattr(user, location)}).filter(applicationdate__range=[start_date, end_date]).values(*EMS_FIELDS)
+                elif field_name == 'buid':
+                    customers = EmsCustomersNew.objects.filter(state=request.user.region).filter(**{f"{field_name}__icontains": getattr(user, location)}).filter(applicationdate__range=[start_date, end_date]).values(*EMS_FIELDS)
+                elif field_name == 'servicecenter':
+                    customers = EmsCustomersNew.objects.filter(state=request.user.region).filter(buid=request.user.business_unit).filter(**{f"{field_name}__icontains": getattr(user, location)}).filter(applicationdate__range=[start_date, end_date]).values(*EMS_FIELDS)
             else:
                 customers = EmsCustomersNew.objects.filter().filter(applicationdate__range=[start_date, end_date]).values(*EMS_FIELDS)
+                
         else:
-            if field_name is not None:
-                customers = EmsCustomersNew.objects.filter(**{f"{field_name}__icontains": getattr(user, location)}).values(*EMS_FIELDS)[:1000]
-                print(len(customers))
+            if field_name is not None:#For Non-HQ users
+                
+                if field_name == 'region':
+                    location_customers = EmsCustomersNew.objects.filter(**{f"{field_name}__icontains": getattr(user, location)}).count()
+                    total_customers = location_customers.count()
+                    customers = location_customers.values(*EMS_FIELDS)
+                elif field_name == 'buid':
+                    buids = fetch_and_cache_buids()
+                    buid = search_for_buid(getattr(user, location), request.user.region, buids)
+                    location_customers = EmsCustomersNew.objects.filter(state=request.user.region).filter(**{f"{field_name}__icontains": buid})
+                    total_customers = location_customers.count()
+                    customers = location_customers.values(*EMS_FIELDS)
+                    
+                elif field_name == 'servicecenter':
+                    buids = fetch_and_cache_buids()
+                    buid = search_for_buid(request.user.business_unit, request.user.region, buids)
+                    location_customers = EmsCustomersNew.objects.filter(state=request.user.region).filter(buid=buid).filter(**{f"{field_name}__icontains": getattr(user, location)})
+                    total_customers = location_customers.count()
+                    customers = location_customers.values(*EMS_FIELDS)            
             else:
-                customers = EmsCustomersNew.objects.filter().values(*EMS_FIELDS)
-        
+                total_customers = EmsCustomersNew.objects.all().count()
+                customers = EmsCustomersNew.objects.filter(state='Oyo').values(*EMS_FIELDS)
+                
         if customers:
-            result_page = paginator.paginate_queryset(customers, request)
-            next_page_link = paginator.get_next_link()
-            previous_page_link = paginator.get_previous_link()
-            # last_page_link = paginator.get_last_link()
-            response = {"status": True, "message": "Ems Customers were successfully fetched", "data": result_page, "total_customers":total_customers, "next": next_page_link, "previous": previous_page_link, "last": 'last_page_link'}
+            customers = self.custom_paginator.paginate_queryset(customers)
+            response = self.custom_paginator.get_paginated_response(customers)
+            response.data["status"] = True
+            response.data["message"] = "EMS Customers were successfully fetched"
+            response.data["data"] = response.data.pop('results')
+            response.data["total_customers"] = total_customers
         else:
-            response = {"status": False, "message": "Ems Customers could not be fetched", "data": []}
+            response = Response({"status": False, "message": "EMS Customers could not be fetched", "data": []})
         
-        return Response(response)
+        return response

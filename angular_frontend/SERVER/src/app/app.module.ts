@@ -43,6 +43,10 @@ import { CrmdComponent } from './pages/crmd/crmd.component';
 import { CaadlistComponent } from './pages/caadlist/caadlist.component';
 import { CustomerCaadEffects } from './pages/customerdetails/caad/state/customercaad.effects';
 import { CaadListEffects } from './pages/caadlist/state/caadlist.effects';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { DynamicScriptDirective } from './directives/dynamic-script.directive';
 
 
 const metaReducers: Array<MetaReducer<any, any>> = [localStorageReducer];
@@ -64,6 +68,7 @@ const metaReducers: Array<MetaReducer<any, any>> = [localStorageReducer];
     TitlecaseDirective,
     CrmdComponent,
     CaadlistComponent,
+    DynamicScriptDirective,
     
   ],
   imports: [
@@ -72,6 +77,9 @@ const metaReducers: Array<MetaReducer<any, any>> = [localStorageReducer];
     CommonModule,
     AppRoutingModule,
     HttpClientModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
     StoreModule.forRoot(reducers, {  }),
     EffectsModule.forRoot([AuthEffects,CustomSelectEffects,CreateUserEffects,
                            UserEffects,CustomerEffects,CustomerCreationEffects,

@@ -21,14 +21,14 @@
   <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap.css">
     <script type="text/javascript" src="/assets/js/dropscript.js?version=0.0.3"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.js"></script>
-  <!-- <script src="/assets/js/bootstrap.bundle.min.js?version=0.0.3"></script>
-  <script src="/assets/js/popper.min.js?version=0.0.3"></script> -->
-  <!-- <script type="text/javascript"  src="/assets/js/datatables/dataTables.buttons.min.js?version=0.0.3"></script>
+<script src="/assets/js/bootstrap.bundle.min.js?version=0.0.3"></script>
+  <script src="/assets/js/popper.min.js?version=0.0.3"></script> 
+<script type="text/javascript"  src="/assets/js/datatables/dataTables.buttons.min.js?version=0.0.3"></script>
   <script type="text/javascript"  src="/assets/js/datatables/jszip.min.js?version=0.0.3"></script>
   <script type="text/javascript" src="/assets/js/datatables/pdfmake.min.js" ></script>
   <script type="text/javascript"  src="/assets/js/datatables/vfs_fonts.js?version=0.0.3"></script>
   <script type="text/javascript" src="/assets/js/datatables/buttons.html5.js?version=0.0.3"></script>
-  <script type="text/javascript" src="/assets/js/datatables/buttons.print.js?version=0.0.3"></script> -->
+  <script type="text/javascript" src="/assets/js/datatables/buttons.print.js?version=0.0.3"></script> 
 </head>
 <body>
   <app-root></app-root>
@@ -59,23 +59,11 @@ function waitForElm(selector) {
 }
        
  </script>
+
  <script type="text/javascript" >
   window.DataTable = DataTable
-  try{setNavBorder(4)
-      waitForElm('#cust_bills').then((elm) => {
-          let table = new DataTable('#cust_bills', {
-              destroy: true,"pageLength": 250,"bPaginate": false,
-              "responsive": true,
-              "processing": true,
-              "searching":false,
-              dom: 'Bfrtip',
-              buttons: [
-                  'copy', 'csv', 'excel', 'pdf', 'print'
-              ]
-          });
-      });
-      }
-  catch(err){ }
+  window.waitForElm = waitForElm
+
 </script>
 </body>
   <style>

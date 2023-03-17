@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SharedService } from 'src/app/services/shared.service';
 
@@ -15,6 +15,7 @@ export class CustomermainComponent implements OnInit {
   constructor(private route: ActivatedRoute, private sharedService:SharedService) { }
 
   ngOnInit(): void {
+    
     this.route.queryParams.subscribe(params => {
       this.params = params
       console.log("Customer landing page details ===> ", params)
@@ -23,6 +24,7 @@ export class CustomermainComponent implements OnInit {
 
     })
   }
+
 
   navigateToPage($event,base){
     console.log(base)

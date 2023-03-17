@@ -1,19 +1,16 @@
 SINGLE_CUSTOMER_BILLS = """
-                        DECLARE @PageSize INT = '#page_size#';
-                        DECLARE @PageNumber INT = '#page_no#';
-                        DECLARE @AccountNo NVARCHAR(50) = '#AccountNo#';
+                       
                         
                         SELECT  *,
                         (
                             SELECT COUNT(*)
                             FROM [CMS_IBEDC_DATABASE].[dbo].[ems_bills]
-                            WHERE AccountNo = @AccountNo
+                            WHERE AccountNo = '#AccountNo#'
                         ) AS TotalCount
                         FROM [CMS_IBEDC_DATABASE].[dbo].[ems_bills]
-                        WHERE AccountNo = @AccountNo
+                        WHERE AccountNo = '#AccountNo#'
                         ORDER BY BillID
-                        OFFSET (@PageNumber - 1) * @PageSize ROWS
-                        FETCH NEXT @PageSize ROWS ONLY;
+                        
                       """
   
   

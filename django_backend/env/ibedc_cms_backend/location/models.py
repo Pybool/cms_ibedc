@@ -45,3 +45,23 @@ class LocationPermissions(models.Model):
     buid = models.CharField(max_length=250, blank=True, null=True)
     scid = models.CharField(max_length=250, blank=True, null=True)
     service_center_address = models.CharField(max_length=250, blank=True, null=True)
+    
+class EmsBusinessUnit(models.Model):
+    rowguid = models.CharField(max_length=36, blank=True, null=True)
+    buid = models.CharField(db_column='BUID', max_length=5, blank=True, null=True)  # Field name made lowercase.
+    zoneid = models.CharField(db_column='ZoneID', max_length=10, blank=True, null=True)  # Field name made lowercase.
+    name = models.CharField(db_column='Name', max_length=255, blank=True, null=True)  # Field name made lowercase.
+    address = models.CharField(db_column='Address', max_length=50, blank=True, null=True)  # Field name made lowercase.
+    state = models.CharField(db_column='State', max_length=20, blank=True, null=True)  # Field name made lowercase.
+    contactperson = models.CharField(db_column='ContactPerson', max_length=50, blank=True, null=True)  # Field name made lowercase.
+    telephone = models.CharField(db_column='Telephone', max_length=20, blank=True, null=True)  # Field name made lowercase.
+    mobile = models.CharField(db_column='Mobile', max_length=20, blank=True, null=True)  # Field name made lowercase.
+    email = models.CharField(db_column='EMail', max_length=50, blank=True, null=True)  # Field name made lowercase.
+    website = models.CharField(db_column='Website', max_length=50, blank=True, null=True)  # Field name made lowercase.
+    bankcode = models.CharField(max_length=10, blank=True, null=True)
+    refcode = models.CharField(max_length=5, blank=True, null=True)
+    bucode = models.CharField(max_length=5, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'ems_business_unit'

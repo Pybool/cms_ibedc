@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ComponentFactoryResolver, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { ChangeDetectorRef, Component, ComponentFactoryResolver, OnInit,AfterViewInit, Renderer2, ViewChild, ViewContainerRef } from '@angular/core';
 import { customerData } from './customerdata.js'
 import { abbreviateName } from '../../../utils'
 import { of } from 'rxjs';
@@ -15,12 +15,19 @@ import { Router } from '@angular/router';
 import { NgZone } from '@angular/core';
 import { map, tap } from 'rxjs/operators';
 import { DataTablesModule } from 'angular-datatables';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { DataTableDirective } from 'angular-datatables';
+import { Subject } from 'rxjs';
 
 interface CustomWindow extends Window {
+  waitForElm:(arg1) => any;
   DataTable: (searchTerm: string,{}) => void;
 }
 
 declare let window: CustomWindow;
+
 // Helper function to set dropdown value
 
 // import { DataTable } from "./datatables.js"
@@ -30,9 +37,12 @@ declare let window: CustomWindow;
   templateUrl: './customers.component.html',
   styleUrls: ['./customers.component.css']
 })
-export class CustomersComponent implements OnInit {
+export class CustomersComponent implements OnInit, AfterViewInit {
   public metaData;
   dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<any> = new Subject<any>();
+  @ViewChild(DataTableDirective)
+  datatableElement: DataTableDirective;
   filter:any = new CustomerFilter()
   create_perm:boolean;
   can_approve:boolean;
@@ -46,7 +56,7 @@ export class CustomersComponent implements OnInit {
   Math = Math
   abbreviateName = abbreviateName
   custs$;
-  customers = [];
+  customers$:any;
   deferredItems = [];
   getState;
   userState;
@@ -67,6 +77,8 @@ export class CustomersComponent implements OnInit {
   mode;
   currentAccountno;
   ecmi_total_customers$
+  ems_total_customers$
+  datatableSource
   // dtOptions: DataTables.Settings = {};
   @ViewChild('editcustomerplaceholder', { read: ViewContainerRef }) placeholder: ViewContainerRef;
   @ViewChild('createcustomerplaceholder', { read: ViewContainerRef }) createplaceholder: ViewContainerRef;
@@ -75,7 +87,8 @@ export class CustomersComponent implements OnInit {
               private sharedService:SharedService,
               private cd: ChangeDetectorRef,
               private customerService:CustomerService,
-              private componentFactoryResolver: ComponentFactoryResolver) { 
+              private componentFactoryResolver: ComponentFactoryResolver,
+              private renderer: Renderer2) { 
     this.sharedService.setActiveSearchInput('customers')
     this.custs$ = customerData.customer_data
     this.metaData = customerData.metadata
@@ -106,6 +119,10 @@ export class CustomersComponent implements OnInit {
 
   ngOnInit(): void {
     //Check if user is authenticated
+    this.loadScript('https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.js');
+    this.dtOptions = {
+      responsive: true
+    };
     
     this.getState = this.store.select(isAuthenticated);
     this.getState.subscribe((state) => {
@@ -120,29 +137,22 @@ export class CustomersComponent implements OnInit {
         this.sharedService.setActiveCustomerPage('prepaid')
         this.customersType = 'prepaid'
         this.activePage = 'prepaid'
-        this.customers = data.customers//user.can_create_customers
+        this.customers$ = of(data.customers)//user.can_create_customers
         this.ecmi_total_customers = data.total_customers
-        this.ecmi_total_customers$ = of(this.ecmi_total_customers)
+        this.datatableSource = data.customers
         console.log("=====> Done setting ECMI customers ",this.ecmi_total_customers)
+        
      })
   
 
-    
+    }
 
-      
-    
-    // setTimeout(()=>{
-    //   new window.DataTable(`#customer_table`, {
-    //     "pageLength": 50,
-    //     "bPaginate": true,
-    //     "responsive": true,
-    //     "processing": true,
-    //     "searching": false,
-    //     "bdeferRender": true,
-    //   });
-    // },20000)
-  }
-
+    loadScript(src) {
+      const script = this.renderer.createElement('script');
+      script.type = 'text/javascript';
+      script.src = src;
+      this.renderer.appendChild(document.body, script);
+    }
  
   loadCustomerInformation($event,accountno,accounttype){
     let base = `customer/information/basic-information`
@@ -170,8 +180,35 @@ export class CustomersComponent implements OnInit {
     this.mode = 'edit'
   }
 
-  ngAfterViewInit() {
-    this.cd.detectChanges();
+  convertTable(){
+    try{
+      setTimeout(()=>{
+        if(this.datatableSource && this.datatableSource.length > 0){
+          this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => {
+            // Convert the table to a datatable here
+            dtInstance.destroy();
+            this.datatableElement.dtTrigger.next();
+          });
+        }
+        // }
+        // window.waitForElm('#customer_table').then((elm) => {
+        //   console.log("Table el =----> ", elm)
+        //     let table = new window.DataTable('#customer_table', {
+        //         destroy: true,"pageLength": 10,"bPaginate": false,
+        //         "responsive": true,
+        //         "processing": true,
+        //         "searching":false,
+                
+        //     });
+        // });
+      },1000)
+      
+      }
+  catch(err){ }
+  }
+
+  ngAfterViewInit(){
+    this.convertTable()
   }
 
   trackByFn(index: number, item: any) {
@@ -233,7 +270,7 @@ export class CustomersComponent implements OnInit {
         this.sharedService.setActiveCustomerPage(activePage)
         this.customersType = activePage
         this.activePage = activePage
-        this.customers = data.customers//user.can_create_customers
+        this.customers$ = of(data.customers)
         this.ems_total_customers = data.total_customers
         
       });
@@ -248,7 +285,7 @@ export class CustomersComponent implements OnInit {
         this.sharedService.setActiveCustomerPage(activePage)
         this.customersType = activePage
         this.activePage = activePage
-        this.customers = data.customers//user.can_create_customers
+        this.customers$ = data.customers//user.can_create_customers
         this.ecmi_total_customers = data.total_customers
         
       });

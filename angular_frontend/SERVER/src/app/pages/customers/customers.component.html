@@ -1,580 +1,579 @@
 <!-- Customers Template -->
 <div id="customers_template" style="padding-top: 100px;" class="nk-content ">
-    <div class="nk-block-head nk-block-head-sm">
-       <div class="nk-block-between">
-          <div class="nk-block-head-content">
-             <div class="header-start">
-                <ng-container *ngIf="has_field">
-                   <ng-container *ngIf="appname =='customers' || appname =='search_results'">
-                      <h3 id="dashboardtitle" class="nk-block-title page-title">{{activePage | titlecase}} Customers</h3>
-                      <ng-container *ngIf="can_create_customers" else elseblockid0>
-                         <input id='create-perm' type='text' hidden='1' value='True'/>
-                         
-                      </ng-container>
-                      <!-- <ng-container #elseblockid0><input id='create-perm' type='text' hidden='1' value='False'/></ng-container> -->
-                      <ul class="tagList" id="search-tag-list">
-                        <li class="option-item "><a style="color:gray;" href="javascript:void(0)" id="cust-page-link1" (click)="getCustomers('prepaid')">Prepaid: {{ecmi_total_customers | number:'1.0'}}</a></li>
-                        <li class="option-item "><a style="color:gray;" href="javascript:void(0)" id="cust-page-link2" (click)="getCustomers('postpaid')">Postpaid {{ems_total_customers | number:'1.0'}}</a></li>
-                        </ul>
-                      <!-- <p ><a id="cust-page-count"></a> <a href="javascript:void()" id="cust-page-link1" onclick="customerPageLinkHeader(this)"></a> <a href="javascript:void()" id="cust-page-link2" onclick="customerPageLinkHeader(this)"></a></p> -->
-                   </ng-container>
-                </ng-container>
-                <ng-container *ngIf="has_field">
-                   <ng-container *ngIf="appname =='search_results' && advanced_filters==false">
-                      <h3 id ="cust-page-title">Customers Deep Search Results</h3>
-                      <ng-container *ngIf="can_create_customers";else elseblockid1>
-                      <input id='create-perm' type='text' hidden='1' value='True'/>
-                      <div *ngIf="can_create_customers" class="flex-row-gap-10">
-                         <button data-bs-toggle="tooltip" data-bs-placement="right" title="Create a new customer" style="max-width:200px;border-radius:10px;background:white!important" id="create_btn" value="create_btn" class="btn btn btn-outline-primary shadow" onclick="openCustomerCreateForm()"><span>Create Customer</span></button>
-                         <a style="max-width:120px;border-radius:10px;background:white!important" href="javascript:loadDrafts()" value = "drafts_form" id="admin_users_loc" class="btn btn-outline-primary shadow" data-original-title="" title=""><span class="nk-menu-text">Drafts</span></a>
-                      </div>
-                   </ng-container>
-                   <ng-container #elseblockid1><input id='create-perm' type='text' hidden='1' value='False'/></ng-container>
-                   <ul class="tagList" id ="search-tag-list"></ul>
-                </ng-container>
-                </ng-container>
-                <ng-container *ngIf="advanced_filters">
-                   <h3 id ="cust-page-title">Customers Advanced Filtering</h3>
-                   <ng-container *ngIf="can_create_customers";else elseblockid2>
-                   <input id='create-perm' type='text' hidden='1' value='True'/>
-                   <div *ngIf="can_create_customers" class="flex-row-gap-10">
-                      <button data-bs-toggle="tooltip" data-bs-placement="right" title="Create a new customer" style="max-width:200px;border-radius:10px;background:white!important" id="create_btn" value="create_btn" class="btn btn btn-outline-primary shadow" onclick="getCache(this.getAttribute('value'),'create')"><span>Create Customer</span></button>
-                      <a style="max-width:120px;border-radius:10px;background:white!important" href="javascript:loadDrafts()" value = "drafts_form" id="admin_users_loc" class="btn btn-outline-primary shadow" data-original-title="" title=""><span class="nk-menu-text">Drafts</span></a>
-                   </div>
-                </ng-container>
-                <ng-container #elseblockid2><input id='create-perm' type='text' hidden='1' value='False'/></ng-container>
-                <ul class="tagList" id="search-tag-list">
-                  <li class="option-item "><a style="color:gray;" href="javascript:void(0)" id="cust-page-link1" onclick="customerPageLinkHeader(this)">Prepaid: 160,418</a></li>
-                  <li class="option-item "><a style="color:gray;" href="javascript:void(0)" id="cust-page-link2" onclick="customerPageLinkHeader(this)">Postpaid</a></li>
-                  </ul>
-                </ng-container>
-             </div>
-          </div>
-          <div class="nk-block-head-content">
+   <div class="nk-block-head nk-block-head-sm">
+      <div class="nk-block-between">
+         <div class="nk-block-head-content">
+            <div class="header-start">
+               <ng-container *ngIf="has_field">
+                  <ng-container *ngIf="appname =='customers' || appname =='search_results'">
+                     <h3 id="dashboardtitle" class="nk-block-title page-title">{{activePage | titlecase}} Customers</h3>
+                     <ng-container *ngIf="can_create_customers" else elseblockid0>
+                        <input id='create-perm' type='text' hidden='1' value='True'/>
+                        
+                     </ng-container>
+                     <!-- <ng-container #elseblockid0><input id='create-perm' type='text' hidden='1' value='False'/></ng-container> -->
+                     <ul class="tagList" id="search-tag-list">
+                       <li class="option-item "><a style="color:gray;" href="javascript:void(0)" id="cust-page-link1" (click)="getCustomers('prepaid')">Prepaid: {{ecmi_total_customers | number:'1.0'}}</a></li>
+                       <li class="option-item "><a style="color:gray;" href="javascript:void(0)" id="cust-page-link2" (click)="getCustomers('postpaid')">Postpaid {{ems_total_customers | number:'1.0'}}</a></li>
+                       </ul>
+                     <!-- <p ><a id="cust-page-count"></a> <a href="javascript:void()" id="cust-page-link1" onclick="customerPageLinkHeader(this)"></a> <a href="javascript:void()" id="cust-page-link2" onclick="customerPageLinkHeader(this)"></a></p> -->
+                  </ng-container>
+               </ng-container>
+               <ng-container *ngIf="has_field">
+                  <ng-container *ngIf="appname =='search_results' && advanced_filters==false">
+                     <h3 id ="cust-page-title">Customers Deep Search Results</h3>
+                     <ng-container *ngIf="can_create_customers";else elseblockid1>
+                     <input id='create-perm' type='text' hidden='1' value='True'/>
+                     <div *ngIf="can_create_customers" class="flex-row-gap-10">
+                        <button data-bs-toggle="tooltip" data-bs-placement="right" title="Create a new customer" style="max-width:200px;border-radius:10px;background:white!important" id="create_btn" value="create_btn" class="btn btn btn-outline-primary shadow" onclick="openCustomerCreateForm()"><span>Create Customer</span></button>
+                        <a style="max-width:120px;border-radius:10px;background:white!important" href="javascript:loadDrafts()" value = "drafts_form" id="admin_users_loc" class="btn btn-outline-primary shadow" data-original-title="" title=""><span class="nk-menu-text">Drafts</span></a>
+                     </div>
+                  </ng-container>
+                  <ng-container #elseblockid1><input id='create-perm' type='text' hidden='1' value='False'/></ng-container>
+                  <ul class="tagList" id ="search-tag-list"></ul>
+               </ng-container>
+               </ng-container>
+               <ng-container *ngIf="advanced_filters">
+                  <h3 id ="cust-page-title">Customers Advanced Filtering</h3>
+                  <ng-container *ngIf="can_create_customers";else elseblockid2>
+                  <input id='create-perm' type='text' hidden='1' value='True'/>
+                  <div *ngIf="can_create_customers" class="flex-row-gap-10">
+                     <button data-bs-toggle="tooltip" data-bs-placement="right" title="Create a new customer" style="max-width:200px;border-radius:10px;background:white!important" id="create_btn" value="create_btn" class="btn btn btn-outline-primary shadow" onclick="getCache(this.getAttribute('value'),'create')"><span>Create Customer</span></button>
+                     <a style="max-width:120px;border-radius:10px;background:white!important" href="javascript:loadDrafts()" value = "drafts_form" id="admin_users_loc" class="btn btn-outline-primary shadow" data-original-title="" title=""><span class="nk-menu-text">Drafts</span></a>
+                  </div>
+               </ng-container>
+               <ng-container #elseblockid2><input id='create-perm' type='text' hidden='1' value='False'/></ng-container>
+               <ul class="tagList" id="search-tag-list">
+                 <li class="option-item "><a style="color:gray;" href="javascript:void(0)" id="cust-page-link1" onclick="customerPageLinkHeader(this)">Prepaid: 160,418</a></li>
+                 <li class="option-item "><a style="color:gray;" href="javascript:void(0)" id="cust-page-link2" onclick="customerPageLinkHeader(this)">Postpaid</a></li>
+                 </ul>
+               </ng-container>
+            </div>
+         </div>
+         <div class="nk-block-head-content">
+           <div class="toggle-wrap nk-block-tools-toggle">
+               <a class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu"><em class="icon ni ni-menu-alt-r"></em></a>
+               <div class="toggle-expand-content show" data-content="pageMenu">
+                   <ul class="nk-block-tools g-3">
+                       <li *ngIf="can_create_customers"><a (click)="openCustomerCreateForm()" data-bs-toggle="tooltip" data-bs-placement="left" title="Create a new customer"  class="btn btn-white btn-outline-light"><em class="icon ni ni-download-cloud"></em><span>New Customer</span></a></li>
+                       <li *ngIf="can_create_customers" class="nk-block-tools-opt">
+                           <a data-bs-toggle="tooltip" data-bs-placement="bottom" title="Create a new draft" href="javascript:loadDrafts()" class="btn btn-icon btn-primary" ><em class="icon ni ni-file-text"></em></a>
+                       </li>
+                       <li data-bs-toggle="tooltip" data-bs-placement="left" title="Advanced Filtering">
+                          <div class="dropdown">
+                             <a href="javascript:void(0)" (click)="getLocations('regions','')" class="btn btn-trigger btn-icon dropdown-toggle" data-bs-toggle="dropdown">
+                                <div class="dot dot-primary"></div>
+                                <em class="icon ni ni-filter-alt"></em>
+                             </a>
+                             <div style="z-index:4000" class="zindex dropdown-menu dropdown-menu-xl dropdown-menu-end">
+                                <div class="dropdown-head">
+                                   <span class="sub-title dropdown-title">Filter Customers</span>
+                                   <div class="dropdown"><a href="#" class="btn btn-sm btn-icon"><em class="icon ni ni-more-h"></em></a></div>
+                                </div>
+                                <div  class="dropdown-body dropdown-body-rg">
+                                   <div class="row gx-6 gy-3">
+                                      <form class="form-validate is-alter row gx-6 gy-3" autocomplete="off" (ngSubmit)="submitFilter()" ngNativeValidate>
+                                         <div class="col-6">
+                                            <div class="form-group">
+                                               <label class="overline-title overline-title-alt">Account Type</label>
+                                               <select [(ngModel)]="filter.accounttype" name="accounttype" class="form-select " data-select2-id="4" tabindex="-1">
+                                                  <option value="prepaid">Prepaid</option>
+                                                  <option value="postpaid">Postpaid</option>
+                                               </select>
+                                            </div>
+                                         </div>
+                                         <div class="col-6">
+                                            <div class="form-group">
+                                               <label class="overline-title overline-title-alt">Kyc</label>
+                                               <select [(ngModel)]="filter.kyc" name="kyc" class="form-select " data-select2-id="kyc" tabindex="-1">
+                                                  <option value="1">Complaint</option>
+                                                  <option value="0">Non-compliant</option>
+                                               </select>
+                                            </div>
+                                         </div>
+                                         <div class="col-12">
+                                            <div class="form-group">
+                                               <label class="overline-title overline-title-alt">Status Code</label>
+                                               <select [(ngModel)]="filter.statuscode" name="statuscode" class="form-select " data-select2-id="4" tabindex="-1">
+                                                  <option value="A">Active</option>
+                                                  <option value="p">Prepaid</option>
+                                                  <option value="I">In-Active</option>
+                                                  <option value="S">Suspended</option>
+                                               </select>
+                                            </div>
+                                         </div>
+                                         <div class="col-6">
+                                            <div class="form-group">
+                                               <label class="overline-title overline-title-alt">Region</label>
+                                               <select (change)="getLocations('business_unit',$event)" [(ngModel)]="filter.state" name="state" class="form-select " data-select2-id="state" tabindex="-1">
+                                                  <option *ngFor="let region of regions;" [value]="region.name">{{region.name}}</option>
+                                               </select>
+                                            </div>
+                                         </div>
+                                         <div class="col-6">
+                                            <div class="form-group">
+                                               <label class="overline-title overline-title-alt">Business Hub</label>
+                                               <select (change)="getLocations('servicecenter',$event)" [(ngModel)]="filter.buid" name="buid" class="form-select " data-select2-id="buid" tabindex="-1">
+                                                  <option *ngFor="let business_unit of business_units;" [value]="business_unit.name">{{business_unit.name}}</option>
+                                               </select>
+                                            </div>
+                                         </div>
+                                         <div class="col-6">
+                                            <div class="form-group">
+                                               <label class="overline-title overline-title-alt">Service Center</label>
+                                               <select [(ngModel)]="filter.servicecenter" name="servicecenter" class="form-select " data-select2-id="servicecenter" tabindex="-1">
+                                                  <option *ngFor="let servicecenter of service_centers;" [value]="servicecenter.name">{{servicecenter.name}}</option>
+                                               </select>
+                                            </div>
+                                         </div>
+                                         
+                                         <div class="col-6">
+                                            <div class="form-group">
+                                               <label class="overline-title overline-title-alt">Feeders</label>
+                                               <input [(ngModel)]="filter.feeder" name="feeder" type="text" class="form-control" placeholder="Feeder name"/>
+                                            </div>
+                                         </div>
+                                         <div class="col-12">
+                                            <div class="form-group">
+                                               <label class="overline-title overline-title-alt">DSS</label>
+                                               <input [(ngModel)]="filter.dss" name="dss" type="text" class="form-control" placeholder="DSS name"/>
+                                            </div>
+                                         </div>
+                                         <div class="col-6">
+                                            <div class="form-group">
+                                               <label class="overline-title overline-title-alt">Created/From</label>
+                                               <input [(ngModel)]="filter.start_date" name="start_date" type="date" class="form-control" />
+                                            </div>
+                                         </div>
+                                         <div class="col-6">
+                                            <div class="form-group">
+                                               <label class="overline-title overline-title-alt">Created/To</label>
+                                               <input [(ngModel)]="filter.end_date" name="end_date" type="date" class="form-control" />
+                                            </div>
+                                         </div>
+                                         <div class="col-12">
+                                            <div class="form-group"><button type="submit" class="btn btn-secondary">Filter</button></div>
+                                         </div>
+                                      </form>
+                                      
+                                   </div>
+                                </div>
+                                <div class="dropdown-foot between"><a class="clickable" (click)="resetFilter()" href="javscript:void(0)">Reset Filter</a><a href="#">Save Filter</a></div>
+                             </div>
+                          </div>
+                       </li>
+                   </ul>
+               </div>
+           </div>
+       </div>
+       
+         <!-- .nk-block-head-content -->
+         <!-- <div class="nk-block-head-content">
             <div class="toggle-wrap nk-block-tools-toggle">
-                <a class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu"><em class="icon ni ni-menu-alt-r"></em></a>
-                <div class="toggle-expand-content show" data-content="pageMenu">
-                    <ul class="nk-block-tools g-3">
-                        <li *ngIf="can_create_customers"><a (click)="openCustomerCreateForm()" data-bs-toggle="tooltip" data-bs-placement="left" title="Create a new customer"  class="btn btn-white btn-outline-light"><em class="icon ni ni-download-cloud"></em><span>New Customer</span></a></li>
-                        <li *ngIf="can_create_customers" class="nk-block-tools-opt">
-                            <a data-bs-toggle="tooltip" data-bs-placement="bottom" title="Create a new draft" href="javascript:loadDrafts()" class="btn btn-icon btn-primary" ><em class="icon ni ni-file-text"></em></a>
-                        </li>
-                        <li data-bs-toggle="tooltip" data-bs-placement="left" title="Advanced Filtering">
+               <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>
+               <div  class="toggle-expand-content" data-content="pageMenu">
+                  <ul class="nk-block-tools g-3">
+                     
+                     <li>
+                        <div style="display:flex!important;flex-direction:row!important;flex-wrap: wrap!important;gap:5px;" >
                            <div class="dropdown">
-                              <a href="javascript:void(0)" (click)="getLocations('regions','')" class="btn btn-trigger btn-icon dropdown-toggle" data-bs-toggle="dropdown">
-                                 <div class="dot dot-primary"></div>
-                                 <em class="icon ni ni-filter-alt"></em>
-                              </a>
-                              <div style="z-index:4000" class="zindex dropdown-menu dropdown-menu-xl dropdown-menu-end">
-                                 <div class="dropdown-head">
-                                    <span class="sub-title dropdown-title">Filter Customers</span>
-                                    <div class="dropdown"><a href="#" class="btn btn-sm btn-icon"><em class="icon ni ni-more-h"></em></a></div>
-                                 </div>
-                                 <div  class="dropdown-body dropdown-body-rg">
-                                    <div class="row gx-6 gy-3">
-                                       <form class="form-validate is-alter row gx-6 gy-3" autocomplete="off" (ngSubmit)="submitFilter()" ngNativeValidate>
-                                          <div class="col-6">
-                                             <div class="form-group">
-                                                <label class="overline-title overline-title-alt">Account Type</label>
-                                                <select [(ngModel)]="filter.accounttype" name="accounttype" class="form-select " data-select2-id="4" tabindex="-1">
-                                                   <option value="prepaid">Prepaid</option>
-                                                   <option value="postpaid">Postpaid</option>
-                                                </select>
-                                             </div>
-                                          </div>
-                                          <div class="col-6">
-                                             <div class="form-group">
-                                                <label class="overline-title overline-title-alt">Kyc</label>
-                                                <select [(ngModel)]="filter.kyc" name="kyc" class="form-select " data-select2-id="kyc" tabindex="-1">
-                                                   <option value="1">Complaint</option>
-                                                   <option value="0">Non-compliant</option>
-                                                </select>
-                                             </div>
-                                          </div>
-                                          <div class="col-12">
-                                             <div class="form-group">
-                                                <label class="overline-title overline-title-alt">Status Code</label>
-                                                <select [(ngModel)]="filter.statuscode" name="statuscode" class="form-select " data-select2-id="4" tabindex="-1">
-                                                   <option value="A">Active</option>
-                                                   <option value="p">Prepaid</option>
-                                                   <option value="I">In-Active</option>
-                                                   <option value="S">Suspended</option>
-                                                </select>
-                                             </div>
-                                          </div>
-                                          <div class="col-6">
-                                             <div class="form-group">
-                                                <label class="overline-title overline-title-alt">Region</label>
-                                                <select (change)="getLocations('business_unit',$event)" [(ngModel)]="filter.state" name="state" class="form-select " data-select2-id="state" tabindex="-1">
-                                                   <option *ngFor="let region of regions;" [value]="region.name">{{region.name}}</option>
-                                                </select>
-                                             </div>
-                                          </div>
-                                          <div class="col-6">
-                                             <div class="form-group">
-                                                <label class="overline-title overline-title-alt">Business Hub</label>
-                                                <select (change)="getLocations('servicecenter',$event)" [(ngModel)]="filter.buid" name="buid" class="form-select " data-select2-id="buid" tabindex="-1">
-                                                   <option *ngFor="let business_unit of business_units;" [value]="business_unit.name">{{business_unit.name}}</option>
-                                                </select>
-                                             </div>
-                                          </div>
-                                          <div class="col-6">
-                                             <div class="form-group">
-                                                <label class="overline-title overline-title-alt">Service Center</label>
-                                                <select [(ngModel)]="filter.servicecenter" name="servicecenter" class="form-select " data-select2-id="servicecenter" tabindex="-1">
-                                                   <option *ngFor="let servicecenter of service_centers;" [value]="servicecenter.name">{{servicecenter.name}}</option>
-                                                </select>
-                                             </div>
-                                          </div>
-                                          
-                                          <div class="col-6">
-                                             <div class="form-group">
-                                                <label class="overline-title overline-title-alt">Feeders</label>
-                                                <input [(ngModel)]="filter.feeder" name="feeder" type="text" class="form-control" placeholder="Feeder name"/>
-                                             </div>
-                                          </div>
-                                          <div class="col-12">
-                                             <div class="form-group">
-                                                <label class="overline-title overline-title-alt">DSS</label>
-                                                <input [(ngModel)]="filter.dss" name="dss" type="text" class="form-control" placeholder="DSS name"/>
-                                             </div>
-                                          </div>
-                                          <div class="col-6">
-                                             <div class="form-group">
-                                                <label class="overline-title overline-title-alt">Created/From</label>
-                                                <input [(ngModel)]="filter.start_date" name="start_date" type="date" class="form-control" />
-                                             </div>
-                                          </div>
-                                          <div class="col-6">
-                                             <div class="form-group">
-                                                <label class="overline-title overline-title-alt">Created/To</label>
-                                                <input [(ngModel)]="filter.end_date" name="end_date" type="date" class="form-control" />
-                                             </div>
-                                          </div>
-                                          <div class="col-12">
-                                             <div class="form-group"><button type="submit" class="btn btn-secondary">Filter</button></div>
-                                          </div>
-                                       </form>
-                                       
-                                    </div>
-                                 </div>
-                                 <div class="dropdown-foot between"><a class="clickable" (click)="resetFilter()" href="javscript:void(0)">Reset Filter</a><a href="#">Save Filter</a></div>
+                              <a style="height:45px;" href="#" class="dropdown-toggle btn shadow" id="kyc_filter" data-bs-toggle="dropdown" aria-expanded="false">KYC Compliance &nbsp;&nbsp;<em class="dd-indc icon ni ni-chevron-right"></em></a>
+                              <div class="dropdown-menu">
+                                 <ul class="link-list-opt">
+                                    <li><a value="0" onclick="setdropdown('kyc_filter',this,callback=true,callback_args=0)" href="#"><i style="color:black;font-size:16px;" class="material-icons">verified</i> &amp;nbsp<span id="kyc_icon">Verified</span></a></li>
+                                    <li><a value="1" onclick="setdropdown('kyc_filter',this,callback=true,callback_args=1)" href="#"><i style="color:black;font-size:16px;" class="material-icons">block</i> &amp;nbsp<span id = "kyc_block">Unverified</span></a></li>
+                                 </ul>
+                              </div>
+                           </div>
+                           <div class="dropdown">
+                              <a style="height:45px;" id="account_type_filter" href="#" class="dropdown-toggle btn shadow" data-bs-toggle="dropdown" aria-expanded="false">Account Type &nbsp;&nbsp;<em class="dd-indc icon ni ni-chevron-right"></em></a>
+                              <div class="dropdown-menu">
+                                 <ul class="link-list-opt">
+                                    <li><a href="#" value="Prepaid" onclick="setdropdown('account_type_filter',this)"><span>Prepaid</span></a></li>
+                                    <li><a href="#" value="Postpaid" onclick="setdropdown('account_type_filter',this)"><span>Postpaid</span></a></li>
+                                 </ul>
+                              </div>
+                           </div>
+                           <div class="dropdown">
+                              <a style="height:45px;" id="status_code_filter" href="#" class="dropdown-toggle btn shadow" data-bs-toggle="dropdown" aria-expanded="false">Status Code &nbsp;&nbsp;<em class="dd-indc icon ni ni-chevron-right"></em></a>
+                              <div class="dropdown-menu">
+                                 <ul class="link-list-opt">
+                                    <li><a href="#" value="A" onclick="setdropdown('status_code_filter',this)"><span>Active (A)</span></a></li>
+                                    <li><a href="#" value="I" onclick="setdropdown('status_code_filter',this)"><span>Inactive (I)</span></a></li>
+                                    <li><a href="#" value="P" onclick="setdropdown('status_code_filter',this)"><span>Prepaid (P)</span></a></li>
+                                    <li><a href="#" value="S" onclick="setdropdown('status_code_filter',this)"><span>Suspended (S)</span></a></li>
+                                 </ul>
+                              </div>
+                           </div>
+                             <div class="dropdown">
+                                <a href="javascript:void(0)" (click)="getLocations('regions','')" class="btn btn-trigger btn-icon dropdown-toggle" data-bs-toggle="dropdown">
+                                   <div class="dot dot-primary"></div>
+                                   <em class="icon ni ni-filter-alt"></em>
+                                </a>
+                                <div style="z-index:4000" class="zindex dropdown-menu dropdown-menu-xl dropdown-menu-end">
+                                   <div class="dropdown-head">
+                                      <span class="sub-title dropdown-title">Filter Customers</span>
+                                      <div class="dropdown"><a href="#" class="btn btn-sm btn-icon"><em class="icon ni ni-more-h"></em></a></div>
+                                   </div>
+                                   <div  class="dropdown-body dropdown-body-rg">
+                                      <div class="row gx-6 gy-3">
+                                         <form class="form-validate is-alter row gx-6 gy-3" autocomplete="off" (ngSubmit)="submitFilter()" ngNativeValidate>
+                                            <div class="col-6">
+                                               <div class="form-group">
+                                                  <label class="overline-title overline-title-alt">Account Type</label>
+                                                  <select [(ngModel)]="filter.accounttype" name="accounttype" class="form-select " data-select2-id="4" tabindex="-1">
+                                                     <option value="prepaid">Prepaid</option>
+                                                     <option value="postpaid">Postpaid</option>
+                                                  </select>
+                                               </div>
+                                            </div>
+                                            <div class="col-6">
+                                               <div class="form-group">
+                                                  <label class="overline-title overline-title-alt">Kyc</label>
+                                                  <select [(ngModel)]="filter.kyc" name="kyc" class="form-select " data-select2-id="kyc" tabindex="-1">
+                                                     <option value="1">Complaint</option>
+                                                     <option value="0">Non-compliant</option>
+                                                  </select>
+                                               </div>
+                                            </div>
+                                            <div class="col-12">
+                                               <div class="form-group">
+                                                  <label class="overline-title overline-title-alt">Status Code</label>
+                                                  <select [(ngModel)]="filter.statuscode" name="statuscode" class="form-select " data-select2-id="4" tabindex="-1">
+                                                     <option value="A">Active</option>
+                                                     <option value="p">Prepaid</option>
+                                                     <option value="I">In-Active</option>
+                                                     <option value="S">Suspended</option>
+                                                  </select>
+                                               </div>
+                                            </div>
+                                            <div class="col-6">
+                                               <div class="form-group">
+                                                  <label class="overline-title overline-title-alt">Region</label>
+                                                  <select (change)="getLocations('business_unit',$event)" [(ngModel)]="filter.state" name="state" class="form-select " data-select2-id="state" tabindex="-1">
+                                                     <option *ngFor="let region of regions;" [value]="region.name">{{region.name}}</option>
+                                                  </select>
+                                               </div>
+                                            </div>
+                                            <div class="col-6">
+                                               <div class="form-group">
+                                                  <label class="overline-title overline-title-alt">Business Hub</label>
+                                                  <select (change)="getLocations('servicecenter',$event)" [(ngModel)]="filter.buid" name="buid" class="form-select " data-select2-id="buid" tabindex="-1">
+                                                     <option *ngFor="let business_unit of business_units;" [value]="business_unit.name">{{business_unit.name}}</option>
+                                                  </select>
+                                               </div>
+                                            </div>
+                                            <div class="col-6">
+                                               <div class="form-group">
+                                                  <label class="overline-title overline-title-alt">Service Center</label>
+                                                  <select [(ngModel)]="filter.servicecenter" name="servicecenter" class="form-select " data-select2-id="servicecenter" tabindex="-1">
+                                                     <option *ngFor="let servicecenter of service_centers;" [value]="servicecenter.name">{{servicecenter.name}}</option>
+                                                  </select>
+                                               </div>
+                                            </div>
+                                            
+                                            <div class="col-6">
+                                               <div class="form-group">
+                                                  <label class="overline-title overline-title-alt">Feeders</label>
+                                                  <input [(ngModel)]="filter.feeder" name="feeder" type="text" class="form-control" placeholder="Feeder name"/>
+                                               </div>
+                                            </div>
+                                            <div class="col-12">
+                                               <div class="form-group">
+                                                  <label class="overline-title overline-title-alt">DSS</label>
+                                                  <input [(ngModel)]="filter.dss" name="dss" type="text" class="form-control" placeholder="DSS name"/>
+                                               </div>
+                                            </div>
+                                            <div class="col-6">
+                                               <div class="form-group">
+                                                  <label class="overline-title overline-title-alt">Created/From</label>
+                                                  <input [(ngModel)]="filter.start_date" name="start_date" type="date" class="form-control" />
+                                               </div>
+                                            </div>
+                                            <div class="col-6">
+                                               <div class="form-group">
+                                                  <label class="overline-title overline-title-alt">Created/To</label>
+                                                  <input [(ngModel)]="filter.end_date" name="end_date" type="date" class="form-control" />
+                                               </div>
+                                            </div>
+                                            <div class="col-12">
+                                               <div class="form-group"><button type="submit" class="btn btn-secondary">Filter</button></div>
+                                            </div>
+                                         </form>
+                                         
+                                      </div>
+                                   </div>
+                                   <div class="dropdown-foot between"><a class="clickable" (click)="resetFilter()" href="javscript:void(0)">Reset Filter</a><a href="#">Save Filter</a></div>
+                                </div>
+                             </div>
+                           <div class="btn-group">
+                              <a type="button" id="filter_search_btn" style="width:75px;color:black;background:white!important;border-color: #FF7518;" class="btn" onclick="customerfilterSearch()">Search</a>
+                              <button  style="border-top-left-radius:0px!important;height:45px;opacity:0.65" type="button" class="btn btn-primary dropdown dropdown-toggle-split" data-toggle="dropdown"><i class="material-icons">arrow_drop_down</i></button>
+                              <div class="dropdown-menu">
+                                 <a href="javascript:openChainFiltersModal()" class="dropdown-item" >Chain Filters</a>
+                              </div>
+                           </div>
+                        </div>
+                     </li>
+                  </ul>
+               </div>
+            </div>
+         </div> -->
+      </div>
+      <!-- .nk-block-between -->
+   </div>
+   <div style="height:98%" class="nk-block">
+       <div class="card card-bordered">
+         <div class="card-inner-group">
+            <div style="max-height:850px;overflow-y:auto;overflow-x:hidden;" class="card-inner position-relative card-tools-toggle">
+               <div class="card-title-group">
+                  <div class="card-tools">
+                     <div class="form-inline flex-nowrap">
+                        <div class="form-wrap w-150px">
+                           <select style="width:150px;" class="form-select" data-search="off" data-placeholder="Oyo" >
+                              <option value="" data-select2-id="3">Oyo</option>
+                              <option value="email">Osun</option>
+                              <option value="group">Ogun</option>
+                              <option value="suspend">Kwara</option>
+                              <!-- <option value="delete">Delete User</option> -->
+                           </select>
+                        </div>&nbsp;
+                        <div class="btn-wrap"><span class="d-none d-md-block"><button  class="btn btn-dim btn-outline-light">Toggle View</button></span><span class="d-md-none"><button class="btn btn-dim btn-outline-light btn-icon disabled"><em class="icon ni ni-arrow-right"></em></button></span></div>
+                     </div>
+                  </div>
+                  <div class="card-tools me-n1">
+                     <ul class="btn-toolbar gx-1">
+                        <li><a href="#" class="btn btn-icon search-toggle toggle-search" data-target="search"><em class="icon ni ni-search"></em></a></li>
+                        <li class="btn-toolbar-sep"></li>
+                        <li>
+                           <div class="toggle-wrap">
+                              <a href="#" class="btn btn-icon btn-trigger toggle" data-target="cardTools"><em class="icon ni ni-menu-right"></em></a>
+                              <div class="toggle-content" data-content="cardTools">
+                                 <ul class="btn-toolbar gx-1">
+                                    
+                                 </ul>
                               </div>
                            </div>
                         </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        
-          <!-- .nk-block-head-content -->
-          <!-- <div class="nk-block-head-content">
-             <div class="toggle-wrap nk-block-tools-toggle">
-                <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>
-                <div  class="toggle-expand-content" data-content="pageMenu">
-                   <ul class="nk-block-tools g-3">
-                      
-                      <li>
-                         <div style="display:flex!important;flex-direction:row!important;flex-wrap: wrap!important;gap:5px;" >
-                            <div class="dropdown">
-                               <a style="height:45px;" href="#" class="dropdown-toggle btn shadow" id="kyc_filter" data-bs-toggle="dropdown" aria-expanded="false">KYC Compliance &nbsp;&nbsp;<em class="dd-indc icon ni ni-chevron-right"></em></a>
-                               <div class="dropdown-menu">
-                                  <ul class="link-list-opt">
-                                     <li><a value="0" onclick="setdropdown('kyc_filter',this,callback=true,callback_args=0)" href="#"><i style="color:black;font-size:16px;" class="material-icons">verified</i> &amp;nbsp<span id="kyc_icon">Verified</span></a></li>
-                                     <li><a value="1" onclick="setdropdown('kyc_filter',this,callback=true,callback_args=1)" href="#"><i style="color:black;font-size:16px;" class="material-icons">block</i> &amp;nbsp<span id = "kyc_block">Unverified</span></a></li>
-                                  </ul>
-                               </div>
-                            </div>
-                            <div class="dropdown">
-                               <a style="height:45px;" id="account_type_filter" href="#" class="dropdown-toggle btn shadow" data-bs-toggle="dropdown" aria-expanded="false">Account Type &nbsp;&nbsp;<em class="dd-indc icon ni ni-chevron-right"></em></a>
-                               <div class="dropdown-menu">
-                                  <ul class="link-list-opt">
-                                     <li><a href="#" value="Prepaid" onclick="setdropdown('account_type_filter',this)"><span>Prepaid</span></a></li>
-                                     <li><a href="#" value="Postpaid" onclick="setdropdown('account_type_filter',this)"><span>Postpaid</span></a></li>
-                                  </ul>
-                               </div>
-                            </div>
-                            <div class="dropdown">
-                               <a style="height:45px;" id="status_code_filter" href="#" class="dropdown-toggle btn shadow" data-bs-toggle="dropdown" aria-expanded="false">Status Code &nbsp;&nbsp;<em class="dd-indc icon ni ni-chevron-right"></em></a>
-                               <div class="dropdown-menu">
-                                  <ul class="link-list-opt">
-                                     <li><a href="#" value="A" onclick="setdropdown('status_code_filter',this)"><span>Active (A)</span></a></li>
-                                     <li><a href="#" value="I" onclick="setdropdown('status_code_filter',this)"><span>Inactive (I)</span></a></li>
-                                     <li><a href="#" value="P" onclick="setdropdown('status_code_filter',this)"><span>Prepaid (P)</span></a></li>
-                                     <li><a href="#" value="S" onclick="setdropdown('status_code_filter',this)"><span>Suspended (S)</span></a></li>
-                                  </ul>
-                               </div>
-                            </div>
-                              <div class="dropdown">
-                                 <a href="javascript:void(0)" (click)="getLocations('regions','')" class="btn btn-trigger btn-icon dropdown-toggle" data-bs-toggle="dropdown">
-                                    <div class="dot dot-primary"></div>
-                                    <em class="icon ni ni-filter-alt"></em>
-                                 </a>
-                                 <div style="z-index:4000" class="zindex dropdown-menu dropdown-menu-xl dropdown-menu-end">
-                                    <div class="dropdown-head">
-                                       <span class="sub-title dropdown-title">Filter Customers</span>
-                                       <div class="dropdown"><a href="#" class="btn btn-sm btn-icon"><em class="icon ni ni-more-h"></em></a></div>
-                                    </div>
-                                    <div  class="dropdown-body dropdown-body-rg">
-                                       <div class="row gx-6 gy-3">
-                                          <form class="form-validate is-alter row gx-6 gy-3" autocomplete="off" (ngSubmit)="submitFilter()" ngNativeValidate>
-                                             <div class="col-6">
-                                                <div class="form-group">
-                                                   <label class="overline-title overline-title-alt">Account Type</label>
-                                                   <select [(ngModel)]="filter.accounttype" name="accounttype" class="form-select " data-select2-id="4" tabindex="-1">
-                                                      <option value="prepaid">Prepaid</option>
-                                                      <option value="postpaid">Postpaid</option>
-                                                   </select>
-                                                </div>
+                        `
+                        <li>
+                           <div class="nk-block-head-content">
+                              <div class="toggle-wrap nk-block-tools-toggle">
+                                 <a href="#" class="btn btn-icon btn-trigger toggle-expand" data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>
+                                 <!-- <div  class="toggle-expand-content" data-content="pageMenu">
+                                    <ul class="nk-block-tools g-3">
+                                       <li>
+                                          <div style="height:45px;" class="dropdown">
+                                             <a href="#" style="height:45px; font-size:16px;padding:5px;" class="dropdown-toggle btn  exportbtn shadow" data-bs-toggle="dropdown" aria-expanded="false"> &nbsp;<i class="material-icons">cloud_download</i> &nbsp; Export&nbsp;&nbsp;<em class="dd-indc icon ni ni-chevron-right"></em></a>
+                                             <div class="dropdown-menu dropdown-menu-right">
+                                                <ul class="link-list-opt">
+                                                   <li><a href="#" onclick="tableExports(1)"><span>CSV</span></a></li>
+                                                   <li><a href="#" onclick="tableExports(2)"><span>Excel</span></a></li>
+                                                   <li><a href="#" onclick="tableExports(3)"><span>PDF</span></a></li>
+                                                </ul>
                                              </div>
-                                             <div class="col-6">
-                                                <div class="form-group">
-                                                   <label class="overline-title overline-title-alt">Kyc</label>
-                                                   <select [(ngModel)]="filter.kyc" name="kyc" class="form-select " data-select2-id="kyc" tabindex="-1">
-                                                      <option value="1">Complaint</option>
-                                                      <option value="0">Non-compliant</option>
-                                                   </select>
-                                                </div>
-                                             </div>
-                                             <div class="col-12">
-                                                <div class="form-group">
-                                                   <label class="overline-title overline-title-alt">Status Code</label>
-                                                   <select [(ngModel)]="filter.statuscode" name="statuscode" class="form-select " data-select2-id="4" tabindex="-1">
-                                                      <option value="A">Active</option>
-                                                      <option value="p">Prepaid</option>
-                                                      <option value="I">In-Active</option>
-                                                      <option value="S">Suspended</option>
-                                                   </select>
-                                                </div>
-                                             </div>
-                                             <div class="col-6">
-                                                <div class="form-group">
-                                                   <label class="overline-title overline-title-alt">Region</label>
-                                                   <select (change)="getLocations('business_unit',$event)" [(ngModel)]="filter.state" name="state" class="form-select " data-select2-id="state" tabindex="-1">
-                                                      <option *ngFor="let region of regions;" [value]="region.name">{{region.name}}</option>
-                                                   </select>
-                                                </div>
-                                             </div>
-                                             <div class="col-6">
-                                                <div class="form-group">
-                                                   <label class="overline-title overline-title-alt">Business Hub</label>
-                                                   <select (change)="getLocations('servicecenter',$event)" [(ngModel)]="filter.buid" name="buid" class="form-select " data-select2-id="buid" tabindex="-1">
-                                                      <option *ngFor="let business_unit of business_units;" [value]="business_unit.name">{{business_unit.name}}</option>
-                                                   </select>
-                                                </div>
-                                             </div>
-                                             <div class="col-6">
-                                                <div class="form-group">
-                                                   <label class="overline-title overline-title-alt">Service Center</label>
-                                                   <select [(ngModel)]="filter.servicecenter" name="servicecenter" class="form-select " data-select2-id="servicecenter" tabindex="-1">
-                                                      <option *ngFor="let servicecenter of service_centers;" [value]="servicecenter.name">{{servicecenter.name}}</option>
-                                                   </select>
-                                                </div>
-                                             </div>
-                                             
-                                             <div class="col-6">
-                                                <div class="form-group">
-                                                   <label class="overline-title overline-title-alt">Feeders</label>
-                                                   <input [(ngModel)]="filter.feeder" name="feeder" type="text" class="form-control" placeholder="Feeder name"/>
-                                                </div>
-                                             </div>
-                                             <div class="col-12">
-                                                <div class="form-group">
-                                                   <label class="overline-title overline-title-alt">DSS</label>
-                                                   <input [(ngModel)]="filter.dss" name="dss" type="text" class="form-control" placeholder="DSS name"/>
-                                                </div>
-                                             </div>
-                                             <div class="col-6">
-                                                <div class="form-group">
-                                                   <label class="overline-title overline-title-alt">Created/From</label>
-                                                   <input [(ngModel)]="filter.start_date" name="start_date" type="date" class="form-control" />
-                                                </div>
-                                             </div>
-                                             <div class="col-6">
-                                                <div class="form-group">
-                                                   <label class="overline-title overline-title-alt">Created/To</label>
-                                                   <input [(ngModel)]="filter.end_date" name="end_date" type="date" class="form-control" />
-                                                </div>
-                                             </div>
-                                             <div class="col-12">
-                                                <div class="form-group"><button type="submit" class="btn btn-secondary">Filter</button></div>
-                                             </div>
-                                          </form>
-                                          
-                                       </div>
-                                    </div>
-                                    <div class="dropdown-foot between"><a class="clickable" (click)="resetFilter()" href="javscript:void(0)">Reset Filter</a><a href="#">Save Filter</a></div>
-                                 </div>
+                                          </div>
+                                       </li>
+                                    </ul>
+                                 </div> -->
                               </div>
-                            <div class="btn-group">
-                               <a type="button" id="filter_search_btn" style="width:75px;color:black;background:white!important;border-color: #FF7518;" class="btn" onclick="customerfilterSearch()">Search</a>
-                               <button  style="border-top-left-radius:0px!important;height:45px;opacity:0.65" type="button" class="btn btn-primary dropdown dropdown-toggle-split" data-toggle="dropdown"><i class="material-icons">arrow_drop_down</i></button>
-                               <div class="dropdown-menu">
-                                  <a href="javascript:openChainFiltersModal()" class="dropdown-item" >Chain Filters</a>
-                               </div>
-                            </div>
-                         </div>
-                      </li>
-                   </ul>
-                </div>
-             </div>
-          </div> -->
-       </div>
-       <!-- .nk-block-between -->
-    </div>
-    <div style="height:98%" class="nk-block">
-        <div class="card card-bordered">
-          <div class="card-inner-group">
-             <div style="max-height:800px;overflow-y:auto;overflow-x:hidden;" class="card-inner position-relative card-tools-toggle">
-                <div class="card-title-group">
-                   <div class="card-tools">
-                      <div class="form-inline flex-nowrap">
-                         <div class="form-wrap w-150px">
-                            <select style="width:150px;" class="form-select" data-search="off" data-placeholder="Oyo" >
-                               <option value="" data-select2-id="3">Oyo</option>
-                               <option value="email">Osun</option>
-                               <option value="group">Ogun</option>
-                               <option value="suspend">Kwara</option>
-                               <!-- <option value="delete">Delete User</option> -->
-                            </select>
-                         </div>&nbsp;
-                         <div class="btn-wrap"><span class="d-none d-md-block"><button  class="btn btn-dim btn-outline-light">Toggle View</button></span><span class="d-md-none"><button class="btn btn-dim btn-outline-light btn-icon disabled"><em class="icon ni ni-arrow-right"></em></button></span></div>
-                      </div>
-                   </div>
-                   <div class="card-tools me-n1">
-                      <ul class="btn-toolbar gx-1">
-                         <li><a href="#" class="btn btn-icon search-toggle toggle-search" data-target="search"><em class="icon ni ni-search"></em></a></li>
-                         <li class="btn-toolbar-sep"></li>
-                         <li>
-                            <div class="toggle-wrap">
-                               <a href="#" class="btn btn-icon btn-trigger toggle" data-target="cardTools"><em class="icon ni ni-menu-right"></em></a>
-                               <div class="toggle-content" data-content="cardTools">
-                                  <ul class="btn-toolbar gx-1">
-                                     
-                                  </ul>
-                               </div>
-                            </div>
-                         </li>
-                         `
-                         <li>
-                            <div class="nk-block-head-content">
-                               <div class="toggle-wrap nk-block-tools-toggle">
-                                  <a href="#" class="btn btn-icon btn-trigger toggle-expand" data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>
-                                  <div  class="toggle-expand-content" data-content="pageMenu">
-                                     <ul class="nk-block-tools g-3">
-                                        <li>
-                                           <div style="height:45px;" class="dropdown">
-                                              <a href="#" style="height:45px; font-size:16px;padding:5px;" class="dropdown-toggle btn  exportbtn shadow" data-bs-toggle="dropdown" aria-expanded="false"> &nbsp;<i class="material-icons">cloud_download</i> &nbsp; Export&nbsp;&nbsp;<em class="dd-indc icon ni ni-chevron-right"></em></a>
-                                              <div class="dropdown-menu dropdown-menu-right">
-                                                 <ul class="link-list-opt">
-                                                    <li><a href="#" onclick="tableExports(1)"><span>CSV</span></a></li>
-                                                    <li><a href="#" onclick="tableExports(2)"><span>Excel</span></a></li>
-                                                    <li><a href="#" onclick="tableExports(3)"><span>PDF</span></a></li>
-                                                 </ul>
-                                              </div>
-                                           </div>
-                                        </li>
-                                     </ul>
-                                  </div>
-                               </div>
-                            </div>
-                         </li>
-                      </ul>
-                   </div>
-                </div> 
+                           </div>
+                        </li>
+                     </ul>
+                  </div>
+               </div> 
 
-                <div class="nk-block" id="customers_list_view">
-                   <div style="max-width:100%; height:100%">
-                      <!-- <div class="top-header">
-                         <br/>
-                         <br/>
-                         
-                         </div> -->
-                      <div style="width:100%; height:80%;overflow-y:hidden;">
-                         <!-- <div style="width:100%;" > -->
-                         <!-- <input type="hidden" id="context_data" name="context_data" t-att-value="customers"/> -->
-                         <div style="width:100%;border-radius:0px;margin-top:10px; background:transparent" class="top-panel">
-                            <div  class="panel-start flex-row"></div>
-                            <!-- <div style="padding-right:2px;border-radius:10px!important;" class="panel-end flex-row">
-                               <div>
-                                   <span style="margin-right:5px;right:0;max-height:30px;max-width:30px;" class="dropbtn" onclick="loadTransientFields()">
-                                           <i class="material-icons">filter_list</i>
-                                   </span>
-                                   <div style="margin-right:40px;right:0;max-height:60%;overflow-y:auto;min-width:200px;z-index:2" id="myDropdown" class="dropdown-content transient_fields bg-white"> 
-                                       <table id="customersTransientViews" class="dataTable nowrap nk-tb-list is-separate" style="height:75%;min-width:200px;z-index:2">
-                                           <thead style="color:black;" class="bg-white darkify"><th style="text-align:center;font-size:17px;position:sticky;top:0;color:black!important;z-index:2" >Your field preferences</th></thead>
-                                           <ng-container *ngFor="transients" t-as="transient">
-                                               <tr class="nk-tb-item" style="max-width:400px;max-height:10px;font-size:15px;z-index:2">
-                                                   <td class="nk-tb-col">
-                                                       <ng-container *ngIf="transient in defaults";else elseblockid3>
-                                                           <ng-container *ngIf="transient=='Name' or transient=='Account No'";else elseblockid4>
-                                                               <input t-att-name="transientscheckbox" onchange="return removeTableCol(this)" style="width:15px;height:15px;z-index:2" disabled="1" checked="1" class="item" type="checkbox" t-att-id="transient"  t-att-value="transient"/>
-                                                               <label class="item" t-att-for="transient" t-esc="transient"></label>
-                                                           </ng-container>
-                                                           <ng-container #elseblockid4>
-                                                               <input t-att-name="transientscheckbox" onchange="return removeTableCol(this)" style="width:15px;height:15px;z-index:2" checked="1" class="item" type="checkbox" t-att-id="transient"  t-att-value="transient"/>
-                                                               <label class="item" t-att-for="transient" t-esc="transient"></label>
-                                                           </ng-container>
-                                                       </ng-container>
-                                                       <ng-container #elseblockid3>
-                                                           <input t-att-name="transientscheckbox" onchange="return removeTableCol(this)" style="width:15px;height:15px;z-index:2" class="item" type="checkbox" t-att-id="transient"  t-att-value="transient"/>
-                                                           <label class="item" t-att-for="transient" t-esc="transient"></label>
-                                                       </ng-container>
-                                                   </td>
-                                               </tr>
-                                           </ng-container>
-                                       </table>
-                                   </div>
-                               </div>
+               <div class="nk-block" id="customers_list_view">
+                  <div style="max-width:100%; height:100%">
+                     <!-- <div class="top-header">
+                        <br/>
+                        <br/>
+                        
+                        </div> -->
+                     <div style="width:100%; height:80%;overflow-y:hidden;">
+                        <!-- <div style="width:100%;" > -->
+                        <!-- <input type="hidden" id="context_data" name="context_data" t-att-value="customers"/> -->
+                        <div style="width:100%;border-radius:0px;margin-top:10px; background:transparent" class="top-panel">
+                           <div  class="panel-start flex-row"></div>
+                           <!-- <div style="padding-right:2px;border-radius:10px!important;" class="panel-end flex-row">
+                              <div>
+                                  <span style="margin-right:5px;right:0;max-height:30px;max-width:30px;" class="dropbtn" onclick="loadTransientFields()">
+                                          <i class="material-icons">filter_list</i>
+                                  </span>
+                                  <div style="margin-right:40px;right:0;max-height:60%;overflow-y:auto;min-width:200px;z-index:2" id="myDropdown" class="dropdown-content transient_fields bg-white"> 
+                                      <table id="customersTransientViews" class="dataTable nowrap nk-tb-list is-separate" style="height:75%;min-width:200px;z-index:2">
+                                          <thead style="color:black;" class="bg-white darkify"><th style="text-align:center;font-size:17px;position:sticky;top:0;color:black!important;z-index:2" >Your field preferences</th></thead>
+                                          <ng-container *ngFor="transients" t-as="transient">
+                                              <tr class="nk-tb-item" style="max-width:400px;max-height:10px;font-size:15px;z-index:2">
+                                                  <td class="nk-tb-col">
+                                                      <ng-container *ngIf="transient in defaults";else elseblockid3>
+                                                          <ng-container *ngIf="transient=='Name' or transient=='Account No'";else elseblockid4>
+                                                              <input t-att-name="transientscheckbox" onchange="return removeTableCol(this)" style="width:15px;height:15px;z-index:2" disabled="1" checked="1" class="item" type="checkbox" t-att-id="transient"  t-att-value="transient"/>
+                                                              <label class="item" t-att-for="transient" t-esc="transient"></label>
+                                                          </ng-container>
+                                                          <ng-container #elseblockid4>
+                                                              <input t-att-name="transientscheckbox" onchange="return removeTableCol(this)" style="width:15px;height:15px;z-index:2" checked="1" class="item" type="checkbox" t-att-id="transient"  t-att-value="transient"/>
+                                                              <label class="item" t-att-for="transient" t-esc="transient"></label>
+                                                          </ng-container>
+                                                      </ng-container>
+                                                      <ng-container #elseblockid3>
+                                                          <input t-att-name="transientscheckbox" onchange="return removeTableCol(this)" style="width:15px;height:15px;z-index:2" class="item" type="checkbox" t-att-id="transient"  t-att-value="transient"/>
+                                                          <label class="item" t-att-for="transient" t-esc="transient"></label>
+                                                      </ng-container>
+                                                  </td>
+                                              </tr>
+                                          </ng-container>
+                                      </table>
+                                  </div>
+                              </div>
+                              
+                              </div> -->
+                        </div>
+                        <div style="width:auto;max-height: 60vh; overflow: auto;background:transparent!important;">
+                           
+                           <table #myDatatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" role="grid" style="width:100%;background:#f5f6fa;overflow: auto" id="customer_table" class="nowrap nk-tb-list is-separate shadow no-footer dtr-inline responsive collapsed" data-searching="false" data-auto-responsive="true">
+                              <thead style="position:sticky;top:0;" class="table-style-light">
+                                 <tr>
+                                    <th></th>
+                                    <ng-container *ngFor="let transient of transients;">
+                                       <ng-container *ngIf="defaults.includes(transient);else block1">
+                                          <th class="nk-tb-col">{{transient}}</th>
+                                       </ng-container>
+                                       <ng-template #block1>
+                                          <th class="nk-tb-col" hidden>{{transient}}</th>
+                                       </ng-template>
+                                    </ng-container>
+                                    <th>KYC</th>
+                                    <th *ngIf="can_create_customers">Actions</th>
+                                 </tr>
+                              </thead>
+                              <tbody style="background: whitesmoke;" *ngIf="customersType=='prepaid'">
                                
-                               </div> -->
-                         </div>
-                         <div style="width:auto;max-height: 70vh; overflow: auto;background:transparent!important;">
-                            
-                            <table datatable [dtOptions]="dtOptions" role="grid" style="width:100%;background:#f5f6fa;overflow: auto" id="customer_table" class="datatable-init-export nowrap nk-tb-list is-separate shadow dataTable no-footer dtr-inline responsive collapsed" data-searching="false" data-auto-responsive="true">
-                               <thead style="position:sticky;top:0;" class="table-style-light">
-                                  <tr>
-                                     <th></th>
-                                     <ng-container *ngFor="let transient of transients;">
-                                        <ng-container *ngIf="defaults.includes(transient);else block1">
-                                           <th class="nk-tb-col">{{transient}}</th>
-                                        </ng-container>
-                                        <ng-template #block1>
-                                           <th class="nk-tb-col" hidden>{{transient}}</th>
-                                        </ng-template>
-                                     </ng-container>
-                                     <th>KYC</th>
-                                     <th *ngIf="can_create_customers">Actions</th>
-                                  </tr>
-                               </thead>
-                               <tbody style="background: #FF7518;" *ngIf="customersType=='prepaid'">
-                                
-                                 <!-- [ngStyle]="{'background': 'linear-gradient(to bottom, #' + Math.floor(Math.random() * 16777215).toString(16) + ', #' + Math.floor(Math.random() * 16777215).toString(16) + ')'}" -->
-                                  <tr *ngFor="let customer of customers; trackBy: trackByFn" [id]="customer.accountno" (click)="loadCustomerInformation($event,customer.accountno,customer.accounttype)" class="nk-tb-item">
-                                     <td class="nk-tb-col nk-tb-col-check">
-                                        <div style="z-index:0;" class="custom-control custom-control-sm custom-checkbox notext ">
-                                           <input onchange="highlightRow(this,event)" style="z-index:0;padding-top:25px!important;" type="checkbox" class="customer-table-check custom-control-input shadow" id ="customer.accountno.trim()"/>
-                                           <label class="custom-control-label" for="{customer.accountno.trim()}"></label>
-                                           <div  class="user-avatar sm">
-                                              <p class="abbr" *ngIf="customer.surname +' ' + customer.firstname+' ' + customer.othernames != 'null null null'" style="color:white!important;" >{{abbreviateName(customer?.surname +' ' +' ' + customer?.othernames)}}</p>
-                                           </div>
-                                        </div>
-                                     </td>
-                                     <ng-container *ngFor="let transient of transients;">
-                                        <ng-container *ngIf="defaults.includes(transient);else block1">
-                                           <ng-container *ngIf="transient == 'Firstname' || transient == 'Surname' || transient == 'Othernames';else block2">
-                                              <td *ngIf="customer[''+field_names[''+transient]] != '' && customer[''+field_names[''+transient]] != null && customer[''+field_names[''+transient]] != undefined;else block3" class="nk-tb-col name-col"><b>{{customer[''+field_names[''+transient]]}}</b></td>
-                                              <ng-template #block3>
-                                                 <td #block3></td>
-                                              </ng-template>
-                                           </ng-container>
-                                           <ng-template #block2>
-                                              <td *ngIf="transient == 'Account No';else block4"  class="nk-tb-col underline">{{customer[''+field_names[''+transient]]}}</td>
-                                              <ng-template #block4>
-                                                 <ng-container *ngIf="customer[''+field_names[''+transient]] != '' && customer[''+field_names[''+transient]] != null && customer[''+field_names[''+transient]] != undefined;else block5">
-                                                    <ng-container *ngIf="customer[''+field_names[''+transient]].trim() !='';else block6">
-                                                       <td class="nk-tb-col name-col"><b>{{customer[''+field_names[''+transient]]}}</b></td>
-                                                    </ng-container>
-                                                    <ng-template #block6>
-                                                       <td class="nk-tb-col name-col"><b>N/A</b></td>
-                                                    </ng-template>
-                                                 </ng-container>
-                                                 <ng-template #block5>
-                                                    <td></td>
-                                                 </ng-template>
-                                              </ng-template>
-                                           </ng-template>
-                                        </ng-container>
-                                        <ng-template #block1>
-                                           <ng-container *ngIf="customer[''+field_names[''+transient]] != '' && customer[''+field_names[''+transient]] != null && customer[''+field_names[''+transient]] != undefined;else block7">
-                                              <td hidden class="nk-tb-col name-col"><b>{{customer[''+field_names[''+transient]]}}</b></td>
-                                           </ng-container>
-                                           <ng-template #block7>
-                                              <td class="nk-tb-col" hidden>&#x2022;&#x2022;&#x2022;</td>
-                                           </ng-template>
-                                        </ng-template>
-                                     </ng-container>
-                                     <td class="nk-tb-col" *ngIf="customer['kyc']; else block8"><i style="color:#FF7518!important;" class="material-icons">verified</i></td>
-                                     <ng-template #block8>
-                                        <td class="nk-tb-col"><i style="color:#FF7518!important;" class="material-icons">block</i></td>
-                                     </ng-template>
-                                     <td [id]="customer.accountno.trim()" *ngIf="can_create_customers" class="nk-tb-col" (click)="openCustomerUpdateForm($event)">
-                                     <a href="javascript:void(0)"><em class="icon ni ni-edit pointer"></em><span>Edit</span></a>
-                                     </td> 
-                                  </tr>
-                               </tbody>
-                               <tbody style="background: #9722b4;" *ngIf="customersType=='postpaid'">
-                                
-                                 <!-- [ngStyle]="{'background': 'linear-gradient(to bottom, #' + Math.floor(Math.random() * 16777215).toString(16) + ', #' + Math.floor(Math.random() * 16777215).toString(16) + ')'}" -->
-                                  <tr *ngFor="let customer of ecmi_total_customers$ | async; trackBy: trackByFn" [id]="customer.accountno" (click)="loadCustomerInformation($event,customer.accountno,customer.accounttype)" class="nk-tb-item">
-                                     <td class="nk-tb-col nk-tb-col-check">
-                                        <div style="z-index:0;" class="custom-control custom-control-sm custom-checkbox notext ">
-                                           <input onchange="highlightRow(this,event)" style="z-index:0;" type="checkbox" class="customer-table-check custom-control-input shadow" id ="customer.accountno.trim()"/>
-                                           <label class="custom-control-label" for="{customer.accountno.trim()}"></label>
-                                           <div  class="user-avatar sm">
-                                              <p class="abbr" *ngIf="customer.surname +' ' + customer.firstname+' ' + customer.othernames != 'null null null'" style="color:white!important;" >{{abbreviateName(customer?.surname +' '+ customer?.firstname +' ' + customer?.othernames)}}</p>
-                                           </div>
-                                        </div>
-                                     </td>
-                                     <ng-container *ngFor="let transient of transients;">
-                                        <ng-container *ngIf="defaults.includes(transient);else block1">
-                                           <ng-container *ngIf="transient == 'Firstname' || transient == 'Surname' || transient == 'Othernames';else block2">
-                                              <td *ngIf="customer[''+field_names[''+transient]] != '' && customer[''+field_names[''+transient]] != null && customer[''+field_names[''+transient]] != undefined;else block3" class="nk-tb-col name-col"><b>{{customer[''+field_names[''+transient]]}}</b></td>
-                                              <ng-template #block3>
-                                                 <td #block3></td>
-                                              </ng-template>
-                                           </ng-container>
-                                           <ng-template #block2>
-                                              <td *ngIf="transient == 'Account No';else block4" value="[${customer.accountno.trim()},${component.url.trim()}]" class="nk-tb-col underline">{{customer[''+field_names[''+transient]]}}</td>
-                                              <ng-template #block4>
-                                                 <ng-container *ngIf="customer[''+field_names[''+transient]] != '' && customer[''+field_names[''+transient]] != null && customer[''+field_names[''+transient]] != undefined;else block5">
-                                                    <ng-container *ngIf="customer[''+field_names[''+transient]].trim() !='';else block6">
-                                                       <td class="nk-tb-col name-col"><b>{{customer[''+field_names[''+transient]]}}</b></td>
-                                                    </ng-container>
-                                                    <ng-template #block6>
-                                                       <td class="nk-tb-col name-col"><b>N/A</b></td>
-                                                    </ng-template>
-                                                 </ng-container>
-                                                 <ng-template #block5>
-                                                    <td></td>
-                                                 </ng-template>
-                                              </ng-template>
-                                           </ng-template>
-                                        </ng-container>
-                                        <ng-template #block1>
-                                           <ng-container *ngIf="customer[''+field_names[''+transient]] != '' && customer[''+field_names[''+transient]] != null && customer[''+field_names[''+transient]] != undefined;else block7">
-                                              <td hidden class="nk-tb-col name-col"><b>{{customer[''+field_names[''+transient]]}}</b></td>
-                                           </ng-container>
-                                           <ng-template #block7>
-                                              <td class="nk-tb-col" hidden>&#x2022;&#x2022;&#x2022;</td>
-                                           </ng-template>
-                                        </ng-template>
-                                     </ng-container>
-                                     <td class="nk-tb-col" *ngIf="customer['kyc']; else block8"><i style="color:#FF7518!important;" class="material-icons">verified</i></td>
-                                     <ng-template #block8>
-                                        <td class="nk-tb-col"><i style="color:#FF7518!important;" class="material-icons">block</i></td>
-                                     </ng-template>
-                                     <td [id]="customer.accountno.trim()" *ngIf="can_create_customers" class="nk-tb-col" (click)="openCustomerUpdateForm($event)">
-                                     <a href="javascript:void(0)"><em class="icon ni ni-edit pointer"></em><span>Edit</span></a>
-                                     </td> 
-                                  </tr>
-                               </tbody>
-                            </table>
-                            <!-- <app-customercreation></app-customercreation>
-                            <app-customerupdate></app-customerupdate> -->
-                            <!-- Approval Board -->
-                         </div>
-                      </div>
-                   </div>
-                </div>
-                <script type="text/javascript" src="/assets/js/datatables.js"></script>
-             <!-- </div>
-          </div> -->
-       <!-- </div> -->
-    </div>
- </div>
+                                <!-- [ngStyle]="{'background': 'linear-gradient(to bottom, #' + Math.floor(Math.random() * 16777215).toString(16) + ', #' + Math.floor(Math.random() * 16777215).toString(16) + ')'}" -->
+                                 <tr *ngFor="let customer of customers$ | async ; trackBy: trackByFn" [id]="customer.accountno"  class="nk-tb-item">
+                                    <td class="nk-tb-col nk-tb-col-check">
+                                       <div style="z-index:0;" class="custom-control custom-control-sm custom-checkbox notext ">
+                                          <input onchange="highlightRow(this,event)" style="z-index:0;padding-top:25px!important;" type="checkbox" class="customer-table-check custom-control-input shadow" id ="customer.accountno.trim()"/>
+                                          <label class="custom-control-label" for="{customer.accountno.trim()}"></label>
+                                          <div [ngStyle]="{'background': 'linear-gradient(to bottom, #' + Math.floor(Math.random() * 16777215).toString(16) + ', #' + Math.floor(Math.random() * 16777215).toString(16) + ')'}" class="user-avatar sm">
+                                             <p class="abbr" *ngIf="customer.surname +' ' + customer.firstname+' ' + customer.othernames != 'null null null'" style="color:white!important;" >{{abbreviateName(customer?.surname +' ' +' ' + customer?.othernames)}}</p>
+                                          </div>
+                                       </div>
+                                    </td>
+                                    <ng-container *ngFor="let transient of transients;">
+                                       <ng-container *ngIf="defaults.includes(transient);else block1">
+                                          <ng-container *ngIf="transient == 'Firstname' || transient == 'Surname' || transient == 'Othernames';else block2">
+                                             <td *ngIf="customer[''+field_names[''+transient]] != '' && customer[''+field_names[''+transient]] != null && customer[''+field_names[''+transient]] != undefined;else block3" class="nk-tb-col name-col"><b>{{customer[''+field_names[''+transient]]}}</b></td>
+                                             <ng-template #block3>
+                                                <td #block3></td>
+                                             </ng-template>
+                                          </ng-container>
+                                          <ng-template #block2>
+                                             <td *ngIf="transient == 'Account No';else block4" (click)="loadCustomerInformation($event,customer.accountno,customer.accounttype)"  class="nk-tb-col underline">{{customer[''+field_names[''+transient]]}}</td>
+                                             <ng-template #block4>
+                                                <ng-container *ngIf="customer[''+field_names[''+transient]] != '' && customer[''+field_names[''+transient]] != null && customer[''+field_names[''+transient]] != undefined;else block5">
+                                                   <ng-container *ngIf="customer[''+field_names[''+transient]].trim() !='';else block6">
+                                                      <td class="nk-tb-col name-col"><b>{{customer[''+field_names[''+transient]]}}</b></td>
+                                                   </ng-container>
+                                                   <ng-template #block6>
+                                                      <td class="nk-tb-col name-col"><b>N/A</b></td>
+                                                   </ng-template>
+                                                </ng-container>
+                                                <ng-template #block5>
+                                                   <td></td>
+                                                </ng-template>
+                                             </ng-template>
+                                          </ng-template>
+                                       </ng-container>
+                                       <ng-template #block1>
+                                          <ng-container *ngIf="customer[''+field_names[''+transient]] != '' && customer[''+field_names[''+transient]] != null && customer[''+field_names[''+transient]] != undefined;else block7">
+                                             <td hidden class="nk-tb-col name-col"><b>{{customer[''+field_names[''+transient]]}}</b></td>
+                                          </ng-container>
+                                          <ng-template #block7>
+                                             <td class="nk-tb-col" hidden>&#x2022;&#x2022;&#x2022;</td>
+                                          </ng-template>
+                                       </ng-template>
+                                    </ng-container>
+                                    <td class="nk-tb-col" *ngIf="customer['kyc']; else block8"><i style="color:#FF7518!important;" class="material-icons">verified</i></td>
+                                    <ng-template #block8>
+                                       <td class="nk-tb-col"><i style="color:#FF7518!important;" class="material-icons">block</i></td>
+                                    </ng-template>
+                                    <td [id]="customer.accountno.trim()" *ngIf="can_create_customers" class="nk-tb-col" (click)="openCustomerUpdateForm($event)">
+                                    <a href="javascript:void(0)"><em class="icon ni ni-edit pointer"></em><span>Edit</span></a>
+                                    </td> 
+                                 </tr>
+                              </tbody>
+                              <tbody style="background: #9722b4;" *ngIf="customersType=='postpaid'">
+                               
+                                <!-- [ngStyle]="{'background': 'linear-gradient(to bottom, #' + Math.floor(Math.random() * 16777215).toString(16) + ', #' + Math.floor(Math.random() * 16777215).toString(16) + ')'}" -->
+                                 <tr *ngFor="let customer of customers$ | async; trackBy: trackByFn" [id]="customer.accountno" (click)="loadCustomerInformation($event,customer.accountno,customer.accounttype)" class="nk-tb-item">
+                                    <td class="nk-tb-col nk-tb-col-check">
+                                       <div style="z-index:0;" class="custom-control custom-control-sm custom-checkbox notext ">
+                                          <input onchange="highlightRow(this,event)" style="z-index:0;" type="checkbox" class="customer-table-check custom-control-input shadow" id ="customer.accountno.trim()"/>
+                                          <label class="custom-control-label" for="{customer.accountno.trim()}"></label>
+                                          <div  class="user-avatar sm">
+                                             <p class="abbr" *ngIf="customer.surname +' ' + customer.firstname+' ' + customer.othernames != 'null null null'" style="color:white!important;" >{{abbreviateName(customer?.surname +' '+ customer?.firstname +' ' + customer?.othernames)}}</p>
+                                          </div>
+                                       </div>
+                                    </td>
+                                    <ng-container *ngFor="let transient of transients;">
+                                       <ng-container *ngIf="defaults.includes(transient);else block1">
+                                          <ng-container *ngIf="transient == 'Firstname' || transient == 'Surname' || transient == 'Othernames';else block2">
+                                             <td *ngIf="customer[''+field_names[''+transient]] != '' && customer[''+field_names[''+transient]] != null && customer[''+field_names[''+transient]] != undefined;else block3" class="nk-tb-col name-col"><b>{{customer[''+field_names[''+transient]]}}</b></td>
+                                             <ng-template #block3>
+                                                <td #block3></td>
+                                             </ng-template>
+                                          </ng-container>
+                                          <ng-template #block2>
+                                             <td *ngIf="transient == 'Account No';else block4" value="[${customer.accountno.trim()},${component.url.trim()}]" class="nk-tb-col underline">{{customer[''+field_names[''+transient]]}}</td>
+                                             <ng-template #block4>
+                                                <ng-container *ngIf="customer[''+field_names[''+transient]] != '' && customer[''+field_names[''+transient]] != null && customer[''+field_names[''+transient]] != undefined;else block5">
+                                                   <ng-container *ngIf="customer[''+field_names[''+transient]].trim() !='';else block6">
+                                                      <td class="nk-tb-col name-col"><b>{{customer[''+field_names[''+transient]]}}</b></td>
+                                                   </ng-container>
+                                                   <ng-template #block6>
+                                                      <td class="nk-tb-col name-col"><b>N/A</b></td>
+                                                   </ng-template>
+                                                </ng-container>
+                                                <ng-template #block5>
+                                                   <td></td>
+                                                </ng-template>
+                                             </ng-template>
+                                          </ng-template>
+                                       </ng-container>
+                                       <ng-template #block1>
+                                          <ng-container *ngIf="customer[''+field_names[''+transient]] != '' && customer[''+field_names[''+transient]] != null && customer[''+field_names[''+transient]] != undefined;else block7">
+                                             <td hidden class="nk-tb-col name-col"><b>{{customer[''+field_names[''+transient]]}}</b></td>
+                                          </ng-container>
+                                          <ng-template #block7>
+                                             <td class="nk-tb-col" hidden>&#x2022;&#x2022;&#x2022;</td>
+                                          </ng-template>
+                                       </ng-template>
+                                    </ng-container>
+                                    <td class="nk-tb-col" *ngIf="customer['kyc']; else block8"><i style="color:#FF7518!important;" class="material-icons">verified</i></td>
+                                    <ng-template #block8>
+                                       <td class="nk-tb-col"><i style="color:#FF7518!important;" class="material-icons">block</i></td>
+                                    </ng-template>
+                                    <td [id]="customer.accountno.trim()" *ngIf="can_create_customers" class="nk-tb-col" (click)="openCustomerUpdateForm($event)">
+                                    <a href="javascript:void(0)"><em class="icon ni ni-edit pointer"></em><span>Edit</span></a>
+                                    </td> 
+                                 </tr>
+                              </tbody>
+                           </table>
+                           <!-- <app-customercreation></app-customercreation>
+                           <app-customerupdate></app-customerupdate> -->
+                           <!-- Approval Board -->
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <script type="text/javascript" src="/assets/js/datatables.js"></script>
+            <!-- </div>
+         </div> -->
+      <!-- </div> -->
+   </div>
+</div>
 
 
 <div #editcustomerplaceholder></div>
 <div #createcustomerplaceholder></div>
- 

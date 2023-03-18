@@ -1,57 +1,135 @@
 <div style="padding-top:10px;" class="container">
     <h4 style="width:80%;">Customer Payment History</h4>
-    <div style="width:100%;max-height: 600px; overflow-y: auto;">
-    <div id = "norecord_found" style="display:none; color:orange;"></div>
-        <table role="grid" style="width:100%; background:#f5f6fa;overflow:auto" id="customer_payment_history_table" class="data-table-init dataTable nowrap nk-tb-list is-separate shadow responsive" data-auto-responsive="true">
-            <thead *ngIf="accounttype=='postpaid'" id="postpaid_header_alt" class="darkify thead-dark" style="background:white;position:sticky;top:0;">
-                <th>Pay ID</th>
-                <th>Trans ID</th>
-                <th>Receipt No</th>
-                <th>Account No</th>
-                <th>Meter No</th>
-                <th>Pay Date</th>
-                <th>Payments</th>
-                <th>Business Units</th>
-                <th>Trans Amount</th>
-                <th>Status Message</th>
-            </thead>
-
+    <br>
+    <div id="paytable-wrapper" style="width:100%;max-height: 600px; overflow-y: auto;overflow-x:hidden">
+        <div appDynamicScript>
+            <div
+                src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.js"
+                my-custom-attr="some value"
+            >
+            </div>
+        </div>
+        <!-- <div id = "norecord_found" style="display:none; color:orange;"></div> -->
+        <div id="wrapper">
+            <table style="width:100%; background:#f5f6fa;overflow:auto" id="customer_payment_history" class=" is-seperate nowrap nk-tb-list collapsed shadow" data-auto-responsive="true">
+                <thead *ngIf="accounttype=='postpaid'" id="postpaid_header_alt" class="darkify thead-dark" style="background:white;position:sticky;top:0;">
+                    <tr>
+                        <th class="nk-tb-col">Pay ID</th>
+                        <th class="nk-tb-col">Trans ID</th>
+                        <th class="nk-tb-col">Receipt No</th>
+                        <th class="nk-tb-col">Account No</th>
+                        <th class="nk-tb-col">Meter No</th>
+                        <th class="nk-tb-col">Pay Date</th>
+                        <th class="nk-tb-col">Payments</th>
+                        <th class="nk-tb-col">Business Unit</th>
+                        <th class="nk-tb-col">Trans Amount</th>
+                        <th class="nk-tb-col">Status Message</th>
+                    </tr>
+                </thead>
     
-            <thead *ngIf="accounttype=='prepaid'" hidden='1' id="prepaid_header" class="darkify thead-dark" style="background:white;position:sticky;top:0; ">
-                <th>Transaction Ref</th>
-                <th>Token</th>
-                <th>Meter No</th>
-                <th>Account No</th>
-                <th>Trans Date</th>
-                <th>Amount</th>
-                <th>Business Unit</th>
-                <th>Status Message</th>
-                <th>Units</th>
-                <th>Trans Amount</th>
-                <th>Cost of Units</th>
-            </thead>
-         
-            <tbody *ngIf="accounttype=='postpaid'" style="background:#f5f6fa;">
-                <tr class="nk-tb-item" *ngFor="let payment of payments;">
-                    <td class="nk-tb-col">{{payment.PaymentID}}</td>
-                    <td class="nk-tb-col">{{payment.PaymentTransactionId}}</td>
-                    <td class="nk-tb-col">{{payment.receiptnumber}}</td>
-                    <td class="nk-tb-col">{{payment.AccountNo}}</td>
-
-                    <td class="nk-tb-col">{{payment.MeterNo}}</td>
-                    <td class="nk-tb-col">{{payment.PayDate}}</td>
-                    <td class="nk-tb-col">{{payment.Payments}}</td>
-                    <td class="nk-tb-col">{{payment.BusinessUnit}}</td>
-
-                    <td class="nk-tb-col">{{payment.transamount}}</td>
-                    <td class="nk-tb-col">{{payment.transstatus}}</td>
-                    
-                </tr>
-            </tbody>
-            
-            <h4 id="notfoundh1" style="color:#FF7518!important;; display:none; flex-direction:row; justify-content:center; align-items:center; text-align:center">
-            </h4>
-        </table>
+        
+                <thead *ngIf="accounttype=='prepaid'" id="prepaid_header" style="background:white;position:sticky;top:0; ">
+                    <tr>
+                        <th class="nk-tb-col">Transaction Ref</th>
+                    <th class="nk-tb-col">Token</th>
+                    <th class="nk-tb-col">Meter No</th>
+                    <th class="nk-tb-col">Account No</th>
+                    <th class="nk-tb-col">Trans Date</th>
+                    <th class="nk-tb-col">Amount</th>
+                    <th class="nk-tb-col">Business Unit</th>
+                    <th class="nk-tb-col">Units</th>
+                    <th class="nk-tb-col">Trans Amount</th>
+                    <th class="nk-tb-col">Cost of Units</th>
+                    <th class="nk-tb-col">Status Message</th>
+    
+                    <th class="nk-tb-col">CSPClientId</th>
+                    <th class="nk-tb-col">Day</th>
+                    <th class="nk-tb-col">FC</th>
+                    <th class="nk-tb-col">KVA</th>
+                    <th class="nk-tb-col">MMF</th>
+                    <th class="nk-tb-col">MeterNo</th>
+                    <th class="nk-tb-col">OperatorId</th>
+                    <th class="nk-tb-col">Reasons</th>
+                    <th class="nk-tb-col">TokenType</th>
+                    <th class="nk-tb-col">TotalCount</th>
+                    <th class="nk-tb-col">TransactionComplete</th>
+                    <th class="nk-tb-col">TransactionDateTime</th>
+                    <th class="nk-tb-col">TransactionNo</th>
+                    <th class="nk-tb-col">TransactionType</th>
+                    <th class="nk-tb-col">VAT</th>
+                    <th class="nk-tb-col">Year</th>
+                    <th class="nk-tb-col">EnteredBy</th>
+                    <th class="nk-tb-col">PaymentType</th>
+                    <th class="nk-tb-col">Status</th>
+                    <th class="nk-tb-col">Status1</th>
+                    <th class="nk-tb-col">TransactionResponseMessage</th>
+                    </tr>
+                </thead>
+             
+                <tbody *ngIf="accounttype=='postpaid'" style="background:#f5f6fa;">
+                    <tr style="background: white!important;height:60px;" class="nk-tb-item" class="nk-tb-item" *ngFor="let payment of payments;">
+                        <td class="nk-tb-col">{{payment.PaymentID}}</td>
+                        <td class="nk-tb-col">{{payment.PaymentTransactionId}}</td>
+                        <td class="nk-tb-col">{{payment.receiptnumber}}</td>
+                        <td class="nk-tb-col">{{payment.AccountNo}}</td>
+    
+                        <td class="nk-tb-col">{{payment.MeterNo}}</td>
+                        <td class="nk-tb-col">{{payment.PayDate}}</td>
+                        <td class="nk-tb-col">{{payment.Payments}}</td>
+                        <td class="nk-tb-col">{{payment.BusinessUnit}}</td>
+    
+                        <td class="nk-tb-col">{{payment.transamount}}</td>
+                        <td class="nk-tb-col">{{payment.transstatus}}</td>
+    
+                        
+                        
+                    </tr>
+                </tbody>
+    
+                <tbody *ngIf="accounttype=='prepaid'" style="background:#f5f6fa;">
+                    <tr style="background: white!important;height:60px;" class="nk-tb-item" *ngFor="let payment of payments;">
+                        <td class="nk-tb-col">{{payment.transref}}</td>
+                        <td class="nk-tb-col">{{payment.Token}}</td>
+                        <td class="nk-tb-col">{{payment.meterno}}</td>
+                        <td class="nk-tb-col">{{payment.AccountNo}}</td>
+    
+                        <td class="nk-tb-col">{{payment.transdate}}</td>
+                        <td class="nk-tb-col">{{payment.transamount}}</td>
+                        <td class="nk-tb-col">{{payment.BUID}}</td>
+                        <td class="nk-tb-col">{{payment.Units}}</td>
+                        <td class="nk-tb-col">{{payment.transamount}}</td> 
+                        <td class="nk-tb-col">{{payment.CostOfUnits}}</td>
+                        <td class="nk-tb-col">{{payment.transstatus}}</td>
+    
+                        <td class="nk-tb-col">{{payment.CSPClientID}}</td>
+                        <td class="nk-tb-col">{{payment.Day}}</td>
+                        <td class="nk-tb-col">{{payment.FC}}</td>
+                        <td class="nk-tb-col">{{payment.KVA}}</td>
+                        <td class="nk-tb-col">{{payment.MMF}}</td>
+                        <td class="nk-tb-col">{{payment.MeterNO}}</td>
+                        <td class="nk-tb-col">{{payment.OperatorID}}</td>
+                        <td class="nk-tb-col">{{payment.Reasons}}</td>
+                        <td class="nk-tb-col">{{payment.TokenType}}</td>
+                        <td class="nk-tb-col">{{payment.TotalCount}}</td>
+                        <td class="nk-tb-col">{{payment.TransactionComplete}}</td>
+                        <td class="nk-tb-col">{{payment.TransactionDateTime}}</td>
+                        <td class="nk-tb-col">{{payment.TransactionNo}}</td>
+                        <td class="nk-tb-col">{{payment.TransactionType}}</td>
+                        <td class="nk-tb-col">{{payment.VAT}}</td>
+                        <td class="nk-tb-col">{{payment.Year}}</td>
+                        <td class="nk-tb-col">{{payment.enteredby}}</td>
+                        <td class="nk-tb-col">{{payment.paymenttype}}</td>
+                        <td class="nk-tb-col">{{payment.status}}</td>
+                        <td class="nk-tb-col">{{payment.status1}}</td>
+                        <td class="nk-tb-col">{{payment.transactionresponsemessage}}</td>
+                        
+                    </tr>
+                </tbody>
+                
+                <h4 id="notfoundh1" style="color:#FF7518!important;; display:none; flex-direction:row; justify-content:center; align-items:center; text-align:center">
+                </h4>
+            </table>
+        </div>
        <script type="text/javascript" src="/cms_ibedc/static/src/js/jquery.min.js"></script>
     </div>
     

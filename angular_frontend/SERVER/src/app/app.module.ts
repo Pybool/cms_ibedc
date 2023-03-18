@@ -47,6 +47,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { DynamicScriptDirective } from './directives/dynamic-script.directive';
+import { SpinnerComponent } from './ui/spinner/spinner.component';
 
 
 const metaReducers: Array<MetaReducer<any, any>> = [localStorageReducer];
@@ -69,6 +70,7 @@ const metaReducers: Array<MetaReducer<any, any>> = [localStorageReducer];
     CrmdComponent,
     CaadlistComponent,
     DynamicScriptDirective,
+    SpinnerComponent,
     
   ],
   imports: [

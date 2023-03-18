@@ -1,5 +1,6 @@
 import { Component,OnDestroy  } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { take } from 'rxjs/operators';
 import { CaadService } from 'src/app/services/caad.service';
 import { AutoUnsubscribe } from 'src/auto-unsubscribe.decorator';
 import { ApproveCaad } from '../customerdetails/caad/state/customercaad.actions';
@@ -38,7 +39,7 @@ export class CaadlistComponent implements OnDestroy {
   }
 
   ngOnInit(){
-    this.store.select(caadApprovalData).subscribe((response)=>{
+    this.store.select(caadApprovalData).pipe(take(2)).subscribe((response)=>{
       console.log(response)
       if(response.data?.status){
         this.approvalList = response.data?.data

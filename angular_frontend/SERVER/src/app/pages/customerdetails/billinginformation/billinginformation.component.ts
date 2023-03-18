@@ -5,6 +5,8 @@ import { AppState } from 'src/app/basestore/app.states';
 import { CustomerService } from 'src/app/services/customer.service';
 import { SharedService } from 'src/app/services/shared.service';
 import { DataTablesModule } from 'angular-datatables';
+import { SpinnerService } from 'src/app/services/spinner.service';
+import { ConvertTableService } from 'src/app/services/convert-table.service';
 
 interface CustomWindow extends Window {
   
@@ -24,12 +26,16 @@ export class BillinginformationComponent implements OnInit {
 
   public bills
   JSON
+  message=''
+  intervalId
   dtOptions: DataTables.Settings = {};
   constructor(private store: Store<AppState>,
     private sharedService:SharedService,
     private route: ActivatedRoute,
     private renderer: Renderer2,
-    private customerService:CustomerService) 
+    private customerService:CustomerService,
+    private spinnerService:SpinnerService,
+    private convertTableService:ConvertTableService) 
   { }
 
   ngOnInit(): void {
@@ -37,17 +43,13 @@ export class BillinginformationComponent implements OnInit {
 
     this.route.queryParams.subscribe(params => {
       console.log("Account details ===> ", params)
-      if(params?.accounttype=='postpaid'){
-        this.customerService.fetchSingleCustomerBills(params).subscribe((response)=>{
-          if (response.status){
-            this.bills = response.data
-            console.log(this.bills)
-          }
-          else{alert(response.message)}
-        })
-      }
-      else{}
-      
+      this.customerService.fetchSingleCustomerBills(params).subscribe((response)=>{
+        if (response.status){
+          this.bills = response.data
+          console.log(this.bills)
+        }
+        else{this.message=response.message;this.bills = false}
+      })
     });
   }
 
@@ -59,19 +61,14 @@ export class BillinginformationComponent implements OnInit {
   }
 
   ngAfterViewInit(){
-    try{
-      window.waitForElm('#cust_bills').then((elm) => {
-        console.log("Table el =----> ", elm)
-          let table = new window.DataTable('#cust_bills', {
-              destroy: true,"pageLength": 10,"bPaginate": true,
-              "responsive": true,
-              "processing": true,
-              "searching":false,
-              
-          });
-      });
-      }
-  catch(err){ }
+    window.waitForElm('#billswrapper').then((parentElement) => {
+      this.spinnerService.showSpinner(parentElement);
+      this.sharedService.setSpinnerText('Fetching data from source...')
+      this.convertTableService.convertTable({id:'cust_bills'})
+    })
+    
   }
+
+ 
 
 }

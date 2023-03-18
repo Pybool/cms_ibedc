@@ -11,7 +11,8 @@ export class CustomermainComponent implements OnInit {
 
   accountno;
   accounttype;
-  params
+  meterno;
+  params:any = {}
   constructor(private route: ActivatedRoute, private sharedService:SharedService) { }
 
   ngOnInit(): void {
@@ -21,6 +22,7 @@ export class CustomermainComponent implements OnInit {
       console.log("Customer landing page details ===> ", params)
       this.accountno = params?.accountno
       this.accounttype = params?.accounttype
+      this.meterno = params?.meterno
 
     })
   }

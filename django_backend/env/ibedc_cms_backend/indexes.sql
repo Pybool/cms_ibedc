@@ -10,6 +10,12 @@ CREATE NONCLUSTERED INDEX ix_ems_bills_BillID ON ems_bills(BillID)
 
 CREATE INDEX idx_EmsCustState ON dbo.ems_customers_new (State)
 
+CREATE INDEX idx_EcmiCustState ON [CMS_IBEDC_DATABASE].[dbo].[ems_customers_new] (State)
+
+CREATE INDEX idx_EcmiCustBuid ON [CMS_IBEDC_DATABASE].[dbo].[ems_customers_new] (BUID)
+
+CREATE INDEX idx_EcmiCustServicecenter ON [CMS_IBEDC_DATABASE].[dbo].[ems_customers_new] (ServiceCenter)
+
 CREATE INDEX idx_EmsCustAccountNo ON dbo.ems_customers_new (AccountNo)
 
 CREATE INDEX idx_AccountNo ON dbo.ems_bills (AccountNo)

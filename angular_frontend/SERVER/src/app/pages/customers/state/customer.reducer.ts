@@ -82,7 +82,7 @@ export const initialDeepFetchEMSListState: DeepFetchEMSState = {
           ...state,
           isFetched: true,
           customers: action.payload.data,
-          timestamp: new Date().getTime(),
+          timestamp: action.payload.timestamp,
           total_customers:action.payload.total_customers,
           errorMessage: null
         };
@@ -108,7 +108,7 @@ export const initialDeepFetchEMSListState: DeepFetchEMSState = {
           ...state,
           isFetched: true,
           customers: action.payload.data,
-          timestamp: new Date().getTime(),
+          timestamp: 190,
           total_customers:action.payload.total_customers,
           search_parameters:action.payload.parameters,
           errorMessage: null

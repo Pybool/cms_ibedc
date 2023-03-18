@@ -259,7 +259,7 @@
 
                                                         <div *ngIf="user.permission_hierarchy == 'Service Center'" class="nk-tb-col tb-col-md"><span>Service Center</span></div>
                                                         <div *ngIf="user.permission_hierarchy == 'Region'" class="nk-tb-col tb-col-md"><span>Regional</span></div>
-                                                        <div *ngIf="user.permission_hierarchy == 'Business Hub'" class="nk-tb-col tb-col-md"><span>Business Unit</span></div>
+                                                        <div *ngIf="user.permission_hierarchy == 'Business Unit'" class="nk-tb-col tb-col-md"><span>Business Unit</span></div>
                                                         <div *ngIf="user.permission_hierarchy == 'Head Quarters'" class="nk-tb-col tb-col-md"><span>Head Quarters</span></div>
 
                                                         <div *ngIf="user.region != 'granted'" class="nk-tb-col tb-col-md"><span>{{user.region || ''}}</span></div>
@@ -303,7 +303,7 @@
                                                                 <li><em class="icon ni ni-check-circle" [ngClass]="user.text"></em> <span>{{user.position}}</span></li>
                                                             </ul>
                                                         </div>
-                                                        <div class="nk-tb-col tb-col-xxl"><span>{{user.last_login}}</span></div>
+                                                        <div class="nk-tb-col tb-col-xxl"><span>{{user.last_login || 'N/A'}}</span></div>
                                                         <div style="color:orange;" *ngIf="user.active" class="nk-tb-col"><span class="tb-status" [ngClass]="user.text">Active</span></div>
                                                         <div style="color:gray;" *ngIf="!user.active" class="nk-tb-col"><span class="tb-status" [ngClass]="user.text">Suspended</span></div>
                                                         <div class="nk-tb-col nk-tb-col-tools">

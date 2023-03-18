@@ -19,7 +19,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { DataTableDirective } from 'angular-datatables';
-import { Subject } from 'rxjs';
+import { SpinnerService } from 'src/app/services/spinner.service';
+import { ConvertTableService } from 'src/app/services/convert-table.service';
 
 interface CustomWindow extends Window {
   waitForElm:(arg1) => any;
@@ -37,10 +38,9 @@ declare let window: CustomWindow;
   templateUrl: './customers.component.html',
   styleUrls: ['./customers.component.css']
 })
-export class CustomersComponent implements OnInit, AfterViewInit {
+export class CustomersComponent implements AfterViewInit {
   public metaData;
   dtOptions: DataTables.Settings = {};
-  dtTrigger: Subject<any> = new Subject<any>();
   @ViewChild(DataTableDirective)
   datatableElement: DataTableDirective;
   filter:any = new CustomerFilter()
@@ -78,7 +78,8 @@ export class CustomersComponent implements OnInit, AfterViewInit {
   currentAccountno;
   ecmi_total_customers$
   ems_total_customers$
-  datatableSource
+  intervalId
+  isCallable:boolean = true
   // dtOptions: DataTables.Settings = {};
   @ViewChild('editcustomerplaceholder', { read: ViewContainerRef }) placeholder: ViewContainerRef;
   @ViewChild('createcustomerplaceholder', { read: ViewContainerRef }) createplaceholder: ViewContainerRef;
@@ -88,7 +89,9 @@ export class CustomersComponent implements OnInit, AfterViewInit {
               private cd: ChangeDetectorRef,
               private customerService:CustomerService,
               private componentFactoryResolver: ComponentFactoryResolver,
-              private renderer: Renderer2) { 
+              private renderer: Renderer2,
+              private spinnerService: SpinnerService,
+              private convertTableService:ConvertTableService) { 
     this.sharedService.setActiveSearchInput('customers')
     this.custs$ = customerData.customer_data
     this.metaData = customerData.metadata
@@ -110,12 +113,10 @@ export class CustomersComponent implements OnInit, AfterViewInit {
     this.zone.runOutsideAngular(() => {
       this.store.dispatch(new FetchEcmiCustomers());
       this.zone.run(() => {
-        // Update UI here
+        
       });
     });
   }
-
-  
 
   ngOnInit(): void {
     //Check if user is authenticated
@@ -139,12 +140,10 @@ export class CustomersComponent implements OnInit, AfterViewInit {
         this.activePage = 'prepaid'
         this.customers$ = of(data.customers)//user.can_create_customers
         this.ecmi_total_customers = data.total_customers
-        this.datatableSource = data.customers
         console.log("=====> Done setting ECMI customers ",this.ecmi_total_customers)
-        
+        this.sharedService.setSpinnerText('Processing data...')
+      
      })
-  
-
     }
 
     loadScript(src) {
@@ -154,9 +153,9 @@ export class CustomersComponent implements OnInit, AfterViewInit {
       this.renderer.appendChild(document.body, script);
     }
  
-  loadCustomerInformation($event,accountno,accounttype){
+  loadCustomerInformation($event,accountno,meterno,accounttype){
     let base = `customer/information/basic-information`
-    const queryParams = {accountno : accountno, accounttype: accounttype?.toLowerCase() };
+    const queryParams = {accountno : accountno, accounttype: accounttype?.toLowerCase(),meterno:meterno };
     this.sharedService.navigateWithParams(base,queryParams)
   }
 
@@ -180,35 +179,26 @@ export class CustomersComponent implements OnInit, AfterViewInit {
     this.mode = 'edit'
   }
 
-  convertTable(){
-    try{
-      setTimeout(()=>{
-        if(this.datatableSource && this.datatableSource.length > 0){
-          this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => {
-            // Convert the table to a datatable here
-            dtInstance.destroy();
-            this.datatableElement.dtTrigger.next();
-          });
-        }
-        // }
-        // window.waitForElm('#customer_table').then((elm) => {
-        //   console.log("Table el =----> ", elm)
-        //     let table = new window.DataTable('#customer_table', {
-        //         destroy: true,"pageLength": 10,"bPaginate": false,
-        //         "responsive": true,
-        //         "processing": true,
-        //         "searching":false,
-                
-        //     });
-        // });
-      },1000)
-      
-      }
-  catch(err){ }
+  getRandomColor() {
+    if(this.isCallable){
+      return Math.floor(Math.random() * 16777215).toString(16);
+    }
+    
   }
 
+
+
   ngAfterViewInit(){
-    this.convertTable()
+    const parentElement = document.getElementById('table-wrapper');
+    console.log("---------> ", parentElement)
+    this.spinnerService.showSpinner(parentElement);
+    this.sharedService.setSpinnerText('Fetching data from source...')
+    this.convertTableService.convertTable({id:'customer_table'}).then((status)=>{
+      if(status){
+        this.isCallable = false
+      }
+    })
+    
   }
 
   trackByFn(index: number, item: any) {

@@ -8,7 +8,7 @@ import { UserState } from '../authentication/state/auth.selector';
 import { AppState } from '../basestore/app.states';
 import { ecmiCustomers, emsCustomers } from '../pages/customers/state/customer.selector';
 import { UserModifyModel } from '../pages/user/createuser/models/user';
-import { switchMap, take, tap } from 'rxjs/operators';
+import { map, switchMap, take, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -76,12 +76,16 @@ export class CustomerService {
             return this.cachedData$.pipe(
               switchMap((data:any) => {
                 console.log(data);
-                const currentTime = Date.now();
-                if (!data.customers || (data.timestamp || 0) + this.cacheTimeMs < currentTime) {
+                const currentTime = new Date().getTime();
+                console.log(data?.timestamp)
+                if ((currentTime - data?.timestamp) > this.cacheTimeMs) {
                   console.log("Executing new request ====> ");
                   return this.http.get(`${environment.api}/customers/prepaid?start_date=${this.getCurrentDate()}&end_date=${this.getCurrentDate()}&permission_hierarchy=${this.permission_hierarchy}`).pipe(
-                    tap((newData) => {
-                      // this.store.dispatch(updateEcmiCustomers({ customers: newData, timestamp: Date.now() }));
+                    map((newData) => {
+                      newData['timestamp'] = new Date().getTime()
+                      console.log("Backend data =============> ", newData['timestamp'])
+                      return newData
+                      // this.store.dispatch(updateEcmiCustomers({ customers: newData, timestamp: new Date().getTime() }));
                     })
                   );
                 } else {
@@ -134,11 +138,12 @@ export class CustomerService {
   }
 
   fetchSingleCustomerBills(payload){
-    return this.http.get<any>(`${environment.api}/singlecustomer-bills?accounttype=${payload?.accounttype}&accountno=${payload?.accountno}&page=${payload?.page}`)
+    return this.http.get<any>(`${environment.api}/singlecustomer-bills?accounttype=${payload?.accounttype}&accountno=${payload?.accountno}&page=${1}`)
   }
 
   fetchSingleCustomerPayments(payload){
-    return this.http.get<any>(`${environment.api}/singlecustomer-payments?accounttype=${payload?.accounttype}&accountno=${payload?.accountno}&page=${payload?.page}`)
+    const customerUID = payload?.accounttype === 'prepaid' ? payload?.meterno : payload.accountno;
+    return this.http.get<any>(`${environment.api}/singlecustomer-payments?accounttype=${payload?.accounttype}&accountno=${customerUID}&page=${1}`)
   }
 
   fetchSingleCustomerMetering(payload){

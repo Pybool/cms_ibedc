@@ -20,16 +20,15 @@ SINGLE_CUSTOMER_PAYMENTS_ECMI = """DECLARE @PageSize INT = '#page_size#';
                                 DECLARE @PageNumber INT = '#page_no#';
                                 DECLARE @AccountNo NVARCHAR(50) = '#AccountNo#';
                                 
-                                SELECT  [ecmi_payments].*, EMSPT.*,
+                                SELECT  [ecmi_payment_history].*, ECMIPT.*,
                                 (
                                     SELECT COUNT(*)
-                                    FROM [CMS_IBEDC_DATABASE].[dbo].[ecmi_payments]
-                                    INNER JOIN [ems_payment_trans] AS EMSPT ON EMSPT.[transid] = [ecmi_payments].PaymentTransactionId
-                                    WHERE [ecmi_payments].AccountNo = '#AccountNo#'
+                                    FROM [CMS_IBEDC_DATABASE].[dbo].[ecmi_payment_history]
+                                    INNER JOIN [ecmi_transactions] AS ECMIPT ON ECMIPT.[transref] = [ecmi_payment_history].transref
+                                    WHERE [ecmi_payment_history].meterno = '#AccountNo#'
                                 ) AS TotalCount
-                                FROM [CMS_IBEDC_DATABASE].[dbo].[ecmi_payments]
-                                INNER JOIN [ems_payment_trans] AS EMSPT ON EMSPT.[transid] = [ecmi_payments].PaymentTransactionId
-                                WHERE [ecmi_payments].AccountNo = '#AccountNo#'
-                                ORDER BY [ecmi_payments].PaymentTransactionId
+                                FROM [CMS_IBEDC_DATABASE].[dbo].[ecmi_payment_history]
+                                INNER JOIN [ecmi_transactions] AS ECMIPT ON ECMIPT.[transref] = [ecmi_payment_history].transref
+                                ORDER BY [ecmi_payment_history].transdate
                                 OFFSET (@PageNumber - 1) * @PageSize ROWS
                                 FETCH NEXT @PageSize ROWS ONLY;"""

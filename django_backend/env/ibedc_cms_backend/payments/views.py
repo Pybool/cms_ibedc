@@ -34,6 +34,7 @@ class SingleCustomerPayments(APIView):
                         .replace("#page_size#",page_size)\
                         .replace("#page_no#",page_no)
         print(query)
+      
         payments = dict_fetch_all(query)#Emspayments.objects.filter(accountno__iexact=accountno).all().order_by('id')[:10]
         if payments:
             response = {"status": True, "count":0, "data": payments}

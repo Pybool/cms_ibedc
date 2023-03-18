@@ -1,0 +1,7 @@
+#cust_bills{
+    width:100%;
+    background:whitesmoke; 
+    overflow-y: auto; 
+    overflow-x: hidden;
+    opacity:0;
+}

@@ -5,136 +5,145 @@
                 <div style="width:100%;" class="nk-block-head-content">
                     <div style="width:100%;" class="flex-row">
                         <h4 style="width:80%;" class="nk-block-title">Customer Metering Information</h4>
-                        
                     </div>
                     <div class="nk-block-des">
                         <p>Metering info, for Ibedc Prepaid and PostPaid Customers.</p>
                     </div>
                 </div>
-                
             </div>
         </div><!-- .nk-block-head -->
         <div class="nk-block">
             <div class="nk-data data-list">
                 <div class="data-head">
-                    <h6 class="overline-title" t-esc="customerdata['accounttype'] + ' Customer Meter Details'" ></h6>
+                    <h6 class="overline-title" t-esc="customerdata['accounttype'] + ' Customer Meter Details'" >Customer Metering Information</h6>
                 </div>
-                <div class="data-item item_parrent" data-toggle="modal" data-target="#profile-edit">
-                    <div class="data-col">
-                        <span style="width:40%;" class="data-label"><b><b>Map ID</b></b></span>
-                        <span style="width:55%;" class="data-value" >{{meterData.mapid}}</span>
-                    </div>
-                    <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
-                </div><!-- data-item -->
-                <div class="data-item item_parrent" data-toggle="modal" data-target="#profile-edit">
-                    <div class="data-col">
-                        <div style="width:40%;"><b><b>Model</b></b></div>
-                        <div style="width:55%;"><span >{{meterData.meter_model}}</span></div>
-                    </div>
-                    <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
-                </div><!-- data-item -->
-                <div class="data-item item_parrent" data-toggle="modal" data-target="#profile-edit">
-                    <div class="data-col">
-                        <div style="width:40%;"><b><b>Type</b></b></div>
-                        <div style="width:55%;"><span>{{meterData.meter_type}}</span></div>
-                    </div>
-                    <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
-                </div><!-- data-item -->
-                <div class="data-item item_parrent">
-                    <div class="data-col">
-                        <div style="width:40%;"><b><b>Number</b></b></div>
-                        <div style="width:55%;"><span >{{meterData.meter_number}}</span></div>
-                    </div>
-                    <div class="data-col data-col-end"><span class="data-more disable"><em class="icon ni ni-lock-alt"></em></span></div>
-                </div><!-- data-item -->
-                <div class="data-item item_parrent" data-toggle="modal" data-target="#profile-edit">
-                    <div class="data-col">
-                        <div style="width:40%;"><b><b>Manufacturer</b></b></div>
-                        <div style="width:55%;"><span>{{meterData.meter_manufacturer}}</span></div>
-                    </div>
-                    <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
-                </div><!-- data-item -->
-                <div class="data-item item_parrent" data-toggle="modal" data-target="#profile-edit">
-                    <div class="data-col">
-                        <div style="width:40%;"><b><b>Rating</b></b></div>
-                        <div style="width:55%;"><span>{{meterData.meter_rating}}</span></div>
-                    </div>
-                    <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
-                </div><!-- data-item -->
-                <div class="data-item item_parrent" data-toggle="modal" data-target="#profile-edit" data-tab-target="#address">
-                    <div class="data-col">
-                        <div style="width:40%;"><b><b>Voltage Rating</b></b></div>
-                        <div style="width:55%;"><span >{{meterData.v_rating}}</span></div>
-                    </div>
-                    <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
-                </div><!-- data-item -->
-
-                <div class="data-item item_parrent" data-toggle="modal" data-target="#profile-edit">
-                    <div class="data-col">
-                        <div style="width:40%;"><b><b>Classification</b></b></div>
-                        <div style="width:55%;"><span >{{meterData.meter_classification}}</span></div>
-                    </div>
-                    <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
-                </div><!-- data-item -->
-                <div class="data-item item_parrent" data-toggle="modal" data-target="#profile-edit">
-                    <div class="data-col">
-                        <div style="width:40%;"><b><b>Category</b></b></div>
-                        <div style="width:55%;"><span>{{meterData.meter_category}}</span></div>
-                    </div>
-                    <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
-                </div><!-- data-item -->
-
-                <div class="data-item item_parrent" data-toggle="modal" data-target="#profile-edit" data-tab-target="#address">
-                    <div class="data-col">
-                        <div style="width:40%;"><b><b>Supplier</b></b></div>
-                        <div style="width:55%;"><span >{{meterData.supplier}}</span></div>
-                    </div>
-                    <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
-                </div><!-- data-item -->
-
-                <div class="data-item item_parrent" data-toggle="modal" data-target="#profile-edit">
-                    <div class="data-col">
-                        <div style="width:40%;"><b><b>Premises Use</b></b></div>
-                        <div style="width:55%;"><span >{{meterData.premises_use}}</span></div>
-                    </div>
-                    <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
-                </div><!-- data-item -->
-                <div class="data-item item_parrent" data-toggle="modal" data-target="#profile-edit">
-                    <div class="data-col">
-                        <div style="width:40%;"><b><b>Premises Type</b></b></div>
-                        <div style="width:55%;"><span >{{meterData.premises_type}}</span></div>
-                    </div>
-                    <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
-                </div><!-- data-item -->
-                <div class="data-item item_parrent" data-toggle="modal" data-target="#profile-edit" data-tab-target="#address">
-                    <div class="data-col">
-                        <div style="width:40%;"><b><b>Supply Address</b></b></div>
-                        <div style="width:55%;"><span >{{meterData.supply_address}}</span></div>
-                    </div>
-                    <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
-                </div><!-- data-item -->
-
-                <div class="data-item item_parrent" data-toggle="modal" data-target="#profile-edit">
-                    <div class="data-col">
-                        <div style="width:40%;"><b><b>Unique Code</b></b></div>
-                        <div style="width:55%;"><span >{{meterData.unique_code}}</span></div>
-                    </div>
-                    <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
-                </div><!-- data-item -->
-                <div class="data-item item_parrent" data-toggle="modal" data-target="#profile-edit">
-                    <div class="data-col">
-                        <div style="width:40%;"><b><b>Progress</b></b></div>
-                        <div style="width:55%;"><span>{{meterData.progress}}</span></div>
-                    </div>
-                    <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
-                </div><!-- data-item -->
-                <div class="data-item item_parrent" data-toggle="modal" data-target="#profile-edit" data-tab-target="#address">
-                    <div class="data-col">
-                        <div style="width:40%;"><b><b>Status</b></b></div>
-                        <div style="width:55%;"><span >{{meterData.status}}</span></div>
-                    </div>
-                    <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
-                </div><!-- data-item -->
+                <br>
+                <ul style="max-height:50vh;overflow-y: auto;" class="link-list-opt">
+                    <li >
+                        <div class="col-12 row g-3">
+                            <label class="col-3">Map ID</label>
+                            <a class="col-3" href="javascript:void(0)" >
+                                <span>{{meterData.mapid || 'N/A'}}</span>
+                            </a>
+                            <label class="col-3">Model</label>
+                            <a class="col-3" href="javascript:void(0)" >
+                                <span>{{meterData.meter_model || 'N/A'}}</span>
+                            </a>
+                        </div>
+                    </li>
+                    <li >
+                        <div class="col-12 row g-3">
+                            
+                            <label class="col-3">Meter NUmber</label>
+                            <a class="col-3" href="javascript:void(0)" >
+                                <span>{{meterData.meter_number || 'N/A'}}</span>
+                            </a>
+                            <label class="col-3">Type</label>
+                            <a class="col-3" href="javascript:void(0)" >
+                                <span>{{meterData.meter_type || 'N/A'}}</span>
+                            </a>
+                        </div>
+                        
+                    </li>
+                    <li >
+                        <div class="col-12 row g-3">
+                            
+                            <label class="col-3">Manufacturer</label>
+                            <a class="col-3" href="javascript:void(0)" >
+                                <span>{{meterData.meter_manufacturer || 'N/A'}}</span>
+                            </a>
+                            <label class="col-3">Rating</label>
+                            <a class="col-3" href="javascript:void(0)" >
+                                <span>{{meterData.meter_rating || 'N/A'}}</span>
+                            </a>
+                        </div>
+                        
+                    </li>
+                    <li >
+                        <div class="col-12 row g-3">
+                            
+                            <label class="col-3">Voltage Rating</label>
+                            <a class="col-3" href="javascript:void(0)" >
+                                <span>{{meterData.v_rating || 'N/A'}}</span>
+                            </a>
+                            <label class="col-3">Classification</label>
+                            <a class="col-3" href="javascript:void(0)" >
+                                <span>{{meterData.meter_classification || 'N/A'}}</span>
+                            </a>
+                        </div>
+                        
+                    </li>
+                    <li >
+                        <div class="col-12 row g-3">
+                            
+                            <label class="col-3">Category</label>
+                            <a class="col-3" href="javascript:void(0)" >
+                                <span>{{meterData.meter_category || 'N/A'}}</span>
+                            </a>
+                            <label class="col-3">Supplier</label>
+                            <a class="col-3" href="javascript:void(0)" >
+                                <span>{{meterData.supplier || 'N/A'}}</span>
+                            </a>
+                        </div>
+                        
+                    </li>
+                    <li >
+                        <div class="col-12 row g-3">
+                            
+                            <label class="col-3">Premises Use</label>
+                            <a class="col-3" href="javascript:void(0)" >
+                                <span>{{meterData.premises_use || 'N/A'}}</span>
+                            </a>
+                            <label class="col-3">Premises Type</label>
+                            <a class="col-3" href="javascript:void(0)" >
+                                <span>{{meterData.premises_type || 'N/A'}}</span>
+                            </a>
+                        </div>
+                        
+                    </li>
+                    <li >
+                        <div class="col-12 row g-3">
+                            
+                            <label class="col-3">Premises Use</label>
+                            <a class="col-3" href="javascript:void(0)" >
+                                <span>{{meterData.premises_use || 'N/A'}}</span>
+                            </a>
+                            <label class="col-3">Premises Type</label>
+                            <a class="col-3" href="javascript:void(0)" >
+                                <span>{{meterData.premises_type || 'N/A'}}</span>
+                            </a>
+                        </div>
+                        
+                    </li>
+                    <li >
+                        <div class="col-12 row g-3">
+                            
+                            <label class="col-3">Supply Address</label>
+                            <a class="col-3" href="javascript:void(0)" >
+                                <span>{{meterData.supply_address || 'N/A'}}</span>
+                            </a>
+                            <label class="col-3">Unique Code</label>
+                            <a class="col-3" href="javascript:void(0)" >
+                                <span>{{meterData.unique_code || 'N/A'}}</span>
+                            </a>
+                        </div>
+                        
+                    </li>
+                    <li >
+                        <div class="col-12 row g-3">
+                            
+                            <label class="col-3">Progress</label>
+                            <a class="col-3" href="javascript:void(0)" >
+                                <span>{{meterData.progress || 'N/A'}}</span>
+                            </a>
+                            <label class="col-3">Status</label>
+                            <a class="col-3" href="javascript:void(0)" >
+                                <span>{{meterData.status || 'N/A'}}</span>
+                            </a>
+                        </div>
+                        
+                    </li>
+                </ul>
                
             </div><!-- data-list -->
         </div><!-- .nk-block -->

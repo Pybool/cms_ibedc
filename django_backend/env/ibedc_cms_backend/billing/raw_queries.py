@@ -9,7 +9,7 @@ SINGLE_CUSTOMER_BILLS = """
                         ) AS TotalCount
                         FROM [CMS_IBEDC_DATABASE].[dbo].[ems_bills]
                         WHERE AccountNo = '#AccountNo#'
-                        ORDER BY BillID
+                        ORDER BY Billdate desc
                         
                       """
   

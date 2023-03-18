@@ -1,0 +1,7 @@
+#customer_payment_history{
+    width:100%;
+    background:whitesmoke; 
+    overflow-y: auto; 
+    overflow-x: hidden;
+    opacity:0;
+}

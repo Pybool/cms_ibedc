@@ -92,8 +92,8 @@ class PrepaidCustomers(APIView):
                     total_customers = location_customers.count()
                     customers = location_customers.values(*ECMI_FIELDS)            
             else:
-                total_customers = EcmiCustomersNew.objects.all().count()
-                customers = EcmiCustomersNew.objects.filter(state='Oyo').values(*ECMI_FIELDS)
+                total_customers =EcmiCustomersNew.objects.all().count()
+                customers = EcmiCustomersNew.objects.filter(state='Oyo').order_by('-updated_at')[:1000].values(*ECMI_FIELDS)
         
         if customers:
             customers = self.custom_paginator.paginate_queryset(customers)
@@ -160,7 +160,7 @@ class PostpaidCustomers(APIView):
                     total_customers = location_customers.count()
                     customers = location_customers.values(*EMS_FIELDS)            
             else:
-                total_customers = EmsCustomersNew.objects.all().count()
+                total_customers = 0#EmsCustomersNew.objects.all().count()
                 customers = EmsCustomersNew.objects.filter(state='Oyo').values(*EMS_FIELDS)
                 
         if customers:

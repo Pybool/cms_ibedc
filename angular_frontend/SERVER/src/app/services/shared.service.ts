@@ -13,6 +13,8 @@ export class SharedService {
   public FormHeader$:any = new BehaviorSubject<string[]>(['create','Create Customer','prepaid',''])
   activeInput;
   activeCustomerPage;
+  spinnerText:string;
+  spinnerText$:any = new BehaviorSubject<string>('Loading');
   constructor(private router: Router) { }
 
   public setActiveSearchInput(input){
@@ -44,6 +46,15 @@ export class SharedService {
   public searchCustomer($event){
     let customers = new Customers()
     customers.searchCustomer($event)
+  }
+
+  public setSpinnerText(input){
+    this.activeInput = input
+    this.spinnerText$.next(this.activeInput);
+  }
+
+  public getSpinnerText(){
+    return this.spinnerText$.asObservable()
   }
 
   public navigateWithParams(base, params: {[key: string]: any}) {

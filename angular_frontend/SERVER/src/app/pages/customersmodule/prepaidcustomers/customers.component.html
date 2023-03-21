@@ -13,8 +13,8 @@
                      </ng-container>
                      <!-- <ng-container #elseblockid0><input id='create-perm' type='text' hidden='1' value='False'/></ng-container> -->
                      <ul class="tagList" id="search-tag-list">
-                       <li class="option-item "><a style="color:gray;" href="javascript:void(0)" id="cust-page-link1" (click)="getCustomers('prepaid')">Prepaid: {{ecmi_total_customers | number:'1.0'}}</a></li>
-                       <li class="option-item "><a style="color:gray;" href="javascript:void(0)" id="cust-page-link2" (click)="getCustomers('postpaid')">Postpaid {{ems_total_customers | number:'1.0'}}</a></li>
+                       <li class="option-item "><a style="color:gray;" href="javascript:void(0)" id="cust-page-link1" [routerLink]="['/customers/prepaid']">Prepaid: {{ecmi_total_customers | number:'1.0'}}</a></li>
+                       <li class="option-item "><a style="color:gray;" href="javascript:void(0)" id="cust-page-link2" [routerLink]="['/customers/postpaid']">Postpaid {{ems_total_customers | number:'1.0'}}</a></li>
                        </ul>
                      <!-- <p ><a id="cust-page-count"></a> <a href="javascript:void()" id="cust-page-link1" onclick="customerPageLinkHeader(this)"></a> <a href="javascript:void()" id="cust-page-link2" onclick="customerPageLinkHeader(this)"></a></p> -->
                   </ng-container>
@@ -67,9 +67,9 @@
                <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>
                <div  class="toggle-expand-content" data-content="pageMenu">
                   <ul class="nk-block-tools g-3">
-                     <li *ngIf="!can_create_customers"><a (click)="openCustomerCreateForm()" data-bs-toggle="tooltip" data-bs-placement="left" title="Create a new customer"  class="btn btn-white btn-outline-light"><em class="icon ni ni-download-cloud"></em><span>New Customer</span></a></li>
-                     <li *ngIf="!can_create_customers" class="nk-block-tools-opt">
-                         <a data-bs-toggle="tooltip" data-bs-placement="bottom" title="Create a new draft" href="javascript:loadDrafts()" class="btn btn-icon btn-primary" ><em class="icon ni ni-file-text"></em></a>
+                     <li *ngIf="can_create_customers"><a (click)="openCustomerCreateForm()" data-bs-toggle="tooltip" data-bs-placement="left" title="Create a new customer"  class="btn btn-white btn-outline-light"><em class="icon ni ni-download-cloud"></em><span>New Customer</span></a></li>
+                     <li *ngIf="can_create_customers" class="nk-block-tools-opt">
+                         <a data-bs-toggle="tooltip" (click)="openDrafts()" data-bs-placement="bottom" title="Create a new draft" href="javascript:void(0)" class="btn btn-icon btn-primary" ><em class="icon ni ni-file-text"></em></a>
                      </li>
                      <li data-bs-toggle="tooltip" data-bs-placement="left" title="Advanced Filtering">
                         <div class="dropdown">
@@ -142,13 +142,13 @@
                                        <div class="col-6">
                                           <div class="form-group">
                                              <label class="overline-title overline-title-alt">Feeders</label>
-                                             <input [(ngModel)]="filter.feeder" name="feeder" type="text" class="form-control" placeholder="Feeder name"/>
+                                             <input [(ngModel)]="filter.feeder_name" name="feeder_name" type="text" class="form-control" placeholder="Feeder name"/>
                                           </div>
                                        </div>
                                        <div class="col-12">
                                           <div class="form-group">
-                                             <label class="overline-title overline-title-alt">DSS</label>
-                                             <input [(ngModel)]="filter.dss" name="dss" type="text" class="form-control" placeholder="DSS name"/>
+                                             <label class="overline-title overline-title-alt">DSS ID</label>
+                                             <input [(ngModel)]="filter.dss_id" name="dss_id" type="text" class="form-control" placeholder="DSS ID"/>
                                           </div>
                                        </div>
                                        <div class="col-6">
@@ -170,7 +170,7 @@
                                     
                                  </div>
                               </div>
-                              <div class="dropdown-foot between"><a class="clickable" (click)="resetFilter()" href="javscript:void(0)">Reset Filter</a><a href="#">Save Filter</a></div>
+                              <div class="dropdown-foot between"><a class="clickable" (click)="resetFilter()" href="javscript:void(0)">Reset Filter</a></div>
                            </div>
                         </div>
                      </li>
@@ -236,45 +236,8 @@
                         <div class="btn-wrap"><span class="d-none d-md-block"><button  class="btn btn-dim btn-outline-light">Toggle View</button></span><span class="d-md-none"><button class="btn btn-dim btn-outline-light btn-icon disabled"><em class="icon ni ni-arrow-right"></em></button></span></div>
                      </div>
                   </div>
-                  <div class="card-tools me-n1">
-                     <ul class="btn-toolbar gx-1">
-                        <li><a href="#" class="btn btn-icon search-toggle toggle-search" data-target="search"><em class="icon ni ni-search"></em></a></li>
-                        <li class="btn-toolbar-sep"></li>
-                        <li>
-                           <div class="toggle-wrap">
-                              <a href="#" class="btn btn-icon btn-trigger toggle" data-target="cardTools"><em class="icon ni ni-menu-right"></em></a>
-                              <div class="toggle-content" data-content="cardTools">
-                                 <ul class="btn-toolbar gx-1">
-                                    
-                                 </ul>
-                              </div>
-                           </div>
-                        </li>
-                        `
-                        <li>
-                           <div class="nk-block-head-content">
-                              <div class="toggle-wrap nk-block-tools-toggle">
-                                 <a href="#" class="btn btn-icon btn-trigger toggle-expand" data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>
-                                 <!-- <div  class="toggle-expand-content" data-content="pageMenu">
-                                    <ul class="nk-block-tools g-3">
-                                       <li>
-                                          <div style="height:45px;" class="dropdown">
-                                             <a href="#" style="height:45px; font-size:16px;padding:5px;" class="dropdown-toggle btn  exportbtn shadow" data-bs-toggle="dropdown" aria-expanded="false"> &nbsp;<i class="material-icons">cloud_download</i> &nbsp; Export&nbsp;&nbsp;<em class="dd-indc icon ni ni-chevron-right"></em></a>
-                                             <div class="dropdown-menu dropdown-menu-right">
-                                                <ul class="link-list-opt">
-                                                   <li><a href="#" onclick="tableExports(1)"><span>CSV</span></a></li>
-                                                   <li><a href="#" onclick="tableExports(2)"><span>Excel</span></a></li>
-                                                   <li><a href="#" onclick="tableExports(3)"><span>PDF</span></a></li>
-                                                </ul>
-                                             </div>
-                                          </div>
-                                       </li>
-                                    </ul>
-                                 </div> -->
-                              </div>
-                           </div>
-                        </li>
-                     </ul>
+                  <div id="search-status" class="card-tools me-n1">
+                     
                   </div>
                </div> 
 
@@ -394,66 +357,11 @@
                                        <td class="nk-tb-col"><i style="color:#FF7518!important;" class="material-icons">block</i></td>
                                     </ng-template>
                                     <td [id]="customer.accountno.trim()" *ngIf="can_create_customers" class="nk-tb-col" (click)="openCustomerUpdateForm($event)">
-                                    <a href="javascript:void(0)"><em class="icon ni ni-edit pointer"></em><span>Edit</span></a>
+                                    <a [id]="customer.accountno.trim()" (click)="openCustomerUpdateForm($event)"><em (click)="openCustomerUpdateForm($event)" class="icon ni ni-edit pointer"></em><span (click)="openCustomerUpdateForm($event)">Edit</span></a>
                                     </td> 
                                  </tr>
                               </tbody>
-                              <tbody style="background: #9722b4;" *ngIf="customersType=='postpaid'">
-                               
-                                <!-- [ngStyle]="{'background': 'linear-gradient(to bottom, #' + Math.floor(Math.random() * 16777215).toString(16) + ', #' + Math.floor(Math.random() * 16777215).toString(16) + ')'}" -->
-                                 <tr *ngFor="let customer of customers$ | async; trackBy: trackByFn" [id]="customer.accountno" (click)="loadCustomerInformation($event,customer.accountno,customer.meterno,customer.accounttype)" class="nk-tb-item">
-                                    <td class="nk-tb-col nk-tb-col-check">
-                                       <div style="z-index:0;" class="custom-control custom-control-sm custom-checkbox notext ">
-                                          <input onchange="highlightRow(this,event)" style="z-index:0;" type="checkbox" class="customer-table-check custom-control-input shadow" id ="customer.accountno.trim()"/>
-                                          <label class="custom-control-label" for="{customer.accountno.trim()}"></label>
-                                          <div  class="user-avatar sm">
-                                             <p class="abbr" *ngIf="customer.surname +' ' + customer.firstname+' ' + customer.othernames != 'null null null'" style="color:white!important;" >{{abbreviateName(customer?.surname +' '+ customer?.firstname +' ' + customer?.othernames)}}</p>
-                                          </div>
-                                       </div>
-                                    </td>
-                                    <ng-container *ngFor="let transient of transients;">
-                                       <ng-container *ngIf="defaults.includes(transient);else block1">
-                                          <ng-container *ngIf="transient == 'Firstname' || transient == 'Surname' || transient == 'Othernames';else block2">
-                                             <td *ngIf="customer[''+field_names[''+transient]] != '' && customer[''+field_names[''+transient]] != null && customer[''+field_names[''+transient]] != undefined;else block3" class="nk-tb-col name-col"><b>{{customer[''+field_names[''+transient]]}}</b></td>
-                                             <ng-template #block3>
-                                                <td #block3></td>
-                                             </ng-template>
-                                          </ng-container>
-                                          <ng-template #block2>
-                                             <td *ngIf="transient == 'Account No';else block4" value="[${customer.accountno.trim()},${component.url.trim()}]" class="nk-tb-col underline">{{customer[''+field_names[''+transient]]}}</td>
-                                             <ng-template #block4>
-                                                <ng-container *ngIf="customer[''+field_names[''+transient]] != '' && customer[''+field_names[''+transient]] != null && customer[''+field_names[''+transient]] != undefined;else block5">
-                                                   <ng-container *ngIf="customer[''+field_names[''+transient]].trim() !='';else block6">
-                                                      <td class="nk-tb-col name-col"><b>{{customer[''+field_names[''+transient]]}}</b></td>
-                                                   </ng-container>
-                                                   <ng-template #block6>
-                                                      <td class="nk-tb-col name-col"><b>N/A</b></td>
-                                                   </ng-template>
-                                                </ng-container>
-                                                <ng-template #block5>
-                                                   <td></td>
-                                                </ng-template>
-                                             </ng-template>
-                                          </ng-template>
-                                       </ng-container>
-                                       <ng-template #block1>
-                                          <ng-container *ngIf="customer[''+field_names[''+transient]] != '' && customer[''+field_names[''+transient]] != null && customer[''+field_names[''+transient]] != undefined;else block7">
-                                             <td hidden class="nk-tb-col name-col"><b>{{customer[''+field_names[''+transient]]}}</b></td>
-                                          </ng-container>
-                                          <ng-template #block7>
-                                             <td class="nk-tb-col" hidden>&#x2022;&#x2022;&#x2022;</td>
-                                          </ng-template>
-                                       </ng-template>
-                                    </ng-container>
-                                    <td class="nk-tb-col" *ngIf="customer['kyc']; else block8"><i style="color:#FF7518!important;" class="material-icons">verified</i></td>
-                                    <ng-template #block8>
-                                       <td class="nk-tb-col"><i style="color:#FF7518!important;" class="material-icons">block</i></td>
-                                    </ng-template>
-                                    <td [id]="customer.accountno.trim()" *ngIf="can_create_customers" class="nk-tb-col" (click)="openCustomerUpdateForm($event)">
-                                    <a href="javascript:void(0)"><em class="icon ni ni-edit pointer"></em><span>Edit</span></a>
-                                    </td> 
-                                 </tr>
-                              </tbody>
+                             
                            </table>
                            <!-- <app-customercreation></app-customercreation>
                            <app-customerupdate></app-customerupdate> -->

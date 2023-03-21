@@ -5,17 +5,25 @@ import { CaadlistComponent } from './pages/caadlist/caadlist.component';
 import { ConfigurationsComponent } from './pages/configurations/configurations.component';
 import { CrmdComponent } from './pages/crmd/crmd.component';
 // import { CustomermainComponent } from './pages/customerdetails/customermain/customermain.component';
-import { CustomersComponent } from './pages/customers/customers.component';
+import { CustomersComponent } from './pages/customersmodule/prepaidcustomers/customers.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { PostpaidcustomersComponent } from './pages/customersmodule/postpaidcustomers/postpaidcustomers.component';
 import { UsersComponent } from './pages/user/users/users.component';
+import { BillingComponent } from './pages/billing/billing.component';
+import { PaymentsComponent } from './pages/payments/payments.component';
 
 const routes: Routes = [
                         { path:'cms/web/login', component:LoginComponent},
                         { path:'admin/users', component:UsersComponent},
                         { path:'dashboard',component: DashboardComponent },
-                        { path:'customers', component:CustomersComponent},
+                        { path:'customers/prepaid', component:CustomersComponent},
+                        { path:'customers/postpaid', component:PostpaidcustomersComponent},
                         { path:'cms/customers/crmd', component:CrmdComponent},
                         { path:'cms/caadlist', component:CaadlistComponent},
+                        { path:'cms/customers/billing', component:BillingComponent},
+                        { path:'cms/customers/payments', component:PaymentsComponent},
+
+                        
                         {
                           path: 'customer/information',
                           loadChildren: () =>

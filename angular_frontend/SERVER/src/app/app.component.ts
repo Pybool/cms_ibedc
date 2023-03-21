@@ -11,7 +11,9 @@ import { User } from './authentication/models/user';
 import { ActivatedRoute } from '@angular/router';
 import { SharedService } from './services/shared.service';
 import { CustomerService } from './services/customer.service';
-import { DeepFetchEcmiCustomers, DeepFetchEmsCustomers } from './pages/customers/state/customer.actions';
+import { DeepFetchEcmiCustomers } from './pages/customersmodule/prepaidcustomers/state/customer.actions';
+import { DeepFetchEmsCustomers } from './pages/customersmodule/postpaidcustomers/state/customer.actions';
+import { SpinnerService } from './services/spinner.service';
 
 declare function myfunction(): any;
 
@@ -30,15 +32,16 @@ export class AppComponent {
   can_approve:boolean;
   can_approve_caad:boolean;
   is_authenticated:boolean;
-  activeInput:string;
   activeCustomerPage:string;
+  activeSearchbar:string = 'customers'
   
   constructor(private router: Router,
               private store: Store<AppState>,
               private authService: AuthService,
               private route: ActivatedRoute,
               private sharedService:SharedService,
-              private customerService:CustomerService) {
+              private customerService:CustomerService,
+              private spinnerService:SpinnerService) {
     this.store.dispatch(new RehydrateLogIn(''));
     this.getState = this.store.select(isAuthenticated);
     this.userState = this.store.select(UserState);
@@ -48,10 +51,11 @@ export class AppComponent {
   ngOnInit(){
 
     this.sharedService.getActiveSearchInput()?.subscribe({
-      next: activeInput => {
-        this.activeInput = activeInput
+      next: activeSearchbar => {
+        this.activeSearchbar = activeSearchbar
       },
     });
+
 
     this.sharedService.getActiveCustomerPage()?.subscribe({
       next: activePage => {
@@ -116,14 +120,8 @@ export class AppComponent {
 
   }
 
-  changeSearchTable($event){
-    
-    console.log($event.target.checked)
-    let inputEl:any = document.querySelector('#search-customer-input')
-    if ($event.target.checked){
-      inputEl.placeholder = `Search for a ${this.activeCustomerPage} customer`
-    }
-    else{inputEl.placeholder = `Search for a customer`}
+  activateDualSearch($event){
+    this.sharedService.activateDualSearch($event.target.checked)
   }
 
   searchBarFilter($event){
@@ -135,12 +133,16 @@ export class AppComponent {
           //Dispatch deepSearch service here
           let payload = {activePage:this.activeCustomerPage,fieldName:$event.target.name,q:[searchBarValue]}
           if(this.activeCustomerPage == 'prepaid'){
+            const parentElement = document.getElementById('search-status');
+            this.spinnerService.showSpinner(parentElement);
+            this.sharedService.setSpinnerText('Processing your request')
             this.store.dispatch(new DeepFetchEcmiCustomers(payload))
-            // this.customerService.deepFetchCustomers(this.activeCustomerPage,$event.target.name,searchBarValue)
           }
           else if(this.activeCustomerPage == 'postpaid'){
+            const parentElement = document.getElementById('ems-search-status');
+            this.spinnerService.showSpinner(parentElement);
+            this.sharedService.setSpinnerText('Processing your request')
             this.store.dispatch(new DeepFetchEmsCustomers(payload))
-            // this.customerService.deepFetchCustomers(this.activeCustomerPage,$event.target.name,searchBarValue)
           }
           
           console.log(`Searching for a ${$event.target.textContent} ==> `, searchBarValue)
@@ -151,6 +153,10 @@ export class AppComponent {
     }
     else{alert("Component is not loaded yet.")}
     
+  }
+
+  billingSearchBarFilter($event){
+
   }
 
   

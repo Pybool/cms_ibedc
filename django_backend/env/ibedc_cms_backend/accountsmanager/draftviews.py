@@ -22,7 +22,8 @@ class DraftsView(APIView):
         draft_object['draft_tag'] = data.get('draft_tag')
         tab = data.get('type')
         self.key, self.val = get_permission_hierarchy(request)
-        draft_object[self.key] = self.val
+        if self.key != None:
+            draft_object[self.key] = self.val
         if self.key == 'state':
             draft_object['region'] = self.val
     
@@ -32,6 +33,8 @@ class DraftsView(APIView):
         with transaction.atomic():
             if not exists:
                 draft_object['created_by'] = request.user.email
+                
+                print("Draft object ======> ", draft_object)
                 draft_instance = CustomerDrafts.objects.create(**draft_object)
                 draft_instance.save()
                 if draft_instance:
@@ -68,7 +71,10 @@ class DraftsView(APIView):
     def get(self,request):
         key, val = get_permission_hierarchy(request)
         print("Location hierarchy ===> ",key, val)
-        drafts = CustomerDrafts.objects.filter(is_draft=True,created_by=request.user.email).filter(**{f"{key}__icontains": val}).values()
+        if val != 'HQ':
+            drafts = CustomerDrafts.objects.filter(is_draft=True,created_by=request.user.email).filter(**{f"{key}__icontains": val}).values()
+        else:
+            drafts = CustomerDrafts.objects.filter(is_draft=True,created_by=request.user.email).values()
         return Response({'status':True,'data':drafts})
         
         # if q=='':

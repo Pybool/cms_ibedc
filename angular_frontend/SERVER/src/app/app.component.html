@@ -18,13 +18,13 @@
                                             <li class="nk-menu-item has-sub">
                                                 <a href="#" class="nk-menu-link nk-menu-toggle" data-bs-original-title="" title=""><span class="nk-menu-icon"><em class="icon ni ni-users"></em></span><span class="nk-menu-text">Customers</span></a>
                                                 <ul class="nk-menu-sub" style="display: none;">
-                                                    <li class="nk-menu-item"><a href="javascript:void(0)" [routerLink]="['/customers']" class="nk-menu-link" data-bs-original-title="" title=""><span class="nk-menu-text">Customers</span></a></li>
+                                                    <li class="nk-menu-item"><a href="javascript:void(0)" [routerLink]="['/customers/prepaid']" class="nk-menu-link" data-bs-original-title="" title=""><span class="nk-menu-text">Customers</span></a></li>
                                                     <li *ngIf="can_approve" class="nk-menu-item"><a href="#" [routerLink]="['/cms/customers/crmd']" class="nk-menu-link" data-bs-original-title="" title=""><span class="nk-menu-text">Customer CRMD</span></a></li>
                                                     <li *ngIf="can_approve_caad" class="nk-menu-item"><a href="#" [routerLink]="['/cms/caadlist']" class="nk-menu-link" data-bs-original-title="" title=""><span class="nk-menu-text">Customer CAAD</span></a></li>
                                                 </ul>
                                             </li>
-                                            <li class="nk-menu-item"><a href="#" [routerLink]="['/airtime']" class="nk-menu-link" data-bs-original-title="" title=""><span class="nk-menu-icon"><em class="icon ni ni-mobile"></em></span><span class="nk-menu-text">Billing History</span></a></li>
-                                            <li class="nk-menu-item"><a href="#" [routerLink]="['/data']" class="nk-menu-link" data-bs-original-title="" title=""><span class="nk-menu-icon"><em class="icon ni ni-wifi"></em></span><span class="nk-menu-text">Payment History</span></a></li>                                            
+                                            <li class="nk-menu-item"><a href="#" [routerLink]="['cms/customers/billing']" class="nk-menu-link" data-bs-original-title="" title=""><span class="nk-menu-icon"><em class="icon ni ni-mobile"></em></span><span class="nk-menu-text">Billing History</span></a></li>
+                                            <li class="nk-menu-item"><a href="#" [routerLink]="['cms/customers/payments']" class="nk-menu-link" data-bs-original-title="" title=""><span class="nk-menu-icon"><em class="icon ni ni-wifi"></em></span><span class="nk-menu-text">Payment History</span></a></li>                                            
                                             
                                             <li class="nk-menu-item has-sub current-page">
                                                 <a href="#" class="nk-menu-link nk-menu-toggle" data-bs-original-title="" title=""><span class="nk-menu-icon"><em class="icon ni ni-users"></em></span><span class="nk-menu-text">Administration</span></a>
@@ -62,24 +62,25 @@
                     <div class="nk-header-wrap">
                         <div class="nk-menu-trigger d-xl-none ms-n1"><a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a></div>
                         <div class="nk-header-brand d-xl-none"><a href="index-2.html" class="logo-link"><img class="logo-light logo-img" src="/assets/images/smarthome-logo.jpg" srcset="/demo7/images/logo2x.png 2x" alt="logo"><img class="logo-dark logo-img" src="/assets/images/smarthome-logo.jpg" srcset="/demo7/images/logo-dark2x.png 2x" alt="logo-dark"></a></div>
-                        <div *ngIf="activeInput=='customers'" class="nk-header-search ms-3 ms-xl-0 d-none d-md-flex">
+                        <div *ngIf="activeSearchbar=='customers'" class="nk-header-search ms-3 ms-xl-0 d-none d-md-flex">
                             <div class="form-group searchbar-switch">
                                 <div class="custom-control custom-switch">
-                                    <input type="checkbox" class="custom-control-input" (change)="changeSearchTable($event)" name="reg-public" data-bs-toggle="tooltip" data-bs-placement="top" title="Toggle List and Grid Views" id="display-type">
+                                    <input type="checkbox" class="custom-control-input" (change)="activateDualSearch($event)" name="reg-public" data-bs-toggle="tooltip" data-bs-placement="top" title="Toggle List and Grid Views" id="display-type">
                                     <label class="custom-control-label" for="display-type"></label>
                                 </div>
                             </div>
                             <input id="search-customer-input" (keyup)="searchCustomer($event)" type="text" style="border: 1px solid #dbdfea!important;" class="form-control form-focus-none" placeholder="Search for a customer">
                         </div>
                         
-                        <div *ngIf="activeInput=='payments'" class="nk-header-search ms-3 ms-xl-0 d-none d-md-flex"><em class="icon ni ni-search"></em><input (keyup)="searchCustomer($event)" type="text" style="border: 1px solid #dbdfea!important;" class="form-control form-focus-none" placeholder="Search for a payment record"></div>
+                        <div *ngIf="activeSearchbar=='payments'" class="nk-header-search ms-3 ms-xl-0 d-none d-md-flex"><em class="icon ni ni-search"></em><input (keyup)="searchCustomer($event)" type="text" style="border: 1px solid #dbdfea!important;" class="form-control form-focus-none" placeholder="Search for a payment record"></div>
+                        <div *ngIf="activeSearchbar=='billing'" class="nk-header-search ms-3 ms-xl-0 d-none d-md-flex"><em class="icon ni ni-search"></em><input (keyup)="searchCustomer($event)" type="text" style="border: 1px solid #dbdfea!important;" class="form-control form-focus-none" placeholder="Search for a billing record"></div>
                         <div  class="nk-header-tools">
                             <ul class="nk-quick-nav">
                                 <li>
                                     <div class="dropdown">
                                         <a id="searchbar_filter" style="height:45px;" href="#" class="dropdown-toggle btn shadow" data-bs-toggle="dropdown" aria-expanded="false">Account Number&nbsp;&nbsp;<em class="dd-indc icon ni ni-chevron-right"></em></a>
                                         <div class="dropdown-menu" >
-                                          <ul *ngIf="activeInput=='customers'" class="link-list-opt">
+                                          <ul *ngIf="activeSearchbar=='customers'" class="link-list-opt">
                                              <li><a href="javascript:void(0)" (click)="searchBarFilter($event)" value = "Account Number" name="accountno">Account Number</a></li>
                                              <li><a href="javascript:void(0)" value = "Meter Number" name="meterno" (click)="searchBarFilter($event)">Meter Number</a></li>
                                              <li><a href="javascript:void(0)" name="names" (click)="searchBarFilter($event)">Names</a></li>
@@ -90,11 +91,21 @@
                                              <li><a href="javascript:void(0)" name="servicecenter" (click)="searchBarFilter($event)">Service Centers</a></li>
                                              <li><a href="javascript:void(0)" name="state" (click)="searchBarFilter($event)">Region</a></li>
                                           </ul>
-                                          <ul *ngIf="activeInput=='payments'" class="link-list-opt">
+                                          <ul *ngIf="activeSearchbar=='payments'" class="link-list-opt">
                                             <li><a href="javascript:void(0)" (click)="searchBarFilter($event)" value = "Account Number" name="accountno">Account Number</a></li>
                                             <li><a href="javascript:void(0)" value = "Meter Number" name="meterno" (click)="searchBarFilter($event)">Meter Number</a></li>
                                             <li><a href="javascript:void(0)" name="names" (click)="searchBarFilter($event)">Names</a></li>
-                                            
+                                         </ul>
+                                         <ul *ngIf="activeSearchbar=='billing'" class="link-list-opt">
+                                            <li><a href="javascript:void(0)" (click)="billingSearchBarFilter($event)" value = "Account Number" name="accountno">Account Number</a></li>
+                                            <li><a href="javascript:void(0)" name="names" (click)="billingSearchBarFilter($event)">Names</a></li>
+                                            <li><a href="javascript:void(0)" name="accounttype" (click)="billingSearchBarFilter($event)">Account Type</a></li>
+                                            <li><a href="javascript:void(0)" name="address" (click)="billingSearchBarFilter($event)">Address</a></li>
+                                            <li><a href="javascript:void(0)" name="buname1" (click)="billingSearchBarFilter($event)">Business Unit</a></li>
+                                            <li><a href="javascript:void(0)" name="buid" (click)="billingSearchBarFilter($event)">Business Unit Code</a></li>
+                                            <li><a href="javascript:void(0)" name="serviceaddress" (click)="billingSearchBarFilter($event)">Service Address</a></li>
+                                            <li><a href="javascript:void(0)" name="serviceid" (click)="billingSearchBarFilter($event)">Service ID</a></li>
+                                            <li><a href="javascript:void(0)" name="tarrifcode" (click)="billingSearchBarFilter($event)">Tarrif Code</a></li>
                                          </ul>
                                         </div>
                                     </div>

@@ -119,10 +119,11 @@
                                                     <div class="nk-tb-col"><span><b>Created By</b></span></div>
                                                     <div class="nk-tb-col"><span><b>Created Date</b></span></div>
                                                     <div class="nk-tb-col"><span><b>Approval Completion</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Actions</b></span></div>
                                                 </div>
                                                 
                                                 <ng-container *ngFor="let approvalItem of approvalList" t-as="approvalList">
-                                                    <div  t-att-value="approvalItem.account_no" (click)="viewCaadRecord($event,approvalItem.id)" t-att-id="'row_'+str(approvalItem.id)" class="nk-tb-item">
+                                                    <div  t-att-value="approvalItem.account_no" t-att-id="'row_'+str(approvalItem.id)" class="nk-tb-item">
                                                         <div class="nk-tb-col nk-tb-col-check">
                                                             <div class="custom-control custom-control-sm custom-checkbox notext">
                                                                 <input t-att-value="approvalItem.customer_name" type="checkbox" class="custom-control-input check_locations" t-att-id="approvalItem.id"/>
@@ -170,35 +171,24 @@
                                                         </div>
                                                         
                                                         <div class="nk-tb-col">
-                                                        
+                                                            <span class="tb-sub" t-esc="approvalItem.percentage">{{approvalItem?.percentage_approval + '%'}}</span>
                                                         </div>
-                                                        <div style="text-align:center;" class="nk-tb-col">
-                                                            <ng-container t-if="int(queue.percentage_approval) == 100"> 
-                                                                <i style="color:orange;font-size:22px;" class="material-icons">verified</i>
-                                                            </ng-container>
-                                                            <ng-container t-else="">
-                                                                <div class="progress">
-                                                                    <ng-container t-if="int(queue.percentage_approval) &lt; 20">
-                                                                        <div style="background:red;width:10%" data-bs-toggle="tooltip" data-bs-placement="right" t-att-title="str(int(queue.percentage_approval)) +'%'" class="progress-bar" t-att-data-progress="queue.percentage_approval"></div>
-                                                                    </ng-container>
-                                                                    <ng-container t-if="int(queue.percentage_approval) &gt; 20 and int(queue.percentage_approval) &lt; 30">
-                                                                        <div data-bs-toggle="tooltip" data-bs-placement="right" t-att-title="str(int(queue.percentage_approval)) +'%'" class="progress-bar" t-att-data-progress="queue.percentage_approval"></div>
-                                                                    </ng-container>
-                                                                    <ng-container t-if="int(queue.percentage_approval) &gt; 30 and int(queue.percentage_approval) &lt; 40">
-                                                                        <div  data-bs-toggle="tooltip" data-bs-placement="right" t-att-title="str(int(queue.percentage_approval)) +'%'" class="progress-bar" t-att-data-progress="queue.percentage_approval"></div>
-                                                                    </ng-container> 
-                                                                    <ng-container t-if="int(queue.percentage_approval) &gt; 40 and int(queue.percentage_approval) &lt; 51">
-                                                                        <div  data-bs-toggle="tooltip" data-bs-placement="right" t-att-title="str(int(queue.percentage_approval)) +'%'" class="progress-bar" t-att-data-progress="queue.percentage_approval"></div>
-                                                                    </ng-container>
-                                                                    <ng-container t-if="int(queue.percentage_approval) &gt; 51 and int(queue.percentage_approval) &lt; 81">
-                                                                        <div  data-bs-toggle="tooltip" data-bs-placement="right" t-att-title="str(int(queue.percentage_approval)) +'%'" class="progress-bar" t-att-data-progress="queue.percentage_approval"></div>
-                                                                    </ng-container>
-                                                                    <ng-container t-if="int(queue.percentage_approval) &gt; 81 and int(queue.percentage_approval) &lt; 99">
-                                                                        <div  data-bs-toggle="tooltip" data-bs-placement="right" t-att-title="str(int(queue.percentage_approval)) +'%'" class="progress-bar" t-att-data-progress="queue.percentage_approval"></div>
-                                                                    </ng-container>
-                                                                </div>
-                                                            </ng-container>
-                                                            <!-- <span class="tb-sub" t-esc="queue.percentage"></span> -->
+                                                        <div class="nk-tb-col nk-tb-col-tools">
+                                                            <ul class="nk-tb-actions gx-2">
+                                                                <li>
+                                                                    <div class="drodown">
+                                                                        <a href="#" class="btn btn-sm btn-icon btn-trigger dropdown-toggle" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                                                        <div class="dropdown-menu dropdown-menu-end">
+                                                                            <ul class="link-list-opt no-bdr">
+                                                                                <li  value="{{approvalItem.id}}"><a href="javascript:void(0)" (click)="viewCaadRecord($event,approvalItem.id)"><em class="icon ni ni-eye"></em><span>View Details</span></a></li>
+                                                                                <li class="divider"></li>
+                                                                                <li  value="{{approvalItem.id}}"><a href="javascript:void(0)"><em class="icon ni ni-shield-off"></em><span>Revert</span></a></li>
+                                                                                <li  value="{{approvalItem.id}}"><a href="javascript:void(0)"><em class="icon ni ni-na"></em><span>Approve</span></a></li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
                                                         </div>
                                                         
                                                     </div><!-- .nk-tb-item -->
@@ -381,13 +371,13 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="nk-tb-col">
-                                                                    <span class="tb-sub bold" t-esc="approvalItem.customer_name">{{approver.approver_name | titlecase}}</span>
+                                                                    <span class="tb-sub bold" t-esc="approvalItem.customer_name"><b>{{approver.approver_name | titlecase}}</b></span>
                                                                 </div>
                                                                 <div class="nk-tb-col">
                                                                     <span class="tb-sub bold" t-esc="approvalItem.accountno">{{approver.approver_position}}</span>
                                                                 </div>
                                                                 <div class="nk-tb-col">
-                                                                    <span class="tb-sub bold" t-esc="approvalItem.customer_name">{{approver.approver_email}}</span>
+                                                                    <span class="tb-sub bold" t-esc="approvalItem.customer_name"><b>{{approver.approver_email}}</b></span>
                                                                 </div>
                                                                 <div class="nk-tb-col">
                                                                     <span class="tb-sub bold" t-esc="approvalItem.accountno">{{approver.date_approved }}</span>

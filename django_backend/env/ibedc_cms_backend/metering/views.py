@@ -28,6 +28,8 @@ class SingleCustomerMetering(APIView):
                         .replace("#AccountNo#",accountno)\
                         .replace("#page_size#",page_size)\
                         .replace("#page_no#",page_no)
+                        
+            print(query)
         else:
             query =  SINGLE_ECMI_CUSTTOMER_METERING_INFO\
                         .replace("#AccountNo#",accountno)
@@ -36,6 +38,6 @@ class SingleCustomerMetering(APIView):
         if payments:
             response = {"status": True, "count":0, "data": payments}
         else:
-            response = {"status": False, "message": "No customer payments found with the provided account number."}
+            response = {"status": False, "message": "No metering information found with this customer."}
         return Response(response)
 

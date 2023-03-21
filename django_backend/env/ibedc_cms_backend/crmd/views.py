@@ -62,14 +62,14 @@ class CustomerFormMetaDataView(APIView):
         user = get_object_or_404(User, email=request.user.email)
         field_name = get_field_name(permission_hierarchy)
         location = permission_hierarchy.replace('-', '_')        
-        print("Location ====> ", field_name, getattr(user, location))
+        # print("Location ====> ", field_name, getattr(user, location))
         
         if field_name == 'state':
-            locations = PermissionsHierarchyView.get(PermissionsHierarchyView,request,{'as_method':True,'hierarchy':'business_unit','q':getattr(user, location)})
+            locations = PermissionsHierarchyView.get(PermissionsHierarchyView,request,{'as_method':True,'hierarchy':'business_unit','q':location})
             locations['type'] = 'business_units'
                     
         elif field_name == 'business_unit':
-            locations = PermissionsHierarchyView.get(PermissionsHierarchyView,request,{'as_method':True,'hierarchy':'servicecenter','q':getattr(user, location)})
+            locations = PermissionsHierarchyView.get(PermissionsHierarchyView,request,{'as_method':True,'hierarchy':'servicecenter','q':location})
             locations['type'] = 'service_centers'
             
         else:

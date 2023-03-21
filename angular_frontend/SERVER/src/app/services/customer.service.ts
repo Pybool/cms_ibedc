@@ -2,13 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { UserState } from '../authentication/state/auth.selector';
 import { AppState } from '../basestore/app.states';
-import { ecmiCustomers, emsCustomers } from '../pages/customers/state/customer.selector';
+import { ecmiCustomers, emsCustomers } from '../pages/customersmodule/prepaidcustomers/state/customer.selector';
 import { UserModifyModel } from '../pages/user/createuser/models/user';
 import { map, switchMap, take, tap } from 'rxjs/operators';
+import { SharedService } from './shared.service';
 
 @Injectable({
   providedIn: 'root'
@@ -25,10 +26,15 @@ export class CustomerService {
   emsCustomersList$;
   ecmiCustomersList$;
   customer;
+  dual:boolean = false
+  newCustomerList;
+  newCustomerList$:any = new BehaviorSubject<any>({});
   
   private readonly cacheTimeMs = 5 * 60 * 1000; // Cache for 5 minutes
 
-  constructor(private store: Store<AppState>,private http: HttpClient,private router: Router) { 
+  constructor(private store: Store<AppState>,
+              private http: HttpClient,private router: Router,
+              private sharedService: SharedService) { 
     this.userState = this.store.select(UserState);
   }
 
@@ -45,6 +51,17 @@ export class CustomerService {
   
   padNumber(num) {
     return num.toString().padStart(2, '0');
+  }
+
+  swapCustomerlist(data){
+    this.newCustomerList = data
+    
+    this.newCustomerList$.next(data)
+    console.log(this.newCustomerList)
+  }
+
+  public getNewCustomerList(){
+    return this.newCustomerList$.asObservable()
   }
   
   
@@ -75,21 +92,15 @@ export class CustomerService {
             this.cachedData$ = this.store.select(ecmiCustomers);
             return this.cachedData$.pipe(
               switchMap((data:any) => {
-                console.log(data);
                 const currentTime = new Date().getTime();
-                console.log(data?.timestamp)
                 if ((currentTime - data?.timestamp) > this.cacheTimeMs) {
-                  console.log("Executing new request ====> ");
                   return this.http.get(`${environment.api}/customers/prepaid?start_date=${this.getCurrentDate()}&end_date=${this.getCurrentDate()}&permission_hierarchy=${this.permission_hierarchy}`).pipe(
                     map((newData) => {
                       newData['timestamp'] = new Date().getTime()
-                      console.log("Backend data =============> ", newData['timestamp'])
                       return newData
-                      // this.store.dispatch(updateEcmiCustomers({ customers: newData, timestamp: new Date().getTime() }));
                     })
                   );
                 } else {
-                  console.log('Using cached data');
                   return of(data.customers);
                 }
               })
@@ -120,7 +131,6 @@ export class CustomerService {
       case 'prepaid':
         this.ecmiCustomersList = this.store.select(ecmiCustomers);
         this.ecmiCustomersList$ = this.ecmiCustomersList.subscribe((data) => {
-          console.log("Data===----> ", data)
           this.customer = this.getItemById(data.customers,payload.accountno) 
           console.log("Found customer in store ", this.customer)
           
@@ -161,46 +171,51 @@ export class CustomerService {
 
   deepFetchCustomers(payload):Observable<any>{
     console.log("Deep search payload ===> ", payload)
-    let type = payload.activePage
     this.userState.subscribe((user) => {
       this.permission_hierarchy = user.permission_hierarchy//user.can_create_customers
       
-    });
-    const currentTime = new Date().getTime();
-    
-      switch (type){
-        case 'postpaid':
-          // this.cachedData$ = this.store.select(emsCustomers);
-          // this.cachedData$.subscribe((data) => {
-            // console.log("checking cache ===> ",!data.customers || (data?.timestamp || 0), this.cacheTimeMs, currentTime)
-            console.log("searching ems")
-          //   if (!data.customers || (data?.timestamp || 0) + this.cacheTimeMs < currentTime) {
-              return  this.http.get(`${environment.api}/customers/postpaid?start_date=${this.getCurrentDate()}&end_date=${this.getCurrentDate()}&permission_hierarchy=${this.permission_hierarchy}`)
-          //   }
-          //   return of(this.cachedData$)
-          // })
-          // return this.data$
-          
-          
-        case 'prepaid':
-          // this.cachedData$ = this.store.select(ecmiCustomers);
-          // this.cachedData$.subscribe((data) => {
-          //   console.log(data)
-          //   if (!data.customers || (data?.timestamp || 0) + this.cacheTimeMs < currentTime) {
-          //     console.log("Executing ====> ")
-          console.log("searching ecmi")
-               return this.http.get(`${environment.api}/customers/prepaid?start_date=${this.getCurrentDate()}&end_date=${this.getCurrentDate()}&permission_hierarchy=${this.permission_hierarchy}`)
-          //   }
-          //   return of(this.cachedData$)
-          // })
-          // return this.data$
-          
-          
-      }
-    
-    
-    
+    });    
+    return  this.http.post(`${environment.api}/searching/prepaid/customers?permission_hierarchy=${this.permission_hierarchy}`,payload)
+
   }
+
+  deepEmsFetchCustomers(payload):Observable<any>{
+    console.log("Deep search payload ===> ", payload)
+    this.userState.subscribe((user) => {
+      this.permission_hierarchy = user.permission_hierarchy//user.can_create_customers
+      
+    });    
+    return  this.http.post(`${environment.api}/searching/postpaid/customers?permission_hierarchy=${this.permission_hierarchy}`,payload)
+
+  }
+
+  advancedFilterEcmiCustomers(payload):Observable<any>{
+    this.sharedService.getDualSearchState().pipe(take(1)).subscribe((state)=>{
+      this.dual = state
+    })
+    console.log("Advanced filtering payload ===> ", payload)
+    this.userState.subscribe((user) => {
+      this.permission_hierarchy = user.permission_hierarchy//user.can_create_customers
+      
+    });    
+    return  this.http.post(`${environment.api}/advancedsearching/prepaid/customers?permission_hierarchy=${this.permission_hierarchy}&dual=${this.dual}`,payload)
+
+  }
+
+  advancedFilterEmsCustomers(payload):Observable<any>{
+    this.sharedService.getDualSearchState().pipe(take(1)).subscribe((state)=>{
+      this.dual = state
+    })
+    console.log("Advanced filtering payload ===> ", payload)
+    this.userState.subscribe((user) => {
+      this.permission_hierarchy = user.permission_hierarchy//user.can_create_customers
+      
+    });    
+    return  this.http.post(`${environment.api}/advancedsearching/postpaid/customers?permission_hierarchy=${this.permission_hierarchy}`,payload)
+
+  }
+
+  
 
   fecthCustomerFormMetadata(){
     return this.http.get<any>(`${environment.api}/cms/customerform/metadata?as_method=${true}`)

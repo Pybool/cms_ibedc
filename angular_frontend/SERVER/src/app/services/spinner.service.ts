@@ -22,6 +22,7 @@ export class SpinnerService {
       const spinnerFactory = this.componentFactoryResolver.resolveComponentFactory(SpinnerComponent);
       this.spinnerRef = spinnerFactory.create(this.injector);
       this.appRef.attachView(this.spinnerRef.hostView);
+      console.log("done attaching spinner ",this.spinnerRef.hostView)
     }
 
     // Add the spinner component to the parent element

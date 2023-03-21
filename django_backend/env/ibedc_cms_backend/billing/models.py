@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 class EmsBills(models.Model):
-    billid = models.CharField(db_column='BillID', max_length=36, null=True)  # Field name made lowercase.
+    billid = models.CharField(primary_key=True,db_column='BillID', max_length=36)  # Field name made lowercase.
     buid = models.CharField(db_column='BUID', max_length=10, blank=True, null=True)  # Field name made lowercase.
     pageno1 = models.IntegerField(db_column='PageNo1', blank=True, null=True)  # Field name made lowercase.
     buname1 = models.CharField(db_column='BUName1', max_length=255, blank=True, null=True)  # Field name made lowercase.
@@ -76,5 +76,6 @@ class EmsBills(models.Model):
     bandadjustment = models.DecimalField(db_column='BandAdjustment', max_digits=18, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        managed = True
+        ordering = ('-billdate',)
         db_table = 'ems_bills'

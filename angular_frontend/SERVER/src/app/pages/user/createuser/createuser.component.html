@@ -1,4 +1,4 @@
-<div  id="create_user" style="width:700px;" class="nk-add-product toggle-slide toggle-slide-right" data-content="createUser" data-toggle-screen="any" data-toggle-overlay="true" data-toggle-body="true" data-simplebar='1'>
+<div  id="create_user" style="width:1000px;" class="nk-add-product toggle-slide toggle-slide-right" data-content="createUser" data-toggle-screen="any" data-toggle-overlay="true" data-toggle-body="true" data-simplebar='1'>
     <div class="nk-block-head">
         <div class="nk-block-head-content">
             <h5 id="create_edit_user_title" class="nk-block-title"></h5>
@@ -12,189 +12,206 @@
     <div class="nk-block">
         <form id="user_create_form" class="form-validate is-alter" autocomplete="off" (ngSubmit)="submit()" ngNativeValidate>
             <div class="row g-3">
-                <div class="col-12">
-                    <div class="form-group">
-                        <label class="form-label" for="product-title">Full User Name</label>
-                        <div class="form-control-wrap">
-                            <input [(ngModel)]="user.name" type="text" class="form-control shadow" name="name" appTitlecase/>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div class="form-group">
-                        <label class="form-label" for="regular-price">Email Address</label>
-                        <div class="form-control-wrap">
-                            <input [(ngModel)]="user.email" type="email" class="form-control shadow" name="email" />
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div class="form-group">
-                        <label class="form-label" for="sale-price">Password</label>
-                        <div class="form-control-wrap">
-                            <input [(ngModel)]="user.password" type="password" class="form-control shadow" name="password"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div class="form-group">
-                        <label class="form-label" for="sale-price">Confirm Password</label>
-                        <div class="form-control-wrap">
-                            <input type="password" class="form-control shadow" name="password-again"/>
-                        </div>
-                    </div>
-                </div>
-                <br/>
-                <br/>
-                <div style="width:100%" class="nk-block-des col-12">
-                    <div style="width:100%" class="data-head col-12">
-                        <h5 style="width:100%"  class="overline-title col-12">Access Rights and Permissions</h5>
-                    </div>
-                </div>
+                <div id="accordion" class="accordion">
+                    <div class="accordion-item">
+                       <a id="basic_information_accordion" href="javascript:void(0)"  class="accordion-head" data-bs-toggle="collapse" data-bs-target="#accordion-item-1">
+                          <h6 class="title">User Credentials and Role</h6>
+                          <span class="accordion-icon"></span>      
+                       </a>
+                       <div class="accordion-body collapse" id="accordion-item-1" data-bs-parent="#accordion">
+                          <div class="col-12 row g-3 accordion-inner">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="product-title">Full User Name</label>
+                                    <div class="form-control-wrap">
+                                        <input [(ngModel)]="user.name" name ="name" type="text" class="form-control shadow" id="name" appTitlecase/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="regular-price">Email Address</label>
+                                    <div class="form-control-wrap">
+                                        <input [(ngModel)]="user.email" name="email" type="email" class="form-control shadow" id="email"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="sale-price">Password</label>
+                                    <div class="form-control-wrap">
+                                        <input [(ngModel)]="user.password" name="password" type="password" class="form-control shadow" id="password"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="sale-price">Confirm Password</label>
+                                    <div class="form-control-wrap">
+                                        <input  type="password" class="form-control shadow" id="password-again"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <app-custom-select id="app-user-positions"  class="col-12 dropdown" [options]="options" [defaultTitle]="'Select User Position'" ></app-custom-select>
 
-                <app-custom-select id="app-user-positions"  class="col-12 dropdown" [options]="options" [defaultTitle]="'Select User Position'" ></app-custom-select>
-                 
-                <!-- <ng-container *ngIf="can_create_user">
-                    <div class="form-group no-padding col-12">
-                        <label class="form-label" for="can-create-users">Can Create Users</label>
-                        <app-custom-select id="app-can-create-users"  class="col-12 dropdown no-padding" [options]="priviledges" [defaultTitle]="'Select User Creation Priviledge'" ></app-custom-select>
+                            <!-- <div  style="height: 45px;width:100%!important" class="col-12 dropdown no-padding">
+                                <a id="position-dropdown" name = {{value}}  href="#" data-bs-toggle="dropdown"
+                                aria-expanded="false" class="dropdown-toggle btn shadow" style="height: 45px;width:100%!important">
+                                {{title}}&nbsp;&nbsp;
+                                <em class="dd-indc icon ni ni-chevron-right"></em>
+                                </a>
+                                <div id="position-dropdown-menu" class="dropdown-menu" data-popper-placement="bottom-start">
+                                    <ul style="max-height:50vh;overflow-y: auto;" class="link-list-opt">
+                                        <li *ngFor="let position of positions">
+                                            <a href="javascript:void(0)" name="{{position?.code}}" (click)="onSelect($event)"><span>{{position?.name || position}}</span></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div> -->
+
+                          </div>
+                       </div>
                     </div>
-                </ng-container> -->
-                <hr>
-                <div class="form-group col-12">
-                    <h1 class="form-label bold" for="can-create-users"><b>Permissions</b></h1>
-                </div> 
-                <hr>
-                <div class="col-3">
-                    <!-- <ng-container t-if="can_create_user"> -->
-                        <div class="custom-control custom-control-sm custom-checkbox notext">
-                            <input [(ngModel)]="user.can_create_user" type="checkbox" name="checkbox10" class="custom-control-input" name="can_create_user" id="init_can_create_user"/>
-                            <label style="padding:10px;" class="custom-control-label" for="init_can_create_user">Can Create User</label>
+                </div>
+           
+                <div id="accordion" class="accordion">
+                    <div class="accordion-item">
+                       <a id="basic_information_accordion" href="javascript:void(0)"  class="accordion-head" data-bs-toggle="collapse" data-bs-target="#accordion-item-2">
+                          <h6 class="title">User's Permissions Configuration</h6>
+                          <span class="accordion-icon"></span>      
+                       </a>
+                       <div class="accordion-body collapse" id="accordion-item-2" data-bs-parent="#accordion">
+                          <div class="col-12 row g-3 accordion-inner">
+                            <div class="col-4">
+                                <div class="custom-control custom-control-sm custom-checkbox notext">
+                                    <input [(ngModel)]="user.can_create_user" type="checkbox" name="checkbox10" class="custom-control-input" name="can_create_user" id="init_can_create_user"/>
+                                    <label style="padding:10px;" class="custom-control-label" for="init_can_create_user">Can Create User</label>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="custom-control custom-control-sm custom-checkbox notext">
+                                    <input [(ngModel)]="user.can_create_customers" type="checkbox" name="checkbox" class="custom-control-input" id="can_create_customers" name="can_create_customers"/>
+                                    <label style="padding:10px;" class="custom-control-label" for="can_create_customers">Can Create/Update Customers</label>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="custom-control custom-control-sm custom-checkbox notext">
+                                    <input [(ngModel)]="user.can_approve" type="checkbox" name="checkbox" class="custom-control-input" id="can_approve" name="can_approve"/>
+                                    <label style="padding:10px;" class="custom-control-label" for="can_approve">Can Approve Customer Creation</label>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="custom-control custom-control-sm custom-checkbox notext">
+                                    <input [(ngModel)]="user.can_approve_caad" type="checkbox" name="checkbox" class="custom-control-input" name="can_approve_caad" id="can_approve_caad"/>
+                                    <label style="padding:10px;" class="custom-control-label" for="can_approve_caad">Can Approve CAAD</label>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <ng-container t-if="can_manage_2fa">
+                                    <div class="custom-control custom-control-sm custom-checkbox notext">
+                                        <input [(ngModel)]="user.can_manage_2fa" type="checkbox" name="checkbox3" class="custom-control-input" name="can_manage_2fa" id="can_manage_2fa"/>
+                                        <label style="padding:10px;" class="custom-control-label" for="can_manage_2fa">Can Manage 2FA</label>
+                                    </div>
+                                </ng-container>
+                            </div>
+                            <div class="col-4">
+                                <ng-container t-if="can_create_user">
+                                    <div style="opacity:0.5" class="custom-control custom-control-sm custom-checkbox notext">
+                                        <input type="checkbox" name="----" class="custom-control-input" name="----" id="----"/>
+                                        <label disabled style="padding:10px;" class="custom-control-label" for="----">-----</label>
+                                    </div>
+                                </ng-container>
+                            </div>
+                            <hr>
+                            <div class="col-3">
+                                <div class="form-check">
+                                    <input (change)="radioPermissionsSelector($event,'Head Quarters')" type="radio" name="radio" class="form-check-input" id="hq_radio"/>
+                                    <label class="form-check-label" for="hq_radio">Head Quarters</label>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-check">
+                                    <input (change)="radioPermissionsSelector($event,'Region')" type="radio" name="radio" class="form-check-input" id="region_radio"/>
+                                    <label class="form-check-label" for="region_radio">Region</label>
+                                </div>
+                            </div>
+                            <div class="col-3"> 
+                                <div class="form-check">
+                                    <input   (change)="radioPermissionsSelector($event,'Business Unit')" type="radio" name="radio" class="form-check-input" id="bizhub_radio"/>
+                                    <label class="form-check-label" for="bizhub_radio">Business Unit</label>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-check">
+                                    <input  (change)="radioPermissionsSelector($event,'Service Center')" type="radio" name="radio" class="form-check-input" id="service_center_radio"/>
+                                    <label class="form-check-label" for="service_center_radio">Service Center</label>  
+                                </div>
+                            </div>
+                            <input [(ngModel)]="user.permission_hierarchy" [value]="permission_hierarchy" id="permission_hierarchy" name="permission_hierarchy" Type="text" hidden/>
+                            <hr>
+
+                          </div>
                         </div>
-                    <!-- </ng-container> -->
-                </div>
-                <div class="col-4">
-                    <div class="custom-control custom-control-sm custom-checkbox notext">
-                        <input [(ngModel)]="user.can_create_customers" type="checkbox" name="checkbox" class="custom-control-input" id="can_create_customers" name="can_create_customers"/>
-                        <label style="padding:10px;" class="custom-control-label" for="can_create_customers">Can Create/Update Customers</label>
                     </div>
                 </div>
-                
-                <div class="col-5">
-                    <div class="custom-control custom-control-sm custom-checkbox notext">
-                        <input [(ngModel)]="user.can_approve" type="checkbox" name="checkbox" class="custom-control-input" id="can_approve" name="can_approve"/>
-                        <label style="padding:10px;" class="custom-control-label" for="can_approve">Can Approve Customer Creation</label>
-                    </div>
-                </div>
-                <hr>
-                <div class="col-4">
-                    <!-- <ng-container t-if="can_approve_caad"> -->
-                    <div class="custom-control custom-control-sm custom-checkbox notext">
-                        <input [(ngModel)]="user.can_approve_caad" type="checkbox" name="checkbox" class="custom-control-input" name="can_approve_caad" id="can_approve_caad"/>
-                        <label style="padding:10px;" class="custom-control-label" for="can_approve_caad">Can Approve CAAD</label>
-                    </div>
-                    <!-- </ng-container> -->
-                </div>
-                <div class="col-4">
-                    <ng-container t-if="can_manage_2fa">
-                        <div class="custom-control custom-control-sm custom-checkbox notext">
-                            <input [(ngModel)]="user.can_manage_2fa" type="checkbox" name="checkbox3" class="custom-control-input" name="can_manage_2fa" id="can_manage_2fa"/>
-                            <label style="padding:10px;" class="custom-control-label" for="can_manage_2fa">Can Manage 2FA</label>
-                        </div>
-                    </ng-container>
-                </div>
-                <div class="col-4">
-                    <ng-container t-if="can_create_user">
-                        <div style="opacity:0.5" class="custom-control custom-control-sm custom-checkbox notext">
-                            <input type="checkbox" name="----" class="custom-control-input" name="----" id="----"/>
-                            <label disabled style="padding:10px;" class="custom-control-label" for="----">-----</label>
-                        </div>
-                    </ng-container>
-                </div>
-                <hr>
-                <br/>
-                <div class="col-3">
-                    <div class="form-check">
-                        <input (change)="radioPermissionsSelector($event,'Head Quarters')" type="radio" name="radio" class="form-check-input" id="hq_radio"/>
-                        <label class="form-check-label" for="hq_radio">Head Quarters</label>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="form-check">
-                        <input (change)="radioPermissionsSelector($event,'Region')" type="radio" name="radio" class="form-check-input" id="region_radio"/>
-                        <label class="form-check-label" for="region_radio">Region</label>
-                    </div>
-                </div>
-                <div class="col-3"> 
-                    <div class="form-check">
-                        <input   (change)="radioPermissionsSelector($event,'Business Unit')" type="radio" name="radio" class="form-check-input" id="bizhub_radio"/>
-                        <label class="form-check-label" for="bizhub_radio">Business Unit</label>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="form-check">
-                        <input  (change)="radioPermissionsSelector($event,'Service Center')" type="radio" name="radio" class="form-check-input" id="service_center_radio"/>
-                        <label class="form-check-label" for="service_center_radio">Service Center</label>  
-                    </div>
-                </div>
-                <input [(ngModel)]="user.permission_hierarchy" [value]="permission_hierarchy" id="permission_hierarchy" name="permission_hierarchy" Type="text" hidden/>
-                <hr>
 
                 <ng-container *ngIf="permission_hierarchy=='Region'" id='regions_template'> 
-                    <div *ngIf="permission_hierarchy=='Service Center' || permission_hierarchy=='Business Unit' || permission_hierarchy=='Region'" class="form-group col-12">
-                        <label class="form-label" for="sale-price">Regions</label>
-                        <!-- <app-custom-select [model]="'locations'"  class="col-12 dropdown" [type]="'regions'" [clearId]="'app-bizhubs'" id="app-regions" [options]="regions" [defaultTitle]="'Select Region'" ></app-custom-select> -->
-                        <select (change)="fetchBusinessUnits($event)" [(ngModel)]="user.region" name="region" class="form-select shadow" id="region">
-                            <option *ngFor="let region of regions;" [value]="region.name | lowercase">{{region.name}}</option>
-                         </select>
+                    <div class="col-12 row g-3">
+                        <div *ngIf="permission_hierarchy=='Service Center' || permission_hierarchy=='Business Unit' || permission_hierarchy=='Region'" class="form-group col-12">
+                            <label class="form-label" for="sale-price">Regions</label>
+                            <select (change)="fetchBusinessUnits($event)" [(ngModel)]="user.region" name="region" class="form-select shadow" id="region">
+                                <option *ngFor="let region of regions;" [value]="region.name | lowercase">{{region.name}}</option>
+                             </select>
+                        </div>
                     </div>
-                    <br/>
-                    <br/>
+                  
                 </ng-container>
 
                 <ng-container *ngIf="permission_hierarchy=='Business Unit'" id='business_unit_template'>
-                    <div *ngIf="permission_hierarchy=='Service Center' || permission_hierarchy=='Business Unit' || permission_hierarchy=='Region'" class="form-group col-12">
-                        <label class="form-label" for="sale-price">Regions</label>
-                        <!-- <app-custom-select [model]="'locations'"  class="col-12 dropdown" [type]="'regions'" [clearId]="'app-bizhubs'" id="app-regions" [options]="regions" [defaultTitle]="'Select Region'" ></app-custom-select> -->
-                        <select (change)="fetchBusinessUnits($event)" [(ngModel)]="user.region" name="region" class="form-select shadow" id="region">
-                            <option *ngFor="let region of regions;" [value]="region.name | lowercase">{{region.name}}</option>
-                         </select>
+                    <div class="col-12 row g-3">
+                        <div *ngIf="permission_hierarchy=='Service Center' || permission_hierarchy=='Business Unit' || permission_hierarchy=='Region'" class="form-group col-6">
+                            <label class="form-label" for="sale-price">Regions</label>
+                            <!-- <app-custom-select [model]="'locations'"  class="col-6 dropdown" [type]="'regions'" [clearId]="'app-bizhubs'" id="app-regions" [options]="regions" [defaultTitle]="'Select Region'" ></app-custom-select> -->
+                            <select (change)="fetchBusinessUnits($event)" [(ngModel)]="user.region" name="region" class="form-select shadow" id="region">
+                                <option *ngFor="let region of regions;" [value]="region.name | lowercase">{{region.name}}</option>
+                             </select>
+                        </div>
+    
+                        <div *ngIf="permission_hierarchy=='Business Unit' || permission_hierarchy=='Service Center'" id="business_unit_radio" class="form-group col-6">
+                            <label class="form-label" for="sale-price">Business Unit</label>
+                            <select  (change)="fetchServiceCenters($event)" [(ngModel)]="user.business_unit" name="buid" class="form-select shadow" id="buid">
+                                <option *ngFor="let business_unit of business_units;" [value]="business_unit.name | lowercase">{{business_unit.name}}</option>
+                             </select>
+                        </div>
                     </div>
-
-                    <div *ngIf="permission_hierarchy=='Business Unit' || permission_hierarchy=='Service Center'" id="business_unit_radio" class="form-group col-12">
-                        <label class="form-label" for="sale-price">Business Unit</label>
-                        <select  (change)="fetchServiceCenters($event)" [(ngModel)]="user.business_unit" name="buid" class="form-select shadow" id="buid">
-                            <option *ngFor="let business_unit of business_units;" [value]="business_unit.name | lowercase">{{business_unit.name}}</option>
-                         </select>
-                    </div>
-                    <br/>
-                    <br/>
+                    
                 </ng-container> 
 
                 <ng-container *ngIf="permission_hierarchy=='Service Center'" id='service_center_template'>
-                    <div *ngIf="permission_hierarchy=='Service Center' || permission_hierarchy=='Business Unit' || permission_hierarchy=='Region'" class="form-group col-12">
-                        <label class="form-label" for="sale-price">Regions</label>
-                        <!-- <app-custom-select [model]="'locations'"  class="col-12 dropdown" [type]="'regions'" [clearId]="'app-bizhubs'" id="app-regions" [options]="regions" [defaultTitle]="'Select Region'" ></app-custom-select> -->
-                        <select (change)="fetchBusinessUnits($event)" [(ngModel)]="user.region" name="region" class="form-select shadow" id="region">
-                            <option *ngFor="let region of regions;" [value]="region.name | lowercase">{{region.name}}</option>
-                         </select>
+                    <div class="col-12 row g-3">
+                        <div *ngIf="permission_hierarchy=='Service Center' || permission_hierarchy=='Business Unit' || permission_hierarchy=='Region'" class="form-group col-4">
+                            <label class="form-label" for="sale-price">Regions</label>
+                            <!-- <app-custom-select [model]="'locations'"  class="col-4 dropdown" [type]="'regions'" [clearId]="'app-bizhubs'" id="app-regions" [options]="regions" [defaultTitle]="'Select Region'" ></app-custom-select> -->
+                            <select (change)="fetchBusinessUnits($event)" [(ngModel)]="user.region" name="region" class="form-select shadow" id="region">
+                                <option *ngFor="let region of regions;" [value]="region.name | lowercase">{{region.name}}</option>
+                             </select>
+                        </div>
+    
+                        <div *ngIf="permission_hierarchy=='Business Unit' || permission_hierarchy=='Service Center'" id="business_unit_radio" class="form-group col-4">
+                            <label class="form-label" for="sale-price">Business Unit</label>
+                            <select  (change)="fetchServiceCenters($event)" [(ngModel)]="user.business_unit" name="buid" class="form-select shadow" id="buid">
+                                <option *ngFor="let business_unit of business_units;" [value]="business_unit.name | lowercase">{{business_unit.name}}</option>
+                             </select>
+                        </div>
+                        <div *ngIf="permission_hierarchy=='Service Center'" id="service_center_radio" class="form-group col-4" >
+                            <label class="form-label" for="sale-price">Service Center</label>
+                            <select [(ngModel)]="user.service_center" name="service_center" class="form-select shadow" id="servicecenter">
+                                <option *ngFor="let service_center of service_centers;" [value]="service_center.name | lowercase">{{service_center.name}}</option>
+                             </select>
+                        </div>
                     </div>
-
-                    <div *ngIf="permission_hierarchy=='Business Unit' || permission_hierarchy=='Service Center'" id="business_unit_radio" class="form-group col-12">
-                        <label class="form-label" for="sale-price">Business Unit</label>
-                        <select  (change)="fetchServiceCenters($event)" [(ngModel)]="user.business_unit" name="buid" class="form-select shadow" id="buid">
-                            <option *ngFor="let business_unit of business_units;" [value]="business_unit.name | lowercase">{{business_unit.name}}</option>
-                         </select>
-                    </div>
-                    <div *ngIf="permission_hierarchy=='Service Center'" id="service_center_radio" class="form-group col-12" >
-                        <label class="form-label" for="sale-price">Service Center</label>
-                        <select [(ngModel)]="user.service_center" name="service_center" class="form-select shadow" id="servicecenter">
-                            <option *ngFor="let service_center of service_centers;" [value]="service_center.name | lowercase">{{service_center.name}}</option>
-                         </select>
-                    </div>
-                    <br/>
-                    <br/>
-        
+                    
                 </ng-container>
                 
                 <br/>                                                    <!-- Template -->

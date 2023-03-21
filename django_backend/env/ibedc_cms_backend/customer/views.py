@@ -54,7 +54,7 @@ class PrepaidCustomers(APIView):
         permission_hierarchy = generate_slug(request.GET.get('permission_hierarchy'))
         user = get_object_or_404(User, email=request.user.email)
         field_name, location = get_permission_hierarchy(request)
-        print("Location ====> ", field_name, "===> ", location)
+        print("Location ====> ", field_name, "===> ", location) 
                 
         if permission_hierarchy != generate_slug(user.permission_hierarchy):
             response = {"status":False, "message":"Hierarchy specified does not match legacy", "data":[]}
@@ -115,11 +115,9 @@ class PostpaidCustomers(APIView):
         end_date = request.GET.get('end_date')
         permission_hierarchy = generate_slug(request.GET.get('permission_hierarchy'))
         user = get_object_or_404(User, email=request.user.email)
-        field_name = get_field_name(permission_hierarchy)
-        location = permission_hierarchy.replace('-', '_')
-        
-        print("Location ====> ", field_name, getattr(user, location))
-        
+        field_name, location = get_permission_hierarchy(request)
+        print("Location ====> ", field_name, "===> ", location) 
+                
         if permission_hierarchy != generate_slug(user.permission_hierarchy):
             response = {"status":False, "message":"Hierarchy specified does not match legacy", "data":[]}
             return Response(response)
@@ -131,11 +129,11 @@ class PostpaidCustomers(APIView):
         if start_date != end_date:
             if field_name is not None:
                 if field_name == 'region':
-                    customers = EmsCustomersNew.objects.filter(**{f"{field_name}__icontains": getattr(user, location)}).filter(applicationdate__range=[start_date, end_date]).values(*EMS_FIELDS)
+                    customers = EmsCustomersNew.objects.filter(**{f"{field_name}__icontains": location}).filter(applicationdate__range=[start_date, end_date]).values(*EMS_FIELDS)
                 elif field_name == 'buid':
-                    customers = EmsCustomersNew.objects.filter(state=request.user.region).filter(**{f"{field_name}__icontains": getattr(user, location)}).filter(applicationdate__range=[start_date, end_date]).values(*EMS_FIELDS)
+                    customers = EmsCustomersNew.objects.filter(state=request.user.region).filter(**{f"{field_name}__icontains": location}).filter(applicationdate__range=[start_date, end_date]).values(*EMS_FIELDS)
                 elif field_name == 'servicecenter':
-                    customers = EmsCustomersNew.objects.filter(state=request.user.region).filter(buid=request.user.business_unit).filter(**{f"{field_name}__icontains": getattr(user, location)}).filter(applicationdate__range=[start_date, end_date]).values(*EMS_FIELDS)
+                    customers = EmsCustomersNew.objects.filter(state=request.user.region).filter(buid=request.user.business_unit).filter(**{f"{field_name}__icontains": location}).filter(applicationdate__range=[start_date, end_date]).values(*EMS_FIELDS)
             else:
                 customers = EmsCustomersNew.objects.filter().filter(applicationdate__range=[start_date, end_date]).values(*EMS_FIELDS)
                 
@@ -143,12 +141,12 @@ class PostpaidCustomers(APIView):
             if field_name is not None:#For Non-HQ users
                 
                 if field_name == 'region':
-                    location_customers = EmsCustomersNew.objects.filter(**{f"{field_name}__icontains": getattr(user, location)}).count()
+                    location_customers = EmsCustomersNew.objects.filter(**{f"{field_name}__icontains": location}).count()
                     total_customers = location_customers.count()
                     customers = location_customers.values(*EMS_FIELDS)
                 elif field_name == 'buid':
                     buids = fetch_and_cache_buids()
-                    buid = search_for_buid(getattr(user, location), request.user.region, buids)
+                    buid = search_for_buid(location, request.user.region, buids)
                     location_customers = EmsCustomersNew.objects.filter(state=request.user.region).filter(**{f"{field_name}__icontains": buid})
                     total_customers = location_customers.count()
                     customers = location_customers.values(*EMS_FIELDS)
@@ -156,12 +154,12 @@ class PostpaidCustomers(APIView):
                 elif field_name == 'servicecenter':
                     buids = fetch_and_cache_buids()
                     buid = search_for_buid(request.user.business_unit, request.user.region, buids)
-                    location_customers = EmsCustomersNew.objects.filter(state=request.user.region).filter(buid=buid).filter(**{f"{field_name}__icontains": getattr(user, location)})
+                    location_customers = EmsCustomersNew.objects.filter(state=request.user.region).filter(buid=buid).filter(**{f"{field_name}__icontains": location})
                     total_customers = location_customers.count()
                     customers = location_customers.values(*EMS_FIELDS)            
             else:
-                total_customers = 0#EmsCustomersNew.objects.all().count()
-                customers = EmsCustomersNew.objects.filter(state='Oyo').values(*EMS_FIELDS)
+                total_customers = EmsCustomersNew.objects.all().count()
+                customers = EmsCustomersNew.objects.filter(state='Oyo')[:5000].values(*EMS_FIELDS)
                 
         if customers:
             customers = self.custom_paginator.paginate_queryset(customers)

@@ -14,7 +14,7 @@ import { reducers } from './basestore/app.states';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { CustomersComponent } from './pages/customers/customers.component';
+import { CustomersComponent } from './pages/customersmodule/prepaidcustomers/customers.component';
 import { LoginComponent } from './authentication/login/login.component';
 import { ResetpasswordComponent } from './authentication/resetpassword/resetpassword.component';
 import { AuthService } from './services/auth.service';
@@ -34,7 +34,7 @@ import { CustomSelectEffects } from './ui/customselect/state/customselect.effect
 import { CreateUserEffects } from './pages/user/state/createuser.effects';
 import { CreateuserModule } from './pages/user/createuser/createuser.module';
 import {DataTablesModule} from 'angular-datatables';
-import { CustomerEffects } from './pages/customers/state/customer.effects';
+import { CustomerEffects } from './pages/customersmodule/prepaidcustomers/state/customer.effects';
 import { TitleCasePipe } from './pipes/titlecase.pipe';
 import { ConfigurationsModule } from './pages/configurations/configurations.module';
 import { CustomerCreationEffects } from './pages/customercreation/state/customercreation.effects';
@@ -48,6 +48,10 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { DynamicScriptDirective } from './directives/dynamic-script.directive';
 import { SpinnerComponent } from './ui/spinner/spinner.component';
+import { PostpaidcustomersComponent } from './pages/customersmodule/postpaidcustomers/postpaidcustomers.component';
+import { BillingComponent } from './pages/billing/billing.component';
+import { PaymentsComponent } from './pages/payments/payments.component';
+import { EmsCustomerEffects } from './pages/customersmodule/postpaidcustomers/state/customer.effects';
 
 
 const metaReducers: Array<MetaReducer<any, any>> = [localStorageReducer];
@@ -71,6 +75,9 @@ const metaReducers: Array<MetaReducer<any, any>> = [localStorageReducer];
     CaadlistComponent,
     DynamicScriptDirective,
     SpinnerComponent,
+    PostpaidcustomersComponent,
+    BillingComponent,
+    PaymentsComponent
     
   ],
   imports: [
@@ -85,7 +92,7 @@ const metaReducers: Array<MetaReducer<any, any>> = [localStorageReducer];
     StoreModule.forRoot(reducers, {  }),
     EffectsModule.forRoot([AuthEffects,CustomSelectEffects,CreateUserEffects,
                            UserEffects,CustomerEffects,CustomerCreationEffects,
-                           CustomerCaadEffects,CaadListEffects]),
+                           CustomerCaadEffects,CaadListEffects,EmsCustomerEffects]),
     ToastrModule.forRoot({positionClass: 'toast-top-center',
     preventDuplicates: true,autoDismiss:false}),
     StoreDevtoolsModule.instrument({

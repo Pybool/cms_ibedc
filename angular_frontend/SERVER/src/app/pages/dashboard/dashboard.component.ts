@@ -15,6 +15,7 @@ import * as am5xy from "@amcharts/amcharts5/xy";
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnDestroy {
+  Math
   period = '1'
   cuid = 0
   start_date;
@@ -96,6 +97,15 @@ export class DashboardComponent implements OnDestroy {
   }
 
   ngAfterViewInit(){
+    
+  }
+
+  round(val){
+    try{
+      console.log(val)
+    return Math.round(parseInt(val))
+    }
+    catch(err){console.log(err)}
     
   }
 
@@ -229,7 +239,7 @@ export class DashboardComponent implements OnDestroy {
       });
 
       
-      var data = this.collectionsStatistics;
+      var data = this.collectionsStatistics.sort((a, b) => (a.period > b.period) ? 1 : -1);;
      
       console.log("Barchart data ",data)
       xAxis.data.setAll(data);

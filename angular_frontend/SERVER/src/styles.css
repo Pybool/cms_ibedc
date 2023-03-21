@@ -294,3 +294,8 @@ ul.tagList li > span.rmTag {
 ul.tagList li > span.rmTag:hover {  
   background-color: #ef9a9a;
 }
+
+
+.dtr-control::before{
+  background-color: orange!important;
+}

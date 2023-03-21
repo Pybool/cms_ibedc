@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { Customers } from '../pages/customers/script';
+import { Customers } from '../pages/customersmodule/prepaidcustomers/script';
 
 @Injectable({
   providedIn: 'root'
@@ -11,11 +11,22 @@ export class SharedService {
   public activeSearchInput$:any = new BehaviorSubject<string>('customers');
   public activeCustomerPage$:any = new BehaviorSubject<string>('prepaid');
   public FormHeader$:any = new BehaviorSubject<string[]>(['create','Create Customer','prepaid',''])
+  public dualSearch$:any = new BehaviorSubject<boolean>(false)
   activeInput;
+  dualSearch:boolean;
   activeCustomerPage;
   spinnerText:string;
   spinnerText$:any = new BehaviorSubject<string>('Loading');
   constructor(private router: Router) { }
+
+  public activateDualSearch(state){
+    this.dualSearch = state
+    this.dualSearch$.next(state)
+  }
+
+  public getDualSearchState(){
+    return this.dualSearch$.asObservable()
+  }
 
   public setActiveSearchInput(input){
     this.activeInput = input

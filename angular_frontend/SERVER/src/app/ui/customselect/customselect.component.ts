@@ -27,7 +27,13 @@ export class CustomselectComponent {
   }
 
   ngOnInit(): void {
-
+    console.log(this.updatetitle)
+    this.defaultTitle = this.updatetitle = this.title
+    let dropdown = document.getElementById('app-user-positions-update')
+    console.log(dropdown)
+      if(dropdown != null){
+        dropdown.querySelector('a').textContent = this.updatetitle
+      }
   }
 
   setTitle(title){

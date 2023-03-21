@@ -46,9 +46,17 @@ export class BillinginformationComponent implements OnInit {
       this.customerService.fetchSingleCustomerBills(params).subscribe((response)=>{
         if (response.status){
           this.bills = response.data
-          console.log(this.bills)
+          window.waitForElm('#billswrapper').then((parentElement) => {
+            this.spinnerService.showSpinner(parentElement);
+            this.sharedService.setSpinnerText('Fetching data from source...')
+            this.convertTableService.convertTable({id:'cust_bills'})
+          })
         }
-        else{this.message=response.message;this.bills = false}
+        else{
+          console.log(response.status)
+          this.spinnerService.hideSpinner();
+          this.message=response.message;
+          this.bills = false}
       })
     });
   }
@@ -61,11 +69,7 @@ export class BillinginformationComponent implements OnInit {
   }
 
   ngAfterViewInit(){
-    window.waitForElm('#billswrapper').then((parentElement) => {
-      this.spinnerService.showSpinner(parentElement);
-      this.sharedService.setSpinnerText('Fetching data from source...')
-      this.convertTableService.convertTable({id:'cust_bills'})
-    })
+    
     
   }
 

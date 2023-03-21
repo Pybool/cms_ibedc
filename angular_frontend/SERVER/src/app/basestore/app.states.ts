@@ -3,7 +3,7 @@ import { createFeatureSelector } from '@ngrx/store';
 import * as auth from '../authentication/state/auth.reducer';
 import * as createUser from '../pages/user/state/createuser.reducer';
 import * as userReducer from '../pages/user/users/state/user.reducer';
-import * as custtomerReducer from '../pages/customers/state/customer.reducer';
+import * as custtomerReducer from '../pages/customersmodule/prepaidcustomers/state/customer.reducer';
 import * as caadListReducer from '../pages/caadlist/state/caadlist.reducer';
 import * as custtomerCreateReducer from '../pages/customercreation/state/customercreation.reducer';
 
@@ -33,7 +33,7 @@ export const reducers = {
     ecmiCustomersList:custtomerReducer.ecmiReducer,
     emsCustomersList:custtomerReducer.emsReducer,
     // deepfetchEcmiCustomersList :custtomerReducer.deepFetchEcmiReducer,
-    deepfetchEmsCustomersList :custtomerReducer.deepFetchEmsReducer,
+    // deepfetchEmsCustomersList :custtomerReducer.deepFetchEmsReducer,
     lastSavedDraft:custtomerCreateReducer.draftReducer,
     fetchedDrafts:custtomerCreateReducer.fetchedDraftReducer,
     loadedDraft:custtomerCreateReducer.loadDraftReducer,

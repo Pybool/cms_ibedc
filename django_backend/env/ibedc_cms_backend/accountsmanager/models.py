@@ -61,6 +61,7 @@ class CustomerEditQueue(models.Model):
     auditor_approved = models.BooleanField(default=False)
     
     class Meta:
+        managed = False
         db_table = 'customer_editqueue'
     
 
@@ -128,4 +129,5 @@ class CustomerDrafts(models.Model):
     auditor_approved = models.BooleanField(default=False)
 
     class Meta:
+        managed = False
         db_table = 'customer_drafts'

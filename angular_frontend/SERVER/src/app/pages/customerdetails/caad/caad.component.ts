@@ -55,8 +55,14 @@ export class CaadComponent implements OnInit {
     
   }
 
+  /* Method to check if the previous lineitem is completed before adding a new lineitem */
+  isPreviousMabFilled(){
+    console.log(this.lineItems[this.lineItems.length-1])
+    return this.lineItems[this.lineItems.length-1]?.mab == undefined
+  }
+
   trackByFn(index: number, item: any) {
-    return item.index; // replace 'id' with a unique identifier property in your object
+    return item.index; 
   }
 
   selectVatOption($event){
@@ -69,7 +75,11 @@ export class CaadComponent implements OnInit {
   }
 
   addCaadLineItem($event){
-    
+    if(this.lineItems.length > 0){
+      if(this.isPreviousMabFilled()){
+        return alert("You must complete the previous lineitem before proceeding")
+      }
+    }
     const index = this.lineItems.length + 1
     const uuid = this.sharedService.generateUUIDStr()
     if(this.is_metered){
@@ -79,11 +89,13 @@ export class CaadComponent implements OnInit {
         this.typeLineItem.last_actual_reading = this.lineItems[0].last_actual_reading
         this.typeLineItem.consumed = this.lineItems[0].present_reading - this.lineItems[0].last_actual_reading
       }
+      
     }
     else{
       this.typeLineItem = new UnmeteredCaadLineItem(index,uuid)
     }
     this.lineItems.push(this.typeLineItem)
+    this.isPreviousMabFilled()
   }
 
   deleteLineItem(uuid){

@@ -18,14 +18,14 @@ export class ConvertTableService {
   convertTable(args){
     return new Promise((resolve, reject)=>{
       try{
-        const allowedTime =  0.5 * 60 * 1000; // Wait for 30 seconds
+        const allowedTime =  1 * 60 * 1000; // Wait for 60 seconds
         const start_time = new Date().getTime()
         this.intervalId = setInterval(() => {
           let len = document.querySelector('tbody')?.querySelectorAll('tr')?.length
   
           if ((new Date().getTime() - start_time) > allowedTime) {
             
-            alert("Terminated fetching as it took too long")
+            console.log("Terminated fetching as it took too long")
             this.spinnerService.hideSpinner();
             return clearInterval(this.intervalId);
           }
@@ -38,6 +38,7 @@ export class ConvertTableService {
                     "processing": true,
                     "searching":false,
                     "deferRender": true, 
+                    "order": []
                 });
   
                 clearInterval(this.intervalId);

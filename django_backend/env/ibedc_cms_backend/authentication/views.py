@@ -195,14 +195,19 @@ class RequestOtpView(APIView):
 
 
 class UserFormView(APIView):
-    # authentication_classes = [JWTAuthenticationMiddleWare]
+    authentication_classes = [JWTAuthenticationMiddleWare]
     def get(self,request):
         groups = Group.objects.filter().values()
         positions = UserPositions.objects.filter().values()
-        # regions = LocationsPermissions.objects.filter().values('region').distinct() #.distinct('region)
+        business_units = {}
+        servicecenters = {}
         regions = PermissionsHierarchyView.get(PermissionsHierarchyView,request,{'as_method':True,'hierarchy':'regions','q':''})
-        return Response({'status':True,'positions':positions,'groups':groups,'regions':regions.get('regions')})
-
+        payload = request.GET.get('data',None)
+        if payload is not None:
+            locs = json.loads(payload)
+            business_units = PermissionsHierarchyView.get(PermissionsHierarchyView,request,{'as_method':True,'hierarchy':'business_unit','q':locs['region']})
+            servicecenters = PermissionsHierarchyView.get(PermissionsHierarchyView,request,{'as_method':True,'hierarchy':'servicecenter','q':locs['business_unit'].title()})
+        return Response({'status':True,'positions':positions,'groups':groups,'regions':regions.get('regions'),'business_units':business_units.get('business_units'),'servicecenters':servicecenters.get('service_centers')})
 
 class RegistrationValidateOtpView(APIView):
     def post(self,request):
@@ -344,7 +349,6 @@ class GetUsersView(APIView):
             users = User.objects.filter().exclude(dev_perm=True).order_by('-id').values_list()
         if dev_perm:
             users = User.objects.filter().order_by('-id').values_list()
-        
         return users
     
     def search_users(self,searchparam,location_type=''):
@@ -446,6 +450,7 @@ class CreateUpdateUser(APIView):
         return Response({"status":False,"message":"No group was specified for this user.."})
             
     def valsUser(self,data):
+        print('Pos',data.get('position'))
         try:
             position = UserPositions.objects.get(code=data.get('position')).name
         except:
@@ -458,7 +463,7 @@ class CreateUpdateUser(APIView):
             'password': make_password(data.get('password')),
             'region':data.get('region') or 'granted',
             'business_unit':data.get('business_unit') or 'granted',
-            'service_center':data.get('service_center') or 'granted',
+            'service_center':data.get('service_center') or data.get('servicecenter'),
             'permission_hierarchy':data.get('permission_hierarchy','Head Quarters'),
             'can_approve':data.get('can_approve',False),
             'can_create_user':data.get('can_create_user',False),
@@ -572,7 +577,8 @@ class CreateUpdateUser(APIView):
         self.data = request.data
         data = self.data        
         vals_user = self.valsUser(data)
-        vals_user.pop('password')
+        print(vals_user)
+        # vals_user.pop('password')
         try:
             update_user_count = User.objects.filter(id=int(data.get('id'))).update(**vals_user)
             print("Update count ===> ", update_user_count)
@@ -581,6 +587,7 @@ class CreateUpdateUser(APIView):
             else:
                 return Response({"status":False,"message":"An error occured while updating this user"})
         except Exception as e:
+            print(e)
             response = {"status":False,"message":"An error occured while updating this user"}
             return Response(response)
         messages = {'GROUP_NO_EXIST':'User was updated but could not be added to Manage 2FA, Group might not exist',

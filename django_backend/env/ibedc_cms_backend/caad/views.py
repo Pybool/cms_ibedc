@@ -51,31 +51,32 @@ class CaadApprovalsView(APIView):
     def get(self,request):
         id = request.GET.get('id',None)    
         self.field_name, self.location = get_permission_hierarchy(request)
-        try:
-            if self.field_name is not None:
-                queries = { 'region':CaadHeader.objects.filter(**{f"{'region'}__icontains": self.location}),
-                            'buid':CaadHeader.objects.filter(region=request.user.region).filter(**{f"{self.field_name}__icontains": self.location}),
-                            'servicecenter':CaadHeader.objects.filter(region=request.user.region).filter(buid=request.user.business_unit).filter(**{f"{self.field_name}__icontains": self.location})
-                          }
-            if id is None:
-                locale_positions = ['BHM','OC','RH']
-                inverse_last_approvals = {"BHM":"","OC":"BHM APPROVED","RH":"OC APPROVED","HCS":"RH APPROVED","CCO":"HCS APPROVED","MD":"CCO APPROVED"}
-                user_position = get_user_position_code(request.user.position)
-                if user_position in locale_positions:
-                    pending_queue = queries[self.field_name].filter(last_approval = inverse_last_approvals[user_position]).order_by('-created_date').values()
-                else:
-                    pending_queue = CaadHeader.objects.filter(last_approval = inverse_last_approvals[user_position]).order_by('-created_date').values()
+        print(self.field_name, self.location)
+        # try:
+        if self.field_name is not None:
+            queries = { 'region':CaadHeader.objects.filter(**{f"{'region'}__icontains": self.location}),'state':CaadHeader.objects.filter(**{f"{'region'}__icontains": self.location}),
+                        'buid':CaadHeader.objects.filter(region=request.user.region).filter(**{f"{self.field_name}__icontains": self.location}),
+                        'servicecenter':CaadHeader.objects.filter(region=request.user.region).filter(buid=request.user.business_unit).filter(**{f"{self.field_name}__icontains": self.location})
+                        }
+        if id is None:
+            locale_positions = ['BHM','OC','RH']
+            inverse_last_approvals = {"BHM":"","OC":"BHM APPROVED","RH":"OC APPROVED","HCS":"RH APPROVED","CCO":"HCS APPROVED","MD":"CCO APPROVED"}
+            user_position = get_user_position_code(request.user.position)
+            if user_position in locale_positions:
+                pending_queue = queries[self.field_name].filter(last_approval = inverse_last_approvals[user_position]).order_by('-created_date').values()
             else:
-                line_items = CaadLineItems.objects.filter(header_id = int(id)).values()
-                approvers = CaadApprovalUsers.objects.filter(caad_id =int(id)).order_by('-date_approved').values()
-                return Response({"status":True,"data":line_items,"approvers":approvers,"message":"Caad Line Items Records where successfully fetched"})
-                
-            return Response({"status":True,"data":pending_queue,"message":"Caad Records where successfully fetched"})
+                pending_queue = CaadHeader.objects.filter(last_approval = inverse_last_approvals[user_position]).order_by('-created_date').values()
+        else:
+            line_items = CaadLineItems.objects.filter(header_id = int(id)).values()
+            approvers = CaadApprovalUsers.objects.filter(caad_id =int(id)).order_by('-date_approved').values()
+            return Response({"status":True,"data":line_items,"approvers":approvers,"message":"Caad Line Items Records where successfully fetched"})
             
-        except Exception as e:
-            print(str(e))
-            response = {"status":False,"message":f"An error occured while processing your request"} 
-            return Response(response)  
+        return Response({"status":True,"data":pending_queue,"message":"Caad Records where successfully fetched"})
+            
+        # except Exception as e:
+        #     print(str(e))
+        #     response = {"status":False,"message":f"An error occured while processing your request"} 
+        #     return Response(response)  
     
     def put(self,request):
         if request.user.can_approve_caad:

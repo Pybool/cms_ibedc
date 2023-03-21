@@ -14,8 +14,6 @@ import { CustomerActionTypes,
         FetchEmsCustomersFailure, 
         DeepFetchEcmiCustomersSuccess,
         DeepFetchEcmiCustomersFailure,
-        DeepFetchEmsCustomersSuccess,
-        DeepFetchEmsCustomersFailure,
         LoadEmsCustomersuccess,
         LoadEmsCustomerFailure} from './customer.actions';
 
@@ -195,10 +193,11 @@ DeepFetchEcmiCustomers$= createEffect(() =>
                 map((response) => {
                     console.log(response);
                     if(response.status){
+                        this.customersService.swapCustomerlist(response)
                         return new DeepFetchEcmiCustomersSuccess(response) as Action; // cast to Action
                     }
                     else{
-                        throw new Error("Server returned false status for fetch Ecmi Customers")
+                        throw new Error("Data was not fetched from server")
                     }
                 }),
                 catchError((error) => {
@@ -212,28 +211,28 @@ DeepFetchEcmiCustomers$= createEffect(() =>
     )
 )
 
-DeepFetchEmsCustomers$= createEffect(() => 
-    this.actions$.pipe(
-        ofType(CustomerActionTypes.DEEP_FETCH_EMS_CUSTOMERS),
-        map((action: any) => action.payload),
-        switchMap(payload => {
-            return this.customersService.deepFetchCustomers(payload).pipe(
-                map((response) => {
-                    if(response.status){
-                        return new DeepFetchEmsCustomersSuccess(response) as Action; // cast to Action
-                    }
-                    else{
-                        throw new Error("Server returned false status for fetch Ems Customers")
-                    }
-                }),
-                catchError((error) => {
-                    console.log(error);
-                    return of(new DeepFetchEmsCustomersFailure({ error: error })) as Observable<Action>; // cast to Observable<Action>
-                })
-            )
-        })
-    )
-)
+// DeepFetchEmsCustomers$= createEffect(() => 
+//     this.actions$.pipe(
+//         ofType(CustomerActionTypes.DEEP_FETCH_EMS_CUSTOMERS),
+//         map((action: any) => action.payload),
+//         switchMap(payload => {
+//             return this.customersService.deepFetchCustomers(payload).pipe(
+//                 map((response) => {
+//                     if(response.status){
+//                         return new DeepFetchEmsCustomersSuccess(response) as Action; // cast to Action
+//                     }
+//                     else{
+//                         throw new Error("Server returned false status for fetch Ems Customers")
+//                     }
+//                 }),
+//                 catchError((error) => {
+//                     console.log(error);
+//                     return of(new DeepFetchEmsCustomersFailure({ error: error })) as Observable<Action>; // cast to Observable<Action>
+//                 })
+//             )
+//         })
+//     )
+// )
 
 // LoadEmsCustomers$= createEffect(() => 
 //     this.actions$.pipe(

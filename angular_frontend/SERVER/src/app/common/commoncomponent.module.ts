@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { DashboardComponent } from '../pages/dashboard/dashboard.component';
-import { CustomersComponent } from '../pages/customers/customers.component';
+import { CustomersComponent } from '../pages/customersmodule/prepaidcustomers/customers.component';
 import { LoginComponent } from '../authentication/login/login.component';
 import { ResetpasswordComponent } from '../authentication/resetpassword/resetpassword.component';
 

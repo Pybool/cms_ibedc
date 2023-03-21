@@ -860,7 +860,6 @@ class CustomersView(http.Controller):
                             }
             return json.dumps({'status':False,'data':data_object}, default=Serializables.jsonSerializer)
             
-
 class CustomerDetails(http.Controller):
     
     def __init__(self):
@@ -951,7 +950,6 @@ class CustomerDetails(http.Controller):
             print("err ====> ", str(e))
             data = [{'id': 0, 'name': '', 'surname': '','error':str(e), 'firstname': '', 'othernames': '', 'mobile': '', 'email': ' ', 'city': '', 'accountno': '', 'statuscode': '', 'accounttype': '', 'bal_cash': '', 'address1': '', 'address2': '', 'applicationdate': '', 'giscoordinate': '', 'guarantorname': '', 'guarantoraddress': '', 'state': '', 'dss_id': '', 'servicecenter': '', 'buid': '', 'title': '', 'gender': '', 'building_description': '', 'lga': '', 'premise_type': '', 'region': '', 'customer_type': '', 'business_type': '', 'lname': '', 'lphone': '', 'injectionstation': '', 'meter_oem': '', 'cin': '', 'is_metered': '', 'feeder_name': '', 'service_band': '', 'upriser_id': '', 'feederid': '', 'ltpoleid': '', 'meter_number': '', 'oldaccountno': '', 'newtariffcode': '', 'outstanding_amnt': '', 'meter_model': '', 'meter_type': '', 'msms_meter_mumber': '', 'meter_manufacturer': '', 'manufacture_year': '', 'meter_rating': '', 'v_rating': '', 'meter_status': '', 'meter_classification': '', 'meter_category': '', 'meter_type_id': '', 'audit_validated_by': '', 'audit_validated_date': '', 'billing_validated_by': '', 'billing_validated_date': '', 'rev_validated_by': '', 'rev_validated_date': '', 'kyc': '', 'bucode': ''}]
             return request.render("cms_ibedc.customer_details",{"error":True,"caad_perm":caad_perm,"vats":vats,"ref":{'self':self},"this":self,"component":{'url':component},"position":http.request.env.user.position,"caad_roles_list":caad_roles_list,"customerdata":data[0],"can_approve":Permissions.checkCustomerApprovalPermissions(http.request.env.user),"create_perm":create_perm,"current_user":request.env['res.users'].sudo().browse(request.session.uid).name,},status=301)
-
 
 class Renderer(CustomersView):
     def render_table(self,request,context):

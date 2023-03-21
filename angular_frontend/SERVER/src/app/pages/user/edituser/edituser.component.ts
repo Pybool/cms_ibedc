@@ -8,6 +8,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserState } from 'src/app/authentication/state/auth.selector';
 import { getLocationsState } from 'src/app/ui/customselect/state/customselect.selector';
 import { UpdateExistingUser } from '../state/createuser.actions';
+import { CustomerService } from 'src/app/services/customer.service';
 
 const  _ = require('lodash');
 
@@ -26,19 +27,20 @@ export class EdituserComponent implements OnInit {
   permission_hierarchy:any;
   options:any[];
   groups:any[];
-  regions = []
-  bizhubs = []
-  servicecenters = []
+  regions = [];
+  business_units = []
+  service_centers = []
   userState;
   can_create_user;
   getLocations;
   title;
+  value
   // @Input() selectedOption: any;
   @Output() selectionChange = new EventEmitter<any>();
   @Output() type = new EventEmitter<any>();
   @Output() updatetitle = new EventEmitter<any>();
   
-  constructor(private store: Store<AppState>,private userService: UserService) { 
+  constructor(private store: Store<AppState>,private userService: UserService,private customerService: CustomerService) { 
     this.userState = this.store.select(UserState);
     this.getLocations = this.store.select(getLocationsState);
     
@@ -47,18 +49,13 @@ export class EdituserComponent implements OnInit {
     this.usersListObs$ = this.userListState.subscribe((user) => {
       if(user.isFetched){
         this.positions = user.users.user_positions
+        
       }
       else{
         this.positions = []
       }
     });
-    this.userService.fetchMetadata().subscribe((data) => {
-      this.options = data.positions
-      this.groups = data.groups
-      for (let obj of data.regions){
-        this.regions.push(obj.region)
-      }
-    });
+    
 
     this.userState.subscribe((user) => {
       if (user == undefined){
@@ -94,51 +91,58 @@ export class EdituserComponent implements OnInit {
     this.userService.returnUser().subscribe((data) => {
       this.user = data.user
       this.id = data.id
+      this.userService.fetchUserLocationMetadata({region:this.user.region,business_unit:this.user.business_unit,serviccenter:this.user.servicecenter}).subscribe((data:any) => {
+          this.regions = data.regions
+          this.business_units = data.business_units
+          this.service_centers = data.servicecenters
+          this.groups = data.groups
+          this.userForm.patchValue({business_unit:this.user.business_unit})
+          this.userForm.patchValue({servicecenter:this.user.servicecenter})
+          console.log(this.user)
+          
+        });
       
       this.userForm.patchValue(this.user);
       this.userForm.patchValue({permission_hierarchy:this.user.permissions_hierarchy})
+      this.userForm.patchValue({region:this.user.region})
       console.log("Patch ===> ", this.user, this.userForm)
       this.title = this.user.position
       
-      let radioIds = {'Head Quarters':'hq_radio__update','Region':'region_radio__update','Business Hub':'bizhub_radio__update','Service Center':'service_center_radio__update'}
+      let radioIds = {'Head Quarters':'hq_radio__update','Region':'region_radio__update','Business Unit':'bizhub_radio__update','Service Center':'service_center_radio__update'}
       let radio:any = document.getElementById(radioIds[this.user.permissions_hierarchy])
       this.permission_hierarchy = this.user.permissions_hierarchy
-      
       radio.checked = true;
-      console.log(this.permission_hierarchy)
-
       
     })
     
   }
 
+  toTitleCase(str) {
+    return str.replace(
+      /\w\S*/g,
+      function(txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+      }
+    );
+  }
+
   getPositionVal(position){
-
-
-    const positionList = document.querySelector("#app-user-positions-update").querySelector('ul');
+    let positionDropdown:any = document.querySelector("#position-dropdown-menu")
+    let positionList = positionDropdown.querySelectorAll('ul');
     const searchText = position;
-    const liElements = positionList.querySelectorAll("li");
-    
-    for (let i = 0; i < liElements.length; i++) {
-      if (liElements[i].textContent.includes(searchText)) {
-        // The text was found in this li element, so return it
-        return liElements[i].querySelector('a').name;
+    if(positionList.length > 0){
+      const liElements = positionList[0].querySelectorAll("li");
+      for (let i = 0; i < liElements.length; i++) {
+        if (liElements[i]?.textContent.includes(searchText)) {
+          return liElements[i]?.querySelector('a')?.name;
+        }
       }
     }
     
-    // The text was not found in any of the li elements
     return null;
-    
-    
     }
 
   ngAfterViewInit(){
-    let dropdown = document.getElementById('app-user-positions-update')
-      if(dropdown != null){
-        console.log(dropdown.querySelector('a'),this.user.position)
-        dropdown.querySelector('a').setAttribute('name',this.getPositionVal(this.user.position))
-      }
-      else{}
 
     let regiondropdown = document.getElementById('app-regions-update')
       if(regiondropdown != null){
@@ -148,9 +152,7 @@ export class EdituserComponent implements OnInit {
       else{}
 
     this.userService.fetchUserGroups().subscribe((data) => {
-      console.log(data)
       let selectElement:any = document.getElementById("groups");
-      // Select the first and third options
       let selectedValues = data.data.map(function(item) {
         return item.id;
       });
@@ -158,7 +160,7 @@ export class EdituserComponent implements OnInit {
     this.userForm.patchValue({groups:selectedValues})
       for(let group of data.data){
         let index = this.findOptionIndex(selectElement,group.name)
-        console.log(index)
+        console.log(selectedValues)
         if(index != -1){
           selectElement.options[index].selected = true;
         }
@@ -185,6 +187,19 @@ export class EdituserComponent implements OnInit {
     // Return -1 if no option is found
     return -1;
   }
+
+  onSelect($event){
+    let dropdown:any = document.getElementById('position-dropdown')
+      if(dropdown != null){
+        console.log(dropdown,this.user.position,$event.target.textContent)
+        // this.value = this.getPositionVal(this.user.position)
+        console.log(this.positions, this.value)
+        dropdown.name =  $event.target.closest('a').name
+        dropdown.innerHTML = $event.target.textContent
+      }
+      else{}
+
+  }
   
 
   radioPermissionsSelector(e,val){
@@ -197,10 +212,7 @@ export class EdituserComponent implements OnInit {
 }
 
 getDropdownsValues(){
-  let ids = {'region':'app-regions-update','position':'app-user-positions-update',
-            'privilege':'app-can-create-users','business_unit':'app-bizhubs-update',
-            'servicecenter':'app-servicecenters-update'
-          }
+  let ids = {'position':'position-dropdown-menu'}
             
   for(let key of Object.keys(ids)){
     let id = ids[key]
@@ -214,7 +226,7 @@ getDropdownsValues(){
         
         if (value != undefined && value != null){
           let patch = { [`${key}`]: String(value)?.trim() }
-          if (id ==  'app-user-positions-update'){
+          if (id ==  'position-dropdown'){
             console.log("Patch positions ===> ",dropdown, id ,value)
             console.log(patch)
           }
@@ -229,7 +241,7 @@ getDropdownsValues(){
 
 updateBizHubs($event,id){
   if ($event.length > 0){
-    this.bizhubs = $event
+    // this.bizhubs = $event
   }
   
 }
@@ -252,14 +264,34 @@ patchForm($event,type){
 
 updateServiceCenters($event,id){
   if ($event.length > 0){
-    this.servicecenters = []
-    this.servicecenters = $event
-    console.log("#########Service centers Events ====> ", this.servicecenters)
+    this.service_centers = []
+    this.service_centers = $event
+    console.log("#########Service centers Events ====> ", this.service_centers)
   }
 }
+
+fetchServiceCenters($event){
+  this.customerService.fetchLocations('servicecenter',$event.target.value).subscribe((data)=>{
+    this.service_centers = data.data.service_centers
+  })
+}
+
+fetchBusinessUnits($event){
+  this.customerService.fetchLocations('business_unit',$event.target.value).subscribe((data)=>{
+    this.business_units = data.data.business_units
+    this.service_centers = []
+  })
+}
+
     
   submit(){
-    this.getDropdownsValues()
+    // this.getDropdownsValues()
+    let dropdown:any = document.getElementById('position-dropdown')
+    if(dropdown != null){
+      let value = dropdown.name;
+      this.userForm.patchValue({position:value})
+      }
+        
     let payload = this.userForm.value
     payload['id'] = this.id
     console.log(payload)

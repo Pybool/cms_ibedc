@@ -133,8 +133,8 @@ export class CustomerFilter {
   accounttype?:boolean;
   kyc?:string;
   statuscode?:string;
-  dss?:string;
-  feeder?:string;
+  dss_id?:string;
+  feeder_name?:string;
   state?: string[];
   buid?: string;
   servicecenter?: string;

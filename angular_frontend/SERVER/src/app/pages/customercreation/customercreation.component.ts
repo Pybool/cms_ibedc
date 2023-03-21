@@ -7,7 +7,7 @@ import { CustomerService } from 'src/app/services/customer.service';
 import { CustomercreationupdateService } from 'src/app/services/customercreationupdate.service';
 import { CustomervalidationService } from 'src/app/services/customervalidation.service';
 import { SharedService } from 'src/app/services/shared.service';
-import { ecmiCustomers, emsCustomers } from '../customers/state/customer.selector';
+import { ecmiCustomers, emsCustomers } from '../customersmodule/prepaidcustomers/state/customer.selector';
 import { NewCustomer, LoadCustomer } from './customercreation.model';
 import * as helper from './scripts'
 import { FetchDrafts, LoadDraft, SaveDraft } from './state/customercreation.actions';
@@ -341,8 +341,8 @@ export class CustomercreationComponent implements OnInit {
   }
 
   ngOnDestroy(){
-    this.loadedDraft$.unsubscribe()
-    this.customersList$.unsubscribe()
+    this.loadedDraft$?.unsubscribe()
+    this.customersList$?.unsubscribe()
   }
 
 }

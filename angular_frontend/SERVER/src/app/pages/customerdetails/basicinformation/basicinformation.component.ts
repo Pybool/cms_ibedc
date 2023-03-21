@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/basestore/app.states';
 import { SharedService } from 'src/app/services/shared.service';
 import { ActivatedRoute } from '@angular/router';
-import { LoadEmsCustomer } from '../../customers/state/customer.actions';
+import { LoadEmsCustomer } from '../../customersmodule/prepaidcustomers/state/customer.actions';
 import { CustomerService } from 'src/app/services/customer.service';
 import { map } from 'rxjs/operators';
 

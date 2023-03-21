@@ -46,9 +46,8 @@ export class UserService {
     this.user_id = id
     let classUser
     let user = this.getItemById(arr,this.user_id) 
-    console.log(user.can_create_user)
-    // let args:any = this.formatUser(user)
-    // console.log(...args)
+    console.log(user)
+  
     classUser = new UserModifyModel(
         user.name,
         user.email,
@@ -65,7 +64,7 @@ export class UserService {
         user.enable_2fa,
         user.region,
         user.business_unit,
-        user.servicecenter
+        user.service_center
     )
     console.log(classUser)
     this.singleUser = classUser
@@ -104,5 +103,9 @@ export class UserService {
 
   fetchusers():Observable<any>{
     return this.http.get(`${environment.api}/admin/users`)
+  }
+
+  fetchUserLocationMetadata(payload){
+    return this.http.get(`${environment.api}/userform/metadata?data=${JSON.stringify(payload)}`);
   }
 }

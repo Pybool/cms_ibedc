@@ -10,8 +10,8 @@ export enum CustomerActionTypes {
   FETCH_EMS_CUSTOMERS_FAILURE = '[Ems Customers] Fetch Failure',
 
   DEEP_FETCH_ECMI_CUSTOMERS = '[Ecmi Deep Customers] Fetch',
-  DEEP_FETCH_ECMI_CUSTOMERS_FAILURE = '[Ecmi Customers] Fetch Failure',
-  DEEP_FETCH_ECMI_CUSTOMERS_SUCCESS = '[Ecmi Customers] Fetch Successful',
+  DEEP_FETCH_ECMI_CUSTOMERS_FAILURE = '[Ecmi Deep Customers] Fetch Failure',
+  DEEP_FETCH_ECMI_CUSTOMERS_SUCCESS = '[Ecmi Deep Customers] Fetch Successful',
 
   DEEP_FETCH_EMS_CUSTOMERS = '[Ems Deep Customers] Fetch',
   DEEP_FETCH_EMS_CUSTOMERS_SUCCESS = '[Ems Deep Customers] Fetch Successful',
@@ -68,20 +68,6 @@ export class FetchEmsCustomersFailure implements Action {
   constructor(public payload: any) {}
 }
 
-export class DeepFetchEmsCustomers implements Action {
-  readonly type = CustomerActionTypes.DEEP_FETCH_EMS_CUSTOMERS;
-  constructor(public payload: any) {}
-}
-
-export class DeepFetchEmsCustomersSuccess implements Action {
-  readonly type = CustomerActionTypes.DEEP_FETCH_EMS_CUSTOMERS_SUCCESS;
-  constructor(public payload: any) {}
-}
-
-export class DeepFetchEmsCustomersFailure implements Action {
-  readonly type = CustomerActionTypes.DEEP_FETCH_EMS_CUSTOMERS_FAILURE;
-  constructor(public payload: any) {}
-}
 
 
 export class LoadEmsCustomer implements Action {
@@ -109,9 +95,6 @@ export type All =
   | FetchEmsCustomers
   | FetchEmsCustomersSuccess
   | FetchEmsCustomersFailure
-  | DeepFetchEmsCustomers
-  | DeepFetchEmsCustomersSuccess
-  | DeepFetchEmsCustomersFailure
   | LoadEmsCustomer
   | LoadEmsCustomersuccess
   | LoadEmsCustomerFailure

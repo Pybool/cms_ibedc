@@ -52,6 +52,9 @@ import { PostpaidcustomersComponent } from './pages/customersmodule/postpaidcust
 import { BillingComponent } from './pages/billing/billing.component';
 import { PaymentsComponent } from './pages/payments/payments.component';
 import { EmsCustomerEffects } from './pages/customersmodule/postpaidcustomers/state/customer.effects';
+import { PaymentsemsComponent } from './pages/paymentsems/paymentsems.component';
+import { TodaycollectionsecmiComponent } from './pages/todaycollectionsecmi/todaycollectionsecmi.component';
+import { TodaycollectionsemsComponent } from './pages/todaycollectionsems/todaycollectionsems.component';
 
 
 const metaReducers: Array<MetaReducer<any, any>> = [localStorageReducer];
@@ -77,7 +80,10 @@ const metaReducers: Array<MetaReducer<any, any>> = [localStorageReducer];
     SpinnerComponent,
     PostpaidcustomersComponent,
     BillingComponent,
-    PaymentsComponent
+    PaymentsComponent,
+    PaymentsemsComponent,
+    TodaycollectionsecmiComponent,
+    TodaycollectionsemsComponent
     
   ],
   imports: [

@@ -5,7 +5,7 @@
           <div class="nk-block-head-content">
              <div class="header-start">
                 
-                <h3 id="dashboardtitle" class="nk-block-title page-title">Prepaid Customers Payments History</h3>
+                <h3 id="dashboardtitle" class="nk-block-title page-title">Today Collections (Postpaid)</h3>
                
                 <ul class="tagList" id="search-tag-list">
                   <li class="option-item "><a style="color:gray;" href="javascript:void(0)" id="cust-page-link1">Total: 1,600,418</a></li>
@@ -49,10 +49,10 @@
                                <option value="suspend">Kwara</option>
                             </select>
                          </div>&nbsp;
-                         <div class="btn-wrap"><span class="d-none d-md-block"><a [routerLink]="['/cms/customers/ems/payments']" href="javascript:void(0)"  class="btn btn-dim btn-outline-light">Go to Postpaid</a></span><span class="d-md-none"><button class="btn btn-dim btn-outline-light btn-icon disabled"><em class="icon ni ni-arrow-right"></em></button></span></div>
+                         <div class="btn-wrap"><span class="d-none d-md-block"><a [routerLink]="['/cms/customers/ecmi/payments']" href="javascript:void(0)"  class="btn btn-dim btn-outline-light">Go to Prepaid</a></span><span class="d-md-none"><button class="btn btn-dim btn-outline-light btn-icon disabled"><em class="icon ni ni-arrow-right"></em></button></span></div>
                       </div>
                    </div>
-                   <div id="payments-spinner-wrapper" class="card-tools me-n1">
+                   <div id="payments-ems-spinner-wrapper" class="card-tools me-n1">
                       
                    </div>
                 </div> 
@@ -67,53 +67,29 @@
                             
                             <table role="grid" style="width:100%;background:#f5f6fa;overflow: auto;opacity: 0;" id="paymentshistory_table" class="nowrap nk-tb-list is-separate shadow no-footer dtr-inline responsive collapsed" data-searching="false" data-auto-responsive="true">
                                <thead style="position:sticky;top:0;" class="table-style-light">
-                                  <tr *ngIf="ecmi_payments">
-                                     <th *ngFor="let header of ecmiheaders" class="nk-tb-col">{{header}}</th>
-                                  </tr>
                                  
+                                  <tr>
+                                    <th *ngFor="let header of emsheaders" class="nk-tb-col">{{header}}</th>
+                                 </tr>
                                </thead>
-
-                        <tbody *ngIf="ecmi_payments" style="background:#f5f6fa;">
-                        <tr style="background: white!important;height:60px;" class="nk-tb-item" *ngFor="let payment of payments;">
-                        <td class="nk-tb-col">{{payment?.Surname+payment?.othernames}}</td>
-                        <td class="nk-tb-col">{{payment.transref}}</td>
-                        <td class="nk-tb-col">{{payment.Token}}</td>
-                        <td class="nk-tb-col">{{payment.meterno}}</td>
-                        <td class="nk-tb-col">{{payment.AccountNo}}</td>
-    
-                        <td class="nk-tb-col">{{payment.transdate}}</td>
-                        <td class="nk-tb-col">{{payment.transamount}}</td>
-                        <td class="nk-tb-col">{{payment.BUID}}</td>
-                        <td class="nk-tb-col">{{payment.Units}}</td>
-                        <td class="nk-tb-col">{{payment.transamount}}</td> 
-                        <td class="nk-tb-col">{{payment.CostOfUnits}}</td>
-                        <td class="nk-tb-col">{{payment.transstatus}}</td>
-    
-                        <td class="nk-tb-col">{{payment.CSPClientID}}</td>
-                        <td class="nk-tb-col">{{payment.Day}}</td>
-                        <td class="nk-tb-col">{{payment.FC}}</td>
-                        <td class="nk-tb-col">{{payment.KVA}}</td>
-                        <td class="nk-tb-col">{{payment.MMF}}</td>
-                        <td class="nk-tb-col">{{payment.MeterNO}}</td>
-                        <td class="nk-tb-col">{{payment.OperatorID}}</td>
-                        <td class="nk-tb-col">{{payment.Reasons}}</td>
-                        <td class="nk-tb-col">{{payment.TokenType}}</td>
-                        <td class="nk-tb-col">{{payment.TotalCount}}</td>
-                        <td class="nk-tb-col">{{payment.TransactionComplete}}</td>
-                        <td class="nk-tb-col">{{payment.TransactionDateTime}}</td>
-                        <td class="nk-tb-col">{{payment.TransactionNo}}</td>
-                        <td class="nk-tb-col">{{payment.TransactionType}}</td>
-                        <td class="nk-tb-col">{{payment.VAT}}</td>
-                        <td class="nk-tb-col">{{payment.Year}}</td>
-                        <td class="nk-tb-col">{{payment.enteredby}}</td>
-                        <td class="nk-tb-col">{{payment.paymenttype}}</td>
-                        <td class="nk-tb-col">{{payment.status}}</td>
-                        <td class="nk-tb-col">{{payment.status1}}</td>
-                        <td class="nk-tb-col">{{payment.transactionresponsemessage}}</td>
-                                    
-                                </tr>
-                            </tbody>
-                                
+                               
+                               <tbody style="background:#f5f6fa;">
+                                    <tr style="background: white!important;height:60px;" class="nk-tb-item" class="nk-tb-item" *ngFor="let payment of payments;">
+                                        <td class="nk-tb-col">{{payment?.Surname+payment?.othernames}}</td>
+                                        <td class="nk-tb-col">{{payment.receiptnumber}}</td>
+                                        <td class="nk-tb-col">{{payment.accountno}}</td>
+                    
+                                        <td class="nk-tb-col">{{payment.MeterNo || 'N/A'}}</td>
+                                        <td class="nk-tb-col">{{payment.PayDate}}</td>
+                                        <td class="nk-tb-col">{{payment.Payments}}</td>
+                                        <td class="nk-tb-col">{{payment.BusinessUnit}}</td>
+                    
+                                        <td class="nk-tb-col">{{payment.transamount}}</td>
+                                        <td class="nk-tb-col">{{payment.transstatus}}</td>
+                                        <td class="nk-tb-col">{{payment.PaymentID}}</td>
+                                        <td class="nk-tb-col">{{payment.PaymentTransactionId}}</td>
+                                    </tr>
+                                </tbody>
                             </table>
                             
                          </div>

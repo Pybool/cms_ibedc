@@ -14,13 +14,13 @@ interface CustomWindow extends Window {
 declare let window: CustomWindow;
 
 @Component({
-  selector: 'app-payments',
-  templateUrl: './payments.component.html',
-  styleUrls: ['./payments.component.css']
+  selector: 'app-paymentsems',
+  templateUrl: './paymentsems.component.html',
+  styleUrls: ['./paymentsems.component.css']
 })
-export class PaymentsComponent implements OnInit {
+export class PaymentsemsComponent implements OnInit {
   ecmi_payments:boolean = true
-  ecmiheaders:string[] = ['Customer Name','Transaction Ref','Token','Meter No','Account No','Trans Date','Amount','Business Unit','Units','Trans Amount','Cost of Units','Status Message','CSPClientId','Day','FC','KVA','MMF','MeterNo','OperatorId','Reasons','TokenType','TotalCount','TransactionComplete','TransactionDateTime','TransactionNo','TransactionType','VAT','Year','EnteredBy','PaymentType','Status','Status1','TransactionResponseMessage']
+  emsheaders:string[] = ['Customer Name','Receipt No','Account No','Meter No','Pay Date','Payments','Business Unit','Trans Amount','Status Message','Pay ID','Trans ID']
   payments:any[] = []
   Math;
   constructor(private renderer: Renderer2,
@@ -40,13 +40,13 @@ export class PaymentsComponent implements OnInit {
     script.src = src;
     this.renderer.appendChild(document.body, script);
 
-    window.waitForElm('#payments-spinner-wrapper').then((parentElement) => {
+    window.waitForElm('#payments-ems-spinner-wrapper').then((parentElement) => {
       this.spinnerService.showSpinner(parentElement);
       this.sharedService.setSpinnerText('Fetching data from source...')
       this.convertTableService.convertTable({id:'paymentshistory_table'})
     })
 
-    this.paymentService.fetchCustomersPayments().pipe(take(1)).subscribe((response)=>{
+    this.paymentService.fetchEmsCustomersPayments().pipe(take(1)).subscribe((response)=>{
       console.log(response.data)
       this.payments = response.data
     })

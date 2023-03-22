@@ -4,7 +4,6 @@ import { ConvertTableService } from 'src/app/services/convert-table.service';
 import { PaymentsService } from 'src/app/services/payments.service';
 import { SharedService } from 'src/app/services/shared.service';
 import { SpinnerService } from 'src/app/services/spinner.service';
-
 interface CustomWindow extends Window {
   
   waitForElm:(arg1) => any;
@@ -14,12 +13,11 @@ interface CustomWindow extends Window {
 declare let window: CustomWindow;
 
 @Component({
-  selector: 'app-payments',
-  templateUrl: './payments.component.html',
-  styleUrls: ['./payments.component.css']
+  selector: 'app-todaycollectionsecmi',
+  templateUrl: './todaycollectionsecmi.component.html',
+  styleUrls: ['./todaycollectionsecmi.component.css']
 })
-export class PaymentsComponent implements OnInit {
-  ecmi_payments:boolean = true
+export class TodaycollectionsecmiComponent {
   ecmiheaders:string[] = ['Customer Name','Transaction Ref','Token','Meter No','Account No','Trans Date','Amount','Business Unit','Units','Trans Amount','Cost of Units','Status Message','CSPClientId','Day','FC','KVA','MMF','MeterNo','OperatorId','Reasons','TokenType','TotalCount','TransactionComplete','TransactionDateTime','TransactionNo','TransactionType','VAT','Year','EnteredBy','PaymentType','Status','Status1','TransactionResponseMessage']
   payments:any[] = []
   Math;
@@ -40,19 +38,17 @@ export class PaymentsComponent implements OnInit {
     script.src = src;
     this.renderer.appendChild(document.body, script);
 
-    window.waitForElm('#payments-spinner-wrapper').then((parentElement) => {
+    window.waitForElm('#prepaid-todaycols-spinner-wrapper').then((parentElement) => {
       this.spinnerService.showSpinner(parentElement);
       this.sharedService.setSpinnerText('Fetching data from source...')
-      this.convertTableService.convertTable({id:'paymentshistory_table'})
+      this.convertTableService.convertTable({id:'today-cols-paymentshistory_table'})
     })
 
-    this.paymentService.fetchCustomersPayments().pipe(take(1)).subscribe((response)=>{
+    this.paymentService.fetchTodayCollectionsEcmi().pipe(take(1)).subscribe((response)=>{
       console.log(response.data)
       this.payments = response.data
     })
   }
-
-  
 
 
 }

@@ -29,6 +29,21 @@ export class PaymentsService {
 
   fetchCustomersPayments(){
     this.setMetadata()
-    return this.http.get<any>(`${environment.api}/customers-payments?page=${1}&permission_hierarchy=${this.permission_hierarchy}`)
+    return this.http.get<any>(`${environment.api}/customers-ecmi-payments?page=${1}&permission_hierarchy=${this.permission_hierarchy}`)
+  }
+
+  fetchEmsCustomersPayments(){
+    this.setMetadata()
+    return this.http.get<any>(`${environment.api}/customers-ems-payments?page=${1}&permission_hierarchy=${this.permission_hierarchy}`)
+  }
+
+  fetchTodayCollectionsEcmi(){
+    this.setMetadata()
+    return this.http.get<any>(`${environment.api}/todaycollections-ecmi?page=${1}&permission_hierarchy=${this.permission_hierarchy}`)
+  }
+
+  fetchTodayCollectionsEms(){
+    this.setMetadata()
+    return this.http.get<any>(`${environment.api}/todaycollections-ems?page=${1}&permission_hierarchy=${this.permission_hierarchy}`)
   }
 }

@@ -45,6 +45,7 @@ class OpsmanagerView(APIView):
         self.set_hierarchy = self.dashboard.get_hierarchy()
         if self.set_hierarchy['status']:
             data,cols = self.dashboard.get_ops_data()
+            print(data,cols)
             response = {"status":True,'data':{'ops_manager':data,'collection_statistics':cols}}
             response =  Response(response)
             response.headers['Cache-Control'] = CACHE_CONTROL

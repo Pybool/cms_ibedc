@@ -11,6 +11,9 @@ import { PostpaidcustomersComponent } from './pages/customersmodule/postpaidcust
 import { UsersComponent } from './pages/user/users/users.component';
 import { BillingComponent } from './pages/billing/billing.component';
 import { PaymentsComponent } from './pages/payments/payments.component';
+import { PaymentsemsComponent } from './pages/paymentsems/paymentsems.component';
+import { TodaycollectionsecmiComponent } from './pages/todaycollectionsecmi/todaycollectionsecmi.component';
+import { TodaycollectionsemsComponent } from './pages/todaycollectionsems/todaycollectionsems.component';
 
 const routes: Routes = [
                         { path:'cms/web/login', component:LoginComponent},
@@ -21,7 +24,10 @@ const routes: Routes = [
                         { path:'cms/customers/crmd', component:CrmdComponent},
                         { path:'cms/caadlist', component:CaadlistComponent},
                         { path:'cms/customers/billing', component:BillingComponent},
-                        { path:'cms/customers/payments', component:PaymentsComponent},
+                        { path:'cms/customers/ecmi/payments', component:PaymentsComponent},
+                        { path:'cms/customers/ems/payments', component:PaymentsemsComponent},
+                        { path:'cms/today/prepaid/collections', component:TodaycollectionsecmiComponent},
+                        { path:'cms/today/postpaid/collections', component:TodaycollectionsemsComponent},
 
                         
                         {

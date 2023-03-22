@@ -12,7 +12,7 @@ CREATE INDEX idx_EmsCustState ON dbo.ems_customers_new (State)
 
 CREATE INDEX idx_EcmiCustState ON [CMS_IBEDC_DATABASE].[dbo].[ems_customers_new] (State)
 
-  CREATE INDEX idx_EcmiCustAccountType ON [CMS_IBEDC_DATABASE].[dbo].[ecmi_customers_new] ([AccountType])
+CREATE INDEX idx_EcmiCustAccountType ON [CMS_IBEDC_DATABASE].[dbo].[ecmi_customers_new] ([AccountType])
 
 CREATE INDEX idx_EcmiCustBuid ON [CMS_IBEDC_DATABASE].[dbo].[ems_customers_new] (BUID)
 
@@ -80,6 +80,14 @@ ON [CMS_IBEDC_DATABASE].[dbo].[ecmi_payment_history] (transdate);
 
 CREATE INDEX IX_ecmi_transactions_transref
 ON [CMS_IBEDC_DATABASE].[dbo].[ecmi_transactions] (transref);
+
+
+CREATE INDEX IX_ecmi_customers_new_AccountNo ON [ecmi_customers_new] (AccountNo) INCLUDE (firstname, Surname, othernames, BUID)
+
+CREATE INDEX IX_ecmi_transactions_transref_AccountNo ON [ecmi_transactions] (transref) INCLUDE (AccountNo)
+
+CREATE INDEX IX_ecmi_payment_history_transref ON [CMS_IBEDC_DATABASE].[dbo].[ecmi_payment_history] (transref) INCLUDE (transdate)
+
 
 
 

@@ -18,42 +18,67 @@ class Collections(object):
         self.business_unit_user = hierarchy_order.get('buid', False) 
         self.regional_user = hierarchy_order.get('state', False) 
         self.hq_user = hierarchy_order.get('hq', False)
+        self.getpermission_query()
+        self.AND = f"AND #TABLE_NAME#.{self.PERMISSION}" if self.key !='hq' else ''
         
     def get_collections_query(self):
-    
+        
         query_list, headers = self.generateTimelineQuery()
         queries = {}
         default_query = f"""{query_list}"""
         queries['default'] = default_query
         queries['headers'] = headers
         return queries
+    
 
-    def generateTimelineQuery(self):
+    def todays_collections(self,type):
+        if type == 'ecmi':
+            return  f"""          
+                                
+                    SELECT ecmi_customers_new.Surname,ecmi_customers_new.OtherNames, cus.*, ECMIPT.*
+                    FROM [ecmi_customers_new]
+                    INNER JOIN ecmi_payment_history AS cus ON cus.meterno = [ecmi_customers_new].AccountNo
+                    INNER JOIN [ecmi_transactions] AS ECMIPT ON ECMIPT.[transref] = cus.transref
+                    WHERE CONVERT(date, cus.transdate) = CONVERT(DATE,'{self.current_date}') {self.AND.replace("#TABLE_NAME#","[ecmi_customers_new]")}
+
+                    """
+        elif type=='ems':
+                return f"""SELECT *
+                    FROM [ems_customers_new]
+                    INNER JOIN ems_payments as cus1
+                    ON cus1.accountno = [ems_customers_new].AccountNo
+                    WHERE CONVERT(date,cus1.paydate) = CONVERT(DATE,'{self.current_date}') {self.AND.replace("#TABLE_NAME#","[ems_customers_new]")}"""
+                
+            
+
+    def generateTimelineQuery(self,page='dashboard'):
 
             current_day = get_previous_n_days(1,shorten= False, get_day_date= False)[0]
             previous_day = get_previous_n_days(2,shorten = False, get_day_date = False)[0]
-            self.getpermission_query()
             
-            self.AND = f"AND #TABLE_NAME#.{self.PERMISSION}" if self.key !='hq' else ''
+            
+            if page == 'dashboard':
     
-            query = f"""          
-                                    
-                                    SELECT CONVERT(date, cus.transdate) AS date, SUM(transamount) AS today_collections,'prepaid' as type
-                                    FROM [ecmi_customers_new]
-                                    INNER JOIN ecmi_payment_history AS cus ON cus.meterno = [ecmi_customers_new].AccountNo
-                                    WHERE CONVERT(date, cus.transdate) = CONVERT(DATE,'{self.current_date}') {self.AND.replace("#TABLE_NAME#","[ecmi_customers_new]")}
-                                    GROUP BY CONVERT(date, cus.transdate)
+                query = f"""          
+                                        
+                                SELECT CONVERT(date, cus.transdate) AS date, SUM(transamount) AS today_collections,'prepaid' as type
+                                FROM [ecmi_customers_new]
+                                INNER JOIN ecmi_payment_history AS cus ON cus.meterno = [ecmi_customers_new].AccountNo
+                                INNER JOIN [ecmi_transactions] AS ECMIPT ON ECMIPT.[transref] = cus.transref
+                                WHERE CONVERT(date, cus.transdate) = CONVERT(DATE,'{self.current_date}') {self.AND.replace("#TABLE_NAME#","[ecmi_customers_new]")}
+                                GROUP BY CONVERT(date, cus.transdate)
 
 
-                                    UNION ALL
-                                    SELECT CONVERT(date,cus1.paydate) as date,
-                                    SUM(payments) as total_collections,'postpaid' as type
-                                    FROM [ems_customers_new]
-                                    INNER JOIN ems_payments as cus1
-                                    ON cus1.accountno = [ems_customers_new].AccountNo
-                                    WHERE CONVERT(date,cus1.paydate) = CONVERT(DATE,'{self.current_date}') {self.AND.replace("#TABLE_NAME#","[ems_customers_new]")}
-                                    GROUP BY CONVERT(date,cus1.paydate)
-                        """
+                                UNION ALL
+                                SELECT CONVERT(date,cus1.paydate) as date,
+                                SUM(payments) as total_collections,'postpaid' as type
+                                FROM [ems_customers_new]
+                                INNER JOIN ems_payments as cus1
+                                ON cus1.accountno = [ems_customers_new].AccountNo
+                                WHERE CONVERT(date,cus1.paydate) = CONVERT(DATE,'{self.current_date}') {self.AND.replace("#TABLE_NAME#","[ems_customers_new]")}
+                                GROUP BY CONVERT(date,cus1.paydate)
+                            """
+
             # print(query)
             return query, ['todays_collections','yesterday_collections']
 

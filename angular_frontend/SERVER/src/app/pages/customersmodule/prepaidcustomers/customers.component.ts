@@ -21,10 +21,11 @@ import { MatTableDataSource } from '@angular/material/table';
 import { DataTableDirective } from 'angular-datatables';
 import { SpinnerService } from 'src/app/services/spinner.service';
 import { ConvertTableService } from 'src/app/services/convert-table.service';
-
+var self;
 interface CustomWindow extends Window {
   waitForElm:(arg1) => any;
   DataTable: (searchTerm: string,{}) => void;
+  initiateCaad:(payload)=>any;
 }
 
 declare let window: CustomWindow;
@@ -220,6 +221,8 @@ export class CustomersComponent implements AfterViewInit {
         this.isCallable = false
       }
     })
+    window.initiateCaad = this.initiateCaad
+   self = this //make this class instance available to the window object by storing in variable
     
   }
 
@@ -240,6 +243,19 @@ export class CustomersComponent implements AfterViewInit {
     this.customerService.advancedFilterEcmiCustomers(this.filter).pipe(take(1)).subscribe((response)=>{
        this.customerService.swapCustomerlist(response)
     })
+  }
+
+  initiateCaad(accountno){
+    self.customerService.fetchSinglecustomer({accounttype:'prepaid',accountno:accountno}).subscribe((response) => {
+      if(response.status){
+        self.customerService.initiateCaad(response.data).pipe(take(1)).subscribe((response)=>{
+          console.log(response)
+        })
+      }
+      else{alert("Customer could not be found")}
+      
+    });
+    
   }
 
   getRegions(){

@@ -55,6 +55,7 @@ import { EmsCustomerEffects } from './pages/customersmodule/postpaidcustomers/st
 import { PaymentsemsComponent } from './pages/paymentsems/paymentsems.component';
 import { TodaycollectionsecmiComponent } from './pages/todaycollectionsecmi/todaycollectionsecmi.component';
 import { TodaycollectionsemsComponent } from './pages/todaycollectionsems/todaycollectionsems.component';
+import { NotificationmodalComponent } from './ui/notificationmodal/notificationmodal.component';
 
 
 const metaReducers: Array<MetaReducer<any, any>> = [localStorageReducer];
@@ -83,7 +84,8 @@ const metaReducers: Array<MetaReducer<any, any>> = [localStorageReducer];
     PaymentsComponent,
     PaymentsemsComponent,
     TodaycollectionsecmiComponent,
-    TodaycollectionsemsComponent
+    TodaycollectionsemsComponent,
+    NotificationmodalComponent
     
   ],
   imports: [

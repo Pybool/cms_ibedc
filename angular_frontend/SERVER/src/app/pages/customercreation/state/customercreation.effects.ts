@@ -120,6 +120,36 @@ FetchDrafts$= createEffect(() =>
     )
 )
 
+LoadDraftsSuccess$= createEffect(() => 
+
+    this.actions$.pipe(
+        ofType(CustomerCreationActionTypes.LOAD_DRAFT_SUCCESS),
+        tap((data:any) => {
+            //Load Notification Modal here....
+            let notification = {type:'success',title:'Draft loaded Successfully',
+            message:'Selected draft has been loaded into the form',
+            subMessage:'You can proceed to edit the data'}
+            this.notificationService.setModalNotification(notification)
+        })
+    ),
+    { dispatch: false }
+    )
+
+LoadDraftsFailure$= createEffect(() => 
+
+    this.actions$.pipe(
+        ofType(CustomerCreationActionTypes.LOAD_DRAFT_FAILURE),
+        tap((data:any)=>{
+            let notification = {type:'failure',title:'Loading draft failed!',
+            message:'Selected draft could not be loaded into the form',
+            subMessage:'Something went wrong somewhere'}
+            this.notificationService.setModalNotification(notification)
+        })
+    ),
+    { dispatch: false }
+)
+
+
 LoadDrafts$= createEffect(() => 
     this.actions$.pipe(
         ofType(CustomerCreationActionTypes.LOAD_DRAFT),
@@ -146,3 +176,4 @@ LoadDrafts$= createEffect(() =>
     )
 )
 }
+

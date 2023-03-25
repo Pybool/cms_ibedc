@@ -73,7 +73,7 @@
                         </div>
                         
                         <div *ngIf="activeSearchbar=='payments'" class="nk-header-search ms-3 ms-xl-0 d-none d-md-flex"><em class="icon ni ni-search"></em><input (keyup)="searchCustomer($event)" type="text" style="border: 1px solid #dbdfea!important;" class="form-control form-focus-none" placeholder="Search for a payment record"></div>
-                        <div *ngIf="activeSearchbar=='billing'" class="nk-header-search ms-3 ms-xl-0 d-none d-md-flex"><em class="icon ni ni-search"></em><input (keyup)="searchCustomer($event)" type="text" style="border: 1px solid #dbdfea!important;" class="form-control form-focus-none" placeholder="Search for a billing record"></div>
+                        <div *ngIf="activeSearchbar=='billing'" class="nk-header-search ms-3 ms-xl-0 d-none d-md-flex"><em class="icon ni ni-search"></em><input id="billing-history-search-bar" (keyup)="shallowSearchBilling($event)" type="text" style="border: 1px solid #dbdfea!important;" class="form-control form-focus-none" placeholder="Search for a billing record"></div>
                         <div  class="nk-header-tools">
                             <ul class="nk-quick-nav">
                                 <li>
@@ -149,13 +149,7 @@
             </div>
             <router-outlet></router-outlet>
             <app-approvalboard></app-approvalboard>
+            <app-notificationmodal></app-notificationmodal>
         </div>
-    </div>
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap.css">
-    <script type="text/javascript" src="/assets/js/dropscript.js?version=0.0.3"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.js"></script>
-    
-
-    
-    
+    </div>    
 </div>

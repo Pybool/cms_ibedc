@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BillingScripts } from '../pages/billing/scripts';
 import { Customers } from '../pages/customersmodule/prepaidcustomers/script';
 
 @Injectable({
@@ -57,6 +58,11 @@ export class SharedService {
   public searchCustomer($event){
     let customers = new Customers()
     customers.searchCustomer($event)
+  }
+
+  public shallowSearchBilling($event){
+    let billingScript = new BillingScripts()
+    billingScript.shallowSearchBilling($event)
   }
 
   public setSpinnerText(input){

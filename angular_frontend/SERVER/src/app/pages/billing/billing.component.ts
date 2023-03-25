@@ -5,6 +5,7 @@ import { BillingService } from 'src/app/services/billing.service';
 import { ConvertTableService } from 'src/app/services/convert-table.service';
 import { SharedService } from 'src/app/services/shared.service';
 import { SpinnerService } from 'src/app/services/spinner.service';
+import { AutoUnsubscribe } from 'src/auto-unsubscribe.decorator';
 
 interface CustomWindow extends Window {
   
@@ -13,7 +14,7 @@ interface CustomWindow extends Window {
 }
 
 declare let window: CustomWindow;
-
+@AutoUnsubscribe
 @Component({
   selector: 'app-billing',
   templateUrl: './billing.component.html',
@@ -33,6 +34,15 @@ export class BillingComponent implements OnInit {
   ngOnInit(): void {
     this.loadScript('https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.js');
     this.sharedService.setActiveSearchInput('billing')
+    this.billingService.getbillingList().subscribe((response)=>{
+      this.bills = []
+      if(response.rawQueryUsed == true){
+        this.rawQueryUsed = true
+      }
+      this.bills = response.data
+      console.log(this.bills)
+      this.convertTableService.convertTable({id:'billinghistory_table'})
+    })
   }
 
   loadScript(src) {

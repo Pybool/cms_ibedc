@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CrmdService } from 'src/app/services/crmd.service';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-crmd',
@@ -17,7 +18,7 @@ export class CrmdComponent {
    awaitingCustomers$:any;
    loadedAwaitingCustomer:any;
    activeAccordionItem:string;
-  constructor(private crmdService:CrmdService){}
+  constructor(private crmdService:CrmdService,private notificationService: NotificationService){}
 
   ngOnInit(){
     const payload = {status:'pending'}
@@ -73,7 +74,13 @@ export class CrmdComponent {
                   is_fresh:this.loadedAwaitingCustomer.is_fresh,
                   customer_id:this.loadedAwaitingCustomer.customer_id}
     this.crmdService.performAwaitingCustomerAction(payload).subscribe((response)=>{
-        alert(response.message)
+        if (response?.status){
+          //Load Notification Modal here....
+          let notification = {type:'success',title:'CRMD Approval Successful!',
+          message:response?.message,
+          subMessage:'CRMD Approval Sequence Milestone'}
+          this.notificationService.setModalNotification(notification)
+        }
     })
     // alert(`${action.toProperCase()}ing awaiting customer with comments ${comments}`)
   }

@@ -1,1 +1,104 @@
-<p>todaycollectionsems works!</p>
+<!-- Customers Template -->
+<div id="customers_template" style="padding-top: 100px;" class="nk-content ">
+    <div class="nk-block-head nk-block-head-sm">
+       <div class="nk-block-between">
+          <div class="nk-block-head-content">
+             <div class="header-start">
+                
+                <h3 id="dashboardtitle" class="nk-block-title page-title">Today Collections (Postpaid)</h3>
+               
+                <ul class="tagList" id="search-tag-list">
+                  <li class="option-item "><a style="color:gray;" href="javascript:void(0)" id="cust-page-link1">Total: 1,600,418</a></li>
+                  </ul>
+             </div>
+          </div>
+        
+          <!-- .nk-block-head-content -->
+          <div class="nk-block-head-content">
+             <div class="toggle-wrap nk-block-tools-toggle">
+                <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>
+                <div  class="toggle-expand-content" data-content="pageMenu">
+                    <ul class="nk-block-tools g-3">
+                        <li>
+                            <div>
+                            <div class="form-group input-group mb30">
+                                <input type="text" onchange="handler();" placeholder="Start date" name="start_date" class="form-control form_control date-widget" onfocus="(this.type='date')" />
+                                <input type="text" onchange="handler();" placeholder="End date" name="end_date" class="form-control form_control date-widget" onfocus="(this.type='date')" />
+                            </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+             </div>
+          </div>
+       </div>
+       <!-- .nk-block-between -->
+    </div>
+    <div style="height:98%" class="nk-block">
+        <div class="card card-bordered">
+          <div class="card-inner-group">
+             <div style="max-height:850px;overflow-y:auto;overflow-x:hidden;" class="card-inner position-relative card-tools-toggle">
+                <div class="card-title-group">
+                   <div class="card-tools">
+                      <div class="form-inline flex-nowrap">
+                         <div class="form-wrap w-150px">
+                            <select style="width:150px;" class="form-select" data-search="off" data-placeholder="Oyo" >
+                               <option value="" data-select2-id="3">Oyo</option>
+                               <option value="email">Osun</option>
+                               <option value="group">Ogun</option>
+                               <option value="suspend">Kwara</option>
+                            </select>
+                         </div>&nbsp;
+                         <div class="btn-wrap"><span class="d-none d-md-block"><a [routerLink]="['/cms/today/prepaid/collections']" href="javascript:void(0)"  class="btn btn-dim btn-outline-light">Go to Prepaid</a></span><span class="d-md-none"><button class="btn btn-dim btn-outline-light btn-icon disabled"><em class="icon ni ni-arrow-right"></em></button></span></div>
+                      </div>
+                   </div>
+                   <div id="postpaid-todaycols-spinner-wrapper" class="card-tools me-n1">
+                      
+                   </div>
+                </div> 
+ 
+                <div class="nk-block" id="customers_list_view">
+                   <div style="max-width:100%; height:100%">
+                      <div style="width:100%; height:80%;overflow-y:hidden;">
+                         <div style="width:100%;border-radius:0px;margin-top:10px; background:transparent" class="top-panel">
+                            <div  class="panel-start flex-row"></div>
+                         </div>
+                         <div style="width:auto;max-height: 60vh; overflow-y: auto;overflow-x:hidden; background:transparent!important;">
+                            
+                            <table role="grid" style="width:100%;background:#f5f6fa;overflow: auto;opacity: 0;" id="today-cols-payments-ems-history_table" class="nowrap nk-tb-list is-separate shadow no-footer dtr-inline responsive collapsed" data-searching="false" data-auto-responsive="true">
+                               <thead style="position:sticky;top:0;" class="table-style-light">
+                                 
+                                  <tr>
+                                    <th *ngFor="let header of emsheaders" class="nk-tb-col">{{header}}</th>
+                                 </tr>
+                               </thead>
+                               
+                               <tbody style="background:#f5f6fa;">
+                                    <tr style="background: white!important;height:60px;" class="nk-tb-item" class="nk-tb-item" *ngFor="let payment of payments;">
+                                        <td class="nk-tb-col">{{payment?.Surname+payment?.OtherNames}}</td>
+                                        <td class="nk-tb-col">{{payment.receiptnumber}}</td>
+                                        <td class="nk-tb-col">{{payment.AccountNo}}</td>
+                    
+                                        <td class="nk-tb-col">{{payment.MeterNo || 'N/A'}}</td>
+                                        <td class="nk-tb-col">{{payment.PayDate}}</td>
+                                        <td class="nk-tb-col">{{payment.Payments}}</td>
+                                        <td class="nk-tb-col">{{payment.BusinessUnit}}</td>
+                    
+                                        <td class="nk-tb-col">{{payment.transamount}}</td>
+                                        <td class="nk-tb-col">{{payment.transstatus}}</td>
+                                        <td class="nk-tb-col">{{payment.PaymentID}}</td>
+                                        <td class="nk-tb-col">{{payment.PaymentTransactionId}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                         </div>
+                      </div>
+                   </div>
+                </div>
+                <script type="text/javascript" src="/assets/js/datatables.js"></script>
+            
+    </div>
+ </div>
+
+ 

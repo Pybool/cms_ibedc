@@ -359,8 +359,23 @@
                                         <td class="nk-tb-col"><i style="color:#FF7518!important;" class="material-icons">block</i></td>
                                      </ng-template>
                                      <td [id]="customer.accountno.trim()" *ngIf="can_create_customers" class="nk-tb-col" (click)="openCustomerUpdateForm($event)">
-                                     <a href="javascript:void(0)"><em class="icon ni ni-edit pointer"></em><span>Edit</span></a>
-                                     </td> 
+                                       <div class="nk-tb-col nk-tb-col-tools">
+                                          <ul class="nk-tb-actions gx-2">
+                                              <li>
+                                                  <div class="drodown">
+                                                      <a href="#" class="btn btn-sm btn-icon btn-trigger dropdown-toggle" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                                      <div class="dropdown-menu dropdown-menu-end">
+                                                          <ul class="link-list-opt no-bdr">
+                                                              <li><a [id]="customer.accountno.trim()" (click)="openCustomerUpdateForm($event)"><em (click)="openCustomerUpdateForm($event)" class="icon ni ni-edit pointer"></em><span (click)="openCustomerUpdateForm($event)">Edit</span></a>                                                              </li>
+                                                              <li class="divider"></li>
+                                                              <li><a href="javascript:void(0)"><em class="icon ni ni-shield-off"></em><span>Initiate CAAD</span></a></li>
+                                                          </ul>
+                                                      </div>
+                                                  </div>
+                                              </li>
+                                          </ul>
+                                      </div>
+                                    </td>
                                   </tr>
                                </tbody>
                             </table>

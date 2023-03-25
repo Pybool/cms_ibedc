@@ -1,34 +1,29 @@
 import { Injectable } from '@angular/core';
 import { SharedService } from './shared.service';
 import { SpinnerService } from './spinner.service';
+import { interval } from 'rxjs';
+import { AutoUnsubscribe } from 'src/auto-unsubscribe.decorator';
+
 interface CustomWindow extends Window {
   waitForElm:(arg1) => any;
   DataTable: (searchTerm: string,{}) => void;
 }
-
 declare let window: CustomWindow;
 
 @Injectable({
   providedIn: 'root'
 })
+@AutoUnsubscribe
 export class ConvertTableService {
-  intervalId
+  intervalId = null
   constructor(private sharedService: SharedService, private spinnerService:SpinnerService) { }
 
   convertTable(args){
     return new Promise((resolve, reject)=>{
+      var subscription
       try{
-        const allowedTime =  1 * 60 * 1000; // Wait for 60 seconds
-        const start_time = new Date().getTime()
-        this.intervalId = setInterval(() => {
+          subscription = interval(100).subscribe(() => {
           let len = document.querySelector('tbody')?.querySelectorAll('tr')?.length
-  
-          if ((new Date().getTime() - start_time) > allowedTime) {
-            
-            console.log("Terminated fetching as it took too long")
-            this.spinnerService.hideSpinner();
-            return clearInterval(this.intervalId);
-          }
           if(len > 0){
             window.waitForElm(`#${args.id}`).then((elm) => {
               this.sharedService.setSpinnerText('Constructing data table...')
@@ -40,18 +35,16 @@ export class ConvertTableService {
                     "deferRender": true, 
                     "order": []
                 });
-  
-                clearInterval(this.intervalId);
                 this.spinnerService.hideSpinner();
                 let t:any = elm
                 t.style.opacity = '1'
-                resolve(true)
+                resolve(subscription?.unsubscribe())
             });
           }
-        }, 100);
-       
-        }
-      catch(err){ }
+        });
+      
+      }
+      catch(err){subscription?.unsubscribe()}
     })
     
   }

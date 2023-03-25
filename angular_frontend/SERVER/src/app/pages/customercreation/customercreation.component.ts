@@ -6,6 +6,7 @@ import { AppState } from 'src/app/basestore/app.states';
 import { CustomerService } from 'src/app/services/customer.service';
 import { CustomercreationupdateService } from 'src/app/services/customercreationupdate.service';
 import { CustomervalidationService } from 'src/app/services/customervalidation.service';
+import { NotificationService } from 'src/app/services/notification.service';
 import { SharedService } from 'src/app/services/shared.service';
 import { ecmiCustomers, emsCustomers } from '../customersmodule/prepaidcustomers/state/customer.selector';
 import { NewCustomer, LoadCustomer } from './customercreation.model';
@@ -65,7 +66,7 @@ export class CustomercreationComponent implements OnInit {
 
   constructor(private store: Store<AppState>,
               private customerService: CustomerService,
-              private sharedService: SharedService,
+              private sharedService: SharedService,private notificationService: NotificationService,
               private customerCreateUpdateService:CustomercreationupdateService,
               private customervalidationService: CustomervalidationService
               ) { 
@@ -186,16 +187,20 @@ export class CustomercreationComponent implements OnInit {
     let flattenedFields = Object.values(this.draftFields).flat();
     this.loadedDraft$ = this.store.select(loadedDraft).subscribe((state) => {
       this.loadedDraft = state.draft
-      console.log(flattenedFields)
+      console.log(state.draft)
       for(let field of flattenedFields){
         dataToLoad[field] = this.loadedDraft[field]
       }
       this.newCustomer = new LoadCustomer(dataToLoad)
       this.draftTag = state.draft.draft_tag
       
+      
+      
     });
     this.setAssetsDropdowns()
     this.loadedDraft$.unsubscribe()
+
+
     /* If Regional User, service centers  */
     if(this.permission_hierarchy == 'region'){
       this.customerService.fetchLocations('servicecenter',this.newCustomer.buid).subscribe((data)=>{
@@ -262,7 +267,21 @@ export class CustomercreationComponent implements OnInit {
           this.emailExistsRows = response.data.email_exists
           this.mobileExistsRows = response.data.mobile_exists
           this.accountnoExistsRows = response.data.accountno_exists
-          this.existspopupModal("Found records sharing some key fields!",response.message,response.data)
+          return this.existspopupModal("Found records sharing some key fields!",response.message,response.data)
+        }
+        if(response.status == true && response.exists == false){
+          //Load Notification Modal here....
+          let notification = {type:'success',title:'Awaiting Customer Created',
+          message:response?.message,
+          subMessage:'A mail has been sent to the approving officer'}
+          this.notificationService.setModalNotification(notification)
+        }
+        else{
+          //Load Notification Modal here....
+          let notification = {type:'failure',title:'Something went wrong',
+          message:response?.message,
+          subMessage:'Awaiting Customer failed'}
+          this.notificationService.setModalNotification(notification)
         }
       })
     }

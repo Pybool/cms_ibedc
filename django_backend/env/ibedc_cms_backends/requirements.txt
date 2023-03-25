@@ -1,0 +1,22 @@
+asgiref==3.6.0
+Django==3.2.9
+django-mssql-backend==2.8.1
+mssql-django==1.0rc1 #working engine
+pyodbc==4.0.35
+pytz==2022.7.1
+sqlparse==0.4.3
+psycopg2
+celery==5.2.7
+django-celery-beat==2.3.0
+django-celery-results==2.4.0
+django-cors-headers==3.13.0
+django-filter==22.1
+django-request-logging==0.7.1
+django-timezone-field==5.0
+django-widget-tweaks==1.4.8
+djangorestframework==3.11.0
+python-dotenv
+django-cors-headers
+PyJWT==2.4.0
+pendulum==2.1.2
+kombu==5.2.4

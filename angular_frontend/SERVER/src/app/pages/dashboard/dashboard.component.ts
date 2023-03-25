@@ -43,7 +43,7 @@ export class DashboardComponent implements OnDestroy {
     this.sharedService.setActiveSearchInput('payments')
     this.userState = this.store.select(UserState);
     this.userState.subscribe((user)=>{
-      console.log('usee id ', user.id)
+      console.log('user id ', user.id)
       if(user.id){
         this.cuid = user.id
         payload = {period:this.period,cuid:this.cuid,end_date:this.end_date,start_date:this.start_date}

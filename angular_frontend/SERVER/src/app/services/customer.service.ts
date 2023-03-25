@@ -215,10 +215,13 @@ export class CustomerService {
 
   }
 
-  
-
   fecthCustomerFormMetadata(){
     return this.http.get<any>(`${environment.api}/cms/customerform/metadata?as_method=${true}`)
+    
+  }
+
+  initiateCaad(payload){
+    return this.http.post<any>(`${environment.api}/cms/customer/initiate-caad`,payload)
     
   }
 

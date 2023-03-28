@@ -82,7 +82,6 @@ export class CrmdComponent {
           this.notificationService.setModalNotification(notification)
         }
     })
-    // alert(`${action.toProperCase()}ing awaiting customer with comments ${comments}`)
   }
 
   exitAwaitingCustomer(){

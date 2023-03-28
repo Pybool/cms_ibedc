@@ -15,6 +15,7 @@ import { PaymentsemsComponent } from './pages/paymentsems/paymentsems.component'
 import { TodaycollectionsecmiComponent } from './pages/todaycollectionsecmi/todaycollectionsecmi.component';
 import { TodaycollectionsemsComponent } from './pages/todaycollectionsems/todaycollectionsems.component';
 import { NotificationmodalComponent } from './ui/notificationmodal/notificationmodal.component';
+import { LocationsComponent } from './pages/locations/locations.component';
 
 const routes: Routes = [
                         { path:'cms/web/login', component:LoginComponent},
@@ -24,6 +25,7 @@ const routes: Routes = [
                         { path:'customers/postpaid', component:PostpaidcustomersComponent},
                         { path:'cms/customers/crmd', component:CrmdComponent},
                         { path:'cms/caadlist', component:CaadlistComponent},
+                        { path:'admin/locations', component:LocationsComponent},
                         { path:'cms/notification/modal', component:NotificationmodalComponent},
                         { path:'cms/customers/billing', component:BillingComponent},
                         { path:'cms/customers/ecmi/payments', component:PaymentsComponent},

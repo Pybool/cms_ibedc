@@ -62,13 +62,13 @@ class CaadApprovalsView(APIView):
                         'servicecenter':CaadHeader.objects.filter(region=request.user.region).filter(buid=request.user.business_unit).filter(**{f"{self.field_name}__icontains": self.location})
                         }
         if id is None:
-            locale_positions = ['BHM','OC','RH']
-            inverse_last_approvals = {"BHM":"","OC":"BHM APPROVED","RH":"OC APPROVED","HCS":"RH APPROVED","CCO":"HCS APPROVED","MD":"CCO APPROVED"}
+            locale_positions = ['BHA','BHM','OC','RH']
+            inverse_last_approvals = {"BHA":"","BHM":"BHA APPROVED","OC":"BHM APPROVED","RH":"OC APPROVED","HCS":"RH APPROVED","CCO":"HCS APPROVED","MD":"CCO APPROVED"}
             user_position = get_user_position_code(request.user.position)
             if user_position in locale_positions:
-                pending_queue = queries[self.field_name].filter(last_approval = inverse_last_approvals[user_position]).order_by('-created_date').values()
+                pending_queue = queries[self.field_name].filter(last_approval = inverse_last_approvals[user_position],revert_status=False).order_by('-created_date').values()
             else:
-                pending_queue = CaadHeader.objects.filter(last_approval = inverse_last_approvals[user_position]).order_by('-created_date').values()
+                pending_queue = CaadHeader.objects.filter(last_approval = inverse_last_approvals[user_position],revert_status=False).order_by('-created_date').values()
         else:
             line_items = CaadLineItems.objects.filter(header_id = int(id)).values()
             approvers = CaadApprovalUsers.objects.filter(caad_id =int(id)).order_by('-date_approved').values()
@@ -88,7 +88,7 @@ class CaadApprovalsView(APIView):
         else:
             return Response({"status":False,"message":f"Nope, you can not do this!!"})
 
-class InitiateOrDeclineCAAD(APIView):
+class GetInitiateOrDeclineCAADTask(APIView):
     authentication_classes = [JWTAuthenticationMiddleWare]
     
     @is_caad_initiator()
@@ -99,7 +99,8 @@ class InitiateOrDeclineCAAD(APIView):
         othernames = data.get('othernames') or ''
         full_name = ' '.join([firstname, surname, othernames]).strip()
         servicecenter = data.get('servicecenter')
-        rpus_list = User.objects.filter(service_center=servicecenter).filter(position__icontains='RPU').values('email')
+        print(servicecenter)
+        rpus_list = User.objects.filter(service_center__icontains=servicecenter).filter(position__icontains='RPU').values('email')
         rpus = []
         for rpu in rpus_list:
             rpus.append(rpu.get('email'))
@@ -128,6 +129,5 @@ class InitiateOrDeclineCAAD(APIView):
         status = request.data.get('status')
         status = True if status == '1' else False
         UserTasksInbox.objects.filter(taskid=task_id).update(status=status)
-        return Response({"status":True,"message":"This CAAD submission by RPU has been declined"})
+        return Response({"status":True,"message":"This CAAD submission by RPU has been updated"})
         
-

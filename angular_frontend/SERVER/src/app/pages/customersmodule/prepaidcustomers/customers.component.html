@@ -327,7 +327,7 @@
                                              </ng-template>
                                           </ng-container>
                                           <ng-template #block2>
-                                             <td *ngIf="transient == 'Account No';else block4" (click)="loadCustomerInformation($event,customer.accountno,customer.meterno,customer.accounttype)"  class="nk-tb-col underline">{{customer[''+field_names[''+transient]]}}</td>
+                                             <td *ngIf="transient == 'Account No';else block4" (click)="loadCustomerInformation($event,customer.accountno,customer.meterno,customer.accounttype)"  class="nk-tb-col pointer underline">{{customer[''+field_names[''+transient]]}}</td>
                                              <ng-template #block4>
                                                 <ng-container *ngIf="customer[''+field_names[''+transient]] != '' && customer[''+field_names[''+transient]] != null && customer[''+field_names[''+transient]] != undefined;else block5">
                                                    <ng-container *ngIf="customer[''+field_names[''+transient]].trim() !='';else block6">

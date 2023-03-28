@@ -5,6 +5,7 @@ from authentication.models import User
 class UserTasksInbox(models.Model):
     user = models.ForeignKey(User, related_name='usertasks', on_delete=models.CASCADE)
     taskid = models.CharField(max_length=255)
+    task_type=models.CharField(max_length=50,default='CAAD')
     task_description = models.CharField(max_length=1000)
     task_sentby = models.CharField(max_length=255)
     status = models.BooleanField(default=False)

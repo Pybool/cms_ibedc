@@ -7,6 +7,9 @@ import { SharedService } from 'src/app/services/shared.service';
 import { AutoUnsubscribe } from 'src/auto-unsubscribe.decorator';
 import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
+import * as am5percent from "@amcharts/amcharts5/percent";
+import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
+
 
 @AutoUnsubscribe
 @Component({
@@ -32,6 +35,7 @@ export class DashboardComponent implements OnDestroy {
   todayCollectionsSum;
   collectionsStatistics;
   recent_payments;
+  metering_stats_data;
   today_collections_breakdown:string ="N/A";
 
 
@@ -77,6 +81,8 @@ export class DashboardComponent implements OnDestroy {
           let today_collections_breakdownList = []
           if(response.status){
             this.todayCollections = response.today_cols_data
+            this.metering_stats_data = response.metering_stats_data
+            this.renderDoughnut()
             this.todayCollectionsSum = this.todayCollections?.reduce((acc, obj) => acc + (obj.today_collections || 0), 0);
             this.todayCollections.forEach((data)=>{
               today_collections_breakdownList.push(`${this.titleCase(data?.type)}: ₦ ${data.today_collections?.toLocaleString('en-US')}`) 
@@ -244,6 +250,7 @@ export class DashboardComponent implements OnDestroy {
       console.log("Barchart data ",data)
       xAxis.data.setAll(data);
       series.data.setAll(data);
+      
 
       
       // Make stuff animate on load
@@ -262,6 +269,67 @@ export class DashboardComponent implements OnDestroy {
 
 
       
+  }
+
+  renderDoughnut(){
+    // Create root and chart
+  let root:any = am5.Root.new("doughnut");
+  root.setThemes([
+    am5themes_Animated.new(root)
+  ]);
+  
+  let chart = root.container.children.push( 
+    am5percent.PieChart.new(root, {
+      radius: am5.percent(60),
+      // x: am5.percent(50),
+    innerRadius: am5.percent(70),
+    }) 
+  );
+  chart.appear(1000);
+
+  // Define data
+  
+  let y = []
+
+Object.keys(this.metering_stats_data[0]).forEach((x)=>{
+  let c = {}
+  c['type'] = this.titleCase(x.replaceAll('_',' '))
+  c['value'] = this.metering_stats_data[0][x]
+  y.push(c)
+})
+let data = y
+console.log("------>",data)
+this.removeSkeleton(['metering'])
+
+
+  // Create series
+  let series = chart.series.push(
+    am5percent.PieSeries.new(root, {
+      name: "Series",
+      valueField: "value",
+      categoryField: "type",
+      legendLabelText: "[{fill}]{category}[/]",
+    legendValueText: "[bold {fill}]{value}[/]"
+    })
+  );
+  series.ticks.template.set("visible", true);
+  series.slices.template.set('tooltipText', '{category}: {value}');
+series.labels.template.set('text', '{category}: {value}');
+series.appear(1000);
+series.data.setAll(data);
+
+
+// Add legend
+
+let legend = chart.children.unshift(am5.Legend.new(root, {
+  centerX: am5.percent(50),
+  x: am5.percent(50),
+  innerRadius: am5.percent(50),
+  layout: root.verticalLayout
+}))
+
+
+legend.data.setAll(series.dataItems);
   }
 
   ngOnDestroy(): void {

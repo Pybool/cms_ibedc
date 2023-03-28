@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start-development": "ng serve",
-    "start-production":"ng serve --host 192.168.15.161 --port 4200",
+    "start-production": "ng serve --host 192.168.15.161 --port 4200",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "serve": "export NODE_OPTIONS=--openssl-legacy-provider; ng serve",
@@ -27,7 +27,8 @@
     "typescript": "^4.9.5"
   },
   "dependencies": {
-    "@amcharts/amcharts5": "^5.3.4",
+    "@amcharts/amcharts5": "^5.3.8",
+    "@amcharts/amcharts5-geodata": "^5.1.0",
     "@angular/animations": "^15.1.5",
     "@angular/cdk": "^15.1.5",
     "@angular/common": "^15.1.5",

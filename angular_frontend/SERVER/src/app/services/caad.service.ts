@@ -33,8 +33,9 @@ export class CaadService {
         }  
         return errorLineItems 
   }
+  
 
-  caadApproval(header,action){
+  caadApproval(header,action,revert_comments=null){
       // Action codes = {'0':'Revert','1':'Approve','2':'Validate'}
       // if (action == 0){
       //     let revertComment = document.getElementById('caad-revert-comment').value.trim() 
@@ -61,8 +62,8 @@ export class CaadService {
       //     }
       // }
   
-      if(action == 1){
-          return this.http.put<any>(`${environment.api}/cms/caadlist?action=${action}`,{header:header,action:action})
+      if(action == 0 || action == 1){
+          return this.http.put<any>(`${environment.api}/cms/caadlist?action=${action}`,{header:header,action:action,revert_comments:revert_comments})
       }
       return of({status:false,message:"Invalid action specified"})
   }

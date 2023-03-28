@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { take } from 'rxjs/operators';
 import { NotificationService } from 'src/app/services/notification.service';
 import { AutoUnsubscribe } from 'src/auto-unsubscribe.decorator';
@@ -15,7 +15,7 @@ export class NotificationmodalComponent {
   message = 'This action completed successfully and an email has been sent to the Regional head'
   subMessage = 'Please await further approvals'
 
-  constructor(private notificationService: NotificationService){
+  constructor(private notificationService: NotificationService,private changeDetectorRef: ChangeDetectorRef){
     this.notificationService.getActiveNotification().subscribe((notification)=>{
       this.type = notification.type
       this.title = notification.title
@@ -47,6 +47,7 @@ export class NotificationmodalComponent {
         subMsg.innerHTML = `You can re-edit this information by selecting the customer again in the drafts list tab.`
         modal.classList.add('show')
         modal.style.display = 'block'
+        this.changeDetectorRef.detectChanges();
         // modal.setAttribute('aria-hidden',false)
 
     }
@@ -60,6 +61,7 @@ export class NotificationmodalComponent {
         subMsg.innerHTML = `This operation failed`
         modal.classList.add('show')
         modal.style.display = 'block'
+        this.changeDetectorRef.detectChanges();
         // modal.setAttribute('aria-hidden',false)
     }
 }

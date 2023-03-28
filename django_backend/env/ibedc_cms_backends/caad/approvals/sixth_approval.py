@@ -3,8 +3,10 @@ from helper import get_user_position_code
 from caad.tests import calculate_percentage, audit_action, request_approval_mail
 from django.db import transaction
 from caad.caad_config import REFUND_THRESHOLDS
-url = ''
+from decorators import is_caad_action_exists
 
+url = ''
+@is_caad_action_exists()
 def handle_sixth_approval(request,header_id,percent_base,refund_amount=0.00):
     with transaction.atomic():
         approval_history = CaadApprovalHistory.objects.filter(header_id = header_id,action_status= 'CCO APPROVED')
@@ -18,7 +20,7 @@ def handle_sixth_approval(request,header_id,percent_base,refund_amount=0.00):
             
             if updated_header:
                 audit_action(request,q_header.first())
-            caad_data = q_header.values('customer_name', 'account_no','servicecenter','buid','refund_amount','vat').__dict__
+            caad_data = q_header.values('customer_name', 'account_no','servicecenter','buid','refund_amount','vat')[0]
             caad_data['header'] = header_id
             CaadApprovalUsers.objects.create(**{'caad_id':header_id,'approver_name':request.user.name,
                                           'approver_position':request.user.position,

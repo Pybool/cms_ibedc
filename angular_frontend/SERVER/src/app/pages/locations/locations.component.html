@@ -1,1 +1,246 @@
-<p>locations works!</p>
+<div style="padding-top: 100px;" class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Ibedc Locations</h3>
+                            <div class="nk-block-des text-soft">
+                                <p>You have total of {{locationsData.length}} locations.</p>
+                            </div>
+                        </div>
+                        <div class="nk-block-head-content">
+                            <div class="toggle-wrap nk-block-tools-toggle">
+                                <a class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu"><em class="icon ni ni-menu-alt-r"></em></a>
+                                <div class="toggle-expand-content show" data-content="pageMenu">
+                                    <ul class="nk-block-tools g-3">
+                                        <li><a (click)="createLocation($event)" class="btn btn-white btn-outline-light"><em class="icon ni ni-download-cloud"></em><span>New location</span></a></li>
+                                        <li class="nk-block-tools-opt">
+                                            <a class="dropdown-toggle btn btn-icon btn-primary" data-bs-toggle="dropdown"><em class="icon ni ni-plus"></em></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="height:98%" class="nk-block">
+                    <div class="card card-bordered">
+                        <div class="card-inner-group">
+                            <div style="max-height:80%;overflow-y:auto;overflow-x:hidden;" class="card-inner position-relative card-tools-toggle">
+                                <div>
+                                    <div>
+                                        <div class="card-inner position-relative card-tools-toggle">
+                                            <div class="card-title-group">
+                                                <div class="card-tools">
+                                                    <div class="form-inline flex-nowrap gx-3">
+                                                        <div class="form-wrap w-150px">
+                                                            <select class="form-select" data-search="off" data-placeholder="----" >
+                                                                <option value="" data-select2-id="3">Activate</option>
+                                                                <option value="email">Activate</option>
+                                                                <option value="suspend">Suspend location</option>
+                                                            </select>
+                                                            <!-- <span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="2" style="width: 134px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-rx8f-container"><span class="select2-selection__rendered" id="select2-rx8f-container" role="textbox" aria-readonly="true"><span class="select2-selection__placeholder">----</span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span> -->
+                                                        </div>
+                                                        <div class="btn-wrap"><span class="d-none d-md-block"><button class="btn btn-dim btn-outline-light">Toggle View</button></span><span class="d-md-none"><button class="btn btn-dim btn-outline-light btn-icon disabled"><em class="icon ni ni-arrow-right"></em></button></span></div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-tools me-n1">
+                                                    <ul class="btn-toolbar gx-1">
+                                                        <li><a href="#" class="btn btn-icon search-toggle toggle-search" data-target="search"><em class="icon ni ni-search"></em></a></li>
+                                                        <li class="btn-toolbar-sep"></li>
+                                                        <li>
+                                                            <div class="toggle-wrap">
+                                                                <a href="#" class="btn btn-icon btn-trigger toggle" data-target="cardTools"><em class="icon ni ni-menu-right"></em></a>
+                                                                <div class="toggle-content" data-content="cardTools">
+                                                                    <ul class="btn-toolbar gx-1">
+                                                                        <li class="toggle-close"><a href="#" class="btn btn-icon btn-trigger toggle" data-target="cardTools"><em class="icon ni ni-arrow-left"></em></a></li>
+                                                                        
+                                                                        <li>
+                                                                            <div class="dropdown">
+                                                                                <a href="#" class="btn btn-trigger btn-icon dropdown-toggle" data-bs-toggle="dropdown"><em class="icon ni ni-setting"></em></a>
+                                                                                <div class="dropdown-menu dropdown-menu-xs dropdown-menu-end">
+                                                                                    <ul class="link-check">
+                                                                                        <li><span>Show</span></li>
+                                                                                        <li class="active"><a href="#">10</a></li>
+                                                                                        <li><a href="#">20</a></li>
+                                                                                        <li><a href="#">50</a></li>
+                                                                                    </ul>
+                                                                                    <ul class="link-check">
+                                                                                        <li><span>Order</span></li>
+                                                                                        <li class="active"><a href="#">DESC</a></li>
+                                                                                        <li><a href="#">ASC</a></li>
+                                                                                    </ul>
+                                                                                </div>
+                                                                            </div>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="card-search search-wrap" data-search="search">
+                                                <div class="card-body">
+                                                    <div class="search-content"><a href="#" class="search-back btn btn-icon toggle-search" data-target="search"><em class="icon ni ni-arrow-left"></em></a><input type="text" class="form-control border-transparent form-focus-none" placeholder="Search by location or email"><button class="search-submit btn btn-icon"><em class="icon ni ni-search"></em></button></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="max-height:60vh; overflow-y:auto" class="card-inner p-0">
+                                            <div class="nk-tb-list nk-tb-ulist is-compact">
+                                                <div class="nk-tb-item nk-tb-head">
+                                                    <div class="nk-tb-col nk-tb-col-check">
+                                                        <div class="custom-control custom-control-sm custom-checkbox notext"><input type="checkbox" class="custom-control-input" id="uid"><label class="custom-control-label" for="uid"></label></div>
+                                                    </div>
+                                                   
+                                                    <div class="nk-tb-col"><span><b>Region</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Business Unit</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Business Unit Code</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Service Centre</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Service Centre Address</b></span></div>
+                                                    <div class="nk-tb-col nk-tb-col-tools text-end">
+                                                        <div class="dropdown">
+                                                            <a href="#" class="btn btn-xs btn-outline-light btn-icon dropdown-toggle" data-bs-toggle="dropdown" data-offset="0,5"><em class="icon ni ni-plus"></em></a>
+                                                            <div class="dropdown-menu dropdown-menu-xs dropdown-menu-end">
+                                                                <ul class="link-tidy sm no-bdr">
+                                                                    <li>
+                                                                        <div class="custom-control custom-control-sm custom-checkbox checked"><input type="checkbox" class="custom-control-input" checked="" id="bl"><label class="custom-control-label" for="bl">Balance</label></div>
+                                                                    </li>
+                                                                    <li>
+                                                                        <div class="custom-control custom-control-sm custom-checkbox checked"><input type="checkbox" class="custom-control-input" checked="" id="ph"><label class="custom-control-label" for="ph">Phone</label></div>
+                                                                    </li>
+                                                                    <li>
+                                                                        <div class="custom-control custom-control-sm custom-checkbox"><input type="checkbox" class="custom-control-input" id="vri"><label class="custom-control-label" for="vri">Verified</label></div>
+                                                                    </li>
+                                                                    <li>
+                                                                        <div class="custom-control custom-control-sm custom-checkbox"><input type="checkbox" class="custom-control-input" id="st"><label class="custom-control-label" for="st">Status</label></div>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <ng-container *ngFor="let location of locationsData;">
+                                                    <div id="{{location?.id}}" style="cursor:pointer;" class="nk-tb-item">
+                                                        <div class="nk-tb-col nk-tb-col-check">
+                                                            <div class="custom-control custom-control-sm custom-checkbox notext">
+                                                                <input type="checkbox" class="custom-control-input" name="check" id="{{location?.id}}">
+                                                                <label class="custom-control-label" for="{{location?.id}}"></label>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="nk-tb-col tb-col-md"><span>{{location?.region}}</span></div>
+                                                        <div class="nk-tb-col tb-col-sm"><span>{{location?.business_unit}}</span></div>
+                                                        <div class="nk-tb-col tb-col-sm"><span>{{location?.BUID}}</span></div>
+                                                        <div class="nk-tb-col tb-col-sm"><span>{{location?.service_center}}</span></div>
+                                                        <div class="nk-tb-col tb-col-sm"><span>{{location?.service_center_address}}</span></div>
+
+                                                        <div class="nk-tb-col nk-tb-col-tools">
+                                                            <ul class="nk-tb-actions gx-2">
+                                                                <li value="{{location?.id}}" class="nk-tb-action-hidden"><a class="btn btn-sm btn-icon btn-trigger" (click)="getSingleLocation($event)" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit" aria-label="Edit"><em id="{{location?.id}}"  class="icon material-icons">edit</em></a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <div class="card-inner">
+                                <ul class="pagination justify-content-center justify-content-md-start">
+                                    <li class="page-item"><a class="page-link" href="#">Prev</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><span class="page-link"><em class="icon ni ni-more-h"></em></span></li>
+                                    <li class="page-item"><a class="page-link" href="#">6</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">7</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="edit-locations" style="width:500px;" class="nk-add-product toggle-slide toggle-slide-right" data-content="createUser" data-toggle-screen="any" data-toggle-overlay="true" data-toggle-body="true" data-simplebar='1'>
+    <div class="nk-block-head">
+        <div class="nk-block-head-content">
+            <h5 id="create_edit_user_title" class="nk-block-title"></h5>
+            <div class="nk-block-des">
+                <div class="data-head">
+                    <h5 id='action_header' class="overline-title">{{formActionType | titlecase}} Location</h5>
+                </div>
+            </div>
+        </div>
+        <form class="row g-3 form-validate is-alter" autocomplete="off" (ngSubmit)="submit()" ngNativeValidate>
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="form-label" for="product-title">Region</label>
+                    <div class="form-control-wrap">
+                        <div class="col-12">
+                            <input [(ngModel)]="selectedLocation.region" name="region" id="regions" type="text" class="form-control shadow" placeholder="Enter a region"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <label class="form-label" for="regular-price">Business Units</label>
+                    <div class="form-control-wrap">
+                        <div class="col-12">
+                            <input [(ngModel)]="selectedLocation.business_unit" name="business_unit" id="business_units" type="text" class="form-control shadow" placeholder="Enter a business unit"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <span id="suggestion_alert"></span> -->
+            <div class="col-6">
+                <div class="form-group">
+                    <label class="form-label" for="regular-price">BUID</label>
+                    <div class="form-control-wrap">
+                        <div class="col-12">
+                            <input [(ngModel)]="selectedLocation.BUID" name="BUID" id="buid_code" type="text" class="form-control shadow" placeholder="Enter a BUID"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="form-label" for="sale-price">Service Center</label>
+                    <div class="form-control-wrap">
+                        <div class="col-12">
+                            <input [(ngModel)]="selectedLocation.service_center" name="service_center" id="service_centers" type="text" class="form-control shadow" placeholder="Enter a service center"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="form-label" for="sale-price">Service Center Address</label>
+                    <div class="form-control-wrap">
+                        <div class="col-12">
+                            <input [(ngModel)]="selectedLocation.service_center_address" name="service_center_address" id="service_center_address" type="text" class="form-control shadow" placeholder="Enter service center address"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-6">
+                <button type="submit" style="width:100%;color:white;" class="btn btn-primary d-none d-md-inline-flex">Save Location</button>
+            </div>
+            <div class="col-6">
+                <button (click)="exitForm($event)" data-target="edit-locations" type="button" style="width:100%;color:white;" class="toggle btn btn-primary d-none d-md-inline-flex"><span>Exit</span></button>
+            </div>
+        </form>
+    </div><!-- .nk-block-head -->
+</div>
+
+
+
+

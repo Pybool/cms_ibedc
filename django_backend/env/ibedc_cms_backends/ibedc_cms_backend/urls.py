@@ -33,4 +33,5 @@ urlpatterns = [
     path('api/v1/',include("accountsmanager.urls")),
     path('api/v1/',include("caad.urls")),
     path('api/v1/',include("mails.urls")),
+    path('api/v1/',include("tasks.urls")),
 ]

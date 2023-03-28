@@ -6,6 +6,7 @@ import * as userReducer from '../pages/user/users/state/user.reducer';
 import * as custtomerReducer from '../pages/customersmodule/prepaidcustomers/state/customer.reducer';
 import * as caadListReducer from '../pages/caadlist/state/caadlist.reducer';
 import * as custtomerCreateReducer from '../pages/customercreation/state/customercreation.reducer';
+import * as locationsReducer from '../pages/locations/state/location.reducer';
 
 export interface AppState {
   authState: auth.State;
@@ -20,7 +21,8 @@ export interface AppState {
   lastSavedDraft: custtomerCreateReducer.DraftState,
   fetchedDrafts:custtomerCreateReducer.FetchedDraftState,
   loadedDraft:custtomerCreateReducer.LoadDraftState,
-  caadApprovalList: caadListReducer.State
+  caadApprovalList: caadListReducer.State,
+  locationsList: locationsReducer.State
 
 }
 
@@ -37,7 +39,8 @@ export const reducers = {
     lastSavedDraft:custtomerCreateReducer.draftReducer,
     fetchedDrafts:custtomerCreateReducer.fetchedDraftReducer,
     loadedDraft:custtomerCreateReducer.loadDraftReducer,
-    caadApprovalList:caadListReducer.caadListReducer
+    caadApprovalList:caadListReducer.caadListReducer,
+    locationsList: locationsReducer.reducer
 
   };
 

@@ -7,13 +7,18 @@ from django.db import transaction
 from rest_framework.response import Response
 from django.utils import timezone
 from .tests import *
+from django.shortcuts import get_object_or_404
+
 from helper import generate_slug, get_field_name, get_permission_hierarchy,get_user_position_code
+from caad.approvals.bha_approval import handle_bha_approval
 from caad.approvals.first_approval import handle_first_approval
 from caad.approvals.second_approval import handle_second_approval
 from caad.approvals.third_approval import handle_third_approval
 from caad.approvals.fourth_approval import handle_fourth_approval
 from caad.approvals.fifth_approval import handle_fifth_approval
 from caad.approvals.sixth_approval import handle_sixth_approval
+from tasks.models import UserTasksInbox
+from tasks.__task__email import send_outward_mail
 
 
 class CaadHelper(object):
@@ -64,6 +69,22 @@ class CaadHelper(object):
                     creator_role=get_user_position_code(self.request.user.position)
                 )
 
+                bhas_list = User.objects.filter(business_unit__icontains=self.request.user.business_unit).filter(position__icontains='BHA').values('email')
+                bhas = []
+                for bha in bhas_list:
+                    bhas.append(bha.get('email'))
+                mail_parameters = {"ir_template":"caad_validate",
+                    "url":"",
+                    "subject":"Customer Account Adjustment Document Validation",
+                    "sender":self.request.user.email, 
+                    "body":data,
+                    "recipients":bhas}
+                print("Mail parameter ====> ", mail_parameters)
+                task = {"user":get_object_or_404(User,email=bhas[0]),"taskid":uuid.uuid4(),
+                "task_description":f"CAAD validation for {data['header'].get('customer_name')}",
+                "task_sentby":self.request.user.email,"created_by":self.request.user.email,"associated_customer":data['header'].get('accountno')}
+                UserTasksInbox.objects.create(**task)
+                send_outward_mail.delay(mail_parameters)
                 response = {"status": True, "message": "New caad request was created..."}
                 return Response(response) 
         
@@ -73,7 +94,7 @@ class CaadHelper(object):
             return Response(response) 
     
     def caad_approval(self):
-        try:
+        # try:
             self.all_items = []
             self.url = ''
             data = self.request.data
@@ -85,29 +106,35 @@ class CaadHelper(object):
                 header = header_obj.values()
                 copied_data.pop('action')
                 copied_data.pop('header')
-                copied_data.pop('error_lineitems')
-                copied_data['status'] = 'reverted'
+                # copied_data.pop('error_lineitems')
+                copied_data['revert_status'] = True
                 copied_data['percentage_approval'] = 0.00
-                header = header_obj.update(copied_data)
+                header = header_obj.update(**copied_data)
+                approval_history = CaadApprovalHistory.objects.filter(header_id = data['header'])
+                print("----->",approval_history)
+                position_code = get_user_position_code(self.request.user.position),
+                approval_history.update(**{"user_action":f"{position_code} Approval","action_status":f"{position_code} APPROVED","rejected_reason":data.get('revert_comments')})
+                print(type(header))
                 if header:
                     self.audit_log = AuditLogView({"table_name":"caad_header",
-                                                "record":header,
+                                                "record":get_object_or_404(CaadHeader,id=data['header']),
                                                 "request":self.request,
                                                 "description":f"Caad record was reverted by {self.request.user.email}"
                                             })
                     self.audit_log.create_user_audit(store_state=True)
                 
-                line_item_db_all = CaadLineItems.objects.filter(header_id = int(copied_data['header'])).values()
-                if len(line_item_db_all > 0):
-                    for item in line_item_db_all:
-                        self.all_items.append(item.get('id'))
-                    # Update records with the same value
-                    CaadLineItems.objects.filter(id__in=data['error_lineitems']).update(error_flag=True)
+                # line_item_db_all = CaadLineItems.objects.filter(header_id = int(copied_data['header'])).values()
+                # if len(line_item_db_all > 0):
+                #     for item in line_item_db_all:
+                #         self.all_items.append(item.get('id'))
+                #     # Update records with the same value
+                #     CaadLineItems.objects.filter(id__in=data['error_lineitems']).update(error_flag=True)
                     
-                    update_ids = [x for x in self.all_items if x not in data['error_lineitems']]
-                    CaadLineItems.objects.exclude(id__in=update_ids).update(error_flag=False)
+                #     update_ids = [x for x in self.all_items if x not in data['error_lineitems']]
+                #     CaadLineItems.objects.exclude(id__in=update_ids).update(error_flag=False)
                     
                 response = {"status":True,"message":"Caad record was reverted..."} 
+                return Response(response)
             
             if int(self.request.GET.get('action')) == 1:
                 header = data.get('header')
@@ -119,6 +146,7 @@ class CaadHelper(object):
                 percent_base = get_percentage_base(refund_amount)
 
                 approvals = {
+                    'BHA':handle_bha_approval,
                     'BHM': handle_first_approval,
                     'OC': handle_second_approval,
                     'RH': handle_third_approval,
@@ -128,21 +156,24 @@ class CaadHelper(object):
                 }
                 
                 handle_approval = approvals.get(request_user_position_code)
-                print(caad_header,handle_approval)
-                if handle_approval:
+                print(caad_header,request_user_position_code,request_user_position_code != 'BHA',percent_base)
+                # self.request.data['header_id'] = header
+                if handle_approval and request_user_position_code != 'BHA':
                     response_data = handle_approval(self.request,header,percent_base,refund_amount)
-
-                response_data['percent_base'] = percent_base
-                response_data['success'] = True
-                response_data['message'] = 'Approval successful'
-                response_data['status'] = True
+                else:
+                    print(000000000)
+                    response_data = handle_approval(self.request,header,0,0.00)
+                if not response_data:
+                    response_data['percent_base'] = percent_base
+                    response_data['success'] = True
+                    response_data['status'] = True                    
 
                 return Response(response_data)
       
-        except Exception as e:
-            print(str(e))
-            response = {"status":False,"message":f"Could not perform this operation... {str(e)}"} 
-            return json.dumps(response) 
+        # except Exception as e:
+        #     print(str(e))
+        #     response = {"status":False,"message":f"Could not perform this operation... {str(e)}"} 
+        #     return json.dumps(response) 
     
         
     # @http.route('/cms/caad/update_refund/',website=True,auth='user')

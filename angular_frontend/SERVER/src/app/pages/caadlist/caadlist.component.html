@@ -315,7 +315,7 @@
                                  
                                  <li><button (click)="approveCaad($event)" type="submit" class="btn btn-success btn-outline-light"><em style="color:white;" class="icon ni ni-download-cloud"></em><span style="color:white;">Approve</span></button></li>
                                  
-                                 <li><button type="submit" class="btn btn-warning btn-outline-light"><em style="color:white;" class="icon ni ni-download-cloud"></em><span style="color:white;">Decline</span></button></li>
+                                 <li><button (click)="revertCaad($event)" class="btn btn-warning btn-outline-light"><em style="color:white;" class="icon ni ni-download-cloud"></em><span style="color:white;">Decline</span></button></li>
                              </ul>
                              <ul style="max-height:50vh;overflow-y: auto;" class="link-list-opt col-4">
                                  <li ><div class="col-12 row g-3"><label class="col-6">Summation Expected Billing</label><a class="col-6" href="javascript:void(0)" ><input [value]="sebm" type="text" class="input-display"/></a></div></li>

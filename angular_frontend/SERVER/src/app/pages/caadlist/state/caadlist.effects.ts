@@ -56,7 +56,7 @@ ApproveCaadSuccess$= createEffect(() =>
 this.actions$.pipe(
     ofType(CustomerCaadActionTypes.APPROVE_CAAD_SUCCESS),
     tap((data:any) => {
-        
+        console.log(data)
     })
 ),
 { dispatch: false }
@@ -96,9 +96,17 @@ ApproveCaad$= createEffect(() =>
                 map((response) => {
                     console.log(response);
                     if(response.status){
+                        let notification = {type:'success',title:'CAAD Approval Successful!',
+                        message:response?.message,
+                        subMessage:'...'}
+                        this.notificationService.setModalNotification(notification)
                         return new ApproveCaadSuccess(response) as Action; // cast to Action
                     }
                     else{
+                        let notification = {type:'failure',title:'Oops!',
+                        message:response?.message,
+                        subMessage:'Something went wrong'}
+                        this.notificationService.setModalNotification(notification)
                         throw new Error("Server returned false status for fetching draft")
                     }
                 }),

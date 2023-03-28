@@ -119,15 +119,15 @@ class SearchPrepaidCustomers(APIView):
         
         else:
             return Response({"status":False,"message":"Invalid search parameter in request"})
-        print(query)
+        print(query, field_name,location)
         if(query):
             if field_name is not None:#For Non-HQ users
                     
-                if field_name == 'region':
+                if field_name == 'region' or field_name == 'state':
                     search_location_customers = EcmiCustomersNew.objects.filter(**{f"{field_name}__icontains": location}).filter(query).count()
                     customers = search_location_customers.values(*ECMI_FIELDS)
-                elif field_name == 'buid':
-                    search_location_customers = EcmiCustomersNew.objects.filter(state=request.user.region).filter(**{f"{field_name}__icontains": location}).filter(query)
+                elif field_name == 'buid' or field_name == 'business-unit' or field_name == 'business_unit':
+                    search_location_customers = EcmiCustomersNew.objects.filter(state__icontains=request.user.region).filter(**{f"{field_name}__icontains": location}).filter(query)
                     customers = search_location_customers.values(*ECMI_FIELDS)
                     
                 elif field_name == 'servicecenter':

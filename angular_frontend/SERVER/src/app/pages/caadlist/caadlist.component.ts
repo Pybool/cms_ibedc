@@ -34,6 +34,7 @@ export class CaadlistComponent implements OnDestroy {
   refundAmountRaw:any =0.00 ;
   totalEstimate:any = '';
   vats:any = [{name:2.5},{name:5.5},{name:7.5}]
+  
   constructor(private store :Store,private caadService: CaadService,){
     this.store.dispatch(new FetchCaadList())
   }
@@ -83,6 +84,13 @@ export class CaadlistComponent implements OnDestroy {
   }
 
   revertCaad($event){
+    let comment = window.prompt('Enter a comment to decline this record')
+    if (comment){
+      console.log(comment)
+      this.caadService.caadApproval(this.header,0,comment).pipe(take(1)).subscribe((response)=>{
+        console.log(response)
+      })
+    }
 
   }
 

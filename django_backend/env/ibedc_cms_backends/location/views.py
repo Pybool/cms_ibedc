@@ -9,14 +9,10 @@ from .models import LocationPermissions, CrmRegion, CrmBusinessHub, CrmServiceCe
 # from helpers.permissions import Permissions
 from django.shortcuts import get_object_or_404
 from rest_framework.pagination import PageNumberPagination
-
-# from cmsadmin.models import LocationsPermissions
-# class CustomerFilterView(APIView):
-#     # authentication_classes = [JWTAuthenticationMiddleWare]
-#     def get(self,request):
-#         regions = LocationsPermissions.objects.filter().values('region').distinct() #.distinct('region)
-#         return Response({'status':True,'regions':regions})
-
+from .raw_queries import *
+from connection_executor import dict_fetch_all
+from config import CACHE_CONTROL
+from django.db import transaction
 
 class LocationsView(APIView):
     
@@ -124,74 +120,117 @@ class PermissionsHierarchyView(APIView):
         except Exception as err:
             print("Error ",str(err))
             response = {"status":False,"error":str(err),"message":"failure"}  
-            return Response(response)  
-
-class CreateLocationView(APIView):
-    def post(self, request, *args, **kwargs):
-        data = json.loads(request.body)
+            return Response(response) 
+        
+class LocationView(APIView):
+    
+    def get(self,request):
+        locations =dict_fetch_all(LOCATIONS)
+        response =  Response({"status":True,"message":"Locations were successfully retrieved","data":locations}, status=200)
+        response.headers['Cache-Control'] = CACHE_CONTROL
+        return response
+        
+        
+        
+    def post(self, request):
+        data = request.data
+        print(data)
         try:
             vals_user = {
-                'region': data.get('regions'),
-                'biz_hub': data.get('business_unit'),
-                'servicecenter': data.get('servicecenter'),
+                'region': data.get('region'),
+                'business_unit': data.get('business_unit'),
+                'service_center': data.get('service_center'),
                 'service_center_address':data.get('service_center_address'),
-                'buid':data.get('buid_code'),
-                'created_by': request.user.email,
+                'buid':data.get('BUID'),
             }
-            new_permission = LocationPermissions.objects.create(vals_user)
+            self.create(vals_user)
             
-            response = {"status":True,"data":str(new_permission),"message":"Location was created successfully"}  
+            response = {"status":True,"message":"Location was created successfully"}  
             return Response(response, status=200)
         
         except Exception as err:
-            return Response({"status":False,"error":str(err),"message":"failure"}, status=404)
+            return Response({"status":False,"error":str(err),"message":"failure"})
+    
+    
+    def create(self,data):
+        with transaction.atomic():
+            print(data)
+            new_region = CrmRegion(name=data.get('region'))
+            new_region.save()
+            
+            new_business_unit = CrmBusinessHub(name=data.get('business_unit'),buid=data.get('buid'))
+            new_business_unit.save()
+            
+            new_service_center = CrmServiceCentre(name=data.get('service_center'),service_center_address=data.get('service_center_address'))
+            new_service_center.save()
         
-    # def put(self, request):
-    #     data = request.data
-    #     try:
-    #         vals_location = {
-    #             'region': data.get('regions'),
-    #             'biz_hub': data.get('business_unit'),
-    #             'servicecenter': data.get('servicecenter'),
-    #             'service_center_address': data.get('service_center_address'),
-    #             'buid': data.get('buid_code'),
-    #         }
-    #         edited_permission = get_object_or_404(Permissions, pk=data.get('id'))
-    #         edited_permission.__dict__.update(vals_location)
-    #         edited_permission.save()
-    #         response = {"status": True, "data": str(edited_permission),
-    #                     "message": "Location was edited successfully"}
-    #         return Response(response, content_type='text/json;charset=utf-8')
-    #     except Exception as err:
-    #         response = {"status": False, "message": "Location was not saved successfully"}
-    #         return Response(response, content_type='text/json;charset=utf-8')
 
-
-# class LocationSearchView(APIView):
-#     pagination_class = PageNumberPagination
-#     page_size = PAGINATION_SETTINGS['LOCATIONS_PER_PAGE']
-
-#     def get(self, request, format=None):
-#         q = request.query_params.get('q', '')
-#         page = request.query_params.get('page', 1)
+# class CreateLocationView(APIView):
+#     def post(self, request, *args, **kwargs):
+#         data = json.loads(request.body)
 #         try:
-#             page = int(page)
-#             user_groups = request.env['res.groups'].sudo().search([])
-#             locations = self.search_locations(q)
-#             total = len(locations)
-#             pager = self.pagination_class()
-#             paginated_locations = pager.paginate_queryset(locations, request)
-#             dev_perm = Permissions.checkDeveloperPermissions(request.user)
-#             create_perm = Permissions.checkPermissions(request.user)
-#             caad_perm = Permissions.checkCaadApprovalPermissions(request.user)
-#             data = {
-#                 'groups': user_groups,
-#                 'locations': paginated_locations,
-#                 'dev_perm': dev_perm,
-#                 'create_perm': create_perm,
-#                 'caad_perm': caad_perm,
-#                 'can_approve': Permissions.checkCustomerApprovalPermissions(request.user)
+#             vals_user = {
+#                 'region': data.get('regions'),
+#                 'biz_hub': data.get('business_unit'),
+#                 'servicecenter': data.get('servicecenter'),
+#                 'service_center_address':data.get('service_center_address'),
+#                 'buid':data.get('buid_code'),
+#                 'created_by': request.user.email,
 #             }
-#             return pager.get_paginated_response(data)
+#             new_permission = LocationPermissions.objects.create(vals_user)
+            
+#             response = {"status":True,"data":str(new_permission),"message":"Location was created successfully"}  
+#             return Response(response, status=200)
+        
 #         except Exception as err:
-#             print("locations error ", err)
+#             return Response({"status":False,"error":str(err),"message":"failure"}, status=404)
+        
+#     # def put(self, request):
+#     #     data = request.data
+#     #     try:
+#     #         vals_location = {
+#     #             'region': data.get('regions'),
+#     #             'biz_hub': data.get('business_unit'),
+#     #             'servicecenter': data.get('servicecenter'),
+#     #             'service_center_address': data.get('service_center_address'),
+#     #             'buid': data.get('buid_code'),
+#     #         }
+#     #         edited_permission = get_object_or_404(Permissions, pk=data.get('id'))
+#     #         edited_permission.__dict__.update(vals_location)
+#     #         edited_permission.save()
+#     #         response = {"status": True, "data": str(edited_permission),
+#     #                     "message": "Location was edited successfully"}
+#     #         return Response(response, content_type='text/json;charset=utf-8')
+#     #     except Exception as err:
+#     #         response = {"status": False, "message": "Location was not saved successfully"}
+#     #         return Response(response, content_type='text/json;charset=utf-8')
+
+
+# # class LocationSearchView(APIView):
+# #     pagination_class = PageNumberPagination
+# #     page_size = PAGINATION_SETTINGS['LOCATIONS_PER_PAGE']
+
+# #     def get(self, request, format=None):
+# #         q = request.query_params.get('q', '')
+# #         page = request.query_params.get('page', 1)
+# #         try:
+# #             page = int(page)
+# #             user_groups = request.env['res.groups'].sudo().search([])
+# #             locations = self.search_locations(q)
+# #             total = len(locations)
+# #             pager = self.pagination_class()
+# #             paginated_locations = pager.paginate_queryset(locations, request)
+# #             dev_perm = Permissions.checkDeveloperPermissions(request.user)
+# #             create_perm = Permissions.checkPermissions(request.user)
+# #             caad_perm = Permissions.checkCaadApprovalPermissions(request.user)
+# #             data = {
+# #                 'groups': user_groups,
+# #                 'locations': paginated_locations,
+# #                 'dev_perm': dev_perm,
+# #                 'create_perm': create_perm,
+# #                 'caad_perm': caad_perm,
+# #                 'can_approve': Permissions.checkCustomerApprovalPermissions(request.user)
+# #             }
+# #             return pager.get_paginated_response(data)
+# #         except Exception as err:
+# #             print("locations error ", err)

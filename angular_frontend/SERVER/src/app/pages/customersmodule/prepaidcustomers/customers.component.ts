@@ -21,6 +21,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { DataTableDirective } from 'angular-datatables';
 import { SpinnerService } from 'src/app/services/spinner.service';
 import { ConvertTableService } from 'src/app/services/convert-table.service';
+import { NotificationService } from 'src/app/services/notification.service';
 var self;
 interface CustomWindow extends Window {
   waitForElm:(arg1) => any;
@@ -93,7 +94,7 @@ export class CustomersComponent implements AfterViewInit {
               private renderer: Renderer2,
               private spinnerService: SpinnerService,
               private convertTableService:ConvertTableService,
-              private route: ActivatedRoute,) { 
+              private route: ActivatedRoute,private notificationService: NotificationService) { 
     this.sharedService.setActiveSearchInput('customers')
     this.custs$ = customerData.customer_data
     this.metaData = customerData.metadata
@@ -250,6 +251,18 @@ export class CustomersComponent implements AfterViewInit {
       if(response.status){
         self.customerService.initiateCaad(response.data).pipe(take(1)).subscribe((response)=>{
           console.log(response)
+          if(response.status){
+            let notification = {type:'success',title:'CAAD Initiation!',
+            message:response?.message,
+            subMessage:'The RPU for this location will take mext steps'}
+            self.notificationService.setModalNotification(notification)
+          }
+          else{
+            let notification = {type:'failure',title:'Uh oh!',
+            message:response?.message,
+            subMessage:'Something went wrong'}
+            self.notificationService.setModalNotification(notification) //Not showing up until a random button is clicked
+          }
         })
       }
       else{alert("Customer could not be found")}

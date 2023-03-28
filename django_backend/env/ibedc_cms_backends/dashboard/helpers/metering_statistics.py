@@ -40,9 +40,9 @@ class MeteringStatistics(object):
         query_list =  f"""
                    
                     SELECT
-                        SUM(CASE WHEN {PERMIT} p.quantity_installed = '0' THEN 1 ELSE 0 END) as meter_pending_installs,
-                        SUM(CASE WHEN {PERMIT} p.quantity_installed = '1' THEN 1 ELSE 0 END) as meters_installed,
-                        SUM(CASE WHEN {PERMIT} c.progress='2' THEN 1 ELSE 0 END) as new_requests_for_install
+                        SUM(CASE WHEN {PERMIT} p.quantity_installed = '0' THEN 1 ELSE 0 END) as pending_installations,
+                        SUM(CASE WHEN {PERMIT} p.quantity_installed = '1' THEN 1 ELSE 0 END) as completed_installations,
+                        SUM(CASE WHEN {PERMIT} c.progress='2' THEN 1 ELSE 0 END) as installation_requests
                     FROM
                         msms_customers c
                         JOIN msms_payments p ON c.id = p.customer_id
@@ -55,7 +55,7 @@ class MeteringStatistics(object):
                 """
                 
         print(query_list)
-        return query_list, ['meters_installed','meter_pending_installs','new_requests_for_install']
+        return query_list, ['completed_installations','pending_installations','installation_requests']
 
     def getpermission_query(self):
         if self.regional_user :

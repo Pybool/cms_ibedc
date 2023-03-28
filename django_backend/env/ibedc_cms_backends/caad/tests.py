@@ -29,8 +29,20 @@ def request_approval_mail(position,data,url):
     
     
     """
-    if position == 'OC':
-        user = User.objects.filter(position__icontains = position).filter(servicecenter=data.get('servicecenter')).values('email').first()['email']
+    print(data,position)
+    try:
+        if position == 'BHM':
+            user = User.objects.filter(position__icontains = position).filter(business_unit=data.get('buid')).values('email').first()['email']
+        elif position == 'RH' or position == 'OC':
+            user = User.objects.filter(position__icontains = position).filter(region=data.get('region')).values('email').first()['email'] #THIS ASSUMES THERE IS ONLY ONE RH AND OC PER
+        else:
+            user = User.objects.filter(position__icontains = position).values('email').first()['email'] # THIS ASSUMES THERE ARE ONLY ONE USERS FROM HCS ====> MD
+    except Exception as e:
+        print(str(e))
+        if 'object is not subscriptable' in str(e):
+            print("Failed")
+            return {'status':False,'message':'Next approver does not yet exist'}
+         
     print("CAAD MAIL ===> ", user)
     mail = {"ir_template":"caad_approval",
             "url":"",

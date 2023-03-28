@@ -69,7 +69,6 @@ class PrepaidCustomers(APIView):
                 if field_name == 'region' or 'state':
                     customers = EcmiCustomersNew.objects.filter(**{f"{field_name}__icontains": location}).filter(opendate__range=[start_date, end_date]).values(*ECMI_FIELDS)
                 elif field_name == 'buid':
-                    
                     customers = EcmiCustomersNew.objects.filter(state=request.user.region).filter(**{f"{field_name}__icontains": location}).filter(opendate__range=[start_date, end_date]).values(*ECMI_FIELDS)
                     
                 elif field_name == 'servicecenter':
@@ -78,13 +77,13 @@ class PrepaidCustomers(APIView):
                 customers = EcmiCustomersNew.objects.filter().filter(opendate__range=[start_date, end_date]).values(*ECMI_FIELDS)
         else:
             if field_name is not None:#For Non-HQ users
-                
-                if field_name == 'region' or 'state':
+               
+                if field_name == 'region' or field_name =='state':
                     location_customers = EcmiCustomersNew.objects.filter(**{f"{field_name}__icontains": location})
                     total_customers = location_customers.count()
                     customers = location_customers.values(*ECMI_FIELDS)
                 elif field_name == 'buid':
-                    location_customers = EcmiCustomersNew.objects.filter(state=request.user.region).filter(**{f"{field_name}__icontains": location})
+                    location_customers = EcmiCustomersNew.objects.filter(accountno='2451679551979')#filter(state=request.user.region).filter(**{f"{field_name}__icontains": location})
                     total_customers = location_customers.count()
                     customers = location_customers.values(*ECMI_FIELDS)
                     

@@ -56,6 +56,7 @@ import { PaymentsemsComponent } from './pages/paymentsems/paymentsems.component'
 import { TodaycollectionsecmiComponent } from './pages/todaycollectionsecmi/todaycollectionsecmi.component';
 import { TodaycollectionsemsComponent } from './pages/todaycollectionsems/todaycollectionsems.component';
 import { NotificationmodalComponent } from './ui/notificationmodal/notificationmodal.component';
+import { LocationsEffects } from './pages/locations/state/location.effects';
 
 
 const metaReducers: Array<MetaReducer<any, any>> = [localStorageReducer];
@@ -100,7 +101,8 @@ const metaReducers: Array<MetaReducer<any, any>> = [localStorageReducer];
     StoreModule.forRoot(reducers, {  }),
     EffectsModule.forRoot([AuthEffects,CustomSelectEffects,CreateUserEffects,
                            UserEffects,CustomerEffects,CustomerCreationEffects,
-                           CustomerCaadEffects,CaadListEffects,EmsCustomerEffects]),
+                           CustomerCaadEffects,CaadListEffects,EmsCustomerEffects,
+                           LocationsEffects]),
     ToastrModule.forRoot({positionClass: 'toast-top-center',
     preventDuplicates: true,autoDismiss:false}),
     StoreDevtoolsModule.instrument({

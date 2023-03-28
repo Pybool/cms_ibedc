@@ -1,12 +1,21 @@
 from django.db import models
 
 USER_ACTION_CHOICES = [
+('BHA Approval','BHA Approval'),
 ('BHM Approval','BHM Approval'),
 ('OC Approval', 'OC Approval'),
 ('RH Approval', 'RH Approval'),
 ('HCS Approval', 'HCS Approval'),
 ('CCO Approval', 'CCO Approval'),
-('MD Approval', 'MD Approval')
+('MD Approval', 'MD Approval'),
+
+('BHA Declined','BHA Declined'),
+('BHM Declined','BHM Declined'),
+('OC Declined', 'OC Declined'),
+('RH Declined', 'RH Declined'),
+('HCS Declined', 'HCS Declined'),
+('CCO Declined', 'CCO Declined'),
+('MD Declined', 'MD Declined')
 ]
 
 ACTION_STATUS_CHOICES = [
@@ -15,7 +24,16 @@ ACTION_STATUS_CHOICES = [
 ('HCS APPROVED', 'HCS APPROVED'),
 ('CCO APPROVED', 'CCO APPROVED'),
 ('BHM APPROVED', 'BHM APPROVED'),
-('MD APPROVED', 'MD APPROVED')
+('BHA APPROVED', 'BHA APPROVED'),
+('MD APPROVED', 'MD APPROVED'),
+
+('RH DECLINED', 'RH DECLINED'),
+('OC DECLINED', 'OC DECLINED'),
+('HCS DECLINED', 'HCS DECLINED'),
+('CCO DECLINED', 'CCO DECLINED'),
+('BHM DECLINED', 'BHM DECLINED'),
+('BHA DECLINED', 'BHA DECLINED'),
+('MD DECLINED', 'MD DECLINED')
 ]
 
 class CaadHeader(models.Model):
@@ -30,6 +48,7 @@ class CaadHeader(models.Model):
     is_metered = models.BooleanField()
     total_estimate = models.FloatField()
     status = models.BooleanField(default=False)
+    revert_status =  models.BooleanField(default=False) #If record has ever been declined
     revert_comments = models.TextField(default='')
     state = models.CharField(max_length=255)
     region = models.CharField(max_length=255)
@@ -63,6 +82,7 @@ class CaadApprovalHistory(models.Model):
     header = models.ForeignKey(CaadHeader, on_delete=models.CASCADE)
     creator = models.CharField(max_length=255)
     creator_role = models.CharField(max_length=255)
+    bha_compliance = models.BooleanField(default=False)
     bhm_compliance = models.BooleanField(default=False)
     operation_compliance = models.BooleanField(default=False)
     completed_approval_sequence = models.BooleanField(default=False)
@@ -78,6 +98,7 @@ class CaadApprovalUsers(models.Model):
     caad = models.ForeignKey(CaadHeader, on_delete=models.CASCADE)
     approver_name = models.CharField(max_length=255)
     approver_position = models.CharField(max_length=255)
-    approver_email = models.CharField(max_length=255)
+    approver_email = models.CharField(max_length=255,unique=False)
     date_approved = models.DateTimeField(auto_now_add=True)
     comments = models.CharField(max_length=255)
+    other_info = models.CharField(max_length=255,default='')

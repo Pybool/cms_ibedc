@@ -62,7 +62,7 @@ class Mailservice(object):
             return mail_status
             
         except Exception as e:
-            print(str(e))
+            print("===>",str(e))
         
     
        

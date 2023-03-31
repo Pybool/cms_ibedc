@@ -241,6 +241,7 @@ export class CaadComponent implements OnInit {
     console.log('Selected Vat ', this.selectedVat)
     console.log("LineItems ",this.lineItems)
     const payload = {header:this.getCaadHeaders(),line_items:this.lineItems}
+    console.log(payload)
     this.store.dispatch(new CreateCaad(payload))
 
   }

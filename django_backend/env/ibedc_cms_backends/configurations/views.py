@@ -99,7 +99,8 @@ class SettingsView(APIView):
 class CreateOptions(APIView):
     def post(self, request, **kw):
         try:
-            # print(request.data)
+            print(request.data)
+            print(request.GET)
             
             option_type = request.data.get('value')
             if isinstance(option_type,dict):
@@ -109,9 +110,6 @@ class CreateOptions(APIView):
             options = build_data(options, option_type)
             
             model_class = model_map.get(option_type)
-
-            
-                
 
             # Create hierarchy if applicable
             if len(options) == 2 and 'precedence' in options[1]:

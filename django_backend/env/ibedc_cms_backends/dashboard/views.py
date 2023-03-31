@@ -82,17 +82,17 @@ class TodayCollectionsView(APIView):
     def get(self,request,**kw):
         self.dashboard_utils = Dashboardutils(request.GET.get('period'))
         
-        if self.dashboard_utils.compare_uid(request):
-            self.dashboard = Dashboard(request)
-            self.set_hierarchy = self.dashboard.get_hierarchy()
-            data = self.dashboard.get_todays_collections()
-            meter_data =  self.dashboard.get_metering_statistics(request)
-            response = {"status":True,'today_cols_data':data,'metering_stats_data':meter_data}
-            response =  Response(response)
-            response.headers['Cache-Control'] = CACHE_CONTROL
-            return response
-        else:
-            response = {"status":False,"message":"Non matching user id"}
+        # if self.dashboard_utils.compare_uid(request):
+        self.dashboard = Dashboard(request)
+        self.set_hierarchy = self.dashboard.get_hierarchy()
+        data = self.dashboard.get_todays_collections()
+        meter_data =  self.dashboard.get_metering_statistics(request)
+        response = {"status":True,'today_cols_data':data,'metering_stats_data':meter_data}
+        response =  Response(response)
+        response.headers['Cache-Control'] = CACHE_CONTROL
+        return response
+        # else:
+        #     response = {"status":False,"message":"Non matching user id"}
         response =  Response(response)
         return response
 
@@ -102,16 +102,16 @@ class MeteringStatisticsView(APIView):
     def get(self,request,**kw):
         self.dashboard_utils = Dashboardutils(request.GET.get('period'))
         
-        if self.dashboard_utils.compare_uid(request):
-            self.dashboard = Dashboard(request)
-            self.set_hierarchy = self.dashboard.get_hierarchy()
-            data = self.dashboard.get_metering_statistics(request)
-            response = {"status":True,'data':data}
-            response =  Response(response)
-            response.headers['Cache-Control'] = CACHE_CONTROL
-            return response
-        else:
-            response = {"status":False,"message":"Non matching user id"}
+        # if self.dashboard_utils.compare_uid(request):
+        self.dashboard = Dashboard(request)
+        self.set_hierarchy = self.dashboard.get_hierarchy()
+        data = self.dashboard.get_metering_statistics(request)
+        response = {"status":True,'data':data}
+        response =  Response(response)
+        response.headers['Cache-Control'] = CACHE_CONTROL
+        return response
+        # else:
+        #     response = {"status":False,"message":"Non matching user id"}
         response =  Response(response)
         return response
 
@@ -121,16 +121,16 @@ class FeedersCountView(APIView):
     def get(self,request,**kw):
         self.dashboard_utils = Dashboardutils(request.GET.get('period'))
         
-        if self.dashboard_utils.compare_uid(request):
-            self.dashboard = Dashboard(request)
-            self.set_hierarchy = self.dashboard.get_hierarchy()
-            data = self.dashboard.get_feeders_count(request)
-            response = {"status":True,'data':data}
-            response =  Response(response)
-            response.headers['Cache-Control'] = CACHE_CONTROL
-            return response
-        else:
-            response = {"status":False,"message":"Non matching user id"}
+        # if self.dashboard_utils.compare_uid(request):
+        self.dashboard = Dashboard(request)
+        self.set_hierarchy = self.dashboard.get_hierarchy()
+        data = self.dashboard.get_feeders_count(request)
+        response = {"status":True,'data':data}
+        response =  Response(response)
+        response.headers['Cache-Control'] = CACHE_CONTROL
+        return response
+        # else:
+        #     response = {"status":False,"message":"Non matching user id"}
         response =  Response(response)
         return response
     

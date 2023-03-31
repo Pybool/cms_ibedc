@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  api:'http://127.0.0.1:8000/api/v1',
+  api:'http://192.168.15.161:8000/api/v1',
   AES_SECRET_KEY:"XXXX-XXXX-XXXX-XXXX"
 };
 

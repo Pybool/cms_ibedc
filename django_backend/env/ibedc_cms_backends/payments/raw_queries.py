@@ -42,6 +42,7 @@ CUSTOMER_PAYMENTS_ECMI_NO_HIERARCHY =  """DECLARE @PageSize INT = '#page_size#';
                                     FROM [CMS_IBEDC_DATABASE].[dbo].[ecmi_payment_history]
                                     INNER JOIN [ecmi_transactions] AS ECMIPT ON ECMIPT.[transref] = [ecmi_payment_history].transref
                                     INNER JOIN [ecmi_customers_new] ON [ecmi_customers_new].AccountNo = ECMIPT.AccountNo
+                                    #DATE_CONJUNCTION#
                                     ORDER BY [ecmi_payment_history].transdate desc
                                     OFFSET (@PageNumber - 1) * @PageSize ROWS
                                     FETCH NEXT @PageSize ROWS ONLY;"""
@@ -56,7 +57,8 @@ CUSTOMER_PAYMENTS_ECMI_HIERARCHY_REGION = """  DECLARE @PageSize INT = '#page_si
                                         INNER JOIN [ecmi_transactions] AS ECMIPT ON ECMIPT.[transref] = [ecmi_payment_history].transref
                                         INNER JOIN [ecmi_customers_new] ON [ecmi_customers_new].AccountNo = ECMIPT.AccountNo
                                         WHERE ecmi_customers_new.State = '#REGION#'
-                                        ORDER BY [ecmi_payment_history].transdate
+                                        #DATE_CONJUNCTION#
+                                        ORDER BY [ecmi_payment_history].transdate desc
                                         OFFSET (@PageNumber - 1) * @PageSize ROWS
                                         FETCH NEXT @PageSize ROWS ONLY;
                                         """
@@ -70,8 +72,10 @@ CUSTOMER_PAYMENTS_ECMI_HIERARCHY_BUSINESS_UNIT = """  DECLARE @PageSize INT = '1
                                         FROM [CMS_IBEDC_DATABASE].[dbo].[ecmi_payment_history]
                                         INNER JOIN [ecmi_transactions] AS ECMIPT ON ECMIPT.[transref] = [ecmi_payment_history].transref
                                         INNER JOIN [ecmi_customers_new] ON [ecmi_customers_new].AccountNo = ECMIPT.AccountNo
-                                        WHERE ecmi_customers_new.State = '#REGION#' AND ecmi_customers_new.BUID = '#BUID#'
-                                        ORDER BY [ecmi_payment_history].transdate
+                                        WHERE ecmi_customers_new.State = '#REGION#' 
+                                        AND ecmi_customers_new.BUID = '#BUID#'
+                                        #DATE_CONJUNCTION#
+                                        ORDER BY [ecmi_payment_history].transdate desc
                                         OFFSET (@PageNumber - 1) * @PageSize ROWS
                                         FETCH NEXT @PageSize ROWS ONLY;
                                         """                                    
@@ -84,8 +88,11 @@ CUSTOMER_PAYMENTS_ECMI_HIERARCHY_SERVICE_CENTER = """  DECLARE @PageSize INT = '
                                         FROM [CMS_IBEDC_DATABASE].[dbo].[ecmi_payment_history]
                                         INNER JOIN [ecmi_transactions] AS ECMIPT ON ECMIPT.[transref] = [ecmi_payment_history].transref
                                         INNER JOIN [ecmi_customers_new] ON [ecmi_customers_new].AccountNo = ECMIPT.AccountNo
-                                        WHERE ecmi_customers_new.State = '#REGION#' AND ecmi_customers_new.BUID = '#BUID#' AND ecmi_customers_new.[ServiceCenter] ='#SERVICECENTER#'
-                                        ORDER BY [ecmi_payment_history].transdate
+                                        WHERE ecmi_customers_new.State = '#REGION#' 
+                                        #DATE_CONJUNCTION#
+                                        AND ecmi_customers_new.BUID = '#BUID#' 
+                                        AND ecmi_customers_new.[ServiceCenter] ='#SERVICECENTER#'
+                                        ORDER BY [ecmi_payment_history].transdate desc
                                         OFFSET (@PageNumber - 1) * @PageSize ROWS
                                         FETCH NEXT @PageSize ROWS ONLY;
                                         """
@@ -99,6 +106,7 @@ CUSTOMER_PAYMENTS_EMS_NO_HIERARCHY =  """DECLARE @PageSize INT = '#page_size#';
                                     FROM [CMS_IBEDC_DATABASE].[dbo].[ems_payments]
                                     INNER JOIN [ems_payment_trans] AS EMSPT ON EMSPT.[transid] = [ems_payments].PaymentTransactionId
                                     INNER JOIN [ems_customers_new] ON [ems_customers_new].AccountNo = EMSPT.AccountNo
+                                    #DATE_CONJUNCTION#
                                     ORDER BY [ems_payments].PayDate desc
                                     OFFSET (@PageNumber - 1) * @PageSize ROWS
                                     FETCH NEXT @PageSize ROWS ONLY;"""
@@ -113,6 +121,7 @@ CUSTOMER_PAYMENTS_EMS_HIERARCHY_REGION = """  DECLARE @PageSize INT = '#page_siz
                                         INNER JOIN [ems_payment_trans] AS EMSPT ON EMSPT.[transid] = [ems_payments].PaymentTransactionId
                                         INNER JOIN [ems_customers_new] ON [ems_customers_new].AccountNo = EMSPT.AccountNo
                                         WHERE ems_customers_new.State = '#REGION#'
+                                        #DATE_CONJUNCTION#
                                         ORDER BY [ems_payments].PayDate
                                         OFFSET (@PageNumber - 1) * @PageSize ROWS
                                         FETCH NEXT @PageSize ROWS ONLY;
@@ -128,6 +137,7 @@ CUSTOMER_PAYMENTS_EMS_HIERARCHY_BUSINESS_UNIT = """  DECLARE @PageSize INT = '10
                                         INNER JOIN [ems_payment_trans] AS EMSPT ON EMSPT.[transid] = [ems_payments].PaymentTransactionId
                                         INNER JOIN [ems_customers_new] ON [ems_customers_new].AccountNo = EMSPT.AccountNo
                                         WHERE ems_customers_new.State = '#REGION#' AND ems_customers_new.BUID = '#BUID#'
+                                        #DATE_CONJUNCTION#
                                         ORDER BY [ems_payments].PayDate
                                         OFFSET (@PageNumber - 1) * @PageSize ROWS
                                         FETCH NEXT @PageSize ROWS ONLY;
@@ -141,7 +151,10 @@ CUSTOMER_PAYMENTS_EMS_HIERARCHY_SERVICE_CENTER = """  DECLARE @PageSize INT = '1
                                         FROM [CMS_IBEDC_DATABASE].[dbo].[ems_payments]
                                         INNER JOIN [ems_payment_trans] AS EMSPT ON EMSPT.[transid] = [ems_payments].PaymentTransactionId
                                         INNER JOIN [ems_customers_new] ON [ems_customers_new].AccountNo = EMSPT.AccountNo
-                                        WHERE ems_customers_new.State = '#REGION#' AND ems_customers_new.BUID = '#BUID#' AND ems_customers_new.[ServiceCenter] ='#SERVICECENTER#'
+                                        WHERE ems_customers_new.State = '#REGION#' 
+                                        AND ems_customers_new.BUID = '#BUID#' 
+                                        AND ems_customers_new.[ServiceCenter] ='#SERVICECENTER#'
+                                        #DATE_CONJUNCTION#
                                         ORDER BY [ems_payments].PayDate
                                         OFFSET (@PageNumber - 1) * @PageSize ROWS
                                         FETCH NEXT @PageSize ROWS ONLY;

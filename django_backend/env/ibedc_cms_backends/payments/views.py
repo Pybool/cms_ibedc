@@ -59,7 +59,7 @@ class SingleCustomerPayments(APIView):
         if payments:
             response = {"status": True, "count":0, "data": payments}
         else:
-            response = {"status": False, "message": "No customer payments found with the provided account number."}
+            response = {"status": False, "message": "No customer payments found "}
         return Response(response)
 
 class CustomerEcmiPayments(APIView):
@@ -67,17 +67,15 @@ class CustomerEcmiPayments(APIView):
     pagination_class = LimitOffsetPagination
     def get(self, request):
        
-        page_no = '1'#str(request.GET.get('page', 2))
-        page_size = str(request.GET.get('page_size', 250))
+        page_no = str(request.GET.get('page', 1))
+        page_size = str(request.GET.get('page_size', 100))
+        
         permission_hierarchy = generate_slug(request.GET.get('permission_hierarchy'))
         user = get_object_or_404(User, email=request.user.email)
         field_name, location = get_permission_hierarchy(request)
         use_raw = True
         query = None
-        if permission_hierarchy != generate_slug(user.permission_hierarchy):
-            response = {"status":False, "message":"Hierarchy specified does not match legacy", "data":[]}
-            return Response(response)
-        
+      
         print(permission_hierarchy, permission_hierarchy)
         if permission_hierarchy != '' and permission_hierarchy != 'head-quarters':
             if field_name is not None:#For Non-HQ users
@@ -86,28 +84,32 @@ class CustomerEcmiPayments(APIView):
                     query =  CUSTOMER_PAYMENTS_ECMI_HIERARCHY_REGION\
                         .replace("#page_size#",page_size)\
                         .replace("#page_no#",page_no)\
-                        .replace("#REGION#",location)
+                        .replace("#REGION#",location)\
+                        .replace("#DATE_CONJUNCTION#",'')
                         
-                elif field_name == 'buid':
+                if field_name == 'buid' or field_name == 'business_unit':
                    
                     query =  CUSTOMER_PAYMENTS_ECMI_HIERARCHY_BUSINESS_UNIT\
                         .replace("#page_size#",page_size)\
                         .replace("#page_no#",page_no)\
                         .replace("#REGION#",request.user.region)\
                         .replace("#BUID#",location)\
+                        .replace("#DATE_CONJUNCTION#",'')
                     
-                elif field_name == 'servicecenter':
+                if field_name == 'servicecenter':
                     query =  CUSTOMER_PAYMENTS_ECMI_HIERARCHY_SERVICE_CENTER\
                         .replace("#page_size#",page_size)\
                         .replace("#page_no#",page_no)\
                         .replace("#REGION#",request.user.region)\
                         .replace("#BUID#",request.user.business_unit)\
-                        .replace("#SERVICECENTER#",location)
+                        .replace("#SERVICECENTER#",location)\
+                        .replace("#DATE_CONJUNCTION#",'')
                     
         else:
             query =  CUSTOMER_PAYMENTS_ECMI_NO_HIERARCHY\
                         .replace("#page_size#",page_size)\
-                        .replace("#page_no#",page_no)
+                        .replace("#page_no#",page_no)\
+                        .replace("#DATE_CONJUNCTION#",'')
                         
         self.custom_paginator = CustomPaginatorClass(CustomerEcmiPayments.pagination_class,request)
         payments = None
@@ -125,7 +127,7 @@ class CustomerEcmiPayments(APIView):
             response.data["rawQueryUsed"] = query is not None
             
         else:
-            response = Response({"status": False, "message": "No customer payments found with the provided account number."})
+            response = Response({"status": False, "message": "No customer payments found "})
         response_cc = response
         response_cc.headers['Cache-Control'] = CACHE_CONTROL
         return response_cc
@@ -140,12 +142,8 @@ class CustomerEmsPayments(APIView):
         permission_hierarchy = generate_slug(request.GET.get('permission_hierarchy'))
         user = get_object_or_404(User, email=request.user.email)
         field_name, location = get_permission_hierarchy(request)
-        use_raw = True
         query = None
-        if permission_hierarchy != generate_slug(user.permission_hierarchy):
-            response = {"status":False, "message":"Hierarchy specified does not match legacy", "data":[]}
-            return Response(response)
-        
+     
         print(permission_hierarchy, permission_hierarchy)
         if permission_hierarchy != '' and permission_hierarchy != 'head-quarters':
             if field_name is not None:#For Non-HQ users
@@ -154,7 +152,8 @@ class CustomerEmsPayments(APIView):
                     query =  CUSTOMER_PAYMENTS_EMS_HIERARCHY_REGION\
                         .replace("#page_size#",page_size)\
                         .replace("#page_no#",page_no)\
-                        .replace("#REGION#",location)
+                        .replace("#REGION#",location)\
+                        .replace("#DATE_CONJUNCTION#",'')
                         
                 elif field_name == 'buid':
                     buids = fetch_and_cache_buids()
@@ -164,6 +163,7 @@ class CustomerEmsPayments(APIView):
                         .replace("#page_no#",page_no)\
                         .replace("#REGION#",request.user.region)\
                         .replace("#BUID#",buid)\
+                        .replace("#DATE_CONJUNCTION#",'')
                     
                 elif field_name == 'servicecenter':
                     buids = fetch_and_cache_buids()
@@ -173,12 +173,14 @@ class CustomerEmsPayments(APIView):
                         .replace("#page_no#",page_no)\
                         .replace("#REGION#",request.user.region)\
                         .replace("#BUID#",buid)\
-                        .replace("#SERVICECENTER#",location)
+                        .replace("#SERVICECENTER#",location)\
+                        .replace("#DATE_CONJUNCTION#",'')
                     
         else:
             query =  CUSTOMER_PAYMENTS_EMS_NO_HIERARCHY\
                         .replace("#page_size#",page_size)\
-                        .replace("#page_no#",page_no)
+                        .replace("#page_no#",page_no)\
+                        .replace("#DATE_CONJUNCTION#",'')
                         
         self.custom_paginator = CustomPaginatorClass(CustomerEcmiPayments.pagination_class,request)
         payments = None
@@ -196,7 +198,7 @@ class CustomerEmsPayments(APIView):
             response.data["rawQueryUsed"] = query is not None
             
         else:
-            response = Response({"status": False, "message": "No customer payments found with the provided account number."})
+            response = Response({"status": False, "message": "No customer payments found "})
         response_cc = response
         response_cc.headers['Cache-Control'] = CACHE_CONTROL
         return response_cc
@@ -259,7 +261,7 @@ class TodayCollectionsEcmi(APIView):
             response.data["rawQueryUsed"] = query is not None
             
         else:
-            response = Response({"status": False, "message": "No customer payments found with the provided account number."})
+            response = Response({"status": False, "message": "No customer payments found "})
         response_cc = response
         response_cc.headers['Cache-Control'] = CACHE_CONTROL
         return response_cc
@@ -293,7 +295,7 @@ class TodayCollectionsEms(APIView):
             response.data["rawQueryUsed"] = query is not None
             
         else:
-            response = Response({"status": False, "message": "No customer payments found with the provided account number."})
+            response = Response({"status": False, "message": "No customer payments found "})
         response_cc = response
         response_cc.headers['Cache-Control'] = CACHE_CONTROL
         return response_cc

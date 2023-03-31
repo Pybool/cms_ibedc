@@ -45,6 +45,7 @@ class CaadHelper(object):
                 print(data)
                 headers = data['header']
                 headers['status'] = True
+                headers['region'] = headers['state']
                 headers['created_by'] = self.request.user.email
                 headers['created_date'] = timezone.now()
                 line_items = data['line_items']
@@ -80,10 +81,14 @@ class CaadHelper(object):
                     "body":data,
                     "recipients":bhas}
                 print("Mail parameter ====> ", mail_parameters)
-                task = {"user":get_object_or_404(User,email=bhas[0]),"taskid":uuid.uuid4(),
-                "task_description":f"CAAD validation for {data['header'].get('customer_name')}",
-                "task_sentby":self.request.user.email,"created_by":self.request.user.email,"associated_customer":data['header'].get('accountno')}
-                UserTasksInbox.objects.create(**task)
+                try:
+                    task = {"user":get_object_or_404(User,email=bhas[0]),"taskid":uuid.uuid4(),
+                    "task_description":f"CAAD validation for {data['header'].get('customer_name')}",
+                    "task_sentby":self.request.user.email,"created_by":self.request.user.email,"associated_customer":data['header'].get('accountno')}
+                    UserTasksInbox.objects.create(**task)
+                except:
+                    response = {"status": True, "message": "Request completed partially, the record was created but no approver was found"}
+                    return Response(response)
                 send_outward_mail.delay(mail_parameters)
                 response = {"status": True, "message": "New caad request was created..."}
                 return Response(response) 

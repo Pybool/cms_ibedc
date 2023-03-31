@@ -79,11 +79,11 @@ class PrepaidCustomers(APIView):
             if field_name is not None:#For Non-HQ users
                
                 if field_name == 'region' or field_name =='state':
-                    location_customers = EcmiCustomersNew.objects.filter(**{f"{field_name}__icontains": location})
+                    location_customers = EcmiCustomersNew.objects.filter(**{f"{field_name}": location})
                     total_customers = location_customers.count()
-                    customers = location_customers.values(*ECMI_FIELDS)
+                    customers = location_customers.values(*ECMI_FIELDS)[:1000]
                 elif field_name == 'buid':
-                    location_customers = EcmiCustomersNew.objects.filter(accountno='2451679551979')#filter(state=request.user.region).filter(**{f"{field_name}__icontains": location})
+                    location_customers = EcmiCustomersNew.objects.filter(state=request.user.region).filter(**{f"{field_name}__icontains": location})  #.filter(accountno='2451679551979')#
                     total_customers = location_customers.count()
                     customers = location_customers.values(*ECMI_FIELDS)
                     

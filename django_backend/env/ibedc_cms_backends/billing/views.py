@@ -17,6 +17,7 @@ from helper import generate_slug, get_field_name
 from ibedc_cms_backend.custompagination import CustomPaginatorClass
 from helper import generate_slug, get_permission_hierarchy
 from location.models import EmsBusinessUnit
+from config import CACHE_CONTROL
 
 
 def fetch_and_cache_buids():
@@ -58,18 +59,18 @@ class CustomerBills(APIView):
     pagination_class = LimitOffsetPagination
     def get(self, request):
         accountno = request.GET.get('accountno')
-        page_no = '42'#str(request.GET.get('page', 2))
+        page_no = str(request.GET.get('page', 1))
         page_size = str(request.GET.get('page_size', 250))
         permission_hierarchy = generate_slug(request.GET.get('permission_hierarchy'))
         user = get_object_or_404(User, email=request.user.email)
         field_name, location = get_permission_hierarchy(request)
-        use_raw = True
+        use_raw = False
         query = None
         if permission_hierarchy != generate_slug(user.permission_hierarchy):
             response = {"status":False, "message":"Hierarchy specified does not match legacy", "data":[]}
             return Response(response)
         
-        print(permission_hierarchy, permission_hierarchy)
+        print("fiedanem ", field_name=='buid')
         if permission_hierarchy != '' and permission_hierarchy != 'head-quarters':
             if field_name is not None:#For Non-HQ users
                 
@@ -80,17 +81,20 @@ class CustomerBills(APIView):
                         .replace("#hierarchy#",field_name)\
                         .replace("#hierarchy_value#",location)
                         
-                elif field_name == 'buid':
+                if field_name == 'buid':
+                    print("This buid ",'buids')
                     buids = fetch_and_cache_buids()
+                    
                     buid = search_for_buid(location, request.user.region, buids)
+                    
                     query =  BILLING_HISTORY_HIERARCHY_BUID\
                         .replace("#page_size#",page_size)\
                         .replace("#page_no#",page_no)\
-                        .replace("#hierarchy#",field_name)\
+                        .replace("#hierarchy#",'State')\
                         .replace("#hierarchy_value#",request.user.region)\
                         .replace("#BUID#",buid)\
                     
-                elif field_name == 'servicecenter':
+                if field_name == 'servicecenter':
                     buids = fetch_and_cache_buids()
                     buid = search_for_buid(request.user.business_unit, '', buids,alt='name')
                     query =  BILLING_HISTORY_HIERARCHY_SERVICECENTER\
@@ -109,9 +113,10 @@ class CustomerBills(APIView):
         bills = None
         bills_query = EmsBills.objects.all().order_by('-billdate')[:10000]
         total_bills = 0#bills_query.count()
-        bills = bills_query.values() if use_raw is False else print(45000)#dict_fetch_all(query)
-        bills = dict_fetch_all(query)
+        # bills = bills_query.values() if use_raw is False else print(45000)#dict_fetch_all(query)
         print(query)
+        bills = dict_fetch_all(query)
+        
         if bills:
             bills = self.custom_paginator.paginate_queryset(bills)
             response = self.custom_paginator.get_paginated_response(bills)
@@ -122,6 +127,7 @@ class CustomerBills(APIView):
             response.data["rawQueryUsed"] = query is not None
             
         else:
-            response = {"status": False, "message": "No customer bills found with the provided account number."}
+            response = Response({"status": False, "message": "No customer bills found."})
+        response.headers['Cache-Control'] = CACHE_CONTROL
         return response
         

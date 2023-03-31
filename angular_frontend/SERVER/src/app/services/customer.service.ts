@@ -89,6 +89,12 @@ export class CustomerService {
           
           
           case 'prepaid':
+            // return this.http.get(`${environment.api}/customers/prepaid?start_date=${this.getCurrentDate()}&end_date=${this.getCurrentDate()}&permission_hierarchy=${this.permission_hierarchy}`).pipe(
+            //   map((newData) => {
+            //     newData['timestamp'] = new Date().getTime()
+            //     return newData
+            //   })
+            // );
             this.cachedData$ = this.store.select(ecmiCustomers);
             return this.cachedData$.pipe(
               switchMap((data:any) => {
@@ -221,6 +227,7 @@ export class CustomerService {
   }
 
   initiateCaad(payload){
+    console.log(payload)
     return this.http.post<any>(`${environment.api}/cms/customer/initiate-caad`,payload)
     
   }

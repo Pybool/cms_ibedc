@@ -52,7 +52,7 @@ class SearchCustomerBills(APIView):
         else:
             return Response({})
         
-        page_no = '1'#str(request.GET.get('page', 2))
+        page_no = str(request.GET.get('page', 1))
         page_size = str(request.GET.get('page_size', 250))
         permission_hierarchy = generate_slug(request.GET.get('permission_hierarchy'))
         user = get_object_or_404(User, email=request.user.email)

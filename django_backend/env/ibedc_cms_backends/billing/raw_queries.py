@@ -40,7 +40,7 @@ BILLING_HISTORY_HIERARCHY_BUID = """DECLARE @PageSize INT = '#page_size#';
                         DECLARE @Hierarchy VARCHAR(50) = '#hierarchy#';
                         DECLARE @HierarchyValue VARCHAR(50) = '#hierarchy_value#';
 
-                        SELECT ems_bills.*,
+                        SELECT TOP(10000) ems_bills.*,
                         (
                             SELECT COUNT(*)
                             FROM [CMS_IBEDC_DATABASE].[dbo].[ems_bills]
@@ -52,9 +52,8 @@ BILLING_HISTORY_HIERARCHY_BUID = """DECLARE @PageSize INT = '#page_size#';
                         INNER JOIN ems_customers_new ON ems_customers_new.AccountNo = ems_bills.AccountNo
                         WHERE ems_customers_new.#hierarchy# = '#hierarchy_value#'
                         AND ems_customers_new.BUID = '#BUID#'
-                        ORDER BY ems_bills.BillID
-                        OFFSET (@PageNumber - 1) * @PageSize ROWS
-                        FETCH NEXT @PageSize ROWS ONLY;
+                        ORDER BY ems_bills.BillID DESC
+                       
                      """
                      
 

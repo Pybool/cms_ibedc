@@ -113,12 +113,12 @@ export class CustomersComponent implements AfterViewInit {
     this.userState = this.store.select(UserState);
     this.ecmiCustomersList = this.store.select(ecmiCustomers);
     //Dispatch a request for Prepaid Customers by default....
-    this.zone.runOutsideAngular(() => {
+    // this.zone.runOutsideAngular(() => {
       this.store.dispatch(new FetchEcmiCustomers());
-      this.zone.run(() => {
+    //   this.zone.run(() => {
         
-      });
-    });
+    //   });
+    // });
   }
 
   ngOnInit(): void {

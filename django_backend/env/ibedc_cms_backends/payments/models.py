@@ -12,6 +12,7 @@ class EcmiPaymentHistory(models.Model):
     paymenttype = models.IntegerField(blank=True, null=True)
     units = models.DecimalField(db_column='Units', max_digits=18, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
     costofunits = models.DecimalField(db_column='CostOfUnits', max_digits=18, decimal_places=2, blank=True, null=True)  # Field name made
+    
 
 
     class Meta:

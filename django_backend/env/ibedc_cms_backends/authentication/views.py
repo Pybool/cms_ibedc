@@ -342,12 +342,18 @@ class GetUserGroupsView(APIView):
 class GetUsersView(APIView):
     authentication_classes = [JWTAuthenticationMiddleWare]
     
-    def getUsersdata(self):
+    def getUsersdata(self,request):
         dev_perm = Permissions.checkDeveloperPermissions(self.request.user)
         if not dev_perm:
-            users = User.objects.filter().exclude(dev_perm=True).order_by('-id').values_list()
+            if request.GET.get('id') is not None:
+                users = User.objects.filter(id=int(request.GET.get('id'))).exclude(dev_perm=True).order_by('-id').values_list()
+            else: 
+                users = User.objects.filter().exclude(dev_perm=True).order_by('-id').values_list()
         if dev_perm:
-            users = User.objects.filter().order_by('-id').values_list()
+            if request.GET.get('id') is not None:
+                users = User.objects.filter(id=int(request.GET.get('id'))).order_by('-id').values_list()
+            else:
+                users = User.objects.filter().order_by('-id').values_list()
         return users
     
     def search_users(self,searchparam,location_type=''):
@@ -386,10 +392,13 @@ class GetUsersView(APIView):
         groups = Group.objects.all().values()
         user_positions = UserPositions.objects.all().values()
         print("User positions ", user_positions)
-        users=self.getUsersdata()  # Replace this with your own function to get users data
+        users=self.getUsersdata(request)  # Replace this with your own function to get users data
+        
         paginator = Paginator(users, PAGINATION_SETTINGS['USERS_PER_PAGE'])
         users = paginator.get_page(page)
         serialized_users = list(users.object_list.values())
+        if request.GET.get('id') is not None:
+            return Response({"status":True,"data":serialized_users})
         can_manage_2fa = Permissions.user_in_groups(request.user.email,"MANAGE 2FA")
         
         print("\n\nCan manage 2fa ", can_manage_2fa,users)

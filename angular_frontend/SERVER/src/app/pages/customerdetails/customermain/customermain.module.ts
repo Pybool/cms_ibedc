@@ -11,7 +11,7 @@ import { BillinginformationModule } from '../billinginformation/billinginformati
 import { PaymentsinformationModule } from '../paymentsinformation/paymentsinformation.module';
 import { CaadComponent } from '../caad/caad.component';
 import {DataTablesModule} from 'angular-datatables';
-import { CaadModule } from '../caad/caad.module';
+// import { CaadModule } from '../caad/caad.module';
 //Basic-Information: http://127.0.0.1:4200/customer/information/basic-information?accounttype=postpaid&accountno=20/29/13/1200-01
 //Billing-Information: http://127.0.0.1:4200/customer/information/billing-information?accounttype=postpaid&accountno=20/29/13/1200-01&page=7
 //Payment-Information: http://127.0.0.1:4200/customer/information/payment-information?accounttype=postpaid&accountno=20/29/13/1200-01&page=1
@@ -27,7 +27,7 @@ const routes: Routes = [{
                 { path: 'payment-information', component: PaymentsinformationComponent },
                 { path: 'metering-information', component: MeteringinformationComponent },
                 { path: 'assets-information', component: AssetsinformationComponent },
-                { path: 'caad-information', component: CaadComponent },
+                // { path: 'caad-information', component: CaadComponent },
 
               ],
           },
@@ -37,7 +37,7 @@ const routes: Routes = [{
   declarations: [ CustomermainComponent ],
   imports: [
     CommonModule,
-    CaadModule,
+    // CaadModule,
     DataTablesModule,
     BillinginformationModule,
     PaymentsinformationModule,

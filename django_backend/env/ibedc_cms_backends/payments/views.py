@@ -155,7 +155,7 @@ class CustomerEmsPayments(APIView):
                         .replace("#REGION#",location)\
                         .replace("#DATE_CONJUNCTION#",'')
                         
-                elif field_name == 'buid':
+                if field_name == 'buid':
                     buids = fetch_and_cache_buids()
                     buid = search_for_buid(location, request.user.region, buids)
                     query =  CUSTOMER_PAYMENTS_EMS_HIERARCHY_BUSINESS_UNIT\
@@ -165,7 +165,7 @@ class CustomerEmsPayments(APIView):
                         .replace("#BUID#",buid)\
                         .replace("#DATE_CONJUNCTION#",'')
                     
-                elif field_name == 'servicecenter':
+                if field_name == 'servicecenter':
                     buids = fetch_and_cache_buids()
                     buid = search_for_buid(request.user.business_unit, '', buids,alt='name')
                     query =  CUSTOMER_PAYMENTS_EMS_HIERARCHY_SERVICE_CENTER\

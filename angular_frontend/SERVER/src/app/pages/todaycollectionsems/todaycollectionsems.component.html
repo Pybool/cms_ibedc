@@ -76,8 +76,9 @@
                                <tbody style="background:#f5f6fa;">
                                     <tr style="background: white!important;height:60px;" class="nk-tb-item" class="nk-tb-item" *ngFor="let payment of payments;">
                                         <td class="nk-tb-col">{{payment?.Surname+payment?.OtherNames}}</td>
+                                        <td class="nk-tb-col"><a class="route-link" href="javascript:void(0)" (click)="loadCustomerInformation($event,payment.AccountNo,payment.MeterNo,'Postpaid')">{{payment.AccountNo}}</a></td> 
+
                                         <td class="nk-tb-col">{{payment.receiptnumber}}</td>
-                                        <td class="nk-tb-col">{{payment.AccountNo}}</td>
                     
                                         <td class="nk-tb-col">{{payment.MeterNo || 'N/A'}}</td>
                                         <td class="nk-tb-col">{{payment.PayDate}}</td>

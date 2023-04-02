@@ -20,9 +20,11 @@ declare let window: CustomWindow;
 })
 export class PaymentsComponent implements OnInit {
   ecmi_payments:boolean = true
-  ecmiheaders:string[] = ['Customer Name','Transaction Ref','Token','Meter No','Account No','Trans Date','Amount','Business Unit','Units','Trans Amount','Cost of Units','Status Message','CSPClientId','Day','FC','KVA','MMF','MeterNo','OperatorId','Reasons','TokenType','TotalCount','TransactionComplete','TransactionDateTime','TransactionNo','TransactionType','VAT','Year','EnteredBy','PaymentType','Status','Status1','TransactionResponseMessage']
+  ecmiheaders:string[] = ['Customer Name','Account No','Transaction Ref','Token','Meter No','Trans Date','Amount','Business Unit','Units','Trans Amount','Cost of Units','Status Message','CSPClientId','Day','FC','KVA','MMF','MeterNo','OperatorId','Reasons','TokenType','TotalCount','TransactionComplete','TransactionDateTime','TransactionNo','TransactionType','VAT','Year','EnteredBy','PaymentType','Status','Status1','TransactionResponseMessage']
   payments:any[] = []
   Math;
+  startDate = null;
+  endDate = null;
   constructor(private renderer: Renderer2,
     private spinnerService: SpinnerService,
     private sharedService:SharedService,
@@ -31,7 +33,7 @@ export class PaymentsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadScript('https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.js');
-    this.sharedService.setActiveSearchInput('payments')
+    this.sharedService.setActiveSearchInput('ecmipayments')
   }
 
   loadScript(src) {
@@ -48,8 +50,49 @@ export class PaymentsComponent implements OnInit {
 
     this.paymentService.fetchCustomersPayments().pipe(take(1)).subscribe((response)=>{
       console.log(response.data)
-      this.payments = response.data
+      if(response.status){
+        this.payments = response.data
+      }
+      else{this.spinnerService.hideSpinner();alert(response?.message)}
     })
+  }
+
+  handler($event){
+    
+    if ($event.target.name=='start_date'){
+        this.startDate = $event.target.value
+        document.querySelector('#disabled-date').removeAttribute('disabled')
+    }
+    if ($event.target.name=='end_date'){
+        this.endDate = $event.target.value
+    }
+
+    console.log(this.startDate, this.endDate)
+ 
+    if (this.startDate!=null && this.endDate!=null){
+        console.log("Firring event ....")
+        this.searchDatePayments()
+
+    }
+
+}
+
+  searchDatePayments(){
+    const payload = {type:'ecmi',start_date:this.startDate,end_date:this.endDate}
+    this.paymentService.searchDatePaymentsHistory(payload).pipe(take(1)).subscribe((response)=>{
+      console.log(response)
+      if(response.status){
+        this.payments = response.data
+      }
+      else{this.spinnerService.hideSpinner();alert(response?.message)}
+      
+    })
+  }
+
+  loadCustomerInformation($event,accountno,meterno,accounttype){
+    let base = `customer/information/basic-information`
+    const queryParams = {accountno : accountno, accounttype: accounttype?.toLowerCase(),meterno:meterno };
+    this.sharedService.navigateWithParams(base,queryParams)
   }
 
   

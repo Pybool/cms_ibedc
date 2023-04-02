@@ -24,6 +24,14 @@ CREATE INDEX idx_AccountNo ON dbo.ems_bills (AccountNo)
 
 CREATE NONCLUSTERED INDEX IX_ems_payments_AccountNo ON [CMS_IBEDC_DATABASE].[dbo].[ems_payments] ([AccountNo]);
 
+CREATE INDEX IX_ems_payments_receiptnumber ON [CMS_IBEDC_DATABASE].[dbo].[ems_payments] (receiptnumber);
+
+CREATE INDEX IX_ems_payments_billid ON [CMS_IBEDC_DATABASE].[dbo].[ems_payments] (PaymentId);
+
+CREATE INDEX IX_ems_payments_PaymentTransId ON [CMS_IBEDC_DATABASE].[dbo].[ems_payments] (PaymentTransactionId);
+
+CREATE INDEX IX_ems_payments_PayDate ON [CMS_IBEDC_DATABASE].[dbo].[ems_payments] (PayDate);
+
 
 CREATE INDEX idx_ecmi_customers_new_AccountNo ON ecmi_customers_new (AccountNo);
 CREATE INDEX idx_ecmi_customers_new_MeterNo ON ecmi_customers_new (MeterNo);

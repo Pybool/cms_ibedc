@@ -22,9 +22,11 @@ declare let window: CustomWindow;
 })
 export class PaymentsemsComponent implements OnInit {
   ecmi_payments:boolean = true
-  emsheaders:string[] = ['Customer Name','Receipt No','Account No','Meter No','Pay Date','Payments','Business Unit','Trans Amount','Status Message','Pay ID','Trans ID']
+  emsheaders:string[] = ['Customer Name','Account No','Receipt No','Meter No','Pay Date','Payments','Business Unit','Trans Amount','Status Message','Pay ID','Trans ID', 'CustomerID']
   payments:any[] = []
   Math;
+  startDate = null;
+  endDate = null;
 
   constructor(private renderer: Renderer2,
     private spinnerService: SpinnerService,
@@ -51,8 +53,54 @@ export class PaymentsemsComponent implements OnInit {
 
     this.paymentService.fetchEmsCustomersPayments().pipe(take(1)).subscribe((response)=>{
       console.log(response.data)
-      this.payments = response.data
+      if(response.status){
+        this.payments = response.data
+      }
+      else{this.spinnerService.hideSpinner();alert(response?.message)}
     })
+  }
+
+  searchPayments(){
+    const payload = {}
+    this.paymentService.searchPaymentsHistory(payload).subscribe()
+  }
+
+  handler($event){
+    
+    if ($event.target.name=='start_date'){
+        this.startDate = $event.target.value
+        document.querySelector('#disabled-date').removeAttribute('disabled')
+    }
+    if ($event.target.name=='end_date'){
+        this.endDate = $event.target.value
+    }
+
+    console.log(this.startDate, this.endDate)
+ 
+    if (this.startDate!=null && this.endDate!=null){
+        console.log("Firring event ....")
+        this.searchDatePayments()
+
+    }
+
+}
+
+  searchDatePayments(){
+    const payload = {type:'ems',start_date:this.startDate,end_date:this.endDate}
+    this.paymentService.searchDatePaymentsHistory(payload).pipe(take(1)).subscribe((response)=>{
+      console.log(response)
+      if(response.status){
+        this.payments = response.data
+      }
+      else{this.spinnerService.hideSpinner();alert(response?.message)}
+      
+    })
+  }
+
+  loadCustomerInformation($event,accountno,meterno,accounttype){
+    let base = `customer/information/basic-information`
+    const queryParams = {accountno : accountno, accounttype: accounttype?.toLowerCase(),meterno:meterno };
+    this.sharedService.navigateWithParams(base,queryParams)
   }
 }
 

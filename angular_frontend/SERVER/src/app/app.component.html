@@ -72,7 +72,7 @@
                             <input id="search-customer-input" (keyup)="searchCustomer($event)" type="text" style="border: 1px solid #dbdfea!important;" class="form-control form-focus-none" placeholder="Search for a customer">
                         </div>
                         
-                        <div *ngIf="activeSearchbar=='payments'" class="nk-header-search ms-3 ms-xl-0 d-none d-md-flex"><em class="icon ni ni-search"></em><input (keyup)="searchCustomer($event)" type="text" style="border: 1px solid #dbdfea!important;" class="form-control form-focus-none" placeholder="Search for a payment record"></div>
+                        <div *ngIf="activeSearchbar=='payments' || activeSearchbar=='ecmipayments'" class="nk-header-search ms-3 ms-xl-0 d-none d-md-flex"><em class="icon ni ni-search"></em><input id="payment-history-search-bar" type="text" style="border: 1px solid #dbdfea!important;" class="form-control form-focus-none" placeholder="Search for a payment record"></div>
                         <div *ngIf="activeSearchbar=='billing'" class="nk-header-search ms-3 ms-xl-0 d-none d-md-flex"><em class="icon ni ni-search"></em><input id="billing-history-search-bar" (keyup)="shallowSearchBilling($event)" type="text" style="border: 1px solid #dbdfea!important;" class="form-control form-focus-none" placeholder="Search for a billing record"></div>
                         <div  class="nk-header-tools">
                             <ul class="nk-quick-nav">
@@ -92,9 +92,19 @@
                                              <li><a href="javascript:void(0)" name="state" (click)="searchBarFilter($event)">Region</a></li>
                                           </ul>
                                           <ul *ngIf="activeSearchbar=='payments'" class="link-list-opt">
-                                            <li><a href="javascript:void(0)" (click)="searchBarFilter($event)" value = "Account Number" name="accountno">Account Number</a></li>
-                                            <li><a href="javascript:void(0)" value = "Meter Number" name="meterno" (click)="searchBarFilter($event)">Meter Number</a></li>
-                                            <li><a href="javascript:void(0)" name="names" (click)="searchBarFilter($event)">Names</a></li>
+                                            <li><a href="javascript:void(0)" (click)="paymentSearchBarFilter($event)" value = "Account Number" name="accountno">Account Number</a></li>
+                                            <li><a href="javascript:void(0)" value = "Meter Number" name="MeterNo" (click)="paymentSearchBarFilter($event)">Meter Number</a></li>
+                                            <li><a href="javascript:void(0)" value = "Customer ID" name="CustomerID" (click)="paymentSearchBarFilter($event)">Customer ID</a></li>
+                                            <li><a href="javascript:void(0)" value = "Payment ID" name="PaymentID" (click)="paymentSearchBarFilter($event)">Payment ID</a></li>
+                                            <li><a href="javascript:void(0)" value = "Bill ID" name="BillID" (click)="paymentSearchBarFilter($event)">Bill ID</a></li>
+                                            <li><a href="javascript:void(0)" value = "Payment Trans ID" name="PaymentTransactionId" (click)="paymentSearchBarFilter($event)">Payment Trans ID</a></li>
+                                            <li><a href="javascript:void(0)" value = "Receipt Number" name="receiptnumber" (click)="paymentSearchBarFilter($event)">Receipt Number</a></li>
+                                         </ul>
+                                         <ul *ngIf="activeSearchbar=='ecmipayments'" class="link-list-opt">
+                                            <li><a href="javascript:void(0)" (click)="paymentSearchBarFilter($event)" value = "Account Number" name="AccountNo">ECMI Account Number</a></li>
+                                            <li><a href="javascript:void(0)" value = "Meter Number" name="meterno" (click)="paymentSearchBarFilter($event)">Meter Number</a></li>
+                                            <li><a href="javascript:void(0)" value = "Trans Ref" name="TransRef" (click)="paymentSearchBarFilter($event)">Trans Ref</a></li>
+                                            <!-- <li><a href="javascript:void(0)" value = "Token" name="Token" (click)="paymentSearchBarFilter($event)">Token</a></li> -->
                                          </ul>
                                          <ul *ngIf="activeSearchbar=='billing'" class="link-list-opt">
                                             <li><a href="javascript:void(0)" (click)="billingSearchBarFilter($event)" value = "Account Number" name="accountno">Account Number</a></li>

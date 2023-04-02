@@ -138,7 +138,7 @@ CUSTOMER_PAYMENTS_EMS_HIERARCHY_BUSINESS_UNIT = """  DECLARE @PageSize INT = '10
                                         INNER JOIN [ems_customers_new] ON [ems_customers_new].AccountNo = EMSPT.AccountNo
                                         WHERE ems_customers_new.State = '#REGION#' AND ems_customers_new.BUID = '#BUID#'
                                         #DATE_CONJUNCTION#
-                                        ORDER BY [ems_payments].PayDate
+                                        ORDER BY [ems_payments].PayDate Desc
                                         OFFSET (@PageNumber - 1) * @PageSize ROWS
                                         FETCH NEXT @PageSize ROWS ONLY;
                                         """                                    

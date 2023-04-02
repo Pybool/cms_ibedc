@@ -66,4 +66,10 @@ export class BillingComponent implements OnInit {
     })
   }
 
+  loadCustomerInformation($event,accountno,meterno,accounttype){
+    let base = `customer/information/basic-information`
+    const queryParams = {accountno : accountno, accounttype: accounttype?.toLowerCase(),meterno:meterno };
+    this.sharedService.navigateWithParams(base,queryParams)
+  }
+
 }

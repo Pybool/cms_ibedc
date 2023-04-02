@@ -48,7 +48,7 @@ export class PaymentsService {
   }
 
   searchPaymentsHistory(payload){
-    return this.http.get<any>(`${environment.api}/search-customers-${payload?.type}-payments?field=${payload?.field}&value=${payload?.value}&type=searchbar&permission_hierarchy=${this.permission_hierarchy}`)
+    return this.http.get<any>(`${environment.api}/search-customers-${payload?.type}-payments?field=${payload?.fieldName}&value=${payload?.q}&type=searchbar&permission_hierarchy=${this.permission_hierarchy}`)
   }
 
   searchDatePaymentsHistory(payload){

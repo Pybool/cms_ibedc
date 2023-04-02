@@ -15,7 +15,7 @@
                                 <a class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu"><em class="icon ni ni-menu-alt-r"></em></a>
                                 <div class="toggle-expand-content show" data-content="pageMenu">
                                     <ul class="nk-block-tools g-3">
-                                        <li><a  class="btn btn-white btn-outline-light"><em class="icon ni ni-download-cloud"></em><span>New queue</span></a></li>
+                                        <li><a (click)="newCAAD()" class="btn btn-white btn-outline-light"><em class="icon ni ni-download-cloud"></em><span>New CAAD</span></a></li>
                                         <li class="nk-block-tools-opt">
                                             <a class="dropdown-toggle btn btn-icon btn-primary" data-bs-toggle="dropdown"><em class="icon ni ni-plus"></em></a>
                                         </li>
@@ -216,6 +216,26 @@
     </div>
 </div>
 
+<!-- CAAD CREATION COMPONENT -->
+
+<div id="caad_creation" style="border-left:2px solid ;height:80%;width:80%;border-color:#FF7518; right: 1px; bottom: 1px;" class="nk-add-product toggle-slide toggle-slide-right" data-content="" data-toggle-screen="any" data-toggle-overlay="true" data-toggle-body="true" data-simplebar='1'>
+    <div class="nk-block-head">
+       <div class="nk-block-head-content">
+          <h5 id="create_edit_user_title" class="nk-block-title"></h5>
+          <div class="nk-block-des">
+             <div class="data-head">
+                <h5 id="form_title" class="overline-title">CUSTOMER CAAD CREATION</h5>
+             </div>
+          </div>
+          
+       </div>
+    </div>
+    <!-- .nk-block-head -->
+    <div class="nk-block">
+        <app-caad></app-caad>
+    </div>
+ </div>
+
 
 <div id="caad_approval" style="border-left:2px solid ;height:80%;width:80%;border-color:#FF7518; right: 1px; bottom: 1px;" class="nk-add-product toggle-slide toggle-slide-right" data-content="editCustomer" data-toggle-screen="any" data-toggle-overlay="true" data-toggle-body="true" data-simplebar='1'>
     <div class="nk-block-head">
@@ -408,5 +428,8 @@
      
     </div>
  </div>
+
+
+ 
 
 

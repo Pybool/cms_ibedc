@@ -34,7 +34,7 @@ export class CaadlistComponent implements OnDestroy {
   refundAmountRaw:any =0.00 ;
   totalEstimate:any = '';
   vats:any = [{name:2.5},{name:5.5},{name:7.5}]
-  
+
   constructor(private store :Store,private caadService: CaadService,){
     this.store.dispatch(new FetchCaadList())
   }
@@ -47,6 +47,10 @@ export class CaadlistComponent implements OnDestroy {
       }
     })
  
+  }
+
+  newCAAD(){
+    document.getElementById('caad_creation').classList.add("content-active")
   }
 
   submit(){

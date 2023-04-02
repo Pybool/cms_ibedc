@@ -18,6 +18,7 @@ import { SpinnerService } from './services/spinner.service';
 import { BillingService } from './services/billing.service';
 import { take } from 'rxjs/operators';
 import { NotificationService } from './services/notification.service';
+import { PaymentsService } from './services/payments.service';
 
 declare function myfunction(): any;
 
@@ -40,6 +41,7 @@ export class AppComponent {
   is_authenticated:boolean;
   activeCustomerPage:string;
   activeSearchbar:string = 'customers'
+  activePayments = 'ems'
   
   constructor(private router: Router,
               private store: Store<AppState>,
@@ -49,6 +51,7 @@ export class AppComponent {
               private customerService:CustomerService,
               private spinnerService:SpinnerService,
               private billingService:BillingService,
+              private paymentService: PaymentsService,
               private notificationService:NotificationService) {
     this.store.dispatch(new RehydrateLogIn(''));
     this.getState = this.store.select(isAuthenticated);
@@ -72,7 +75,7 @@ export class AppComponent {
     });
     
     this.getState.subscribe((state) => {
-      // this.is_authenticated = true //HOW THE FUCK ???????????
+      // this.is_authenticated = true //
     });
 
     this.userState.subscribe((user) => {
@@ -182,6 +185,62 @@ export class AppComponent {
               if (response.status){
               //Load toastr Notification Modal here...
               this.billingService.swapBillinglist(response)
+                this.notificationService.success('Records matching your search criteria were found','Search results found',{})
+              }
+              else{
+                //Load Notification Modal here....
+                let notification = {type:'failure',title:'Oops!!!',
+                message:'Could not retrieve results for your search criteria at this time',
+                subMessage:'Something isn\'t right '}
+                this.notificationService.setModalNotification(notification)
+              }
+            },
+            error=>{
+                //Load Notification Modal here....
+                let notification = {type:'failure',title:'Oops!!!',
+                message:'Could not retrieve results for your search criteria at this time',
+                subMessage:'An error occured somewhere...'}
+                this.notificationService.setModalNotification(notification)
+
+              }
+            )          
+          console.log(`Searching for a ${$event.target.textContent} ==> `, searchBarValue)
+      }
+      else{
+        let notification = {type:'failure',title:'???',
+        message:(`Please type a/an ${$event.target.textContent}  in the search bar and click ${$event.target.textContent} filter again`),
+        subMessage:'No search criterion'}
+        this.notificationService.setModalNotification(notification)
+        console.log()
+      }
+    }
+    else{alert("Component is not loaded yet.")}
+  }
+
+  
+  paymentSearchBarFilter($event){
+    var searchBar:HTMLInputElement = document.querySelector('#payment-history-search-bar')
+    if(searchBar){
+      let searchBarValue = searchBar.value.trim();
+      console.log(searchBarValue)
+      if (searchBarValue.trim().length > 0){
+          //Dispatch deepSearch service here
+          if(this.activeSearchbar == 'payments'){
+            this.activePayments = 'ems'
+          }
+          else{
+            this.activePayments = 'ecmi'
+          }
+          let payload = {type:this.activePayments,activePage:this.activeSearchbar,fieldName:$event.target.name,q:[searchBarValue.trim()]}
+            const parentElement = document.getElementById('spinner-wrapper');
+            // this.spinnerService.showSpinner(parentElement);
+            // this.sharedService.setSpinnerText('Processing your request')
+            console.log("Payments search payload ====> ", payload)
+            
+            this.paymentService.searchPaymentsHistory(payload).pipe(take(1)).subscribe((response)=>{
+              if (response.status){
+              //Load toastr Notification Modal here...
+              // this.billingService.swapBillinglist(response)
                 this.notificationService.success('Records matching your search criteria were found','Search results found',{})
               }
               else{

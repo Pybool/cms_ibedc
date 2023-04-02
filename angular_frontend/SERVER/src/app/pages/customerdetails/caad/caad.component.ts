@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { CustomerService } from 'src/app/services/customer.service';
 import { CustomerCaadService } from 'src/app/services/customercaad.service';
+import { NotificationService } from 'src/app/services/notification.service';
 import { SharedService } from 'src/app/services/shared.service';
 import {MeteredCaadLineItem, IMeteredCaadLineItem, IUNMeteredCaadLineItem, UnmeteredCaadLineItem} from './caad.models'
 import { CreateCaad } from './state/customercaad.actions';
@@ -14,7 +15,7 @@ import { CreateCaad } from './state/customercaad.actions';
 })
 export class CaadComponent implements OnInit {
   activeCustomer:any = {}
-  is_metered:boolean = true;
+  is_metered:boolean = false;
   lineItems;
   typeLineItem
   caad_roles_list = ['BHM','CCO','OC','RPU']
@@ -28,11 +29,13 @@ export class CaadComponent implements OnInit {
   refundAmount:any = '';
   refundAmountRaw:any =0.00 ;
   totalEstimate:any = '';
+  caadAccountType;
+  caadAccountNo;
   vats:any = [{name:2.5},{name:5.5},{name:7.5}]
   constructor(private sharedService:SharedService, 
     private customerCaadService:CustomerCaadService,
     private store :Store, private customerService: CustomerService,
-    private route: ActivatedRoute,) {
+    private route: ActivatedRoute,private notificationService: NotificationService) {
     if(this.is_metered){
       this.lineItems = [] as IMeteredCaadLineItem[];
     }
@@ -52,6 +55,36 @@ export class CaadComponent implements OnInit {
         })
     
     });
+    
+  }
+
+  ngAfterViewInit(){
+    const sel:any = document.querySelector('#accounttype-select')
+    this.caadAccountType = sel.value
+  }
+
+  chooseAccounttype($event){
+    this.caadAccountType = $event.target.value
+  }
+
+  loadCustomer($event){
+    const accNo:any = document.querySelector("#caad-accountno")
+    this.caadAccountNo = accNo.value
+    if(this.caadAccountNo.length < 1 || this.caadAccountNo == ''){
+      this.customer={};
+      return this.notificationService.error("No account number was specified",'Failure',{})
+    }
+    const params = {accounttype:this.caadAccountType.toLowerCase(),accountno:this.caadAccountNo}
+    console.log(params)
+    this.customerService.fetchSinglecustomer(params).subscribe((response)=>{
+      console.log(response)
+      if (response.status){
+        console.log(response.data)
+        this.customer = response.data[0]
+        this.notificationService.success('Customer has been bound to this caad request','Success',{})
+      }
+      else{this.customer={};this.notificationService.error(response.message,'Failure',{})}
+    })
     
   }
 
@@ -218,6 +251,10 @@ export class CaadComponent implements OnInit {
   }
 
   getCaadHeaders(){
+    console.log("Headers region ",this.customer,  this.customer.region, this.customer.servicecenter)
+    if (this.customer.account_no == undefined){
+      return alert('No customer was loaded')
+    }
     let headersObject:any = {}
     headersObject.region =  this.customer.region
     headersObject.state =  this.customer.state
@@ -244,6 +281,10 @@ export class CaadComponent implements OnInit {
     console.log(payload)
     this.store.dispatch(new CreateCaad(payload))
 
+  }
+
+  exit($event){
+    document.getElementById('caad_creation').classList.remove("content-active")
   }
 
 }

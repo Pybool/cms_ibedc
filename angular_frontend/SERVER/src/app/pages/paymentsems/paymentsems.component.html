@@ -22,8 +22,8 @@
                         <li>
                             <div>
                             <div class="form-group input-group mb30">
-                                <input type="text" onchange="handler();" placeholder="Start date" name="start_date" class="form-control form_control date-widget" onfocus="(this.type='date')" />
-                                <input type="text" onchange="handler();" placeholder="End date" name="end_date" class="form-control form_control date-widget" onfocus="(this.type='date')" />
+                                <input type="text" (change)="handler($event);" placeholder="Start date" name="start_date" class="form-control form_control date-widget" onfocus="(this.type='date')" />
+                                <input id="disabled-date" disabled type="text" (change)="handler($event);" placeholder="End date" name="end_date" class="form-control form_control date-widget" onfocus="(this.type='date')" />
                             </div>
                             </div>
                         </li>
@@ -77,8 +77,9 @@
                                <tbody style="background:#f5f6fa;">
                                     <tr style="background: white!important;height:60px;" class="nk-tb-item" class="nk-tb-item" *ngFor="let payment of payments;">
                                         <td class="nk-tb-col">{{payment?.Surname+payment?.othernames}}</td>
+                                        <td class="nk-tb-col"><a class="route-link" href="javascript:void(0)" (click)="loadCustomerInformation($event,payment.AccountNo,payment.MeterNo,'Postpaid')">{{payment.AccountNo}}</a></td> 
+
                                         <td class="nk-tb-col">{{payment.receiptnumber}}</td>
-                                        <td class="nk-tb-col">{{payment.accountno}}</td>
                     
                                         <td class="nk-tb-col">{{payment.MeterNo || 'N/A'}}</td>
                                         <td class="nk-tb-col">{{payment.PayDate}}</td>
@@ -89,6 +90,8 @@
                                         <td class="nk-tb-col">{{payment.transstatus}}</td>
                                         <td class="nk-tb-col">{{payment.PaymentID}}</td>
                                         <td class="nk-tb-col">{{payment.PaymentTransactionId}}</td>
+                                        <td class="nk-tb-col">{{payment.CustomerID}}</td>
+                                        
                                     </tr>
                                 </tbody>
                             </table>

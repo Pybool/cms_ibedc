@@ -75,7 +75,7 @@
                                <tbody *ngIf="!rawQueryUsed" style="background:#f5f6fa;">
                                 <tr *ngFor="let bill of bills" style="background-color: white;height:60px;" class="nk-tb-item" >
                                     <td class="nk-tb-col dtr-control sorting_1">{{bill.customername}}</td>
-                                    <td class="nk-tb-col dtr-control sorting_1">{{bill.accountno}}</td>
+                                    <td class="nk-tb-col"><a class="route-link" href="javascript:void(0)" (click)="loadCustomerInformation($event,bill.accountno,bill.meterno,'Postpaid')">{{bill.accountno}}</a></td> 
                                     <td class="nk-tb-col dtr-control sorting_1">{{bill.tariffcode}}</td>
                                     <td class="nk-tb-col dtr-control sorting_1">{{bill.billdate}}</td>
                                     <td class="nk-tb-col dtr-control sorting_1">{{bill.duedate}}</td>
@@ -158,7 +158,7 @@
                                 <tbody *ngIf="rawQueryUsed"  style="background:#f5f6fa;">
                                     <tr *ngFor="let bill of bills" style="background-color: white;height:60px;" class="nk-tb-item">
                                         <td class="nk-tb-col dtr-control sorting_1">{{bill.CustomerName}}</td>
-                                        <td class="nk-tb-col dtr-control sorting_1">{{bill.AccountNo}}</td>
+                                        <td class="nk-tb-col"><a class="route-link" href="javascript:void(0)" (click)="loadCustomerInformation($event,bill.AccountNo,bill.MeterNo,'Postpaid')">{{bill.AccountNo}}</a></td> 
                                         <td class="nk-tb-col dtr-control sorting_1">{{bill.TariffCode}}</td>
                                         <td class="nk-tb-col dtr-control sorting_1">{{bill.Billdate}}</td>
                                         <td class="nk-tb-col dtr-control sorting_1">{{bill.DueDate}}</td>

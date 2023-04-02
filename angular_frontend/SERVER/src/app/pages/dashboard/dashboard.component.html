@@ -249,20 +249,20 @@
                        <div class="nk-tb-col"><span class="d-none d-sm-inline">Status</span></div>
                     </div>
                     <ng-container *ngFor="let recent_payment of recent_payments;">
-                     <div  class="nk-tb-item" value="54130284539" onclick="dashboardCustomerRouter(this.getAttribute('value'))">
+                     <div class="nk-tb-item">
                                         
                         <div class="nk-tb-col tb-col-sm">
                             <div class="user-card">
                                 <div class="user-avatar sm bg-purple-dim">
-                                    <span id="{{recent_payment.Firstname + ' ' + recent_payment.Surname + ' ' + recent_payment.Othernames}}">IO</span>
+                                    <span id="{{recent_payment?.Firstname + ' ' + recent_payment?.Surname + ' ' + recent_payment?.Othernames}}">IO</span>
                                 </div>
                                 <div class="user-name">
-                                    <a href="javascript:void(0)" name="recent_payment.AccountNo" onclick="dashboardCustomerRouter(this.getAttribute('value'))" class="tb-lead">{{recent_payment?.Firstname || '' + ' ' + recent_payment?.Surname  + ' ' + recent_payment?.OtherNames }}</a>
+                                    <a href="javascript:void(0)" name="recent_payment.AccountNo" class="tb-lead">{{recent_payment?.Firstname || '' + ' ' + recent_payment?.Surname  + ' ' + recent_payment?.OtherNames }}</a>
                                 </div>
                             </div>
                         </div>
                         <div class="nk-tb-col"> 
-                            <a href="javascript:void(0)" onclick="dashboardCustomerRouter(this.getAttribute('value'))" class="tb-sub" id="recent_payment.AccountNo">{{recent_payment.AccountNo}}</a>
+                            <a href="javascript:void(0)" (click)="loadCustomerInformation($event,recent_payment.AccountNo,recent_payment.meterno,recent_payment.AccountType)" class="tb-sub route-link" id="recent_payment.AccountNo">{{recent_payment.AccountNo}}</a>
                         </div>
                         
                         <div class="nk-tb-col"> 

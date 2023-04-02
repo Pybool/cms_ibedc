@@ -57,6 +57,7 @@ import { TodaycollectionsecmiComponent } from './pages/todaycollectionsecmi/toda
 import { TodaycollectionsemsComponent } from './pages/todaycollectionsems/todaycollectionsems.component';
 import { NotificationmodalComponent } from './ui/notificationmodal/notificationmodal.component';
 import { LocationsEffects } from './pages/locations/state/location.effects';
+import { CaadComponent } from './pages/customerdetails/caad/caad.component';
 
 
 const metaReducers: Array<MetaReducer<any, any>> = [localStorageReducer];
@@ -86,7 +87,8 @@ const metaReducers: Array<MetaReducer<any, any>> = [localStorageReducer];
     PaymentsemsComponent,
     TodaycollectionsecmiComponent,
     TodaycollectionsemsComponent,
-    NotificationmodalComponent
+    NotificationmodalComponent,
+    CaadComponent
     
   ],
   imports: [

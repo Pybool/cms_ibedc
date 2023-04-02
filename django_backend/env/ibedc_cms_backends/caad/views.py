@@ -111,17 +111,20 @@ class GetInitiateOrDeclineCAADTask(APIView):
             "body":data,
             "recipients":rpus}
         print("Mail parameter ====> ", mail_parameters)
-        task = {"user":get_object_or_404(User,email=rpus[0]),"taskid":uuid.uuid4(),
-                "task_description":f"Conduct second level validation for CAAD at the premises of {full_name} at address {data.get('address',data.get('address1'))}",
-                "task_sentby":request.user.email,"created_by":request.user.email,"associated_customer":data.get('accountno')}
-        status = UserTasksInbox.objects.create(**task)
-        print(status)
-        send_outward_mail.delay(mail_parameters)
+        if len(rpus) > 0:
+            task = {"user":get_object_or_404(User,email=rpus[0]),"taskid":uuid.uuid4(),
+                    "task_description":f"Conduct second level validation for CAAD at the premises of {full_name} at address {data.get('address',data.get('address1'))}",
+                    "task_sentby":request.user.email,"created_by":request.user.email,"associated_customer":data.get('accountno')}
+            status = UserTasksInbox.objects.create(**task)
+            print(status)
+            send_outward_mail.delay(mail_parameters)
 
-        task['task_owner_name'] = task['user'].name
-        task['task_owner_mail'] = task['user'].email
-        task.pop('user')
-        return Response({"status":True,"message":"A mail has been sent to the Revenue Protection Unit at the service center for this customer","task":task})
+            task['task_owner_name'] = task['user'].name
+            task['task_owner_mail'] = task['user'].email
+            task.pop('user')
+            return Response({"status":True,"message":"A mail has been sent to the Revenue Protection Unit at the service center for this customer","task":task})
+        else:
+            return Response({"status":False,"message":"Could not perform this action at this time, there is no recipient for this action"})
         
     @is_valid_caad_bha()
     def put(self,request):

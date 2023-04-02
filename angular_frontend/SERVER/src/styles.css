@@ -299,3 +299,7 @@ ul.tagList li > span.rmTag:hover {
 .dtr-control::before{
   background-color: orange!important;
 }
+
+.route-link{
+  text-decoration: underline;
+}

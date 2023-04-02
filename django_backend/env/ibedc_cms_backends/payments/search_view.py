@@ -47,6 +47,12 @@ class SearchEcmiPayments(APIView):
             self.past_date = request.GET.get('start_date')
             self.current_date = request.GET.get('end_date')
             self.filter = f" [ecmi_payment_history].transdate BETWEEN CONVERT(DATE,'{self.past_date}') AND CONVERT(DATE,'{self.current_date}')"
+            
+        
+        if search_type == 'searchbar':
+            self.field = request.GET.get('field')
+            self.value = request.GET.get('value')
+            self.filter = f" [ecmi_payment_history].{self.field} = '{self.value}'"
       
         if permission_hierarchy != '' and permission_hierarchy != 'head-quarters':
             if field_name is not None:#For Non-HQ users
@@ -116,6 +122,7 @@ class SearchEmsPayments(APIView):
         query = None
      
         search_type = request.GET.get('type','searchbar')
+        print(search_type)
         
         if search_type == 'datewidget':
             self.past_date = request.GET.get('start_date')
@@ -125,7 +132,7 @@ class SearchEmsPayments(APIView):
         if search_type == 'searchbar':
             self.field = request.GET.get('field')
             self.value = request.GET.get('value')
-            self.filter = f" [ems_payments].{self.field} LIKE '{self.value}'"
+            self.filter = f" [ems_payments].{self.field} = '{self.value}'"
             
         if permission_hierarchy != '' and permission_hierarchy != 'head-quarters':
             if field_name is not None:#For Non-HQ users

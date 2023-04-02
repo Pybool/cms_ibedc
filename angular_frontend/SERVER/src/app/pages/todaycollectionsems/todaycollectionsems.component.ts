@@ -19,7 +19,7 @@ declare let window: CustomWindow;
   styleUrls: ['./todaycollectionsems.component.css']
 })
 export class TodaycollectionsemsComponent {
-  emsheaders:string[] = ['Customer Name','Receipt No','Account No','Meter No','Pay Date','Payments','Business Unit','Trans Amount','Status Message','Pay ID','Trans ID']
+  emsheaders:string[] = ['Customer Name','Account No','Receipt No','Meter No','Pay Date','Payments','Business Unit','Trans Amount','Status Message','Pay ID','Trans ID']
   payments:any[] = []
   Math;
   constructor(private renderer: Renderer2,
@@ -47,8 +47,19 @@ export class TodaycollectionsemsComponent {
 
     this.paymentService.fetchTodayCollectionsEms().pipe(take(1)).subscribe((response)=>{
       console.log(response.data)
-      this.payments = response.data
+
+      if(response.status){
+        this.payments = response.data
+      }
+      else{this.spinnerService.hideSpinner();alert(response?.message)}
+      
     })
+  }
+
+  loadCustomerInformation($event,accountno,meterno,accounttype){
+    let base = `customer/information/basic-information`
+    const queryParams = {accountno : accountno, accounttype: accounttype?.toLowerCase(),meterno:meterno };
+    this.sharedService.navigateWithParams(base,queryParams)
   }
 
 

@@ -18,7 +18,7 @@ declare let window: CustomWindow;
   styleUrls: ['./todaycollectionsecmi.component.css']
 })
 export class TodaycollectionsecmiComponent {
-  ecmiheaders:string[] = ['Customer Name','Transaction Ref','Token','Meter No','Account No','Trans Date','Amount','Business Unit','Units','Trans Amount','Cost of Units','Status Message','CSPClientId','Day','FC','KVA','MMF','MeterNo','OperatorId','Reasons','TokenType','TotalCount','TransactionComplete','TransactionDateTime','TransactionNo','TransactionType','VAT','Year','EnteredBy','PaymentType','Status','Status1','TransactionResponseMessage']
+  ecmiheaders:string[] = ['Customer Name','Account No','Transaction Ref','Token','Meter No','Trans Date','Amount','Business Unit','Units','Trans Amount','Cost of Units','Status Message','CSPClientId','Day','FC','KVA','MMF','MeterNo','OperatorId','Reasons','TokenType','TotalCount','TransactionComplete','TransactionDateTime','TransactionNo','TransactionType','VAT','Year','EnteredBy','PaymentType','Status','Status1','TransactionResponseMessage']
   payments:any[] = []
   Math;
   constructor(private renderer: Renderer2,
@@ -46,8 +46,17 @@ export class TodaycollectionsecmiComponent {
 
     this.paymentService.fetchTodayCollectionsEcmi().pipe(take(1)).subscribe((response)=>{
       console.log(response.data)
-      this.payments = response.data
+      if(response.status){
+        this.payments = response.data
+      }
+      else{this.spinnerService.hideSpinner();alert(response?.message)}
     })
+  }
+
+  loadCustomerInformation($event,accountno,meterno,accounttype){
+    let base = `customer/information/basic-information`
+    const queryParams = {accountno : accountno, accounttype: accounttype?.toLowerCase(),meterno:meterno };
+    this.sharedService.navigateWithParams(base,queryParams)
   }
 
 

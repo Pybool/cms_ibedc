@@ -9,8 +9,7 @@
                 </div>
             </div>
             <ul class="nav nav-tabs mt-n3">
-                <li class="nav-item"><a onclick="swaptab('caad-history')" class="nav-link caad-review-tabs active" data-bs-toggle="tab" id="caad-history" href="#caad-history" value="#caad-history"><em class="icon ni ni-user"></em><span>CAAD History</span></a></li>
-                <li class="nav-item"><a onclick="swaptab('new-caad-request')" class="nav-link caad-review-tabs" data-bs-toggle="tab" id="new-caad-request" href="#new-caad-request"  value="#new-caad-request"><em class="icon ni ni-account-setting"></em><span>New CAAD</span></a></li>
+                <li class="nav-item"><a onclick="swaptab('caad-history')" class="nav-link caad-review-tabs active" data-bs-toggle="tab" id="caad-history" href="#caad-history" value="#caad-history"><em class="icon ni ni-user"></em><span>New CAAD Request</span></a></li>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane" id="caad-history-pane">
@@ -172,6 +171,31 @@
                                 
                                 <div id="accordion" class="accordion">
                                     <div class="accordion-item">
+                                        <a id="location_information_accordion" href="javascript:void(0)" class="accordion-head" data-bs-toggle="collapse" data-bs-target="#accordion-item-10">
+                                           <h6 class="title">Load Customer</h6>
+                                           <span class="accordion-icon"></span>      
+                                        </a>
+                                        <div class="accordion-body collapse" id="accordion-item-10" data-bs-parent="#accordion">
+                                            <ul style="max-height:50vh;overflow-y: auto;" class="link-list-opt">
+                                                <li >
+                                                    <div class="col-12">
+                                                        <select id="accounttype-select" (change)="chooseAccounttype($event)" class="col-3 form-select">
+                                                            <option>Prepaid</option>
+                                                            <option>Postpaid</option>
+                                                        </select>
+                                                        <br>
+                                                        <input id="caad-accountno" type="text" class="form-control col-3" placeholder="Enter customer account number">
+                                                        <br>
+                                                        <a (click)="loadCustomer($event)" class="btn btn-secondary col-3"><span style="color:white">Load Customer</span></a>
+                                                    </div>
+                                                    <hr>
+                                                    
+                                                </li>
+                                            </ul>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item">
                                        <a id="basic_information_accordion" href="javascript:void(0)" class="accordion-head" data-bs-toggle="collapse" data-bs-target="#accordion-item-1">
                                           <h6 class="title">Basic Information</h6>
                                           <span class="accordion-icon"></span>      
@@ -189,11 +213,11 @@
                                                                             <div class="col-12 row g-3">
                                                                                 <label class="col-3">Titles</label>
                                                                                 <a class="col-3" href="javascript:void(0)" >
-                                                                                    <span>{{activeCustomer?.title || 'N/A'}}</span>
+                                                                                    <span>{{customer?.title || 'N/A'}}</span>
                                                                                 </a>
                                                                                 <label class="col-3">Firstname</label>
                                                                                 <a class="col-3" href="javascript:void(0)" >
-                                                                                    <span>{{activeCustomer?.firstname || 'N/A'}}</span>
+                                                                                    <span>{{customer?.firstname || 'N/A'}}</span>
                                                                                 </a>
                                                                             </div>
                                                                             
@@ -202,11 +226,11 @@
                                                                             <div class="col-12 row g-3">
                                                                                 <label class="col-3">Surname</label>
                                                                                 <a class="col-3" href="javascript:void(0)" >
-                                                                                    <span>{{activeCustomer?.surname || 'N/A'}}</span>
+                                                                                    <span>{{customer?.surname || 'N/A'}}</span>
                                                                                 </a>
                                                                                 <label class="col-3">Othernames</label>
                                                                                 <a class="col-3" href="javascript:void(0)" >
-                                                                                    <span>{{activeCustomer?.othernames || 'N/A'}}</span>
+                                                                                    <span>{{customer?.othernames || 'N/A'}}</span>
                                                                                 </a>
                                                                             </div>
                                                                             
@@ -215,11 +239,11 @@
                                                                             <div class="col-12 row g-3">
                                                                                 <label class="col-3">Gender</label>
                                                                                 <a class="col-3" href="javascript:void(0)" >
-                                                                                    <span>{{activeCustomer?.gender || 'N/A'}}</span>
+                                                                                    <span>{{customer?.gender || 'N/A'}}</span>
                                                                                 </a>
                                                                                 <label class="col-3">Email Address</label>
                                                                                 <a class="col-3" href="javascript:void(0)" >
-                                                                                    <span>{{activeCustomer?.email || 'N/A'}}</span>
+                                                                                    <span>{{customer?.email || 'N/A'}}</span>
                                                                                 </a>
                                                                             </div>
                                                                             
@@ -228,7 +252,7 @@
                                                                             <div class="col-12 row g-3">
                                                                                 <label class="col-3">Mobile</label>
                                                                                 <a class="col-3" href="javascript:void(0)" >
-                                                                                    <span>{{activeCustomer?.mobile || 'N/A'}}</span>
+                                                                                    <span>{{customer?.mobile || 'N/A'}}</span>
                                                                                 </a>
                                                                                 <label class="col-3">Is Metered</label>
                                                                                 <a class="col-3" href="javascript:void(0)" >
@@ -407,11 +431,13 @@
                                             </form>
                                             
                                           </div>
+                                          
                                        </div>
                                     </div>
                                     
                                            
                                  </div>
+                                 <a (click)="exit($event)" class="btn btn-danger col-3"><span style="color:white">Exit</span></a>
 
                             </div>
                             

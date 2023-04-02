@@ -145,14 +145,15 @@ class PostpaidCustomers(APIView):
                     total_customers = location_customers.count()
                     customers = location_customers.values(*EMS_FIELDS)[:200000]
                     
-                elif field_name == 'buid':
+                if field_name == 'buid':
                     buids = fetch_and_cache_buids()
                     buid = search_for_buid(location, request.user.region, buids)
+                    print('Int ',buid)
                     location_customers = EmsCustomersNew.objects.filter(state=request.user.region).filter(**{f"{field_name}__icontains": buid})
                     total_customers = location_customers.count()
-                    customers = location_customers.values(*EMS_FIELDS)
+                    customers = location_customers.values(*EMS_FIELDS)[:200000]
                     
-                elif field_name == 'servicecenter':
+                if field_name == 'servicecenter':
                     buids = fetch_and_cache_buids()
                     buid = search_for_buid(request.user.business_unit, request.user.region, buids)
                     location_customers = EmsCustomersNew.objects.filter(state=request.user.region).filter(buid=buid).filter(**{f"{field_name}__icontains": location})

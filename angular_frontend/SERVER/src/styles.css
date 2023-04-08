@@ -303,3 +303,72 @@ ul.tagList li > span.rmTag:hover {
 .route-link{
   text-decoration: underline;
 }
+
+/* Customer tables kanban styles */
+
+
+.contact-card{
+  width: 15rem;
+  height: 12rem;
+  background: white;
+  border-radius: 20px!important;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap:20px;
+}
+
+.zoom {
+transition: transform .7s;
+}
+
+.zoom:hover {
+transform: scale(1.1); 
+border: 1px;
+border-color: #FF7518!important;;
+box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.9), 0 3px 14px 0 rgba(0, 0, 0, 0.3);
+}
+
+.kanban{
+min-width:287px;
+overflow: hidden;
+border-radius: 3px!important;
+border: none!important;
+resize: none!important;
+outline: none!important;
+box-shadow: 0 4px 8px 0 rgba(126, 125, 125, 0.2), 0 6px 20px 0 rgba(148, 146, 146, 0.19);
+}
+
+.kanban:after {
+  content: "";
+  position:absolute;
+  margin:-20px;
+  width:40px;
+  height:40px;
+  transform:rotate(45deg);
+  background-color:orange; 
+}
+
+.shadow{
+box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.kanban-grid{
+height:85%;
+padding-top:40px;
+padding-bottom:40px;
+display:flex;
+flex-direction:row; 
+flex-wrap:wrap;
+justify-content:space-evenly;
+align-items:center;
+gap:20px;
+background:whitesmoke;
+overflow-y:auto
+}
+
+.flex-row{
+display:flex;
+flex-direction:row; 
+gap:20px;
+}

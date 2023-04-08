@@ -188,7 +188,6 @@ class Dashboard(object):
         # collections = Collections(period, self.past_date, self.current_date, self.key, self.permissions_dict, self.request)
         stats_graph = CollectionsStatisticsGraph(period, self.past_date, self.current_date, self.key, self.permissions_dict,self.hierarchy_order, self.request)
         collections_query = stats_graph.get_collection_statistics_query()['default']
-        print("Colls---> ", collections_query)
         data = dict_fetch_all(collections_query)
         # stats_graph_query = stats_graph.get_collection_statistics_query()
         # headers = tuple(collections_query['headers'] + stats_graph_query['headers'])

@@ -1,8 +1,8 @@
 from datetime import datetime, date
 import json
 from decimal import *
-
-from .utils import Dashboardutils, convert_date_format, current_week_range, get_previous_n_days, previous_week_range
+from .permission import Permission
+from .utils import get_previous_n_days
 
 class Collections(object):
     
@@ -14,12 +14,13 @@ class Collections(object):
         self.past_date = '2022-02-28' or past_date
         self.current_date = '2022-02-28' or current_date
         self.period = period
-        self.service_center_user = hierarchy_order.get('servicecenter', False) 
-        self.business_unit_user = hierarchy_order.get('buid', False) 
-        self.regional_user = hierarchy_order.get('state', False) 
-        self.hq_user = hierarchy_order.get('hq', False)
-        self.getpermission_query()
-        self.AND = f"AND #TABLE_NAME#.{self.PERMISSION}" if self.key !='hq' else ''
+        self.hierarchy_order = hierarchy_order
+        
+        self.permission = Permission(self.request,self.hierarchy_order,self.key,self.permissions_dict)
+        self.get_permission_query = self.permission.get_permission_query
+        
+        self.ECMI_AND = f"AND #TABLE_NAME#.{self.get_permission_query('ecmi')}" if self.key !='hq' else ''
+        self.EMS_AND = f"AND #TABLE_NAME#.{self.get_permission_query('ems')}" if self.key !='hq' else ''
         
     def get_collections_query(self):
         
@@ -39,7 +40,7 @@ class Collections(object):
                     FROM [ecmi_customers_new]
                     INNER JOIN ecmi_payment_history AS cus ON cus.meterno = [ecmi_customers_new].AccountNo
                     INNER JOIN [ecmi_transactions] AS ECMIPT ON ECMIPT.[transref] = cus.transref
-                    WHERE CONVERT(date, cus.transdate) = CONVERT(DATE,'{self.current_date}') {self.AND.replace("#TABLE_NAME#","[ecmi_customers_new]")}
+                    WHERE CONVERT(date, cus.transdate) = CONVERT(DATE,'{self.current_date}') {self.ECMI_AND.replace("#TABLE_NAME#","[ecmi_customers_new]")}
 
                     """
         elif type=='ems':
@@ -47,7 +48,7 @@ class Collections(object):
                     FROM [ems_customers_new]
                     INNER JOIN ems_payments as cus1 ON cus1.accountno = [ems_customers_new].AccountNo
                     INNER JOIN [ems_payment_trans] AS EMSPT ON EMSPT.[transid] = cus1.PaymentTransactionId
-                    WHERE CONVERT(date,cus1.paydate) = CONVERT(DATE,'{self.current_date}') {self.AND.replace("#TABLE_NAME#","[ems_customers_new]")}"""
+                    WHERE CONVERT(date,cus1.paydate) = CONVERT(DATE,'{self.current_date}') {self.EMS_AND.replace("#TABLE_NAME#","[ems_customers_new]")}"""
                 
             
 
@@ -65,7 +66,7 @@ class Collections(object):
                                 FROM [ecmi_customers_new]
                                 INNER JOIN ecmi_payment_history AS cus ON cus.meterno = [ecmi_customers_new].AccountNo
                                 INNER JOIN [ecmi_transactions] AS ECMIPT ON ECMIPT.[transref] = cus.transref
-                                WHERE CONVERT(date, cus.transdate) = CONVERT(DATE,'{self.current_date}') {self.AND.replace("#TABLE_NAME#","[ecmi_customers_new]")}
+                                WHERE CONVERT(date, cus.transdate) = CONVERT(DATE,'{self.current_date}') {self.ECMI_AND.replace("#TABLE_NAME#","[ecmi_customers_new]")}
                                 GROUP BY CONVERT(date, cus.transdate)
 
 
@@ -75,23 +76,10 @@ class Collections(object):
                                 FROM [ems_customers_new]
                                 INNER JOIN ems_payments as cus1
                                 ON cus1.accountno = [ems_customers_new].AccountNo
-                                WHERE CONVERT(date,cus1.paydate) = CONVERT(DATE,'{self.current_date}') {self.AND.replace("#TABLE_NAME#","[ems_customers_new]")}
+                                WHERE CONVERT(date,cus1.paydate) = CONVERT(DATE,'{self.current_date}') {self.EMS_AND.replace("#TABLE_NAME#","[ems_customers_new]")}
                                 GROUP BY CONVERT(date,cus1.paydate)
                             """
 
             # print(query)
             return query, ['todays_collections','yesterday_collections']
 
-    def getpermission_query(self):
-        if self.regional_user :
-            self.key = 'state'
-            self.PERMISSION = f"""{self.key} = '{self.permissions_dict[self.key].lower()}'"""
-            
-        if self.business_unit_user:
-            self.key = 'buid' 
-            self.PERMISSION = f"{self.key} = '{self.permissions_dict.get(self.key, '').lower()}' AND #TABLE_NAME#.state= '{self.request.user.region}'"
-            
-        if self.service_center_user:
-            self.key = 'servicecenter'
-            self.PERMISSION = f"{self.key} = '{self.permissions_dict.get(self.key, '').lower()}' AND #TABLE_NAME#.buid= '{self.request.user.business_unit}' AND #TABLE_NAME#.state= '{self.request.user.region}'"
-           

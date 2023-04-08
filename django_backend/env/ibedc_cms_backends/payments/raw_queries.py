@@ -29,6 +29,7 @@ SINGLE_CUSTOMER_PAYMENTS_ECMI = """DECLARE @PageSize INT = '#page_size#';
                                 ) AS TotalCount
                                 FROM [CMS_IBEDC_DATABASE].[dbo].[ecmi_payment_history]
                                 INNER JOIN [ecmi_transactions] AS ECMIPT ON ECMIPT.[transref] = [ecmi_payment_history].transref
+                                WHERE [ecmi_payment_history].MeterNo = '#AccountNo#'
                                 ORDER BY [ecmi_payment_history].transdate
                                 OFFSET (@PageNumber - 1) * @PageSize ROWS
                                 FETCH NEXT @PageSize ROWS ONLY;"""

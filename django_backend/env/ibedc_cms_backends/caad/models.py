@@ -98,7 +98,7 @@ class CaadApprovalUsers(models.Model):
     caad = models.ForeignKey(CaadHeader, on_delete=models.CASCADE)
     approver_name = models.CharField(max_length=255)
     approver_position = models.CharField(max_length=255)
-    approver_email = models.CharField(max_length=255,unique=False)
+    approver_email = models.CharField(max_length=255)
     date_approved = models.DateTimeField(auto_now_add=True)
     comments = models.CharField(max_length=255)
     other_info = models.CharField(max_length=255,default='')

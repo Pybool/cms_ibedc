@@ -159,6 +159,9 @@ class AuthSignin(APIView):
                         # print("========alt ", create_access_token(payload))
                         token = create_access_token(payload)  #self.authhelpers._generate_jwt_token(payload, 'settings.SECRET_KEY')
                         user_details = {}
+                        user[0]['is_admin'] = Permissions.user_in_groups(email,'IBEDC ADMIN')
+                        if user[0]['is_admin'] == False:
+                            user[0]['is_admin'] = True #Permissions.user_in_groups(email,'DEVOPS')
                         user_details['status'] = True
                         user_details['data'] = user[0]
                         user_details['data']['token'] = token
@@ -205,7 +208,7 @@ class UserFormView(APIView):
         if payload is not None:
             locs = json.loads(payload)
             business_units = PermissionsHierarchyView.get(PermissionsHierarchyView,request,{'as_method':True,'hierarchy':'business_unit','q':locs['region']})
-            servicecenters = PermissionsHierarchyView.get(PermissionsHierarchyView,request,{'as_method':True,'hierarchy':'servicecenter','q':locs['business_unit'].title()})
+            servicecenters = PermissionsHierarchyView.get(PermissionsHierarchyView,request,{'as_method':True,'hierarchy':'servicecenter','q':str(locs['business_unit']).title()})
         return Response({'status':True,'positions':positions,'groups':groups,'regions':regions.get('regions'),'business_units':business_units.get('business_units'),'servicecenters':servicecenters.get('service_centers')})
 
 class RegistrationValidateOtpView(APIView):
@@ -457,15 +460,35 @@ class CreateUpdateUser(APIView):
 
         return Response({"status":False,"message":"No group was specified for this user.."})
             
-    def valsUser(self,data):
+    def valsUser(self,request):
+        data = request.data
         print('Pos',data.get('position'))
         try:
             position = UserPositions.objects.get(code=data.get('position')).name
         except:
             response = {"status":False,"message":"Non existent position "}
             return Response(response)
-        
-        vals_user =  {
+        if request.method == 'PUT':
+            vals_user =  {
+            'name': data.get('name'),
+            'email': data.get('email'),
+            'region':data.get('region') or 'granted',
+            'business_unit':data.get('business_unit') or 'granted',
+            'service_center':data.get('service_center') or data.get('servicecenter'),
+            'permission_hierarchy':data.get('permission_hierarchy','Head Quarters'),
+            'can_approve':data.get('can_approve',False),
+            'can_create_user':data.get('can_create_user',False),
+            'enable_2fa':data.get('enable_2fa',False),
+            'can_create_customer':data.get('can_create_customers',False),
+            'can_approve_caad':data.get('can_approve_caad',False),
+            'position':position,
+            'can_manage_2fa':data.get('can_manage_2fa',False),
+            'administration':data.get('administration',''),
+            
+            }
+        else:
+            
+            vals_user =  {
             'name': data.get('name'),
             'email': data.get('email'),
             'password': make_password(data.get('password')),
@@ -530,7 +553,7 @@ class CreateUpdateUser(APIView):
     def post(self,request,**kw): #CREATE NEW USER AND ASSIGN GROUPS
         self.data = request.data
         data = self.data        
-        vals_user = self.valsUser(data)
+        vals_user = self.valsUser(request)
         try:
             newuser = User.objects.create(**vals_user)
             user = User.objects.get(id=newuser.id)
@@ -584,8 +607,8 @@ class CreateUpdateUser(APIView):
     def put(self,request,**kw): #UPDATE ALREADY CREATED USER(S)
         self.data = request.data
         data = self.data        
-        vals_user = self.valsUser(data)
-        print(vals_user)
+        vals_user = self.valsUser(request)
+        
         # vals_user.pop('password')
         try:
             update_user_count = User.objects.filter(id=int(data.get('id'))).update(**vals_user)

@@ -3,12 +3,12 @@ from authentication.models import User
 
 
 class CrmRegion(models.Model):
-    id = models.AutoField(primary_key=True)
+    # id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50)
     other_info = models.CharField(max_length=50)
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'crm_region'
         
         
@@ -19,7 +19,7 @@ class CrmBusinessHub(models.Model):
     other_info = models.CharField(max_length=50)
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'crm_business_hub'
         
 class CrmServiceCentre(models.Model):
@@ -30,7 +30,7 @@ class CrmServiceCentre(models.Model):
     service_center_address = models.CharField(max_length=500,default='')
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'crm_service_centre'
         
 

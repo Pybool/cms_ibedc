@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AppState } from '../basestore/app.states';
 
@@ -10,11 +10,21 @@ import { AppState } from '../basestore/app.states';
   providedIn: 'root'
 })
 export class CaadService {
+  listOrCreate$:any = new BehaviorSubject<Boolean>(false);
 
   constructor(private store: Store<AppState>,
               private http: HttpClient,
               private router: Router
               ){ }
+
+  
+  public setListOrCreate(status){
+    this.listOrCreate$.next(status)
+  }
+             
+  public getListOrCreate(){
+    return this.listOrCreate$.asObservable()
+  }
 
   
   fetchCaadList(){

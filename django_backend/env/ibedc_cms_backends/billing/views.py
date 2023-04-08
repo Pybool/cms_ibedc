@@ -46,13 +46,16 @@ class SingleCustomerBills(APIView):
         query =  SINGLE_CUSTOMER_BILLS\
                     .replace("#AccountNo#",accountno)\
                     .replace("#page_size#",page_size)\
-                    .replace("#page_no#",page_no)
+                    .replace("#page_no#",page_no)\
+                    .replace("#DATE_CONJUNCTION#",'')
         bills = dict_fetch_all(query)#EmsBills.objects.filter(accountno__iexact=accountno).all().order_by('id')[:10]
         if bills:
-            response = {"status": True, "count":0, "data": bills}
+            response = Response({"status": True, "count":0, "data": bills})
+            response.headers['Cache-Control'] = CACHE_CONTROL
+            return response
         else:
             response = {"status": False, "message": "No customer bills found with the provided account number."}
-        return Response(response)
+            return Response(response)
 
 class CustomerBills(APIView):
     authentication_classes = [JWTAuthenticationMiddleWare]
@@ -79,7 +82,8 @@ class CustomerBills(APIView):
                         .replace("#page_size#",page_size)\
                         .replace("#page_no#",page_no)\
                         .replace("#hierarchy#",field_name)\
-                        .replace("#hierarchy_value#",location)
+                        .replace("#hierarchy_value#",location)\
+                        .replace("#DATE_CONJUNCTION#",'')
                         
                 if field_name == 'buid':
                     print("This buid ",'buids')
@@ -93,6 +97,7 @@ class CustomerBills(APIView):
                         .replace("#hierarchy#",'State')\
                         .replace("#hierarchy_value#",request.user.region)\
                         .replace("#BUID#",buid)\
+                        .replace("#DATE_CONJUNCTION#",'')
                     
                 if field_name == 'servicecenter':
                     buids = fetch_and_cache_buids()
@@ -103,18 +108,19 @@ class CustomerBills(APIView):
                         .replace("#hierarchy#",field_name)\
                         .replace("#hierarchy_value#",request.user.region)\
                         .replace("#BUID#",buid)\
-                        .replace("#SERVICECENTER#",location)
+                        .replace("#SERVICECENTER#",location)\
+                        .replace("#DATE_CONJUNCTION#",'')
                     
         else:
             query =  BILLING_HISTORY_NO_HIERARCHY\
                         .replace("#page_size#",page_size)\
-                        .replace("#page_no#",page_no)
+                        .replace("#page_no#",page_no)\
+                        .replace("#DATE_CONJUNCTION#",'')
+                        
         self.custom_paginator = CustomPaginatorClass(CustomerBills.pagination_class,request)
         bills = None
         bills_query = EmsBills.objects.all().order_by('-billdate')[:10000]
         total_bills = 0#bills_query.count()
-        # bills = bills_query.values() if use_raw is False else print(45000)#dict_fetch_all(query)
-        print(query)
         bills = dict_fetch_all(query)
         
         if bills:

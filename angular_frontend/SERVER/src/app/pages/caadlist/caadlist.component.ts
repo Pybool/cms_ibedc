@@ -50,6 +50,7 @@ export class CaadlistComponent implements OnDestroy {
   }
 
   newCAAD(){
+    this.caadService.setListOrCreate(true)
     document.getElementById('caad_creation').classList.add("content-active")
   }
 

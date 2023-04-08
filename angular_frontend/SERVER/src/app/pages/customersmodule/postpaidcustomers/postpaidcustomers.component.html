@@ -14,7 +14,7 @@
                       <!-- <ng-container #elseblockid0><input id='create-perm' type='text' hidden='1' value='False'/></ng-container> -->
                       <ul class="tagList" id="search-tag-list">
                         <li class="option-item "><a style="color:gray;" href="javascript:void(0)" id="cust-page-link2" [routerLink]="['/customers/postpaid']">Postpaid {{ems_total_customers | number:'1.0'}}</a></li>
-                        <li class="option-item "><a style="color:gray;" href="javascript:void(0)" id="cust-page-link1" (click)="loadPrepaid()">Prepaid: {{ecmi_total_customers | number:'1.0'}}</a></li>
+                        <li class="option-item "><a style="color:gray;" href="javascript:void(0)" id="cust-page-link1" (click)="loadPrepaid()">Prepaid</a></li>
                         </ul>
                       <!-- <p ><a id="cust-page-count"></a> <a href="javascript:void()" id="cust-page-link1" onclick="customerPageLinkHeader(this)"></a> <a href="javascript:void()" id="cust-page-link2" onclick="customerPageLinkHeader(this)"></a></p> -->
                    </ng-container>
@@ -225,7 +225,7 @@
                    <div class="card-tools">
                       <div class="form-inline flex-nowrap">
                          <div class="form-wrap w-150px">
-                            <select style="width:150px;" class="form-select" data-search="off" data-placeholder="Oyo" >
+                            <select disabled style="width:150px;" class="form-select" data-search="off" data-placeholder="Oyo" >
                                <option value="" data-select2-id="3">Oyo</option>
                                <option value="email">Osun</option>
                                <option value="group">Ogun</option>
@@ -233,7 +233,7 @@
                                <!-- <option value="delete">Delete User</option> -->
                             </select>
                          </div>&nbsp;
-                         <div class="btn-wrap"><span class="d-none d-md-block"><button  class="btn btn-dim btn-outline-light">Toggle View</button></span><span class="d-md-none"><button class="btn btn-dim btn-outline-light btn-icon disabled"><em class="icon ni ni-arrow-right"></em></button></span></div>
+                         <div class="btn-wrap"><span class="d-none d-md-block"><button (click)="toggleView($event)"  class="btn btn-dim btn-outline-light">Toggle View</button></span><span class="d-md-none"><button class="btn btn-dim btn-outline-light btn-icon disabled"><em class="icon ni ni-arrow-right"></em></button></span></div>
                       </div>
                    </div>
                    <div id="ems-search-status" class="card-tools me-n1">
@@ -289,7 +289,7 @@
                                </div> -->
                          </div>
                          <div id="ems-table-wrapper" style="width:auto;max-height: 60vh; overflow-y: auto;overflow-x:hidden; background:transparent!important;">
-                            
+                            <div id="table-wraps">
                             <table role="grid" style="width:100%;background:#f5f6fa;overflow: auto;opacity: 0;" id="customer_table" class="nowrap nk-tb-list is-separate shadow no-footer dtr-inline responsive collapsed" data-searching="false" data-auto-responsive="true">
                                <thead style="position:sticky;top:0;" class="table-style-light">
                                   <tr>
@@ -379,6 +379,87 @@
                                   </tr>
                                </tbody>
                             </table>
+                            </div>
+                            <div class="kanban-grid" id="kanban-wraps">
+                              <div *ngFor="let customer of customers$ | async ; trackBy: trackByFn" [id]="customer.accountno" class="card kanban zoom shadow pointer">
+                                 <div style="width:100%" class="flex-colnogap">
+                                     <div style="width:100%">
+                                         <div style="margin:10px;">
+                                             <div class="flex-col-justify-center">
+                                                 <div class="card-text-center">
+                                                     <div  class="contact-abrv-grid">
+                                                         <span class="bold abbr_name" style=" font-size:17px;color:white!important;" t-esc="self.abbreviateName(customer['firstname']) + ' ' + customer['surname']+ ' ' + customer['othernames']"></span>
+                                                     </div>
+                                                 </div>
+                                                 <div  class="card-text-center">
+                                                     <ng-container *ngIf="customer?.surname +' '+ customer?.firstname +' ' + customer?.othernames=='None None None'">
+                                                         <div><span class="bold">?</span><i style="color:orange;padding-left:10px;" class="material-icons">block</i></div>
+                                                     </ng-container>
+                                                     <ng-container *ngIf="!(customer?.surname +' '+ customer?.firstname +' ' + customer?.othernames=='None None None')">
+                                                         <ng-container  *ngIf="customer['kyc']">
+                                                            <div class="flex-row">
+                                                               <div _ngcontent-uod-c71="" class="user-avatar sm">{{abbreviateName(customer?.surname +' '+ customer?.firstname +' ' + customer?.othernames)}}</div>
+                                                               <div style="padding-left:10px;"><b><span class="custname" t-esc="">{{customer?.surname +' '+ customer?.firstname +' ' + customer?.othernames}}</span></b><i style="color:#FF7518!important;padding-left:10px;" class="material-icons">verified</i></div>
+                                                            </div>
+                                                           
+                                                         </ng-container>
+                                                         <ng-container *ngIf="!customer['kyc']">
+                                                            <div class="flex-row">
+                                                               <div _ngcontent-uod-c71="" class="user-avatar sm">{{abbreviateName(customer?.surname +' '+ customer?.firstname +' ' + customer?.othernames)}}</div>
+                                                               <div><span t-esc="customer?.surname +' '+ customer?.firstname +' ' + customer?.othernames" class="bold">{{customer?.surname +' '+ customer?.firstname +' ' + customer?.othernames}}</span><i style="color:orange;padding-top:10px;" class="material-icons">block</i></div>
+                                                            </div>
+                                                         </ng-container>
+                                                     </ng-container>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div style="width:100%">
+                                         <div style="padding-left:10px; padding-right:10px;">
+                                             <div class="">
+                                               
+                                                 
+                                                 <div class="flex-row col-12">
+                                                     <label class="col-5 bold" >Acct No</label>
+                                                     <div class="col-7"><span class="kanban_accno" style=" font-size:12px;"  t-esc="">{{customer['accountno']}}</span></div>
+                                                 </div>
+                                                 <div class="flex-row col-12">
+                                                     <label class="col-5 bold" >AccType</label>
+                                                     <div class="col-7"><span t-esc="">{{customer['accounttype']}}</span></div>
+                                                 </div>
+                                                 <div class="flex-row col-12">
+                                                   <label class="col-5 bold" >Region</label>
+                                                   <div class="col-7"><span t-esc="">{{customer['state']}}</span></div>
+                                               </div>
+                                               <div class="flex-row col-12">
+                                                      <label class="col-5 bold" >Buid</label>
+                                                      <div class="col-7"><span t-esc="">{{customer['buid']}}</span></div>
+                                                </div>
+                                                <div class="flex-row col-12">
+                                                   <label class="col-5 bold" >Ser Cen</label>
+                                                   <div class="col-7"><span t-esc="">{{customer['servicecenter']}}</span></div>
+                                                </div>
+                                                <div class="flex-row col-12">
+                                                   <a  href="javascript:void(0)" 
+                                                      (click)="loadCustomerInformation($event,customer.accountno,customer.meterno,customer.accounttype)" 
+                                                      _ngcontent-vqw-c59="" 
+                                                      data-bs-toggle="tooltip" 
+                                                      data-bs-placement="left" 
+                                                      title="" class="btn btn-secondary col-12" 
+                                                      data-bs-original-title="View Details">
+                                                      <em _ngcontent-vqw-c59="" class="icon ni ni-download-cloud">
+
+                                                      </em><span _ngcontent-vqw-c59="">View Details</span>
+                                                   </a>
+                                                </div>
+                                                 <br>
+                                                 <br>
+                                             </div> 
+                                         </div> 
+                                     </div> 
+                                 </div>
+                             </div>
+                           </div>
                             <!-- <app-customercreation></app-customercreation>
                             <app-customerupdate></app-customerupdate> -->
                             <!-- Approval Board -->
@@ -391,6 +472,17 @@
           </div> -->
        <!-- </div> -->
     </div>
+    <div _ngcontent-ltp-c55="" class="card-inner">
+      <ul _ngcontent-ltp-c55="" class="pagination justify-content-center justify-content-md-start">
+         <li _ngcontent-ltp-c55="" class="page-item"><a _ngcontent-ltp-c55="" href="#" class="page-link">Prev</a></li>
+         <li _ngcontent-ltp-c55="" class="page-item"><a _ngcontent-ltp-c55="" href="#" class="page-link">1</a></li>
+         <li _ngcontent-ltp-c55="" class="page-item"><a _ngcontent-ltp-c55="" href="#" class="page-link">2</a></li>
+         <li _ngcontent-ltp-c55="" class="page-item"><span _ngcontent-ltp-c55="" class="page-link"><em _ngcontent-ltp-c55="" class="icon ni ni-more-h"></em></span></li>
+         <li _ngcontent-ltp-c55="" class="page-item"><a _ngcontent-ltp-c55="" href="#" class="page-link">6</a></li>
+         <li _ngcontent-ltp-c55="" class="page-item"><a _ngcontent-ltp-c55="" href="#" class="page-link">7</a></li>
+         <li _ngcontent-ltp-c55="" class="page-item"><a _ngcontent-ltp-c55="" href="#" class="page-link">Next</a></li>
+      </ul>
+   </div>
  </div>
  
  

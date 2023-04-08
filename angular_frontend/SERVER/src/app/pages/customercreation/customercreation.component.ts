@@ -71,18 +71,7 @@ export class CustomercreationComponent implements OnInit {
               private customervalidationService: CustomervalidationService
               ) { 
     this.userState = this.store.select(UserState);
-    this.customerService.fecthCustomerFormMetadata().subscribe((data)=>{
-      console.log(data)
-      this.locationType = data.locations.type
-      this.locations = data.locations[this.locationType]
-      this.accounttypes = data.options_object_dict.accounttype
-      this.building_descriptions = data.options_object_dict.building_description
-      this.customer_categorys = data.options_object_dict.customer_category
-      this.customer_types = data.options_object_dict.customer_type
-      this.premise_types = data.options_object_dict.premises_type
-      this.supply_types = data.options_object_dict.supply_type
-      this.service_bands = data.options_object_dict.service_band
-    })
+    
   }
 
   ngOnInit(): void {
@@ -102,6 +91,7 @@ export class CustomercreationComponent implements OnInit {
     this.customerCreateUpdateService.getDraftId().subscribe((id)=>{
       this.draft_id = id
     })
+    console.log(this.locations)
 
     this.sharedService.getFormHeader().subscribe((arr)=>{
       console.log(arr)
@@ -115,6 +105,26 @@ export class CustomercreationComponent implements OnInit {
 
       }
     })
+  }
+
+  ngAfterViewInit(){
+    
+    this.customerService.fecthCustomerFormMetadata().subscribe((data)=>{
+      console.log(data)
+      console.log(data.locations.type,data.locations[data.locations.type])
+      this.locationType = data.locations.type
+      this.locations = data.locations[data.locations.type]
+      this.accounttypes = data.options_object_dict.accounttype
+      this.building_descriptions = data.options_object_dict.building_description
+      this.customer_categorys = data.options_object_dict.customer_category
+      this.customer_types = data.options_object_dict.customer_type
+      this.premise_types = data.options_object_dict.premises_type
+      this.supply_types = data.options_object_dict.supply_type
+      this.service_bands = data.options_object_dict.service_band
+
+      this[data.locations.type] = data.locations[data.locations.type]
+    })
+    console.log(this.service_centers)
   }
 
   getGisAssetdata(asset_type){
@@ -216,6 +226,7 @@ export class CustomercreationComponent implements OnInit {
         this.service_centers = data.data.service_centers
       })
     }
+    // else{alert()}
   }
 
   loadCustomer(data){
@@ -357,6 +368,13 @@ export class CustomercreationComponent implements OnInit {
 
   closeSlideModal(){
     document.getElementById('create_customer').classList.remove("content-active")
+  }
+
+  closeModal($event,id){
+    const mdl:any = document.querySelector(`#${id}`)
+    console.log(mdl)
+    mdl.style.display = 'none'
+    mdl.classList.remove('show')
   }
 
   ngOnDestroy(){

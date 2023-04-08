@@ -12,11 +12,20 @@
 
 #parent-container {
     cursor: pointer;
-    background: whitesmoke;
+    background-image: url(/assets/docimages/powerlines.png)!important;
+    background-size:100%;
+    background-repeat:no-repeat!important;
+}
+
+.login-parent-container{
+  background-image: url(/assets/docimages/powerlines.png);
+  background-size:100%;
+  background-repeat:no-repeat!important;
 }
 
 .nk-main {
     position: relative;
+    
 }
 
 .nk-split-page {
@@ -78,7 +87,7 @@
 .dark-overlay{
     width: 100%;
     height: 100%;
-    z-index:3000;
+    z-index:0;
     background-color: black;
     opacity:0.5
 }
@@ -131,11 +140,8 @@
 
 .btn-primary { color: #fff; background-color: #FF7518!important; border-color: #FF7518; }
 
-.center {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+.top {
+  padding-top:8vh;
 }
 
 .dropdown, dropup{

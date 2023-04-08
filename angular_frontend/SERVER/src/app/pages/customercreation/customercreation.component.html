@@ -594,7 +594,7 @@
  <div class="modal fade" tabindex="-1" id="exists-modalAlert" style="display: none;" aria-modal="true" role="dialog">
    <div class="modal-dialog modal-lg" role="document">
        <div class="modal-content center" style="width:80vw;">
-           <a href="javascript:closeModal('exists-modalAlert')" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross"></em></a>
+           <a href="javascript:void(0)" (click)="closeModal($event,'exists-modalAlert')" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross"></em></a>
            <div class="modal-body modal-body-lg text-center" style="width:80vw;">
                <div class="nk-modal" style="width:76vw;">
                <em style="font-size:90px;" class="material-icons">search</em>
@@ -726,7 +726,7 @@
 
                </div>
                <div class="nk-modal-action mt-5">
-                   <a autofocus="1" href="javascript:closeModal('exists-modalAlert')" class="btn btn-lg btn-mw " data-bs-dismiss="modal">Return</a>
+                   <a autofocus="1" (click)="closeModal($event,'exists-modalAlert')" class="btn btn-lg btn-mw " data-bs-dismiss="modal">Return</a>
                    <a (click)="createUpdateAwaitingCustomer($event,true)" href="javascript:void(0)" class="btn btn-lg btn-mw " data-bs-dismiss="modal">Create New Record</a>
                </div>
                </div>                                

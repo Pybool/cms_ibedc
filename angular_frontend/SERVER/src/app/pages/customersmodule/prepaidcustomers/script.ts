@@ -25,7 +25,7 @@ export class Customers{
 
     public searchCustomer($event) {
         try {
-           var view_mode = 'list'//window.localStorage.getItem('cust_view_mode')
+           var view_mode = window.localStorage.getItem('cust_view_mode')
            
            if (view_mode == "list") {
              var input, filter, table, tr, tds, i, txtValue;
@@ -57,17 +57,19 @@ export class Customers{
      
            if (view_mode == "grid") {
               let input, filter, grid, div, td, i, txtValue, accountno, custname, abbr_name, divt;
-              input = document.getElementById("search_bar_input");
+              input = $event.target
               filter = input.value.toUpperCase();
-              grid = document.getElementById("customers_grid");
+              console.log(filter)
+              grid = document.getElementById("kanban-wraps");
               for (i = 0; i < grid.childElementCount; i++) {
                  div = grid.children[i]
-                 divt = div.getElementsByTagName("div")[7];
-                 accountno = div.getElementsByClassName("kanban_accno")[0]
-                 custname = div.getElementsByClassName("custname")[0]
-                 abbr_name = div.getElementsByClassName("abbr_name")[0]
+                 let spans = div.getElementsByTagName("span");
+                 custname = spans[1]
+                 accountno = spans[2]
+                 console.log(custname, accountno)
+               //   abbr_name = div.getElementsByClassName("abbr_name")[0]
                  if (accountno) {
-                    txtValue = accountno.textContent + custname.textContent + abbr_name.textContent || accountno.innerText + custname.innerText + abbr_name.innerText
+                    txtValue = spans[1].textContent + spans[2].textContent + spans[4].textContent + spans[5].textContent + spans[6].textContent
                     if (txtValue.toUpperCase().indexOf(filter) > -1) {
                        div.style.display = "";
                     } else {

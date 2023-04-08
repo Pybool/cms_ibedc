@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { take } from 'rxjs/operators';
+import { CaadService } from 'src/app/services/caad.service';
 import { CustomerService } from 'src/app/services/customer.service';
 import { CustomerCaadService } from 'src/app/services/customercaad.service';
 import { NotificationService } from 'src/app/services/notification.service';
@@ -31,9 +33,12 @@ export class CaadComponent implements OnInit {
   totalEstimate:any = '';
   caadAccountType;
   caadAccountNo;
+  createCaad = false
+  approvalList = []
   vats:any = [{name:2.5},{name:5.5},{name:7.5}]
   constructor(private sharedService:SharedService, 
     private customerCaadService:CustomerCaadService,
+    private caadService:CaadService,
     private store :Store, private customerService: CustomerService,
     private route: ActivatedRoute,private notificationService: NotificationService) {
     if(this.is_metered){
@@ -42,25 +47,41 @@ export class CaadComponent implements OnInit {
     else{
       this.lineItems = [] as IUNMeteredCaadLineItem[];
     }
+    this.caadService.getListOrCreate().pipe(take(2)).subscribe((val)=>{
+      console.log(val)
+      this.createCaad = val
+    })
    }
 
   ngOnInit(): void {
+    
     this.route.queryParams.subscribe(params => {
         this.customerService.fetchSinglecustomer(params).subscribe((response)=>{
           console.log(response)
           if (response.status){
             this.customer = response.data[0]
+            this.customerCaadService.fetchCaadHistory(params).subscribe((response)=>{
+              console.log(response)
+              if(response.status){
+                this.approvalList = response.data
+              }
+              else{
+                this.notificationService.error(response.message,'No records were found',{})
+              }
+              
+            })
           }
           else{alert(response.message)}
         })
     
     });
+
     
   }
 
   ngAfterViewInit(){
     const sel:any = document.querySelector('#accounttype-select')
-    this.caadAccountType = sel.value
+    this.caadAccountType = sel?.value
   }
 
   chooseAccounttype($event){
@@ -74,7 +95,7 @@ export class CaadComponent implements OnInit {
       this.customer={};
       return this.notificationService.error("No account number was specified",'Failure',{})
     }
-    const params = {accounttype:this.caadAccountType.toLowerCase(),accountno:this.caadAccountNo}
+    const params = {accounttype:this.caadAccountType?.toLowerCase() || 'prepaid',accountno:this.caadAccountNo}
     console.log(params)
     this.customerService.fetchSinglecustomer(params).subscribe((response)=>{
       console.log(response)

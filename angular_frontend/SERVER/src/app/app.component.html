@@ -26,7 +26,7 @@
                                             <li class="nk-menu-item"><a href="#" [routerLink]="['cms/customers/billing']" class="nk-menu-link" data-bs-original-title="" title=""><span class="nk-menu-icon"><em class="icon ni ni-mobile"></em></span><span class="nk-menu-text">Billing History</span></a></li>
                                             <li class="nk-menu-item"><a href="#" [routerLink]="['cms/customers/ecmi/payments']" class="nk-menu-link" data-bs-original-title="" title=""><span class="nk-menu-icon"><em class="icon ni ni-wifi"></em></span><span class="nk-menu-text">Payment History</span></a></li>                                            
                                             
-                                            <li class="nk-menu-item has-sub current-page">
+                                            <li *ngIf="is_admin" class="nk-menu-item has-sub current-page">
                                                 <a href="#" class="nk-menu-link nk-menu-toggle" data-bs-original-title="" title=""><span class="nk-menu-icon"><em class="icon ni ni-users"></em></span><span class="nk-menu-text">Administration</span></a>
                                                 <ul class="nk-menu-sub" style="display: none;">
                                                     <li class="nk-menu-item"><a href="#" [routerLink]="['admin/users']" class="nk-menu-link" data-bs-original-title="" title=""><span class="nk-menu-text">Manage Users</span></a></li>

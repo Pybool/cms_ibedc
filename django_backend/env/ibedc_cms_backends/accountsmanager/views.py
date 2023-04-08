@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import CustomerDrafts, CustomerEditQueue
 import datetime
+from authentication.models import User
 from audit.audithelper import *
 from django.utils import timezone
 from .account_generator import generate_account_no
@@ -10,6 +11,7 @@ from helper import DotAccessibleDict
 from rest_framework.response import Response
 from authentication.cms_authenticate import JWTAuthenticationMiddleWare
 from customer.models import EcmiCustomersNew, EmsCustomersNew
+from tasks.__task__email import send_outward_mail
 
 
 class CustomerEditQueueView(APIView):
@@ -22,6 +24,7 @@ class CustomerEditQueueView(APIView):
             mobile_exists = CustomerEditQueue.objects.filter(mobile=data['mobile']).values()
             accountno_exists = CustomerEditQueue.objects.filter(customer_id=data['accountno']).values()
             queues = {'email_exists': email_exists, 'mobile_exists': mobile_exists, 'accountno_exists': accountno_exists}
+            
             for queue_type, queue in queues.items():
                 queue_list = []
                 for item in queue:
@@ -32,7 +35,7 @@ class CustomerEditQueueView(APIView):
                 response = {'status': True, 'message': 'There are very similar record(s) with either the same Email, Phone number or Account no as this draft being submitted', 'exists': True, 'data': queues}
             else:
                 awaiting_customer = data
-                awaiting_customer.pop('customer')
+                awaiting_customer.pop('customer')   
                 awaiting_customer['name'] = awaiting_customer.get('firstname') + ' ' +  awaiting_customer.get('surname')
                 awaiting_customer['accountno'] = generate_account_no()
                 awaiting_customer['othernames'] = awaiting_customer.pop('othernames')
@@ -52,12 +55,27 @@ class CustomerEditQueueView(APIView):
                     self.audit_log = AuditLogView({"table_name":"customer_drafts",
                                                     "record":customer,"request":request,
                                                     "description":f"Awaiting customer {customer.name} was created in approval queue by modal action by {request.user.email}"
-                                                })
+                                                 })
                     self.audit_log.create_user_audit()
+                    """Audit ths action at this point"""
+                    users = User.objects.filter(region=awaiting_customer['state'],business_unit=awaiting_customer['buid'],position__icontains='BHM').values('email')
+                    print("++++++ ",users)
+                    emails = []
+                    for user in users:
+                        emails.append(user.get('email'))
+                    print(emails)
+                    mail = {"ir_template":"crmd_creation",
+                            "url":"",
+                            "subject":"Customer Record Modification Document Creation",
+                            "sender":'noreply@ibedc.com', 
+                            "recipients":emails}
+                    
+                    send_outward_mail.delay(mail)
                 response = {'status': True, 'message': 'This new record is now awaiting approval', 'data':str(customer.__dict__), 'exists': False}
 
             return Response(response)
-        except:
+        except Exception as e:
+            print(str(e))
             return Response({"status":False,"message":'Something went wrong while creating this Awaiting Customer'})
 
     def put(self,request):

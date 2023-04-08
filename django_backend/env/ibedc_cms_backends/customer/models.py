@@ -29,7 +29,7 @@ class EcmiCustomersNew(models.Model):
     oldaccountno = models.CharField(db_column='OldAccountNo', max_length=24, blank=True, null=True)  # Field name made lowercase.
     opendate = models.DateTimeField(db_column='OpenDate', blank=True, null=True)  # Field name made lowercase.
     surname = models.CharField(db_column='Surname', max_length=128, blank=True, null=True)  # Field name made lowercase.
-    firstname = models.CharField(db_column='Firstname', max_length=128, blank=True, null=True, default='')  # Field name made lowercase.
+    firstname = models.CharField(db_column='FirstName', max_length=128, blank=True, null=True, default='')  # Field name made lowercase.
     othernames = models.CharField(db_column='OtherNames', max_length=1000, blank=True, null=True)  # Field name made lowercase.
     city = models.CharField(db_column='City', max_length=50, blank=True, null=True)  # Field name made lowercase.
     address = models.CharField(db_column='Address', max_length=255, blank=True, null=True)  # Field name made lowercase.
@@ -50,7 +50,7 @@ class EcmiCustomersNew(models.Model):
     picture = models.BinaryField(db_column='Picture', blank=True, null=True)  # Field name made lowercase.
     fingerprint = models.BinaryField(db_column='FingerPrint', blank=True, null=True)  # Field name made lowercase.
     fingerprintrawdata2 = models.TextField(db_column='FingerPrintRawData2', blank=True, null=True)  # Field name made lowercase.
-    activated = models.BooleanField(blank=True, null=True)
+    activated = models.BooleanField(blank=True, null=True) 
     status = models.CharField(max_length=1, blank=True, null=True)
     status1 = models.CharField(max_length=1, blank=True, null=True)
     operatormodified = models.IntegerField(db_column='OperatorModified', blank=True, null=True)  # Field name made lowercase.

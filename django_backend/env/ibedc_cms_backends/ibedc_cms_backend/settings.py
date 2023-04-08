@@ -107,7 +107,7 @@ DATABASES = {
    
     'default':{
         'ENGINE':'mssql',
-        'NAME':'CMS_IBEDC_DATABASE',
+        'NAME':'CMS_DB',
         'USER':'odoo-server-14.0',        
         'PASSWORD':'odoo123#',
         'HOST':'Hq-srv-cmsdb1', # "localhost" is also possible

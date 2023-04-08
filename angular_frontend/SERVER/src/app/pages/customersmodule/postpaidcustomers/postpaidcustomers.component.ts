@@ -112,6 +112,10 @@ export class PostpaidcustomersComponent implements AfterViewInit {
     });
   }
 
+  toggleView($event){
+    this.customerService.toggleView()
+  }
+
   ngOnInit(): void {
     //Check if user is authenticated
     this.loadScript('https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.js');

@@ -54,7 +54,8 @@ export class UsersComponent implements OnInit {
   editUserForm(){
     import('./../edituser/edituser.component').then(({ EdituserComponent }) => {
       const componentFactory = this.componentFactoryResolver.resolveComponentFactory(EdituserComponent);
-      this.placeholder?.createComponent(componentFactory);
+      const editComponent:any = this.placeholder?.createComponent(componentFactory);
+      this.userService.cacheEditComponent(editComponent)
       document.getElementById('edit_user')?.classList.add("content-active")
     });
     

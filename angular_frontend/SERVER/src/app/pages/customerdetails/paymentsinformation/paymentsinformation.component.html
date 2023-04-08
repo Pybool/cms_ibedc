@@ -1,135 +1,220 @@
 <div style="padding-top:10px;" class="container">
-    <h4 style="width:80%;">Customer Payment History</h4>
-    <br>
-    <div id="paytable-wrapper" style="width:100%;max-height: 600px; overflow-y: auto;overflow-x:hidden">
-        <div appDynamicScript>
-            <div
-                src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.js"
-                my-custom-attr="some value"
-            >
-            </div>
+    <h2 style="width:70%;">Payment History for {{payments[0]?.CustomerName || 'Customer'}}</h2>
+    <div id = "norecord_found" style="display:none; color:orange;"></div>
+    
+    <div appDynamicScript>
+        <div
+            src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.js"
+            my-custom-attr="some value"
+        >
         </div>
-        <!-- <div id = "norecord_found" style="display:none; color:orange;"></div> -->
-        <div id="wrapper">
-            <table style="width:100%; background:#f5f6fa;overflow:auto" id="customer_payment_history" class=" is-seperate nowrap nk-tb-list collapsed shadow" data-auto-responsive="true">
-                <thead *ngIf="accounttype=='postpaid'" id="postpaid_header_alt" class="darkify thead-dark" style="background:white;position:sticky;top:0;">
-                    <tr>
-                        <th class="nk-tb-col">Pay ID</th>
-                        <th class="nk-tb-col">Trans ID</th>
-                        <th class="nk-tb-col">Receipt No</th>
-                        <th class="nk-tb-col">Account No</th>
-                        <th class="nk-tb-col">Meter No</th>
-                        <th class="nk-tb-col">Pay Date</th>
-                        <th class="nk-tb-col">Payments</th>
-                        <th class="nk-tb-col">Business Unit</th>
-                        <th class="nk-tb-col">Trans Amount</th>
-                        <th class="nk-tb-col">Status Message</th>
-                    </tr>
-                </thead>
-    
-        
-                <thead *ngIf="accounttype=='prepaid'" id="prepaid_header" style="background:white;position:sticky;top:0; ">
-                    <tr>
-                    <th class="nk-tb-col">Transaction Ref</th>
-                    <th class="nk-tb-col">Token</th>
-                    <th class="nk-tb-col">Meter No</th>
-                    <th class="nk-tb-col">Account No</th>
-                    <th class="nk-tb-col">Trans Date</th>
-                    <th class="nk-tb-col">Amount</th>
-                    <th class="nk-tb-col">Business Unit</th>
-                    <th class="nk-tb-col">Units</th>
-                    <th class="nk-tb-col">Trans Amount</th>
-                    <th class="nk-tb-col">Cost of Units</th>
-                    <th class="nk-tb-col">Status Message</th>
-                    <th class="nk-tb-col">CSPClientId</th>
-                    <th class="nk-tb-col">Day</th>
-                    <th class="nk-tb-col">FC</th>
-                    <th class="nk-tb-col">KVA</th>
-                    <th class="nk-tb-col">MMF</th>
-                    <th class="nk-tb-col">MeterNo</th>
-                    <th class="nk-tb-col">OperatorId</th>
-                    <th class="nk-tb-col">Reasons</th>
-                    <th class="nk-tb-col">TokenType</th>
-                    <th class="nk-tb-col">TotalCount</th>
-                    <th class="nk-tb-col">TransactionComplete</th>
-                    <th class="nk-tb-col">TransactionDateTime</th>
-                    <th class="nk-tb-col">TransactionNo</th>
-                    <th class="nk-tb-col">TransactionType</th>
-                    <th class="nk-tb-col">VAT</th>
-                    <th class="nk-tb-col">Year</th>
-                    <th class="nk-tb-col">EnteredBy</th>
-                    <th class="nk-tb-col">PaymentType</th>
-                    <th class="nk-tb-col">Status</th>
-                    <th class="nk-tb-col">Status1</th>
-                    <th class="nk-tb-col">TransactionResponseMessage</th>
-                    </tr>
-                </thead>
-             
-                <tbody *ngIf="accounttype=='postpaid'" style="background:#f5f6fa;">
-                    <tr style="background: white!important;height:60px;" class="nk-tb-item" class="nk-tb-item" *ngFor="let payment of payments;">
-                        <td class="nk-tb-col">{{payment.PaymentID}}</td>
-                        <td class="nk-tb-col">{{payment.PaymentTransactionId}}</td>
-                        <td class="nk-tb-col">{{payment.receiptnumber}}</td>
-                        <td class="nk-tb-col">{{payment.AccountNo}}</td>
-    
-                        <td class="nk-tb-col">{{payment.MeterNo}}</td>
-                        <td class="nk-tb-col">{{payment.PayDate}}</td>
-                        <td class="nk-tb-col">{{payment.Payments}}</td>
-                        <td class="nk-tb-col">{{payment.BusinessUnit}}</td>
-    
-                        <td class="nk-tb-col">{{payment.transamount}}</td>
-                        <td class="nk-tb-col">{{payment.transstatus}}</td>
-    
-                        
-                        
-                    </tr>
-                </tbody>
-    
-                <tbody *ngIf="accounttype=='prepaid'" style="background:#f5f6fa;">
-                    <tr style="background: white!important;height:60px;" class="nk-tb-item" *ngFor="let payment of payments;">
-                        <td class="nk-tb-col">{{payment.transref}}</td>
-                        <td class="nk-tb-col">{{payment.Token}}</td>
-                        <td class="nk-tb-col">{{payment.meterno}}</td>
-                        <td class="nk-tb-col">{{payment.AccountNo}}</td>
-    
-                        <td class="nk-tb-col">{{payment.transdate}}</td>
-                        <td class="nk-tb-col">{{payment.transamount}}</td>
-                        <td class="nk-tb-col">{{payment.BUID}}</td>
-                        <td class="nk-tb-col">{{payment.Units}}</td>
-                        <td class="nk-tb-col">{{payment.transamount}}</td> 
-                        <td class="nk-tb-col">{{payment.CostOfUnits}}</td>
-                        <td class="nk-tb-col">{{payment.transstatus}}</td>
-    
-                        <td class="nk-tb-col">{{payment.CSPClientID}}</td>
-                        <td class="nk-tb-col">{{payment.Day}}</td>
-                        <td class="nk-tb-col">{{payment.FC}}</td>
-                        <td class="nk-tb-col">{{payment.KVA}}</td>
-                        <td class="nk-tb-col">{{payment.MMF}}</td>
-                        <td class="nk-tb-col">{{payment.MeterNO}}</td>
-                        <td class="nk-tb-col">{{payment.OperatorID}}</td>
-                        <td class="nk-tb-col">{{payment.Reasons}}</td>
-                        <td class="nk-tb-col">{{payment.TokenType}}</td>
-                        <td class="nk-tb-col">{{payment.TotalCount}}</td>
-                        <td class="nk-tb-col">{{payment.TransactionComplete}}</td>
-                        <td class="nk-tb-col">{{payment.TransactionDateTime}}</td>
-                        <td class="nk-tb-col">{{payment.TransactionNo}}</td>
-                        <td class="nk-tb-col">{{payment.TransactionType}}</td>
-                        <td class="nk-tb-col">{{payment.VAT}}</td>
-                        <td class="nk-tb-col">{{payment.Year}}</td>
-                        <td class="nk-tb-col">{{payment.enteredby}}</td>
-                        <td class="nk-tb-col">{{payment.paymenttype}}</td>
-                        <td class="nk-tb-col">{{payment.status}}</td>
-                        <td class="nk-tb-col">{{payment.status1}}</td>
-                        <td class="nk-tb-col">{{payment.transactionresponsemessage}}</td>
-                        
-                    </tr>
-                </tbody>
-                
-                <h4 id="notfoundh1" style="color:#FF7518!important;; display:none; flex-direction:row; justify-content:center; align-items:center; text-align:center">
-                </h4>
-            </table>
-        </div>
-       <script type="text/javascript" src="/cms_ibedc/static/src/js/jquery.min.js"></script>
     </div>
+    <br>
+    <div _ngcontent-ltp-c55="" class="card card-bordered" style="height: 70vh;">
+        <div _ngcontent-ltp-c55="" class="card-inner-group" style="height: 70vh;">
+           <div _ngcontent-ltp-c55="" class="card-inner position-relative card-tools-toggle" style="max-height: 100%; overflow-y: auto; overflow-x: hidden;">
+              <div _ngcontent-ltp-c55="">
+                 <div _ngcontent-ltp-c55="">
+                    <div _ngcontent-ltp-c55="" class="card-inner position-relative card-tools-toggle">
+                       <div _ngcontent-ltp-c55="" class="card-title-group">
+                          <div _ngcontent-ltp-c55="" class="card-tools">
+                             <div _ngcontent-ltp-c55="" class="form-inline flex-nowrap gx-3">
+                                <div _ngcontent-ltp-c55="" class="form-wrap w-150px">
+                                   <select _ngcontent-ltp-c55="" data-search="off" data-placeholder="----" class="form-select">
+                                      <option _ngcontent-ltp-c55="" value="" data-select2-id="3" ng-reflect-value="">Activate</option>
+                                      <option _ngcontent-ltp-c55="" value="email" ng-reflect-value="email">Activate</option>
+                                      <option _ngcontent-ltp-c55="" value="suspend" ng-reflect-value="suspend">Suspend queue</option>
+                                   </select>
+                                </div>
+                                <div _ngcontent-ltp-c55="" class="btn-wrap"><span _ngcontent-ltp-c55="" class="d-none d-md-block"><button _ngcontent-ltp-c55="" class="btn btn-dim btn-outline-light">Toggle View</button></span><span _ngcontent-ltp-c55="" class="d-md-none"><button _ngcontent-ltp-c55="" class="btn btn-dim btn-outline-light btn-icon disabled"><em _ngcontent-ltp-c55="" class="icon ni ni-arrow-right"></em></button></span></div>
+                             </div>
+                          </div>
+                          <div _ngcontent-ltp-c55="" class="card-tools me-n1">
+                             <ul _ngcontent-ltp-c55="" class="btn-toolbar gx-1">
+                                <li _ngcontent-ltp-c55=""><a _ngcontent-ltp-c55="" href="#" data-target="search" class="btn btn-icon search-toggle toggle-search"><em _ngcontent-ltp-c55="" class="icon ni ni-search"></em></a></li>
+                                <li _ngcontent-ltp-c55="" class="btn-toolbar-sep"></li>
+                                <li _ngcontent-ltp-c55="">
+                                   <div _ngcontent-ltp-c55="" class="toggle-wrap">
+                                      <a _ngcontent-ltp-c55="" href="#" data-target="cardTools" class="btn btn-icon btn-trigger toggle"><em _ngcontent-ltp-c55="" class="icon ni ni-menu-right"></em></a>
+                                      <div _ngcontent-ltp-c55="" data-content="cardTools" class="toggle-content">
+                                         <ul _ngcontent-ltp-c55="" class="btn-toolbar gx-1">
+                                            <li _ngcontent-ltp-c55="" class="toggle-close"><a _ngcontent-ltp-c55="" href="#" data-target="cardTools" class="btn btn-icon btn-trigger toggle"><em _ngcontent-ltp-c55="" class="icon ni ni-arrow-left"></em></a></li>
+                                            <li _ngcontent-ltp-c55="">
+                                               <div _ngcontent-ltp-c55="" class="dropdown">
+                                                  <a _ngcontent-ltp-c55="" href="#" data-bs-toggle="dropdown" class="btn btn-trigger btn-icon dropdown-toggle">
+                                                     <div _ngcontent-ltp-c55="" class="dot dot-primary"></div>
+                                                     <em _ngcontent-ltp-c55="" class="icon ni ni-filter-alt"></em>
+                                                  </a>
+                                               </div>
+                                            </li>
+                                            <li _ngcontent-ltp-c55="">
+                                               <div _ngcontent-ltp-c55="" class="dropdown">
+                                                  <a _ngcontent-ltp-c55="" href="#" data-bs-toggle="dropdown" class="btn btn-trigger btn-icon dropdown-toggle"><em _ngcontent-ltp-c55="" class="icon ni ni-setting"></em></a>
+                                                  <div _ngcontent-ltp-c55="" class="dropdown-menu dropdown-menu-xs dropdown-menu-end">
+                                                     <ul _ngcontent-ltp-c55="" class="link-check">
+                                                        <li _ngcontent-ltp-c55=""><span _ngcontent-ltp-c55="">Show</span></li>
+                                                        <li _ngcontent-ltp-c55="" class="active"><a _ngcontent-ltp-c55="" href="#">10</a></li>
+                                                        <li _ngcontent-ltp-c55=""><a _ngcontent-ltp-c55="" href="#">20</a></li>
+                                                        <li _ngcontent-ltp-c55=""><a _ngcontent-ltp-c55="" href="#">50</a></li>
+                                                     </ul>
+                                                     <ul _ngcontent-ltp-c55="" class="link-check">
+                                                        <li _ngcontent-ltp-c55=""><span _ngcontent-ltp-c55="">Order</span></li>
+                                                        <li _ngcontent-ltp-c55="" class="active"><a _ngcontent-ltp-c55="" href="#">DESC</a></li>
+                                                        <li _ngcontent-ltp-c55=""><a _ngcontent-ltp-c55="" href="#">ASC</a></li>
+                                                     </ul>
+                                                  </div>
+                                               </div>
+                                            </li>
+                                         </ul>
+                                      </div>
+                                   </div>
+                                </li>
+                             </ul>
+                          </div>
+                       </div>
+                       <div _ngcontent-ltp-c55="" data-search="search" class="card-search search-wrap">
+                          <div _ngcontent-ltp-c55="" class="card-body">
+                             <div _ngcontent-ltp-c55="" class="search-content"><a _ngcontent-ltp-c55="" href="#" data-target="search" class="search-back btn btn-icon toggle-search"><em _ngcontent-ltp-c55="" class="icon ni ni-arrow-left"></em></a><input _ngcontent-ltp-c55="" type="text" placeholder="Search by queue or email" class="form-control border-transparent form-focus-none"><button _ngcontent-ltp-c55="" class="search-submit btn btn-icon"><em _ngcontent-ltp-c55="" class="icon ni ni-search"></em></button></div>
+                          </div>
+                       </div>
+                    </div>
+                    <div id="wrapper">
+                        <table style="width:100%; background:#f5f6fa;overflow:auto" id="customer_payment_history"  class="nowrap nk-tb-list is-separate shadow no-footer dtr-inline responsive collapsed" data-searching="false" data-auto-responsive="true">
+                            <thead *ngIf="accounttype=='postpaid'" id="postpaid_header_alt" class="darkify thead-dark" style="background:white;position:sticky;top:0;">
+                                <tr>
+                                    <th class="nk-tb-col">Pay ID</th>
+                                    <th class="nk-tb-col">Trans ID</th>
+                                    <th class="nk-tb-col">Receipt No</th>
+                                    <th class="nk-tb-col">Account No</th>
+                                    <th class="nk-tb-col">Meter No</th>
+                                    <th class="nk-tb-col">Pay Date</th>
+                                    <th class="nk-tb-col">Payments</th>
+                                    <th class="nk-tb-col">Business Unit</th>
+                                    <th class="nk-tb-col">Trans Amount</th>
+                                    <th class="nk-tb-col">Status Message</th>
+                                </tr>
+                            </thead>
+                
+                    
+                            <thead *ngIf="accounttype=='prepaid'" id="prepaid_header" style="background:white;position:sticky;top:0; ">
+                                <tr>
+                                <th class="nk-tb-col">Transaction Ref</th>
+                                <th class="nk-tb-col">Token</th>
+                                <th class="nk-tb-col">Meter No</th>
+                                <th class="nk-tb-col">Account No</th>
+                                <th class="nk-tb-col">Trans Date</th>
+                                <th class="nk-tb-col">Amount</th>
+                                <th class="nk-tb-col">Business Unit</th>
+                                <th class="nk-tb-col">Units</th>
+                                <th class="nk-tb-col">Trans Amount</th>
+                                <th class="nk-tb-col">Cost of Units</th>
+                                <th class="nk-tb-col">Status Message</th>
+                                <th class="nk-tb-col">CSPClientId</th>
+                                <th class="nk-tb-col">Day</th>
+                                <th class="nk-tb-col">FC</th>
+                                <th class="nk-tb-col">KVA</th>
+                                <th class="nk-tb-col">MMF</th>
+                                <th class="nk-tb-col">MeterNo</th>
+                                <th class="nk-tb-col">OperatorId</th>
+                                <th class="nk-tb-col">Reasons</th>
+                                <th class="nk-tb-col">TokenType</th>
+                                <th class="nk-tb-col">TotalCount</th>
+                                <th class="nk-tb-col">TransactionComplete</th>
+                                <th class="nk-tb-col">TransactionDateTime</th>
+                                <th class="nk-tb-col">TransactionNo</th>
+                                <th class="nk-tb-col">TransactionType</th>
+                                <th class="nk-tb-col">VAT</th>
+                                <th class="nk-tb-col">Year</th>
+                                <th class="nk-tb-col">EnteredBy</th>
+                                <th class="nk-tb-col">PaymentType</th>
+                                <th class="nk-tb-col">Status</th>
+                                <th class="nk-tb-col">Status1</th>
+                                <th class="nk-tb-col">TransactionResponseMessage</th>
+                                </tr>
+                            </thead>
+                         
+                            <tbody *ngIf="accounttype=='postpaid'" style="background:#f5f6fa;">
+                                <tr style="background: white!important;height:60px;" class="nk-tb-item" class="nk-tb-item" *ngFor="let payment of payments;">
+                                    <td class="nk-tb-col">{{payment.PaymentID}}</td>
+                                    <td class="nk-tb-col">{{payment.PaymentTransactionId}}</td>
+                                    <td class="nk-tb-col">{{payment.receiptnumber}}</td>
+                                    <td class="nk-tb-col">{{payment.AccountNo}}</td>
+                
+                                    <td class="nk-tb-col">{{payment.MeterNo}}</td>
+                                    <td class="nk-tb-col">{{payment.PayDate}}</td>
+                                    <td class="nk-tb-col">{{payment.Payments}}</td>
+                                    <td class="nk-tb-col">{{payment.BusinessUnit}}</td>
+                
+                                    <td class="nk-tb-col">{{payment.transamount}}</td>
+                                    <td class="nk-tb-col">{{payment.transstatus}}</td>
+                
+                                    
+                                    
+                                </tr>
+                            </tbody>
+                
+                            <tbody *ngIf="accounttype=='prepaid'" style="background:#f5f6fa;">
+                                <tr style="background: white!important;height:60px;" class="nk-tb-item" *ngFor="let payment of payments;">
+                                    <td class="nk-tb-col">{{payment.transref}}</td>
+                                    <td class="nk-tb-col">{{payment.Token}}</td>
+                                    <td class="nk-tb-col">{{payment.meterno}}</td>
+                                    <td class="nk-tb-col">{{payment.AccountNo}}</td>
+                
+                                    <td class="nk-tb-col">{{payment.transdate}}</td>
+                                    <td class="nk-tb-col">{{payment.transamount}}</td>
+                                    <td class="nk-tb-col">{{payment.BUID}}</td>
+                                    <td class="nk-tb-col">{{payment.Units}}</td>
+                                    <td class="nk-tb-col">{{payment.transamount}}</td> 
+                                    <td class="nk-tb-col">{{payment.CostOfUnits}}</td>
+                                    <td class="nk-tb-col">{{payment.transstatus}}</td>
+                
+                                    <td class="nk-tb-col">{{payment.CSPClientID}}</td>
+                                    <td class="nk-tb-col">{{payment.Day}}</td>
+                                    <td class="nk-tb-col">{{payment.FC}}</td>
+                                    <td class="nk-tb-col">{{payment.KVA}}</td>
+                                    <td class="nk-tb-col">{{payment.MMF}}</td>
+                                    <td class="nk-tb-col">{{payment.MeterNO}}</td>
+                                    <td class="nk-tb-col">{{payment.OperatorID}}</td>
+                                    <td class="nk-tb-col">{{payment.Reasons}}</td>
+                                    <td class="nk-tb-col">{{payment.TokenType}}</td>
+                                    <td class="nk-tb-col">{{payment.TotalCount}}</td>
+                                    <td class="nk-tb-col">{{payment.TransactionComplete}}</td>
+                                    <td class="nk-tb-col">{{payment.TransactionDateTime}}</td>
+                                    <td class="nk-tb-col">{{payment.TransactionNo}}</td>
+                                    <td class="nk-tb-col">{{payment.TransactionType}}</td>
+                                    <td class="nk-tb-col">{{payment.VAT}}</td>
+                                    <td class="nk-tb-col">{{payment.Year}}</td>
+                                    <td class="nk-tb-col">{{payment.enteredby}}</td>
+                                    <td class="nk-tb-col">{{payment.paymenttype}}</td>
+                                    <td class="nk-tb-col">{{payment.status}}</td>
+                                    <td class="nk-tb-col">{{payment.status1}}</td>
+                                    <td class="nk-tb-col">{{payment.transactionresponsemessage}}</td>
+                                    
+                                </tr>
+                            </tbody>
+                            
+                            <h4 id="notfoundh1" style="color:#FF7518!important;; display:none; flex-direction:row; justify-content:center; align-items:center; text-align:center">
+                            </h4>
+                        </table>
+                    </div>
+            
+                 </div>
+              </div>
+           </div>
+        </div>
+        <div _ngcontent-ltp-c55="" class="card-inner">
+            <ul _ngcontent-ltp-c55="" class="pagination justify-content-center justify-content-md-start">
+               <li _ngcontent-ltp-c55="" class="page-item"><a _ngcontent-ltp-c55="" href="#" class="page-link">Prev</a></li>
+               <li _ngcontent-ltp-c55="" class="page-item"><a _ngcontent-ltp-c55="" href="#" class="page-link">1</a></li>
+               <li _ngcontent-ltp-c55="" class="page-item"><a _ngcontent-ltp-c55="" href="#" class="page-link">2</a></li>
+               <li _ngcontent-ltp-c55="" class="page-item"><span _ngcontent-ltp-c55="" class="page-link"><em _ngcontent-ltp-c55="" class="icon ni ni-more-h"></em></span></li>
+               <li _ngcontent-ltp-c55="" class="page-item"><a _ngcontent-ltp-c55="" href="#" class="page-link">6</a></li>
+               <li _ngcontent-ltp-c55="" class="page-item"><a _ngcontent-ltp-c55="" href="#" class="page-link">7</a></li>
+               <li _ngcontent-ltp-c55="" class="page-item"><a _ngcontent-ltp-c55="" href="#" class="page-link">Next</a></li>
+            </ul>
+         </div>
+     </div>
+     
     
-</div> 
+</div>
+        

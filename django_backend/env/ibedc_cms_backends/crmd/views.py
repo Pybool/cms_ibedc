@@ -62,14 +62,14 @@ class CustomerFormMetaDataView(APIView):
         user = get_object_or_404(User, email=request.user.email)
         field_name = get_field_name(permission_hierarchy)
         location = permission_hierarchy.replace('-', '_')        
-        # print("Location ====> ", field_name, getattr(user, location))
+        # print("Locationxxx ====> ", field_name, getattr(user, location))
         
-        if field_name == 'state':
-            locations = PermissionsHierarchyView.get(PermissionsHierarchyView,request,{'as_method':True,'hierarchy':'business_unit','q':location})
+        if field_name == 'state' or field_name == 'region':
+            locations = PermissionsHierarchyView.get(PermissionsHierarchyView,request,{'as_method':True,'hierarchy':'business_unit','q':getattr(user, location)})
             locations['type'] = 'business_units'
                     
-        elif field_name == 'business_unit':
-            locations = PermissionsHierarchyView.get(PermissionsHierarchyView,request,{'as_method':True,'hierarchy':'servicecenter','q':location})
+        elif field_name == 'business_unit' or field_name == 'buid':
+            locations = PermissionsHierarchyView.get(PermissionsHierarchyView,request,{'as_method':True,'hierarchy':'servicecenter','q':getattr(user, location)})
             locations['type'] = 'service_centers'
             
         else:
@@ -89,7 +89,9 @@ class AwaitingCustomersView(APIView):
             status = request.GET.get('status','pending')
             field_name, location = get_permission_hierarchy(request)
             position_code = get_user_position_code(request.user.position)
+            print(field_name,location)
             queries = {'region':CustomerEditQueue.objects.filter(**{f"{field_name}__icontains": location}),
+                       'state':CustomerEditQueue.objects.filter(**{f"{field_name}__icontains": location}),
                         'buid':CustomerEditQueue.objects.filter(state=request.user.region).filter(**{f"{field_name}__icontains": location}),
                         'servicecenter':CustomerEditQueue.objects.filter(state=request.user.region).filter(buid=request.user.business_unit).filter(**{f"{field_name}__icontains": location})}
             if position_code == 'BHM':

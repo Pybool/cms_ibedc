@@ -34,6 +34,7 @@ export class AppComponent {
   usersName = ''
   abbreviateName = abbreviateName
   getState;
+  is_admin:boolean = false
   userState;
   auth_user:User;
   can_approve:boolean;
@@ -89,6 +90,7 @@ export class AppComponent {
         this.can_approve_caad = user.can_approve_caad
         this.usersMail = user.email
         this.usersName = user.name
+        this.is_admin = user.is_admin
         this.is_authenticated = true
         // this.router.navigateByUrl("/dashboard")
       }
@@ -217,7 +219,6 @@ export class AppComponent {
     else{alert("Component is not loaded yet.")}
   }
 
-  
   paymentSearchBarFilter($event){
     var searchBar:HTMLInputElement = document.querySelector('#payment-history-search-bar')
     if(searchBar){
@@ -273,7 +274,6 @@ export class AppComponent {
     else{alert("Component is not loaded yet.")}
   }
 
-  
   logout(){
     
     this.authService.logout()

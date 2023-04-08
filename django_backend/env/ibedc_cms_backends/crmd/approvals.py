@@ -4,6 +4,7 @@ from accountsmanager.models import CustomerEditQueue
 from customer.models import EcmiCustomersNew, EmsCustomersNew
 from authentication.models import User
 from tasks.__task__email import *
+from django.db.models import Q
 url = ''
 values = ['bhm_aproved','auditor_approved','name', 'accountno', 'firstname', 'surname', 'othernames', 'email', 'mobile', 'region', 'buid', 'city', 'state', 'dss_id', 'dss_name', 'dss_owner', 'statuscode', 'title', 'gender', 'building_description', 'lga', 'premise_type', 'region', 'customer_type', 'accounttype', 'business_type', 'landlord_name', 'landlord_phone', 'injection_sub_station', 'meter_oem', 'cin', 'feeder_name', 'service_band', 'upriser_id', 'feederid', 'feeder_type', 'ltpoleid', 'servicecenter', 'cms_created', 'customer_created_by']
 
@@ -11,6 +12,7 @@ class Approvals(object):
     
     def __init__(self,args) -> None:
         args = DotAccessibleDict(args)
+        print("args", args)
         self.field_name = args.field_name
         self.location = args.location
         self.user_position_code = args.position_code
@@ -49,11 +51,12 @@ class Approvals(object):
             
             if self.user_position_code== 'BHM':
                 clone['bhm_aproved'] = True 
-                clone['bhm_approver']
+                # clone['bhm_approver'] 
                 awaiting_customer.update(**clone)
                  
                 """Audit ths action at this point"""
-                users = User.objects.filter(region=o_awaiting_customer.values().first().get('region'),position__icontains='ADT').values('email')
+                users = User.objects.filter(Q(region=o_awaiting_customer.values().first().get('region')) | Q(business_unit=o_awaiting_customer.values().first().get('buid')),position__icontains='ADT').values('email')
+
                 emails = []
                 for user in users:
                     emails.append(user.get('email'))
@@ -68,6 +71,7 @@ class Approvals(object):
                 response = {"status":True,"message":"Action completed succesfully"}  
             
             elif self.user_position_code== 'ADT':
+                print("########################")
                 with transaction.atomic():
                     clone['auditor_approved'] = True
                     clone['cms_created'] = True
@@ -90,6 +94,7 @@ class Approvals(object):
                     response = {"status":True,"message":"Action completed succesfully"}  
             
                     vals = self.sanitize_fields(awaiting_customer,values,accountno)
+                    print("checks--> ",data['action'] == 'approve' , vals.get('bhm_aproved')==True , vals.get('auditor_approved')==True)
                     if data['action'] == 'approve' and vals.get('bhm_aproved') and vals.get('auditor_approved'):
                         vals = self.clean_fields(vals)
                         awaiting_customer_data = vals                
@@ -98,7 +103,7 @@ class Approvals(object):
                             return Response({'status':False, 'message':'Invalid account type in parameters'})
                         
                         """Ensure customer with given account no does not exist in either Ems or Ecmi customer tables"""
-                        
+                        print(vals['accountno'])
                         if not EcmiCustomersNew.objects.filter(accountno=vals['accountno']).exists() and not EmsCustomersNew.objects.filter(accountno=vals['accountno']).exists():
                             EcmiCustomersNew.objects.create(**awaiting_customer_data) if awaiting_customer_data.get('accounttype') == 'Prepaid' else EmsCustomersNew.objects.create(**awaiting_customer_data)
                             created_customer = EcmiCustomersNew.objects.filter(accountno=vals['accountno']).values('accountno')

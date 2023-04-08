@@ -22,11 +22,14 @@ import { DataTableDirective } from 'angular-datatables';
 import { SpinnerService } from 'src/app/services/spinner.service';
 import { ConvertTableService } from 'src/app/services/convert-table.service';
 import { NotificationService } from 'src/app/services/notification.service';
+import { table } from 'console';
+
 var self;
 interface CustomWindow extends Window {
   waitForElm:(arg1) => any;
   DataTable: (searchTerm: string,{}) => void;
   initiateCaad:(payload)=>any;
+  openCustomerUpdateForm:(payload)=>any;
 }
 
 declare let window: CustomWindow;
@@ -82,6 +85,7 @@ export class CustomersComponent implements AfterViewInit {
   ems_total_customers$
   intervalId
   isCallable:boolean = true
+  kanban = false
   // dtOptions: DataTables.Settings = {};
   @ViewChild('editcustomerplaceholder', { read: ViewContainerRef }) placeholder: ViewContainerRef;
   @ViewChild('createcustomerplaceholder', { read: ViewContainerRef }) createplaceholder: ViewContainerRef;
@@ -119,6 +123,10 @@ export class CustomersComponent implements AfterViewInit {
         
     //   });
     // });
+  }
+
+  toggleView($event){
+    this.customerService.toggleView()
   }
 
   ngOnInit(): void {
@@ -196,13 +204,13 @@ export class CustomersComponent implements AfterViewInit {
     })
   }
 
-  openCustomerUpdateForm($event){
-    console.log($event.target)
-    this.currentAccountno = $event.target.closest('a').id
-    console.log("Account no ===> ", this.currentAccountno)
-    this.openCustomerCreateForm()//Bug
-    this.sharedService.setFormHeader(['edit','Update Existing Customer',this.activePage,this.currentAccountno])
-    this.mode = 'edit'
+  openCustomerUpdateForm(accountno){
+    console.log(accountno)
+    self.currentAccountno = accountno // $event.target.closest('a').id
+    console.log("Account no ===> ", self.currentAccountno)
+    self.openCustomerCreateForm()//Bug
+    self.sharedService.setFormHeader(['edit','Update Existing Customer',self.activePage,self.currentAccountno])
+    self.mode = 'edit'
   }
 
   getRandomColor() {
@@ -218,11 +226,14 @@ export class CustomersComponent implements AfterViewInit {
     this.spinnerService.showSpinner(parentElement);
     this.sharedService.setSpinnerText('Fetching data from source...')
     this.convertTableService.convertTable({id:'customer_table'}).then((status)=>{
+      console.log("----**** status", status)
       if(status){
         this.isCallable = false
+        console.log("Not Callable")
       }
     })
     window.initiateCaad = this.initiateCaad
+    window.openCustomerUpdateForm = this.openCustomerUpdateForm
    self = this //make this class instance available to the window object by storing in variable
     
   }

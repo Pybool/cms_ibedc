@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { UserModifyModel } from '../pages/user/createuser/models/user';
 
@@ -11,7 +11,27 @@ import { UserModifyModel } from '../pages/user/createuser/models/user';
 export class UserService {
   singleUser:Observable<any>;
   user_id;
+  editComponent;
+  editComponent$:any = new BehaviorSubject<any>([]);
   constructor(private http: HttpClient,private router: Router) { }
+
+  
+
+
+  public cacheEditComponent(editComponent){
+    this.editComponent = editComponent
+    this.editComponent$.next(this.editComponent);
+  }
+
+  public getCacheEditComponent(){
+    return this.editComponent$.asObservable()
+  }
+
+  public destoryEditComponent(){
+    this.editComponent.destroy()
+    console.log("Edit component destroyed")
+  }
+
 
   getItemById(array, id) {
     return array.find(item => item.id === id);

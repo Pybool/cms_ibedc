@@ -14,7 +14,7 @@
                      <!-- <ng-container #elseblockid0><input id='create-perm' type='text' hidden='1' value='False'/></ng-container> -->
                      <ul class="tagList" id="search-tag-list">
                        <li class="option-item "><a style="color:gray;" href="javascript:void(0)" id="cust-page-link1" [routerLink]="['/customers/prepaid']">Prepaid: {{ecmi_total_customers | number:'1.0'}}</a></li>
-                       <li class="option-item "><a style="color:gray;" href="javascript:void(0)" id="cust-page-link2" [routerLink]="['/customers/postpaid']">Postpaid {{ems_total_customers | number:'1.0'}}</a></li>
+                       <li class="option-item "><a style="color:gray;" href="javascript:void(0)" id="cust-page-link2" [routerLink]="['/customers/postpaid']">Postpaid</a></li>
                        </ul>
                      <!-- <p ><a id="cust-page-count"></a> <a href="javascript:void()" id="cust-page-link1" onclick="customerPageLinkHeader(this)"></a> <a href="javascript:void()" id="cust-page-link2" onclick="customerPageLinkHeader(this)"></a></p> -->
                   </ng-container>
@@ -225,7 +225,7 @@
                   <div class="card-tools">
                      <div class="form-inline flex-nowrap">
                         <div class="form-wrap w-150px">
-                           <select style="width:150px;" class="form-select" data-search="off" data-placeholder="Oyo" >
+                           <select disabled style="width:150px;" class="form-select" data-search="off" data-placeholder="Oyo" >
                               <option value="" data-select2-id="3">Oyo</option>
                               <option value="email">Osun</option>
                               <option value="group">Ogun</option>
@@ -233,7 +233,7 @@
                               <!-- <option value="delete">Delete User</option> -->
                            </select>
                         </div>&nbsp;
-                        <div class="btn-wrap"><span class="d-none d-md-block"><button  class="btn btn-dim btn-outline-light">Toggle View</button></span><span class="d-md-none"><button class="btn btn-dim btn-outline-light btn-icon disabled"><em class="icon ni ni-arrow-right"></em></button></span></div>
+                        <div class="btn-wrap"><span class="d-none d-md-block"><button (click)="toggleView($event)" class="btn btn-dim btn-outline-light">Toggle View</button></span><span class="d-md-none"><button class="btn btn-dim btn-outline-light btn-icon disabled"><em class="icon ni ni-arrow-right"></em></button></span></div>
                      </div>
                   </div>
                   <div id="search-status" class="card-tools me-n1">
@@ -287,109 +287,198 @@
                               
                               </div> -->
                         </div>
-                        <div id="table-wrapper" style="width:auto;max-height: 60vh; overflow-y: auto;overflow-x:hidden; background:transparent!important;">
+                        <div  id="table-wrapper" style="width:auto;max-height: 60vh; overflow-y: auto;overflow-x:hidden; background:transparent!important;">
                            
-                           <table role="grid" style="width:100%;background:#f5f6fa;overflow: auto;opacity: 0;" id="customer_table" class="nowrap nk-tb-list is-separate shadow no-footer dtr-inline responsive collapsed" data-searching="false" data-auto-responsive="true">
-                              <thead style="position:sticky;top:0;" class="table-style-light">
-                                 <tr>
-                                    <th></th>
-                                    <ng-container *ngFor="let transient of transients;">
-                                       <ng-container *ngIf="defaults.includes(transient);else block1">
-                                          <th class="nk-tb-col">{{transient}}</th>
-                                       </ng-container>
-                                       <ng-template #block1>
-                                          <th class="nk-tb-col" hidden>{{transient}}</th>
-                                       </ng-template>
-                                    </ng-container>
-                                    <th>KYC</th>
-                                    <th *ngIf="can_create_customers">Actions</th>
-                                 </tr>
-                              </thead>
-                              <tbody style="background: whitesmoke;" *ngIf="customersType=='prepaid'">
-                               
-                                <!-- [ngStyle]="{'background': 'linear-gradient(to bottom, #' + Math.floor(Math.random() * 16777215).toString(16) + ', #' + Math.floor(Math.random() * 16777215).toString(16) + ')'}" -->
-                                 <tr *ngFor="let customer of customers$ | async ; trackBy: trackByFn" [id]="customer.accountno"  class="nk-tb-item">
-                                    <td class="nk-tb-col nk-tb-col-check">
-                                       <div style="z-index:0;" class="custom-control custom-control-sm custom-checkbox notext ">
-                                          <input onchange="highlightRow(this,event)" style="z-index:0;padding-top:25px!important;" type="checkbox" class="customer-table-check custom-control-input shadow" id ="customer.accountno.trim()"/>
-                                          <label class="custom-control-label" for="{customer.accountno.trim()}"></label>
-                                          <div [ngStyle]="{'background': 'linear-gradient(to bottom, #' + getRandomColor() + ', #' + getRandomColor() + ')'}" class="user-avatar sm">
-                                             <p class="abbr" *ngIf="customer.surname +' ' + customer.firstname+' ' + customer.othernames != 'null null null'" style="color:white!important;" >{{abbreviateName(customer?.surname +' ' +' ' + customer?.othernames)}}</p>
-                                          </div>
-                                       </div>
-                                    </td>
-                                    <ng-container *ngFor="let transient of transients;">
-                                       <ng-container *ngIf="defaults.includes(transient);else block1">
-                                          <ng-container *ngIf="transient == 'Firstname' || transient == 'Surname' || transient == 'Othernames';else block2">
-                                             <td *ngIf="customer[''+field_names[''+transient]] != '' && customer[''+field_names[''+transient]] != null && customer[''+field_names[''+transient]] != undefined;else block3" class="nk-tb-col name-col"><b>{{customer[''+field_names[''+transient]]}}</b></td>
-                                             <ng-template #block3>
-                                                <td #block3></td>
-                                             </ng-template>
+                           <div id="table-wraps">
+                              <table  role="grid" style="width:100%;background:#f5f6fa;overflow: auto;opacity: 0;" id="customer_table" class="nowrap nk-tb-list is-separate shadow no-footer dtr-inline responsive collapsed" data-searching="false" data-auto-responsive="true">
+                                 <thead style="position:sticky;top:0;" class="table-style-light">
+                                    <tr>
+                                       <th></th>
+                                       <ng-container *ngFor="let transient of transients;">
+                                          <ng-container *ngIf="defaults.includes(transient);else block1">
+                                             <th class="nk-tb-col">{{transient}}</th>
                                           </ng-container>
-                                          <ng-template #block2>
-                                             <td *ngIf="transient == 'Account No';else block4" class="nk-tb-col pointer  route-link underline"> <a href="javascript:void(0)" (click)="loadCustomerInformation($event,customer.accountno,customer.meterno,customer.accounttype)"  class="route-link">{{customer[''+field_names[''+transient]]}}</a>
-                                             </td>
-                                             <ng-template #block4>
-                                                <ng-container *ngIf="customer[''+field_names[''+transient]] != '' && customer[''+field_names[''+transient]] != null && customer[''+field_names[''+transient]] != undefined;else block5">
-                                                   <ng-container *ngIf="customer[''+field_names[''+transient]].trim() !='';else block6">
-                                                      <td class="nk-tb-col name-col"><b>{{customer[''+field_names[''+transient]]}}</b></td>
+                                          <ng-template #block1>
+                                             <th class="nk-tb-col" hidden>{{transient}}</th>
+                                          </ng-template>
+                                       </ng-container>
+                                       <th>KYC</th>
+                                       <th *ngIf="can_create_customers">Actions</th>
+                                    </tr>
+                                 </thead>
+                                 <tbody style="background: whitesmoke;" *ngIf="customersType=='prepaid'">
+                                  
+                                   <!-- [ngStyle]="{'background': 'linear-gradient(to bottom, #' + Math.floor(Math.random() * 16777215).toString(16) + ', #' + Math.floor(Math.random() * 16777215).toString(16) + ')'}" -->
+                                    <tr *ngFor="let customer of customers$ | async ; trackBy: trackByFn" [id]="customer.accountno"  class="nk-tb-item">
+                                       <td class="nk-tb-col nk-tb-col-check">
+                                          <div style="z-index:0;" class="custom-control custom-control-sm custom-checkbox notext ">
+                                             <input onchange="highlightRow(this,event)" style="z-index:0;padding-top:25px!important;" type="checkbox" class="customer-table-check custom-control-input shadow" id ="customer.accountno.trim()"/>
+                                             <label class="custom-control-label" for="{customer.accountno.trim()}"></label>
+                                             <div [ngStyle]="{'background': 'linear-gradient(to bottom, #' + getRandomColor() + ', #' + getRandomColor() + ')'}" class="user-avatar sm">
+                                                <p class="abbr" *ngIf="customer.surname +' ' + customer.firstname+' ' + customer.othernames != 'null null null'" style="color:white!important;" >{{abbreviateName(customer?.surname +' ' +' ' + customer?.othernames)}}</p>
+                                             </div>
+                                          </div>
+                                       </td>
+                                       <ng-container *ngFor="let transient of transients;">
+                                          <ng-container *ngIf="defaults.includes(transient);else block1">
+                                             <ng-container *ngIf="transient == 'Firstname' || transient == 'Surname' || transient == 'Othernames';else block2">
+                                                <td *ngIf="customer[''+field_names[''+transient]] != '' && customer[''+field_names[''+transient]] != null && customer[''+field_names[''+transient]] != undefined;else block3" class="nk-tb-col name-col"><b>{{customer[''+field_names[''+transient]]}}</b></td>
+                                                <ng-template #block3>
+                                                   <td #block3></td>
+                                                </ng-template>
+                                             </ng-container>
+                                             <ng-template #block2>
+                                                <td *ngIf="transient == 'Account No';else block4" class="nk-tb-col pointer  route-link underline"> <a href="javascript:void(0)" (click)="loadCustomerInformation($event,customer.accountno,customer.meterno,customer.accounttype)"  class="route-link">{{customer[''+field_names[''+transient]]}}</a>
+                                                </td>
+                                                <ng-template #block4>
+                                                   <ng-container *ngIf="customer[''+field_names[''+transient]] != '' && customer[''+field_names[''+transient]] != null && customer[''+field_names[''+transient]] != undefined;else block5">
+                                                      <ng-container *ngIf="customer[''+field_names[''+transient]].trim() !='';else block6">
+                                                         <td class="nk-tb-col name-col"><b>{{customer[''+field_names[''+transient]]}}</b></td>
+                                                      </ng-container>
+                                                      <ng-template #block6>
+                                                         <td class="nk-tb-col name-col"><b>N/A</b></td>
+                                                      </ng-template>
                                                    </ng-container>
-                                                   <ng-template #block6>
-                                                      <td class="nk-tb-col name-col"><b>N/A</b></td>
+                                                   <ng-template #block5>
+                                                      <td></td>
                                                    </ng-template>
-                                                </ng-container>
-                                                <ng-template #block5>
-                                                   <td></td>
                                                 </ng-template>
                                              </ng-template>
+                                          </ng-container>
+                                          <ng-template #block1>
+                                             <ng-container *ngIf="customer[''+field_names[''+transient]] != '' && customer[''+field_names[''+transient]] != null && customer[''+field_names[''+transient]] != undefined;else block7">
+                                                <td hidden class="nk-tb-col name-col"><b>{{customer[''+field_names[''+transient]]}}</b></td>
+                                             </ng-container>
+                                             <ng-template #block7>
+                                                <td class="nk-tb-col" hidden>&#x2022;&#x2022;&#x2022;</td>
+                                             </ng-template>
                                           </ng-template>
                                        </ng-container>
-                                       <ng-template #block1>
-                                          <ng-container *ngIf="customer[''+field_names[''+transient]] != '' && customer[''+field_names[''+transient]] != null && customer[''+field_names[''+transient]] != undefined;else block7">
-                                             <td hidden class="nk-tb-col name-col"><b>{{customer[''+field_names[''+transient]]}}</b></td>
-                                          </ng-container>
-                                          <ng-template #block7>
-                                             <td class="nk-tb-col" hidden>&#x2022;&#x2022;&#x2022;</td>
-                                          </ng-template>
+                                       <td class="nk-tb-col" *ngIf="customer['kyc']; else block8"><i style="color:#FF7518!important;" class="material-icons">verified</i></td>
+                                       <ng-template #block8>
+                                          <td class="nk-tb-col"><i style="color:#FF7518!important;" class="material-icons">block</i></td>
                                        </ng-template>
-                                    </ng-container>
-                                    <td class="nk-tb-col" *ngIf="customer['kyc']; else block8"><i style="color:#FF7518!important;" class="material-icons">verified</i></td>
-                                    <ng-template #block8>
-                                       <td class="nk-tb-col"><i style="color:#FF7518!important;" class="material-icons">block</i></td>
-                                    </ng-template>
-                                    <td [id]="customer.accountno.trim()" *ngIf="can_create_customers" class="nk-tb-col">
-                                       <div class="nk-tb-col nk-tb-col-tools">
-                                          <ul class="nk-tb-actions gx-2">
-                                              <li>
-                                                  <div class="dropdown">
-                                                      <a href="#" class="btn btn-sm btn-icon btn-trigger dropdown-toggle" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                                      <div class="dropdown-menu dropdown-menu-end">
-                                                          <ul class="link-list-opt no-bdr">
-                                                              <li><a [id]="customer.accountno.trim()" (click)="openCustomerUpdateForm($event)"><em (click)="openCustomerUpdateForm($event)" class="icon ni ni-edit pointer"></em><span (click)="openCustomerUpdateForm($event)">Edit</span></a>                                                              </li>
-                                                              <li class="divider"></li>
-                                                              <li><a [id]="customer.accountno.trim()" href="javascript:void(0)" onclick="window.initiateCaad(this.id)"><em class="icon ni ni-shield-off"></em><span>Initiate CAAD</span></a></li>
-                                                          </ul>
-                                                      </div>
-                                                  </div>
-                                              </li>
-                                          </ul>
-                                      </div>
-                                    </td> 
-                                 </tr>
-                              </tbody>
-                             
-                           </table>
-                           <!-- <app-customercreation></app-customercreation>
-                           <app-customerupdate></app-customerupdate> -->
-                           <!-- Approval Board -->
+                                       <td [id]="customer.accountno.trim()" *ngIf="can_create_customers" class="nk-tb-col">
+                                          <div class="nk-tb-col nk-tb-col-tools">
+                                             <ul class="nk-tb-actions gx-2">
+                                                 <li>
+                                                     <div class="dropdown">
+                                                         <a href="#" class="btn btn-sm btn-icon btn-trigger dropdown-toggle" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                                         <div class="dropdown-menu dropdown-menu-end">
+                                                             <ul class="link-list-opt no-bdr">
+                                                                 <li><a [id]="customer.accountno.trim()" onclick="window.openCustomerUpdateForm(this.id)" (click)="openCustomerUpdateForm($event)"><em (click)="openCustomerUpdateForm($event)" class="icon ni ni-edit pointer"></em><span (click)="openCustomerUpdateForm($event)">Edit</span></a>                                                              </li>
+                                                                 <li class="divider"></li>
+                                                                 <li><a [id]="customer.accountno.trim()" href="javascript:void(0)" onclick="window.initiateCaad(this.id)"><em class="icon ni ni-shield-off"></em><span>Initiate CAAD</span></a></li>
+                                                             </ul>
+                                                         </div>
+                                                     </div>
+                                                 </li>
+                                             </ul>
+                                         </div>
+                                       </td> 
+                                    </tr>
+                                 </tbody>
+                                
+                              </table>
+                           </div>
+                           <div class="kanban-grid" id="kanban-wraps">
+                              <div *ngFor="let customer of customers$ | async ; trackBy: trackByFn" [id]="customer.accountno" class="card kanban zoom shadow pointer">
+                                 <div style="width:100%" class="flex-colnogap">
+                                     <div style="width:100%">
+                                         <div style="margin:10px;">
+                                             <div class="flex-col-justify-center">
+                                                 <div class="card-text-center">
+                                                     <div  class="contact-abrv-grid">
+                                                         <span class="bold abbr_name" style=" font-size:17px;color:white!important;" t-esc="self.abbreviateName(customer['firstname']) + ' ' + customer['surname']+ ' ' + customer['othernames']"></span>
+                                                     </div>
+                                                 </div>
+                                                 <div  class="card-text-center">
+                                                     <ng-container *ngIf="customer['firstname'] + ' ' + customer['surname']+ ' ' + customer['othernames']=='None None None'">
+                                                         <div><span class="bold">?</span><i style="color:orange;padding-left:10px;" class="material-icons">block</i></div>
+                                                     </ng-container>
+                                                     <ng-container *ngIf="!(customer['firstname'] + ' ' + customer['surname']+ ' ' + customer['othernames']=='None None None')">
+                                                         <ng-container  *ngIf="customer['kyc']">
+                                                            <div class="flex-row">
+                                                               <div _ngcontent-uod-c71="" class="user-avatar sm">{{abbreviateName(customer['firstname'] || '' + ' ' + customer['surname']+ ' ' + customer['othernames'])}}</div>
+                                                               <div style="padding-left:10px;"><b><span class="custname" t-esc="">{{customer['firstname'] || '' + ' ' + customer['surname']+ ' ' + customer['othernames']}}</span></b><i style="color:#FF7518!important;padding-left:10px;" class="material-icons">verified</i></div>
+                                                            </div>
+                                                           
+                                                         </ng-container>
+                                                         <ng-container *ngIf="!customer['kyc']">
+                                                             <div><span t-esc="customer['firstname'] + ' ' + customer['surname']+ ' ' + customer['othernames']" class="bold">?</span><i style="color:orange;padding-top:10px;" class="material-icons">block</i></div>
+                                                         </ng-container>
+                                                     </ng-container>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div style="width:100%">
+                                         <div style="padding-left:10px; padding-right:10px;">
+                                             <div class="">
+                                               
+                                                 
+                                                 <div class="flex-row col-12">
+                                                     <label class="col-5 bold" >Acct No</label>
+                                                     <div class="col-7"><span class="kanban_accno" style=" font-size:12px;"  t-esc="">{{customer['accountno']}}</span></div>
+                                                 </div>
+                                                 <div class="flex-row col-12">
+                                                     <label class="col-5 bold" >AccType</label>
+                                                     <div class="col-7"><span t-esc="">{{customer['accounttype']}}</span></div>
+                                                 </div>
+                                                 <div class="flex-row col-12">
+                                                   <label class="col-5 bold" >Region</label>
+                                                   <div class="col-7"><span t-esc="">{{customer['state']}}</span></div>
+                                               </div>
+                                               <div class="flex-row col-12">
+                                                      <label class="col-5 bold" >Buid</label>
+                                                      <div class="col-7"><span t-esc="">{{customer['buid']}}</span></div>
+                                                </div>
+                                                <div class="flex-row col-12">
+                                                   <label class="col-5 bold" >Ser Cen</label>
+                                                   <div class="col-7"><span t-esc="">{{customer['servicecenter']}}</span></div>
+                                                </div>
+                                                <div class="flex-row col-12">
+                                                   <a  href="javascript:void(0)" 
+                                                      (click)="loadCustomerInformation($event,customer.accountno,customer.meterno,customer.accounttype)" 
+                                                      _ngcontent-vqw-c59="" 
+                                                      data-bs-toggle="tooltip" 
+                                                      data-bs-placement="left" 
+                                                      title="" class="btn btn-secondary col-12" 
+                                                      data-bs-original-title="View Details">
+                                                      <em _ngcontent-vqw-c59="" class="icon ni ni-download-cloud">
+
+                                                      </em><span _ngcontent-vqw-c59="">View Details</span>
+                                                   </a>
+                                                </div>
+                                                 <br>
+                                                 <br>
+                                             </div> 
+                                         </div> 
+                                     </div> 
+                                 </div>
+                             </div>
+                           </div>
                         </div>
                      </div>
+                     
                   </div>
+                  
                </div>
                <script type="text/javascript" src="/assets/js/datatables.js"></script>
             <!-- </div>
          </div> -->
       <!-- </div> -->
+   </div>
+   <div _ngcontent-ltp-c55="" class="card-inner">
+      <ul _ngcontent-ltp-c55="" class="pagination justify-content-center justify-content-md-start">
+         <li _ngcontent-ltp-c55="" class="page-item"><a _ngcontent-ltp-c55="" href="#" class="page-link">Prev</a></li>
+         <li _ngcontent-ltp-c55="" class="page-item"><a _ngcontent-ltp-c55="" href="#" class="page-link">1</a></li>
+         <li _ngcontent-ltp-c55="" class="page-item"><a _ngcontent-ltp-c55="" href="#" class="page-link">2</a></li>
+         <li _ngcontent-ltp-c55="" class="page-item"><span _ngcontent-ltp-c55="" class="page-link"><em _ngcontent-ltp-c55="" class="icon ni ni-more-h"></em></span></li>
+         <li _ngcontent-ltp-c55="" class="page-item"><a _ngcontent-ltp-c55="" href="#" class="page-link">6</a></li>
+         <li _ngcontent-ltp-c55="" class="page-item"><a _ngcontent-ltp-c55="" href="#" class="page-link">7</a></li>
+         <li _ngcontent-ltp-c55="" class="page-item"><a _ngcontent-ltp-c55="" href="#" class="page-link">Next</a></li>
+      </ul>
    </div>
 </div>
 

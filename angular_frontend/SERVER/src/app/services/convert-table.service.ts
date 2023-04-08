@@ -25,6 +25,7 @@ export class ConvertTableService {
           subscription = interval(100).subscribe(() => {
           let len = document.querySelector('tbody')?.querySelectorAll('tr')?.length
           if(len > 0){
+            console.log(1000000)
             window.waitForElm(`#${args.id}`).then((elm) => {
               this.sharedService.setSpinnerText('Constructing data table...')
               new window.DataTable(`#${args.id}`, {
@@ -38,7 +39,8 @@ export class ConvertTableService {
                 this.spinnerService.hideSpinner();
                 let t:any = elm
                 t.style.opacity = '1'
-                resolve(subscription?.unsubscribe())
+                subscription?.unsubscribe()
+                resolve(true)
             });
           }
         });

@@ -44,6 +44,16 @@ class Mailservice(object):
                         {2}
                 </div>
                 """
+                
+    def caad_creation_template():
+        return """  
+                <div class="col-12">
+                    <h2 style="color:blue;">{0}</h2>
+                    <h4>Dear {1}</h4>,
+                        <p>The CAAD record below was created</p>
+                        {2}
+                </div>
+                """
          
     def send_outwards_mail(mail_parameters):
         
@@ -51,7 +61,8 @@ class Mailservice(object):
             templates = {"crmd_approval":Mailservice.crmd_approval_template,
                          "caad_approval":Mailservice.caad_approval_template,
                          "caad_initiate":Mailservice.caad_initiate_template,
-                         "caad_validate":Mailservice.caad_validate_template}
+                         "caad_validate":Mailservice.caad_validate_template,
+                         "crmd_creation":Mailservice.caad_creation_template}
             html_content = templates[mail_parameters['ir_template']]()
             html_content = html_content.format(mail_parameters['subject'],mail_parameters['recipients'][0],str(mail_parameters.get('body')))
             print("HTMLS ====> ",html_content)

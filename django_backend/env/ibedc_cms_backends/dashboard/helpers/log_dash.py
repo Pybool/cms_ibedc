@@ -571,9 +571,7 @@ class Dashboard(http.Controller):
 
         self.xml_template = self.render_table(request,type)
         response = {"template":self.xml_template,"status":True}
-        return Response(json.dumps(response),content_type='text/json;charset=utf-8',status=200)
-    
-    
+        return Response(json.dumps(response),content_type='text/json;charset=utf-8',status=200)  
 
 class AsyncDashboard(Dashboard):
     
@@ -583,7 +581,6 @@ class AsyncDashboard(Dashboard):
         data = super().fetch_dashboard_metrics()
         response = {"status":True,'data':data}
         return Response(json.dumps(response),content_type='text/json;charset=utf-8',status=200)
-
 
 class Renderer(Dashboard):
     def render_table(self,request,type):

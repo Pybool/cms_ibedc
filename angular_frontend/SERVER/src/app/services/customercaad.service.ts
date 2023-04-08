@@ -33,6 +33,11 @@ export class CustomerCaadService {
   }
 
   fetchCaadList(payload:any){
-    return this.http.get<any>(`${environment.api}/cms/customer/caad?action=fetch`,payload)
+    return this.http.get<any>(`${environment.api}/cms/customer/caad?action=fetch`)
+  }
+
+  fetchCaadHistory(payload:any){
+    console.group(payload)
+    return this.http.get<any>(`${environment.api}/cms/customer/caad?account_no=${payload.accountno}`)
   }
 }

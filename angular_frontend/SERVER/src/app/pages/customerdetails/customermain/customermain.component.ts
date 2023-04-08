@@ -1,5 +1,6 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { CaadService } from 'src/app/services/caad.service';
 import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
@@ -13,7 +14,9 @@ export class CustomermainComponent implements OnInit {
   accounttype;
   meterno;
   params:any = {}
-  constructor(private route: ActivatedRoute, private sharedService:SharedService) { }
+  constructor(private route: ActivatedRoute, 
+    private sharedService:SharedService,
+    private caadService:CaadService) { }
 
   ngOnInit(): void {
     
@@ -23,7 +26,6 @@ export class CustomermainComponent implements OnInit {
       this.accountno = params?.accountno
       this.accounttype = params?.accounttype
       this.meterno = params?.meterno
-
     })
   }
 
@@ -31,6 +33,11 @@ export class CustomermainComponent implements OnInit {
   navigateToPage($event,base){
     console.log(base)
     // console.log('customer/information/basic-information')
+    this.sharedService.navigateWithParams(base,this.params)
+  }
+
+  loadCaad($event,base){
+    this.caadService.setListOrCreate(false)
     this.sharedService.navigateWithParams(base,this.params)
   }
 

@@ -10,28 +10,27 @@ CREATE NONCLUSTERED INDEX ix_ems_bills_BillID ON ems_bills(BillID)
 
 CREATE INDEX idx_EmsCustState ON dbo.ems_customers_new (State)
 
-CREATE INDEX idx_EcmiCustState ON [CMS_IBEDC_DATABASE].[dbo].[ems_customers_new] (State)
+CREATE INDEX idx_EcmiCustState ON [CMS_DB].[dbo].[ems_customers_new] (State)
 
-CREATE INDEX idx_EcmiCustAccountType ON [CMS_IBEDC_DATABASE].[dbo].[ecmi_customers_new] ([AccountType])
+CREATE INDEX idx_EcmiCustAccountType ON [CMS_DB].[dbo].[ecmi_customers_new] ([AccountType])
 
-CREATE INDEX idx_EcmiCustBuid ON [CMS_IBEDC_DATABASE].[dbo].[ems_customers_new] (BUID)
+CREATE INDEX idx_EcmiCustBuid ON [CMS_DB].[dbo].[ems_customers_new] (BUID)
 
-CREATE INDEX idx_EcmiCustServicecenter ON [CMS_IBEDC_DATABASE].[dbo].[ems_customers_new] (ServiceCenter)
+CREATE INDEX idx_EcmiCustServicecenter ON [CMS_DB].[dbo].[ems_customers_new] (ServiceCenter)
 
 CREATE INDEX idx_EmsCustAccountNo ON dbo.ems_customers_new (AccountNo)
 
 CREATE INDEX idx_AccountNo ON dbo.ems_bills (AccountNo)
 
-CREATE NONCLUSTERED INDEX IX_ems_payments_AccountNo ON [CMS_IBEDC_DATABASE].[dbo].[ems_payments] ([AccountNo]);
+CREATE NONCLUSTERED INDEX IX_ems_payments_AccountNo ON [CMS_DB].[dbo].[ems_payments] ([AccountNo]);
 
-CREATE INDEX IX_ems_payments_receiptnumber ON [CMS_IBEDC_DATABASE].[dbo].[ems_payments] (receiptnumber);
+CREATE INDEX IX_ems_payments_receiptnumber ON [CMS_DB].[dbo].[ems_payments] (receiptnumber);
 
-CREATE INDEX IX_ems_payments_billid ON [CMS_IBEDC_DATABASE].[dbo].[ems_payments] (PaymentId);
+CREATE INDEX IX_ems_payments_billid ON [CMS_DB].[dbo].[ems_payments] (PaymentId);
 
-CREATE INDEX IX_ems_payments_PaymentTransId ON [CMS_IBEDC_DATABASE].[dbo].[ems_payments] (PaymentTransactionId);
+CREATE INDEX IX_ems_payments_PaymentTransId ON [CMS_DB].[dbo].[ems_payments] (PaymentTransactionId);
 
-CREATE INDEX IX_ems_payments_PayDate ON [CMS_IBEDC_DATABASE].[dbo].[ems_payments] (PayDate);
-
+CREATE INDEX IX_ems_payments_PayDate ON [CMS_DB].[dbo].[ems_payments] (PayDate);
 
 CREATE INDEX idx_ecmi_customers_new_AccountNo ON ecmi_customers_new (AccountNo);
 CREATE INDEX idx_ecmi_customers_new_MeterNo ON ecmi_customers_new (MeterNo);
@@ -66,11 +65,11 @@ CREATE INDEX idx_ops_evaluated_customers_created_at ON ops_evaluated_customers(c
 CREATE INDEX idx_ops_enumerated_customers_account_number ON ops_enumerated_customers(account_number);
 CREATE INDEX idx_ops_enumerated_customers_created_at ON ops_enumerated_customers(created_at);
 
-CREATE INDEX idx_emspayments_processeddate ON [CMS_IBEDC_DATABASE].[dbo].[ems_payments] (ProcessedDate);
+CREATE INDEX idx_emspayments_processeddate ON [CMS_DB].[dbo].[ems_payments] (ProcessedDate);
 
-CREATE INDEX idx_ecmi_payment_history_transdate ON [CMS_IBEDC_DATABASE].[dbo].[ecmi_payment_history] (transdate DESC);
-CREATE INDEX idx_ecmi_payment_history_transref ON [CMS_IBEDC_DATABASE].[dbo].[ecmi_payment_history] (transref);
-CREATE INDEX idx_ecmi_transactions_transref ON [CMS_IBEDC_DATABASE].[dbo].[ecmi_transactions] (transref);
+CREATE INDEX idx_ecmi_payment_history_transdate ON [CMS_DB].[dbo].[ecmi_payment_history] (transdate DESC);
+CREATE INDEX idx_ecmi_payment_history_transref ON [CMS_DB].[dbo].[ecmi_payment_history] (transref);
+CREATE INDEX idx_ecmi_transactions_transref ON [CMS_DB].[dbo].[ecmi_transactions] (transref);
 
 
 CREATE INDEX idx_ems_bills_AccountNo ON ems_bills (AccountNo);
@@ -81,20 +80,32 @@ CREATE INDEX IX_AccountNo_BillDate ON ems_bills(AccountNo, BillDate DESC);
 
 
 CREATE INDEX IX_ecmi_customers_new_State_BUID_ServiceCenter
-ON [CMS_IBEDC_DATABASE].[dbo].[ecmi_customers_new] (State, BUID, ServiceCenter);
+ON [CMS_DB].[dbo].[ecmi_customers_new] (State, BUID, ServiceCenter);
 
 CREATE INDEX IX_ecmi_payment_history_transdate
-ON [CMS_IBEDC_DATABASE].[dbo].[ecmi_payment_history] (transdate);
+ON [CMS_DB].[dbo].[ecmi_payment_history] (transdate);
 
 CREATE INDEX IX_ecmi_transactions_transref
-ON [CMS_IBEDC_DATABASE].[dbo].[ecmi_transactions] (transref);
+ON [CMS_DB].[dbo].[ecmi_transactions] (transref);
 
 
 CREATE INDEX IX_ecmi_customers_new_AccountNo ON [ecmi_customers_new] (AccountNo) INCLUDE (firstname, Surname, othernames, BUID)
 
 CREATE INDEX IX_ecmi_transactions_transref_AccountNo ON [ecmi_transactions] (transref) INCLUDE (AccountNo)
 
-CREATE INDEX IX_ecmi_payment_history_transref ON [CMS_IBEDC_DATABASE].[dbo].[ecmi_payment_history] (transref) INCLUDE (transdate)
+CREATE INDEX IX_ecmi_payment_history_transref ON [CMS_DB].[dbo].[ecmi_payment_history] (transref) INCLUDE (transdate)
+
+CREATE INDEX IX_ems_payments_receiptnumber ON [CMS_DB].[dbo].[ems_payments] (receiptnumber);
+
+CREATE INDEX IX_ems_payments_billid ON [CMS_DB].[dbo].[ems_payments] (PaymentId);
+
+CREATE INDEX IX_ems_payments_PaymentTransId ON [CMS_DB].[dbo].[ems_payments] (PaymentTransactionId);
+
+CREATE INDEX IX_ems_payments_PayDate ON [CMS_DB].[dbo].[ems_payments] (PayDate);
+
+CREATE INDEX IX_ems_payments_MeterNo ON [CMS_DB].[dbo].[ems_payments] (MeterNo);
+
+CREATE INDEX IX_ems_payments_CustomerID ON [CMS_DB].[dbo].[ems_payments] (CustomerID);
 
 
 

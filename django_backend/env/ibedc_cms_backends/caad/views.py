@@ -35,9 +35,10 @@ class CustomerCaadView(APIView):
     def get(self,request):
         permission_hierarchy = generate_slug(request.user.permission_hierarchy)
         user = get_object_or_404(User, email=request.user.email)
-        field_name = get_field_name(permission_hierarchy)
-        location = permission_hierarchy.replace('-', '_')   
-        return Response({})  
+        customer_caads = CaadHeader.objects.filter(account_no = request.GET.get('account_no')).values()
+        response =  Response({"status":True, "data":customer_caads,"message":"Customer CAAD recors were successfully fetched"}) 
+        response.headers['cache']  = CACHE_CONTROL
+        return response
     
     def post(self,request):
         self.caad_helper = CaadHelper(request)

@@ -76,6 +76,6 @@ class EmsBills(models.Model):
     bandadjustment = models.DecimalField(db_column='BandAdjustment', max_digits=18, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        managed = True
+        managed = False
         ordering = ('-billdate',)
         db_table = 'ems_bills'

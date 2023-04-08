@@ -16,7 +16,7 @@ class EcmiPaymentHistory(models.Model):
 
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'ecmi_payment_history'
         
 class EcmiTransactions(models.Model):
@@ -46,7 +46,7 @@ class EcmiTransactions(models.Model):
     day = models.IntegerField(db_column='Day', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'ecmi_transactions'
         
 class EmsPayments(models.Model):
@@ -76,7 +76,7 @@ class EmsPayments(models.Model):
     customerid = models.CharField(db_column='CustomerID', max_length=36, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'ems_payments'
         
 
@@ -94,5 +94,5 @@ class EmsPaymentTrans(models.Model):
     rowguid = models.CharField(max_length=36, blank=True, null=True)
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'ems_payment_trans'

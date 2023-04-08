@@ -1,7 +1,7 @@
 from datetime import datetime, date
 import json
 from decimal import *
-
+from .permission import Permission
 from .utils import Dashboardutils, current_week_range, previous_week_range
 
 class OnlineFeeders(object):
@@ -14,15 +14,14 @@ class OnlineFeeders(object):
         self.past_date = past_date
         self.current_date = current_date
         self.period = period
-        self.service_center_user = hierarchy_order.get('servicecenter', False) 
-        self.business_unit_user = hierarchy_order.get('buid', False) 
-        self.regional_user = hierarchy_order.get('state', False) 
-        self.hq_user = hierarchy_order.get('hq', False)
+        self.hierarchy_order = hierarchy_order
+    
     
     def get_online_feeders_query(self):
-        self.getpermission_query()
-        self.ECMI_AND = f"WHERE E.{self.PERMISSION.replace('#TABLE_NAME#','E')}" if self.key!='hq' else ''
-        self.EMS_AND = f"WHERE E.{self.PERMISSION.replace('#TABLE_NAME#','E')}" if self.key!='hq' else ''
+        self.permission = Permission(self.request,self.hierarchy_order,self.key,self.permissions_dict)
+        self.get_permission_query = self.permission.get_permission_query
+        self.ECMI_AND = f"WHERE E.{self.get_permission_query('ecmi').replace('#TABLE_NAME#','E')}" if self.key!='hq' else ''
+        self.EMS_AND = f"WHERE E.{self.get_permission_query('ems').replace('#TABLE_NAME#','E')}" if self.key!='hq' else ''
         JOINT = 'WHERE' if self.ECMI_AND == '' or self.EMS_AND == '' else 'AND'
         self.DATE_CONJUCTION = f"""{JOINT} F.[Capture DateTime] BETWEEN CONVERT(DATE,'{self.past_date}') AND CONVERT(DATE,'{self.current_date}')""" if self.period == -1 else ''
         default_query = self.generateTimelineQuery()
@@ -69,21 +68,6 @@ class OnlineFeeders(object):
             return query
             pass
         
-    
-    def getpermission_query(self):
-        if self.regional_user :
-            self.key = 'state'
-            self.PERMISSION = f"""{self.key} = '{self.permissions_dict[self.key].lower()}'"""
-            
-        if self.business_unit_user:
-            self.key = 'buid' 
-            self.PERMISSION = f"{self.key} = '{self.permissions_dict.get(self.key, '').lower()}' AND #TABLE_NAME#.state= '{self.request.user.region}'"
-            
-        if self.service_center_user:
-            self.key = 'servicecenter'
-            self.PERMISSION = f"{self.key} = '{self.permissions_dict.get(self.key, '').lower()}' AND #TABLE_NAME#.buid= '{self.request.user.business_unit}' AND #TABLE_NAME#.state= '{self.request.user.region}'"
-           
-            
         
                 
                 

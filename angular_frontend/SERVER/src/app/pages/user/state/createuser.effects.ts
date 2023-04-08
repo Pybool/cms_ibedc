@@ -1,7 +1,7 @@
 import { UpdateUser } from '../createuser/models/user';
 import { UserService } from 'src/app/services/user.service';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of ,Observable} from "rxjs";
 import { UserActionTypes, CreateNewUser, CreateUserSuccess, CreateUserFailure,UpdateExistingUser, UpdateUserSuccess } from './createuser.actions';
@@ -16,7 +16,8 @@ export class CreateUserEffects {
     private actions$: Actions,
     private userService: UserService,
     private router: Router,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private route: ActivatedRoute,
   ) {}
   // effects go here
 
@@ -26,7 +27,7 @@ CreateUserSuccess$= createEffect(() =>
     this.actions$.pipe(
         ofType(UserActionTypes.CREATE_USER_SUCCESS),
         tap((signup:any) => {
-            this.router.navigateByUrl('/admin/users');
+            // this.router.navigate(['/admin/users']);
         })
     ),
     { dispatch: false }
@@ -73,7 +74,7 @@ UpdateUserSuccess$= createEffect(() =>
     this.actions$.pipe(
         ofType(UserActionTypes.UPDATE_USER_SUCCESS),
         tap((signup:any) => {
-            // this.router.navigateByUrl('/admin/users');
+         
         })
     ),
     { dispatch: false }
@@ -97,6 +98,7 @@ UpdateUser$= createEffect(() =>
                 map((response) => {
                     console.log(response);
                     if(response.status){
+                        this.notificationService.success(response.message,'Update successfull',{})
                         return new UpdateUserSuccess(response.data) as Action; // cast to Action
                     }
                     else{

@@ -43,14 +43,13 @@
                                         </div><!-- .card-inner -->
                                         <div class="card-inner p-0">
                                             <ul class="link-list-menu">
-                                                <!-- onclick="loadPersonalInfoTemplate('personal_info_template')"  [routerLink]="['/route/path', {param1: value1, param2: value2}]"-->
                                                <li class="custlink "><a class="pointer" (click)="navigateToPage($event,'customer/information/basic-information')"  ><em class="icon ni ni-user-fill-c"></em><span><b>Personal Infomation</b></span></a></li>
                                                <li class="custlink "><a class="pointer" (click)="navigateToPage($event,'customer/information/billing-information')"  ><em class="icon ni ni-todo-fill pointer"></em><span><b>Billing History</b></span></a></li>
                                                <li class="custlink "><a class="pointer" (click)="navigateToPage($event,'customer/information/payment-information')" ><em class="icon ni ni-money pointer"></em><span><b>Payment History</b></span></a></li>
                                                <li class="custlink "><a class="pointer" (click)="navigateToPage($event,'customer/information/metering-information')"  ><em class="icon ni ni-meter pointer"></em><span><b>Metering Information</b></span></a></li>
                                                <li class="custlink "><a class="pointer" (click)="navigateToPage($event,'customer/information/assets-information')"  ><em class="icon ni ni-property pointer"></em><span><b>Assets Information</b></span></a></li>
-                                               <li class="custlink "><a class="pointer"  ><em class="icon ni ni-comments pointer"></em><span><b>Complaints</b></span></a></li>
-                                               <li class="custlink "><a class="pointer" ><em class="icon ni ni-user-circle pointer"></em><span><b>CAAD</b></span></a></li>
+                                               <li class="custlink "><a disabled class="pointer"  ><em class="icon ni ni-comments pointer"></em><span><b>Complaints</b></span></a></li>
+                                               <li class="custlink "><a class="pointer" (click)="loadCaad($event,'customer/information/caad-information')" ><em class="icon ni ni-user-circle pointer"></em><span><b>CAAD</b></span></a></li>
                                             </ul>
                                         </div><!-- .card-inner -->
                                     </div><!-- .card-inner-group -->

@@ -37,7 +37,7 @@ def search_for_buid(name,state,lst,alt=None):
     return None
 
 class SingleCustomerPayments(APIView):
-    # authentication_classes = [JWTAuthenticationMiddleWare]
+    authentication_classes = [JWTAuthenticationMiddleWare]
     def get(self, request):
         accountno = request.GET.get('accountno')
         accounttype = request.GET.get('accounttype')

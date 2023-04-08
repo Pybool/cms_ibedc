@@ -28,6 +28,7 @@ export class CustomerService {
   customer;
   dual:boolean = false
   newCustomerList;
+  kanban = false;
   newCustomerList$:any = new BehaviorSubject<any>({});
   
   private readonly cacheTimeMs = 5 * 60 * 1000; // Cache for 5 minutes
@@ -51,6 +52,23 @@ export class CustomerService {
   
   padNumber(num) {
     return num.toString().padStart(2, '0');
+  }
+
+  toggleView(){
+    const tablewraps:any = document.querySelector("#table-wraps")
+    const kanbanwraps:any = document.querySelector("#kanban-wraps")
+    if(this.kanban){
+      this.kanban = false;
+      kanbanwraps.style.display = 'none'
+      tablewraps.style.display = 'block'
+      localStorage.setItem('cust_view_mode','list')
+    }
+    else{
+      this.kanban = true
+      tablewraps.style.display = 'none'
+      kanbanwraps.style.display = 'flex'
+      localStorage.setItem('cust_view_mode','grid')
+    }
   }
 
   swapCustomerlist(data){

@@ -9,6 +9,7 @@ import { UserState } from 'src/app/authentication/state/auth.selector';
 import { getLocationsState } from 'src/app/ui/customselect/state/customselect.selector';
 import { UpdateExistingUser } from '../state/createuser.actions';
 import { CustomerService } from 'src/app/services/customer.service';
+import { NotificationService } from 'src/app/services/notification.service';
 
 const  _ = require('lodash');
 
@@ -40,7 +41,10 @@ export class EdituserComponent implements OnInit {
   @Output() type = new EventEmitter<any>();
   @Output() updatetitle = new EventEmitter<any>();
   
-  constructor(private store: Store<AppState>,private userService: UserService,private customerService: CustomerService) { 
+  constructor(private store: Store<AppState>,
+    private userService: UserService,
+    private customerService: CustomerService,
+    private notificationService: NotificationService) { 
     this.userState = this.store.select(UserState);
     this.getLocations = this.store.select(getLocationsState);
     
@@ -81,7 +85,7 @@ export class EdituserComponent implements OnInit {
       can_approve_caad: new FormControl(false),
       can_manage_2fa: new FormControl(false),
       permission_hierarchy: new FormControl(false),
-      groups: new FormControl(null),
+      groups: new FormControl(undefined),
       enable_2fa: new FormControl(false),
       region: new FormControl(null),
       business_unit: new FormControl(null),
@@ -193,7 +197,7 @@ export class EdituserComponent implements OnInit {
       if(dropdown != null){
         console.log(dropdown,this.user.position,$event.target.textContent)
         // this.value = this.getPositionVal(this.user.position)
-        console.log(this.positions, this.value)
+        console.log(this.positions, $event.target.value)
         dropdown.name =  $event.target.closest('a').name
         dropdown.innerHTML = $event.target.textContent
       }
@@ -216,17 +220,22 @@ getDropdownsValues(){
             
   for(let key of Object.keys(ids)){
     let id = ids[key]
-    let dropdown = document.getElementById(id)
+    let dropdown:any = document.getElementById(id)
+    console.log("drop ", dropdown)
     if(dropdown != null){
       if (Array.from(dropdown.querySelector('ul.link-list-opt').children).length< 1){
         return 
       }
       else{
-        let value = dropdown.querySelector('a')?.name;
-        
+        dropdown = document.getElementById('position-dropdown')
+        console.log(dropdown)
+        let value = dropdown?.name;
+        console.log("dropval ", value)
         if (value != undefined && value != null){
+          
           let patch = { [`${key}`]: String(value)?.trim() }
-          if (id ==  'position-dropdown'){
+          console.log("Patch & ID",patch,id)
+          if (id ==  'position-dropdown-menu'){
             console.log("Patch positions ===> ",dropdown, id ,value)
             console.log(patch)
           }
@@ -285,43 +294,17 @@ fetchBusinessUnits($event){
 
     
   submit(){
-    // this.getDropdownsValues()
-    let dropdown:any = document.getElementById('position-dropdown')
-    if(dropdown != null){
-      let value = dropdown.name;
-      this.userForm.patchValue({position:value})
-      }
-        
+    this.getDropdownsValues()
     let payload = this.userForm.value
     payload['id'] = this.id
-    console.log(payload)
     this.store.dispatch(new UpdateExistingUser(payload));
     // this.userForm = Object.assign({}, this.userForm);
   }
   
 
   exitForm(){
-    this.userForm = new FormGroup({
-      name: new FormControl(null, Validators.required),
-      email: new FormControl(null, [Validators.required, Validators.email]),
-      password: new FormControl(null, Validators.required),
-      position: new FormControl(null),
-      privilege: new FormControl(null),
-      can_create_customers: new FormControl(false),
-      can_create_user: new FormControl(false),
-      can_approve: new FormControl(false),
-      can_approve_caad: new FormControl(true),
-      can_manage_2fa: new FormControl(false),
-      permission_hierarchy: new FormControl(false),
-      groups: new FormControl(null),
-      enable_2fa: new FormControl(false),
-      region: new FormControl(null),
-      business_unit: new FormControl(null),
-      servicecenter: new FormControl(null),
-    });
+    this.userService.destoryEditComponent()
     document.getElementById('edit_user').classList.remove("content-active")
-    console.log(document.getElementById('edit_user').classList)
-    document.getElementById('edit_user').classList.remove("content-active") 
 }
 
 }

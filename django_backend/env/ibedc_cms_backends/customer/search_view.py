@@ -124,7 +124,7 @@ class SearchPrepaidCustomers(APIView):
             if field_name is not None:#For Non-HQ users
                     
                 if field_name == 'region' or field_name == 'state':
-                    search_location_customers = EcmiCustomersNew.objects.filter(**{f"{field_name}__icontains": location}).filter(query).count()
+                    search_location_customers = EcmiCustomersNew.objects.filter(**{f"{field_name}__icontains": location}).filter(query)
                     customers = search_location_customers.values(*ECMI_FIELDS)
                 elif field_name == 'buid' or field_name == 'business-unit' or field_name == 'business_unit':
                     search_location_customers = EcmiCustomersNew.objects.filter(state__icontains=request.user.region).filter(**{f"{field_name}__icontains": location}).filter(query)
@@ -145,7 +145,7 @@ class SearchPrepaidCustomers(APIView):
                 response.data["data"] = response.data.pop('results')
                 response.data["total_customers"] = total_customers
             else:
-                response = Response({"status": False, "message": "ECMI Customers could not be fetched", "data": []})
+                response = Response({"status": False, "message": "No search results were found for your search", "data": []})
         else:
             response = Response({"status":False,"message":"Could not process an invalid request"})
             

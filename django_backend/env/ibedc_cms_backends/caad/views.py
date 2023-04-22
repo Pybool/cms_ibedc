@@ -100,9 +100,16 @@ class GetInitiateOrDeclineCAADTask(APIView):
         othernames = data.get('othernames') or ''
         full_name = ' '.join([firstname, surname, othernames]).strip()
         servicecenter = data.get('servicecenter')
-        print(servicecenter)
+        print(servicecenter,data.get('buid'))
         rpus_list = User.objects.filter(service_center__icontains=servicecenter).filter(position__icontains='RPU').values('email')
         rpus = []
+        try:
+            print("The rpus ", rpus_list)
+            if len(rpus_list) < 1:
+                rpus_list = User.objects.filter(business_unit__icontains=data.get('buid')).filter(position__icontains='RPU').values('email')
+                print("=====-----***&&&....> ", rpus_list)
+        except:
+            rpus_list = []
         for rpu in rpus_list:
             rpus.append(rpu.get('email'))
         mail_parameters = {"ir_template":"caad_initiate",

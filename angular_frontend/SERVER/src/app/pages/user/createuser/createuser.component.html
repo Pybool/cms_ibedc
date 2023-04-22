@@ -224,7 +224,7 @@
                                 <select [(ngModel)]="user.groups" name="groups_sel" id="xxx" appTitlecase class="form-select usergroups" multiple="multiple" data-placeholder="Select Multiple options">
                                     <option value="default_option">Default Option</option>
                                     <ng-container *ngFor="let group of groups;">
-                                        <option value="{{group.id}}" >{{group.name}} </option>
+                                        <option *ngIf="group.name != 'DEVOPS'" value="{{group.id}}" >{{group.name}} </option>
                                     </ng-container>
                                 </select>
                             </div>

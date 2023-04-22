@@ -5,6 +5,7 @@ from customer.models import EcmiCustomersNew, EmsCustomersNew
 from authentication.models import User
 from tasks.__task__email import *
 from django.db.models import Q
+from connection_executor import execute
 url = ''
 values = ['bhm_aproved','auditor_approved','name', 'accountno', 'firstname', 'surname', 'othernames', 'email', 'mobile', 'region', 'buid', 'city', 'state', 'dss_id', 'dss_name', 'dss_owner', 'statuscode', 'title', 'gender', 'building_description', 'lga', 'premise_type', 'region', 'customer_type', 'accounttype', 'business_type', 'landlord_name', 'landlord_phone', 'injection_sub_station', 'meter_oem', 'cin', 'feeder_name', 'service_band', 'upriser_id', 'feederid', 'feeder_type', 'ltpoleid', 'servicecenter', 'cms_created', 'customer_created_by']
 
@@ -104,7 +105,11 @@ class Approvals(object):
                         
                         """Ensure customer with given account no does not exist in either Ems or Ecmi customer tables"""
                         print(vals['accountno'])
+                        print(awaiting_customer_data)
+                        # 
+                        execute("set identity_insert [CMS_DB].[dbo].[ecmi_customers_new] on;")
                         if not EcmiCustomersNew.objects.filter(accountno=vals['accountno']).exists() and not EmsCustomersNew.objects.filter(accountno=vals['accountno']).exists():
+                            awaiting_customer_data['customersk'] = 2022 #Since this field is mandatory , use 2022 as temporal value
                             EcmiCustomersNew.objects.create(**awaiting_customer_data) if awaiting_customer_data.get('accounttype') == 'Prepaid' else EmsCustomersNew.objects.create(**awaiting_customer_data)
                             created_customer = EcmiCustomersNew.objects.filter(accountno=vals['accountno']).values('accountno')
                             clone['customer_id'] = created_customer[0].get('accountno','0')
@@ -112,7 +117,8 @@ class Approvals(object):
                             clone['is_fresh'] = False                
                             awaiting_customer.update(**clone) #Update customer awaiting queue
                             """Audit ths action at this point"""
-                            response = {"status":True,"message":"Action completed successfully, new customer has been created"}  
+                            response = {"status":True,"message":"Action completed successfully, new customer has been created"}
+                            execute("set identity_insert [CMS_DB].[dbo].[ecmi_customers_new] off;")  
                         else:
                             return Response({'status':False, 'message':'this customer already exists, could not create new customer with this account number'})
                 

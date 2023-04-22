@@ -68,7 +68,7 @@ class CustomerEcmiPayments(APIView):
     def get(self, request):
        
         page_no = str(request.GET.get('page', 1))
-        page_size = str(request.GET.get('page_size', 100))
+        page_size = str(request.GET.get('page_size', 200))
         
         permission_hierarchy = generate_slug(request.GET.get('permission_hierarchy'))
         user = get_object_or_404(User, email=request.user.email)
@@ -81,34 +81,52 @@ class CustomerEcmiPayments(APIView):
             if field_name is not None:#For Non-HQ users
                 
                 if field_name == 'region' or 'state':
-                    query =  CUSTOMER_PAYMENTS_ECMI_HIERARCHY_REGION\
+                    query =  CUSTOMER_PAYMENTS_ECMI_HIERARCHY_REGION[1]\
                         .replace("#page_size#",page_size)\
                         .replace("#page_no#",page_no)\
                         .replace("#REGION#",location)\
                         .replace("#DATE_CONJUNCTION#",'')
                         
+                    count_query =  CUSTOMER_PAYMENTS_ECMI_HIERARCHY_REGION[0]\
+                        .replace("#REGION#",location)\
+                        .replace("#DATE_CONJUNCTION#",'')
+                        
                 if field_name == 'buid' or field_name == 'business_unit':
                    
-                    query =  CUSTOMER_PAYMENTS_ECMI_HIERARCHY_BUSINESS_UNIT\
-                        .replace("#page_size#",page_size)\
+                    query =  CUSTOMER_PAYMENTS_ECMI_HIERARCHY_BUSINESS_UNIT[1]\
+                        .replace("#page_size#",'200')\
                         .replace("#page_no#",page_no)\
                         .replace("#REGION#",request.user.region)\
                         .replace("#BUID#",location)\
                         .replace("#DATE_CONJUNCTION#",'')
                     
+                    count_query =  CUSTOMER_PAYMENTS_ECMI_HIERARCHY_BUSINESS_UNIT[0]\
+                        .replace("#REGION#",request.user.region)\
+                        .replace("#BUID#",location)\
+                        .replace("#DATE_CONJUNCTION#",'')
+                    
                 if field_name == 'servicecenter':
-                    query =  CUSTOMER_PAYMENTS_ECMI_HIERARCHY_SERVICE_CENTER\
-                        .replace("#page_size#",page_size)\
+                    query =  CUSTOMER_PAYMENTS_ECMI_HIERARCHY_SERVICE_CENTER[1]\
+                        .replace("#page_size#",'200')\
                         .replace("#page_no#",page_no)\
+                        .replace("#REGION#",request.user.region)\
+                        .replace("#BUID#",request.user.business_unit)\
+                        .replace("#SERVICECENTER#",location)\
+                        .replace("#DATE_CONJUNCTION#",'')
+                        
+                    count_query =  CUSTOMER_PAYMENTS_ECMI_HIERARCHY_SERVICE_CENTER[0]\
                         .replace("#REGION#",request.user.region)\
                         .replace("#BUID#",request.user.business_unit)\
                         .replace("#SERVICECENTER#",location)\
                         .replace("#DATE_CONJUNCTION#",'')
                     
         else:
-            query =  CUSTOMER_PAYMENTS_ECMI_NO_HIERARCHY\
+            query =  CUSTOMER_PAYMENTS_ECMI_NO_HIERARCHY[1]\
                         .replace("#page_size#",page_size)\
                         .replace("#page_no#",page_no)\
+                        .replace("#DATE_CONJUNCTION#",'')
+                        
+            count_query =  CUSTOMER_PAYMENTS_ECMI_NO_HIERARCHY[0]\
                         .replace("#DATE_CONJUNCTION#",'')
                         
         self.custom_paginator = CustomPaginatorClass(CustomerEcmiPayments.pagination_class,request)
@@ -116,6 +134,7 @@ class CustomerEcmiPayments(APIView):
         total_payments = 0#bills_query.count()
         print(query)
         payments = dict_fetch_all(query)
+        total_payments = dict_fetch_all(count_query)
         
         if payments:
             payments = self.custom_paginator.paginate_queryset(payments)
@@ -125,6 +144,13 @@ class CustomerEcmiPayments(APIView):
             response.data["data"] = response.data.pop('results')
             response.data["total_payments"] = total_payments
             response.data["rawQueryUsed"] = query is not None
+            try:
+                page_size = 100
+                page_number = round(list(total_payments[0].values())[0]/int(page_size)) + 1 #if list(total_payments[0].values())[0]%int(page_size) == 1 else round(list(total_payments[0].values())[0]/int(page_size))
+                offset = (page_number - 1) * page_size
+                response.data['last'] = dict(response.data)['last'].replace("offset=100",f"offset={offset}")
+            except:
+                pass
             
         else:
             response = Response({"status": False, "message": "No customer payments found "})
@@ -137,8 +163,8 @@ class CustomerEmsPayments(APIView):
     pagination_class = LimitOffsetPagination
     def get(self, request):
        
-        page_no = '1'#str(request.GET.get('page', 2))
-        page_size = str(request.GET.get('page_size', 250))
+        page_no = str(request.GET.get('page', 1))
+        page_size = str(request.GET.get('page_size', 200))
         permission_hierarchy = generate_slug(request.GET.get('permission_hierarchy'))
         user = get_object_or_404(User, email=request.user.email)
         field_name, location = get_permission_hierarchy(request)
@@ -149,18 +175,27 @@ class CustomerEmsPayments(APIView):
             if field_name is not None:#For Non-HQ users
                 
                 if field_name == 'region' or 'state':
-                    query =  CUSTOMER_PAYMENTS_EMS_HIERARCHY_REGION\
+                    query =  CUSTOMER_PAYMENTS_EMS_HIERARCHY_REGION[1]\
                         .replace("#page_size#",page_size)\
                         .replace("#page_no#",page_no)\
+                        .replace("#REGION#",location)\
+                        .replace("#DATE_CONJUNCTION#",'')
+                        
+                    count_query =  CUSTOMER_PAYMENTS_EMS_HIERARCHY_REGION[0]\
                         .replace("#REGION#",location)\
                         .replace("#DATE_CONJUNCTION#",'')
                         
                 if field_name == 'buid':
                     buids = fetch_and_cache_buids()
                     buid = search_for_buid(location, request.user.region, buids)
-                    query =  CUSTOMER_PAYMENTS_EMS_HIERARCHY_BUSINESS_UNIT\
+                    query =  CUSTOMER_PAYMENTS_EMS_HIERARCHY_BUSINESS_UNIT[1]\
                         .replace("#page_size#",page_size)\
                         .replace("#page_no#",page_no)\
+                        .replace("#REGION#",request.user.region)\
+                        .replace("#BUID#",buid)\
+                        .replace("#DATE_CONJUNCTION#",'')
+                    
+                    count_query =  CUSTOMER_PAYMENTS_EMS_HIERARCHY_BUSINESS_UNIT[0]\
                         .replace("#REGION#",request.user.region)\
                         .replace("#BUID#",buid)\
                         .replace("#DATE_CONJUNCTION#",'')
@@ -168,18 +203,25 @@ class CustomerEmsPayments(APIView):
                 if field_name == 'servicecenter':
                     buids = fetch_and_cache_buids()
                     buid = search_for_buid(request.user.business_unit, '', buids,alt='name')
-                    query =  CUSTOMER_PAYMENTS_EMS_HIERARCHY_SERVICE_CENTER\
+                    query =  CUSTOMER_PAYMENTS_EMS_HIERARCHY_SERVICE_CENTER[1]\
                         .replace("#page_size#",page_size)\
                         .replace("#page_no#",page_no)\
                         .replace("#REGION#",request.user.region)\
                         .replace("#BUID#",buid)\
                         .replace("#SERVICECENTER#",location)\
                         .replace("#DATE_CONJUNCTION#",'')
+                    count_query =  CUSTOMER_PAYMENTS_EMS_HIERARCHY_SERVICE_CENTER[0]\
+                        .replace("#REGION#",request.user.region)\
+                        .replace("#BUID#",buid)\
+                        .replace("#SERVICECENTER#",location)\
+                        .replace("#DATE_CONJUNCTION#",'')
                     
         else:
-            query =  CUSTOMER_PAYMENTS_EMS_NO_HIERARCHY\
+            query =  CUSTOMER_PAYMENTS_EMS_NO_HIERARCHY[1]\
                         .replace("#page_size#",page_size)\
                         .replace("#page_no#",page_no)\
+                        .replace("#DATE_CONJUNCTION#",'')
+            count_query =  CUSTOMER_PAYMENTS_EMS_NO_HIERARCHY[0]\
                         .replace("#DATE_CONJUNCTION#",'')
                         
         self.custom_paginator = CustomPaginatorClass(CustomerEcmiPayments.pagination_class,request)
@@ -187,6 +229,7 @@ class CustomerEmsPayments(APIView):
         total_payments = 0#bills_query.count()
         print(query)
         payments = dict_fetch_all(query)
+        total_payments = dict_fetch_all(count_query)
         
         if payments:
             payments = self.custom_paginator.paginate_queryset(payments)
@@ -196,6 +239,13 @@ class CustomerEmsPayments(APIView):
             response.data["data"] = response.data.pop('results')
             response.data["total_payments"] = total_payments
             response.data["rawQueryUsed"] = query is not None
+            try:
+                page_size = 100
+                page_number = round(list(total_payments[0].values())[0]/int(page_size)) + 1 #if list(total_payments[0].values())[0]%int(page_size) == 1 else round(list(total_payments[0].values())[0]/int(page_size))
+                offset = (page_number - 1) * page_size
+                response.data['last'] = dict(response.data)['last'].replace("offset=100",f"offset={offset}")
+            except:
+                pass
             
         else:
             response = Response({"status": False, "message": "No customer payments found "})

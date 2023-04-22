@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ComponentFactoryResolver, OnInit,AfterViewInit, Renderer2, ViewChild, ViewContainerRef } from '@angular/core';
+import { ChangeDetectorRef, Component, ComponentFactoryResolver, OnInit,AfterViewInit, Renderer2, ViewChild, ViewContainerRef, ChangeDetectionStrategy } from '@angular/core';
 import { customerData } from '../prepaidcustomers/customerdata.js'
 import { abbreviateName } from '../../../../utils'
 import { of } from 'rxjs';
@@ -14,17 +14,17 @@ import { CustomerService } from 'src/app/services/customer.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgZone } from '@angular/core';
 import { map, take, tap } from 'rxjs/operators';
-import { DataTablesModule } from 'angular-datatables';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
 import { DataTableDirective } from 'angular-datatables';
 import { SpinnerService } from 'src/app/services/spinner.service';
 import { ConvertTableService } from 'src/app/services/convert-table.service';
+import { NotificationService } from 'src/app/services/notification.service';
 
+var self;
 interface CustomWindow extends Window {
   waitForElm:(arg1) => any;
   DataTable: (searchTerm: string,{}) => void;
+  initiateCaad:(payload)=>any;
+  openCustomerUpdateForm:(payload)=>any;
 }
 
 declare let window: CustomWindow;
@@ -36,7 +36,8 @@ declare let window: CustomWindow;
 @Component({
   selector: 'app-postpaidcustomers',
   templateUrl: './postpaidcustomers.component.html',
-  styleUrls: ['./postpaidcustomers.component.css']
+  styleUrls: ['./postpaidcustomers.component.css'],
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class PostpaidcustomersComponent implements AfterViewInit {
   public metaData;
@@ -81,13 +82,13 @@ export class PostpaidcustomersComponent implements AfterViewInit {
   constructor(private store: Store<AppState>,
               private zone: NgZone,
               private sharedService:SharedService,
-              private cd: ChangeDetectorRef,
+              private cdr: ChangeDetectorRef,
               private customerService:CustomerService,
               private componentFactoryResolver: ComponentFactoryResolver,
               private renderer: Renderer2,
               private spinnerService: SpinnerService,
               private convertTableService:ConvertTableService,
-              private route: ActivatedRoute,) { 
+              private route: ActivatedRoute,private notificationService: NotificationService) { 
     this.sharedService.setActiveSearchInput('customers')
     this.custs$ = customerData.customer_data
     this.metaData = customerData.metadata
@@ -189,12 +190,21 @@ export class PostpaidcustomersComponent implements AfterViewInit {
     
   }
 
-  openCustomerUpdateForm($event){
-    this.currentAccountno = $event.target.closest('td').id
-    console.log("Account no ===> ", this.currentAccountno)
-    this.openCustomerCreateForm()//Bug
-    this.sharedService.setFormHeader(['edit','Update Existing Customer','postpaid',this.currentAccountno])
-    this.mode = 'edit'
+  forceUpdate($event){
+
+  }
+
+  openCustomerUpdateForm(accountno){
+    console.log(accountno)
+    if(accountno.target == undefined){
+      self.currentAccountno =  accountno
+    }
+    else{self.currentAccountno =  accountno.target.closest('a').id}
+    
+    console.log("Account no ===> ", self.currentAccountno)
+    self.openCustomerCreateForm()//Bug
+    self.sharedService.setFormHeader(['edit','Update Existing Customer',self.activePage,self.currentAccountno])
+    self.mode = 'edit'
   }
 
   getRandomColor() {
@@ -210,10 +220,15 @@ export class PostpaidcustomersComponent implements AfterViewInit {
     this.spinnerService.showSpinner(parentElement);
     this.sharedService.setSpinnerText('Fetching data from source...')
     this.convertTableService.convertTable({id:'customer_table'}).then((status)=>{
+      console.log("----**** status", status)
       if(status){
         this.isCallable = false
+        console.log("Not Callable")
       }
     })
+    window.initiateCaad = this.initiateCaad
+    window.openCustomerUpdateForm = this.openCustomerUpdateForm
+   self = this //make this class instance available to the window object by storing in variable
   }
 
   trackByFn(index: number, item: any) {
@@ -233,6 +248,37 @@ export class PostpaidcustomersComponent implements AfterViewInit {
     this.customerService.advancedFilterEmsCustomers(this.filter).pipe(take(1)).subscribe((response)=>{
       this.customerService.swapCustomerlist(response)
    })
+  }
+
+  initiateCaad(accountno){
+    let cdrbtn:any = document.querySelector("#cdrbtn")
+
+    self.customerService.fetchSinglecustomer({accounttype:'postpaid',accountno:accountno}).subscribe((response) => {
+      if(response.status){
+        self.customerService.initiateCaad(response.data).pipe(take(1)).subscribe((response)=>{
+          console.log(response)
+          if(response.status){
+            let notification = {type:'success',title:'CAAD Initiation!',
+            message:response?.message,
+            subMessage:'The RPU for this location will take next steps'}
+            self.notificationService.setModalNotification(notification)
+            cdrbtn.click()
+            self.cdr.detectChanges(); // Forces change detection
+          }
+          else{
+            let notification = {type:'failure',title:'Uh oh!',
+            message:response?.message,
+            subMessage:'Something went wrong'}
+            self.notificationService.setModalNotification(notification) //Not showing up until a random button is clicked
+            cdrbtn.click()
+            self.cdr.detectChanges(); // Forces change detection
+          }
+        })
+      }
+      else{alert("Customer could not be found")}
+      
+    });
+    
   }
 
   openDrafts(){

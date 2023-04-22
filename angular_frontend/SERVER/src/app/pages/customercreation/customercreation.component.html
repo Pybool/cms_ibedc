@@ -56,7 +56,7 @@
                                                  <label class="form-label" for="title"><b>Title(s)</b></label>
                                               </div>
                                               <div class="col-10">
-                                                 <input [(ngModel)]="newCustomer.title" name="title" type="text" class="form-control shadow caps" appTitlecase id="title"/>
+                                                 <input [(ngModel)]="newCustomer.title" name="title" type="text" (ngModelChange)="markAsEdited('title')" class="form-control shadow caps" appTitlecase id="title"/>
                                               </div>
                                            </div>
                                            <br/>
@@ -65,7 +65,7 @@
                                                  <label class="form-label" for="surname"><b>Surname</b></label>
                                               </div>
                                               <div class="col-10">
-                                                 <input [(ngModel)]="newCustomer.surname" name="surname" type="text" class="form-control shadow caps" appTitlecase id="surname"/>
+                                                 <input [(ngModel)]="newCustomer.surname" name="surname" (ngModelChange)="markAsEdited('surname')" type="text" class="form-control shadow caps" appTitlecase id="surname"/>
                                               </div>
                                            </div>
                                            <br/>
@@ -74,7 +74,7 @@
                                                  <label class="form-label" for="firstname"><b>First Name</b></label>
                                               </div>
                                               <div class="col-10">
-                                                 <input [(ngModel)]="newCustomer.firstname" name="firstname" type="text" class="form-control shadow caps" appTitlecase id="firstname"/>
+                                                 <input [(ngModel)]="newCustomer.firstname" name="firstname" (ngModelChange)="markAsEdited('firstname')" type="text" class="form-control shadow caps" appTitlecase id="firstname"/>
                                               </div>
                                            </div>
                                            <br/>
@@ -83,7 +83,7 @@
                                                  <label class="form-label" for="othernames"><b>Othername</b></label>
                                               </div>
                                               <div class="col-10">
-                                                 <input [(ngModel)]="newCustomer.othernames" name="othernames" type="text" class="form-control shadow caps" appTitlecase id="othernames"/>
+                                                 <input [(ngModel)]="newCustomer.othernames" name="othernames" (ngModelChange)="markAsEdited('othernames')" type="text" class="form-control shadow caps" appTitlecase id="othernames"/>
                                               </div>
                                            </div>
                                            <br/>
@@ -92,7 +92,7 @@
                                                  <label class="form-label" for="gender"><b>Gender</b></label>
                                               </div>
                                               <div class="col-10">
-                                                 <select [(ngModel)]="newCustomer.gender" name="gender" class="form-select" id="gender">
+                                                 <select [(ngModel)]="newCustomer.gender" (ngModelChange)="markAsEdited('gender')" name="gender" class="form-select" id="gender">
                                                     <option value="Male">Male</option>
                                                     <option value="Female">Female</option>
                                                  </select>
@@ -104,7 +104,7 @@
                                                  <label class="form-label" for="email"><b>Email</b></label>
                                               </div>
                                               <div class="col-10">
-                                                 <input [(ngModel)]="newCustomer.email" name="email" type="email" class="form-control shadow" id="email"/>
+                                                 <input [(ngModel)]="newCustomer.email" name="email" (ngModelChange)="markAsEdited('email')" type="email" class="form-control shadow" id="email"/>
                                               </div>
                                            </div>
                                            <br/>
@@ -113,7 +113,7 @@
                                                  <label class="form-label" for="mobile"><b>Mobile</b></label>
                                               </div>
                                               <div class="col-10">
-                                                 <input [(ngModel)]="newCustomer.mobile" name="mobile" type="mobile" class="form-control shadow caps" id="mobile"/>
+                                                 <input [(ngModel)]="newCustomer.mobile" name="mobile" type="mobile" (ngModelChange)="markAsEdited('mobile')" class="form-control shadow caps" id="mobile"/>
                                               </div>
                                            </div>
                                            <br/>
@@ -160,7 +160,7 @@
                                                  <label class="form-label" for="accounttype"><b>Account Type</b></label>
                                               </div>
                                               <div class="col-10">
-                                                 <select [(ngModel)]="newCustomer.accounttype" name="accounttype"  class="form-select shadow " id="accounttype">
+                                                 <select [(ngModel)]="newCustomer.accounttype" name="accounttype" (ngModelChange)="markAsEdited('accounttype')"  class="form-select shadow " id="accounttype">
                                                     <option *ngFor="let accounttype of accounttypes" [value]="accounttype.name">{{accounttype.name}}</option>
                                                  </select>
                                               </div>
@@ -171,7 +171,7 @@
                                                  <label class="form-label" for="customer_type"><b>Customer Type</b></label>
                                               </div>
                                               <div class="col-10">
-                                                 <select [(ngModel)]="newCustomer.customer_type" name="customer_type"  class="shadow form-select " id="customer_type">
+                                                 <select [(ngModel)]="newCustomer.customer_type" name="customer_type" (ngModelChange)="markAsEdited('customer_type')" class="shadow form-select " id="customer_type">
                                                    <option *ngFor="let customer_type of customer_types" [value]="customer_type.code">{{customer_type.name}}</option>
                                                  </select>
                                               </div>
@@ -182,7 +182,7 @@
                                                  <label class="form-label" for="business_type"><b>Business Type</b></label>
                                               </div>
                                               <div class="col-10">
-                                                 <input [(ngModel)]="newCustomer.business_type" name="business_type" type="text" class="form-control shadow caps" id="business_type"/>
+                                                 <input [(ngModel)]="newCustomer.business_type" name="business_type" (ngModelChange)="markAsEdited('business_type')" type="text" class="form-control shadow caps" id="business_type"/>
                                               </div>
                                            </div>
                                            <br/>
@@ -191,7 +191,7 @@
                                                  <label class="form-label" for="statuscode"><b>Status Code</b></label>
                                               </div>
                                               <div class="dropdown col-10">
-                                                <select [(ngModel)]="newCustomer.statuscode" name="statuscode"  class="form-select" id="statuscode">
+                                                <select [(ngModel)]="newCustomer.statuscode" name="statuscode" (ngModelChange)="markAsEdited('statuscode')" class="form-select" id="statuscode">
                                                    <option value="A">Active (A)</option>
                                                    <option value="I">Inactive (I)</option>
                                                    <option value="P">Prepaid (P)</option>
@@ -205,7 +205,7 @@
                                                  <label class="form-label" for="cin"><b>CIN</b></label>
                                               </div>
                                               <div class="col-10">
-                                                 <input [(ngModel)]="newCustomer.cin" name="cin" type="text" class="form-control shadow caps" id="cin"/>
+                                                 <input [(ngModel)]="newCustomer.cin" name="cin" type="text" (ngModelChange)="markAsEdited('cin')" class="form-control shadow caps" id="cin"/>
                                               </div>
                                            </div>
                                            <br/>
@@ -244,7 +244,7 @@
                                                  <label class="form-label" for="building_description"><b>Building Description</b></label>
                                               </div>
                                               <div class="col-10">
-                                                 <select [(ngModel)]="newCustomer.building_description" name="building_description" class="form-select shadow" id="building_description">
+                                                 <select [(ngModel)]="newCustomer.building_description" name="building_description" (ngModelChange)="markAsEdited('building_description')" class="form-select shadow" id="building_description">
                                                    <option *ngFor="let building_description of building_descriptions" [value]="building_description.code">{{building_description.name}}</option>
                                                  </select>
                                               </div>
@@ -255,7 +255,7 @@
                                                  <label class="form-label" for="premise_type"><b>Premises Type</b></label>
                                               </div>
                                               <div class="col-10">
-                                                 <select [(ngModel)]="newCustomer.premise_type" name="premise_type" class="form-select shadow" id="premise_type">
+                                                 <select [(ngModel)]="newCustomer.premise_type" name="premise_type" (ngModelChange)="markAsEdited('premise_type')" class="form-select shadow" id="premise_type">
                                                    <option *ngFor="let premise_type of premise_types" [value]="premise_type.code">{{premise_type.name}}</option>
                                                  </select>
                                               </div>
@@ -266,9 +266,9 @@
                                                  <label class="form-label" for="address1"><b>Address</b></label>
                                               </div>
                                               <div class="col-10">
-                                                 <input *ngIf="newCustomer.address1";else blockaddress [(ngModel)]="newCustomer.address1" name="address1" type="text" class="form-control shadow caps" id="address1"/>
+                                                 <input *ngIf="newCustomer.address1";else blockaddress [(ngModel)]="newCustomer.address1" (ngModelChange)="markAsEdited('address1')" name="address1" type="text" class="form-control shadow caps" id="address1"/>
                                                  <ng-container #blockaddress>
-                                                   <input [(ngModel)]="newCustomer.address" name="address1" type="text" class="form-control shadow caps" id="address1"/>
+                                                   <input [(ngModel)]="newCustomer.address" name="address1" type="text" (ngModelChange)="markAsEdited('address')" class="form-control shadow caps" id="address1"/>
                                                  </ng-container>
                                               </div>
                                            </div>
@@ -278,7 +278,7 @@
                                                  <label class="form-label" for="lga"><b>Local Govt</b></label>
                                               </div>
                                               <div class="col-10">
-                                                 <input [(ngModel)]="newCustomer.lga" name="lga" type="text" class="form-control shadow caps" id="lga"/>
+                                                 <input [(ngModel)]="newCustomer.lga" name="lga" (ngModelChange)="markAsEdited('lga')" type="text" class="form-control shadow caps" id="lga"/>
                                               </div>
                                            </div>
                                            <br/>
@@ -287,9 +287,12 @@
                                                  <label class="form-label" for="region"><b>Region</b></label>
                                               </div>
                                               <div class="dropdown col-10">
-                                                <select (change)="fetchBusinessUnits($event)" [(ngModel)]="newCustomer.region" name="region" class="form-select shadow" id="region">
+                                                <select (change)="fetchBusinessUnits($event)" [(ngModel)]="newCustomer.region" (ngModelChange)="markAsEdited('region')" name="region" class="form-select shadow" id="region">
                                                    <option value="Oyo">Oyo</option>
                                                    <option value="Osun">Osun</option>
+                                                   <option value="Kwara">Kwara</option>
+                                                   <option value="Ogun">Ogun</option>
+                                                   <option value="Ibadan">Ibadan</option>
                                                 </select>
                                               </div>
                                            </div>
@@ -299,10 +302,10 @@
                                                  <label class="form-label" for="buid"><b>Business Hub</b></label>
                                               </div>
                                               <div class="dropdown col-10">
-                                                <select *ngIf="!userFetched" (change)="fetchServiceCenters($event)" [(ngModel)]="newCustomer.buid" name="buid" class="form-select shadow" id="buid">
+                                                <select *ngIf="!userFetched" (change)="fetchServiceCenters($event)" [(ngModel)]="newCustomer.buid" (ngModelChange)="markAsEdited('buid')" name="buid" class="form-select shadow" id="buid">
                                                    <option *ngFor="let location of locations;" [value]="location.name | lowercase">{{location.name }}</option>
                                                 </select>
-                                                <select *ngIf="userFetched" (change)="fetchServiceCenters($event)" [(ngModel)]="newCustomer.buid" name="buid" class="form-select shadow" id="buid">
+                                                <select *ngIf="userFetched" (change)="fetchServiceCenters($event)" [(ngModel)]="newCustomer.buid" (ngModelChange)="markAsEdited('buid')" name="buid" class="form-select shadow" id="buid">
                                                    <option *ngFor="let business_unit of business_units;" [value]="business_unit.name | lowercase">{{business_unit.name}}</option>
                                                 </select>
                                               </div>
@@ -313,7 +316,7 @@
                                                  <label class="form-label" for="servicecenter"><b>Service Center</b></label>
                                               </div>
                                               <div class="dropup col-10">
-                                                <select [(ngModel)]="newCustomer.servicecenter" name="servicecenter" class="form-select shadow" id="servicecenter">
+                                                <select [(ngModel)]="newCustomer.servicecenter" name="servicecenter" (ngModelChange)="markAsEdited('servicecenter')" class="form-select shadow" id="servicecenter">
                                                    <option *ngFor="let servicecenter of service_centers;" [value]="servicecenter.name | lowercase">{{servicecenter.name}}</option>
                                                 </select>
                                                  
@@ -325,7 +328,7 @@
                                                  <label class="form-label" for="city"><b>City</b></label>
                                               </div>
                                               <div class="col-10">
-                                                 <input [(ngModel)]="newCustomer.city" name="city" type="text" class="form-control shadow caps" id="city"/>
+                                                 <input [(ngModel)]="newCustomer.city" name="city" type="text" (ngModelChange)="markAsEdited('city')" class="form-control shadow caps" id="city"/>
                                               </div>
                                            </div>
                                            <br/>
@@ -334,9 +337,12 @@
                                                  <label class="form-label" for="state"><b>State</b></label>
                                               </div>
                                               <div class="col-10">
-                                                 <select [(ngModel)]="newCustomer.state" name="state" class="form-select shadow caps" id="state">
+                                                 <select [(ngModel)]="newCustomer.state" name="state" (ngModelChange)="markAsEdited('state')" class="form-select shadow caps" id="state">
                                                    <option value="Oyo">Oyo</option>
                                                    <option value="Osun">Osun</option>
+                                                   <option value="Kwara">Kwara</option>
+                                                   <option value="Ogun">Ogun</option>
+                                                   <option value="Ibadan">Ibadan</option>
                                                  </select>
                                               </div>
                                            </div>
@@ -376,7 +382,7 @@
                                                  <label class="form-label" for="dss_owner"><b>DSS Owner</b></label>
                                               </div>
                                               <div class="dropdown col-4">
-                                                 <a href="#" (click)="getGisAssetdata('dss_owner')" id="dss_owner" style="width:100%;" class="shadow pointer dropdown-toggle dropdown-indicator btn " data-bs-toggle="dropdown" aria-expanded="false">Select DSS Owner</a>
+                                                 <a href="#" (click)="getGisAssetdata('dss_owner')" (ngModelChange)="markAsEdited('dss_owner')" id="dss_owner" style="width:100%;" class="shadow pointer dropdown-toggle dropdown-indicator btn " data-bs-toggle="dropdown" aria-expanded="false">Select DSS Owner</a>
                                                  <div style="width:100%;" class="dropdown-menu">
                                                     <ul id="dss_owner_list" style="width:100%;max-height:20vh!important;overflow-y:auto!important;" class="link-list-opt pointer">
                                                     </ul>
@@ -386,13 +392,13 @@
                                                  <label class="form-label" for="dss_owner"><b>DSS Name</b></label>
                                               </div>
                                               <div class="dropdown col-4">
-                                                 <button [(ngModel)]="newCustomer.dss_id" name="dss_id" (click)="getGisAssetdata('dss')" id="dss_id" style="width:100%;" class="shadow pointer dropdown-toggle dropdown-indicator btn " data-bs-toggle="dropdown" aria-expanded="false">Select DSS Name</button>
+                                                 <button [(ngModel)]="newCustomer.dss_id" (ngModelChange)="markAsEdited('dss_id')" name="dss_id" (click)="getGisAssetdata('dss')" id="dss_id" style="width:100%;" class="shadow pointer dropdown-toggle dropdown-indicator btn " data-bs-toggle="dropdown" aria-expanded="false">Select DSS Name</button>
                                                  <div style="width:100%;"  class="dropdown-menu">
                                                     <ul id="dss_list" style="width:100%;max-height:20vh!important;overflow-y:auto!important;" class="link-list-opt pointer">
                                                     </ul>
                                                  </div>
                                               </div>
-                                              <input hidden="1" type="text" class="form-control shadow caps" id="dss_name"/>
+                                              <input hidden="1" type="text" (ngModelChange)="markAsEdited('dss_name')" class="form-control shadow caps" id="dss_name"/>
                                            </div>
                                            <br/>
                                            <div class="row g-3">
@@ -406,7 +412,7 @@
                                                  <label class="form-label" for="feeder_name"><b>Feeder Name</b></label>
                                               </div>
                                               <div class=" col-4">
-                                                 <button  [(ngModel)]="newCustomer.feederid" name="feederid" id="feederid" style="width:100%;" class="shadow dropdown-toggle pointer btn " data-bs-toggle="dropdown" aria-expanded="false">Select Feeder Name</button>
+                                                 <button  [(ngModel)]="newCustomer.feederid" (ngModelChange)="markAsEdited('feederid')" name="feederid" id="feederid" style="width:100%;" class="shadow dropdown-toggle pointer btn " data-bs-toggle="dropdown" aria-expanded="false">Select Feeder Name</button>
                                               </div>
                                            </div>
                                            <br/>
@@ -415,7 +421,7 @@
                                                  <label class="form-label" for="service_band"><b>Service Band</b></label>
                                               </div>
                                               <div class="col-10">
-                                                 <select [(ngModel)]="newCustomer.service_band" name="service_band" class="form-select shadow" id="service_band">
+                                                 <select [(ngModel)]="newCustomer.service_band" (ngModelChange)="markAsEdited('service_band')" name="service_band" class="form-select shadow" id="service_band">
                                                    <option *ngFor="let service_band of service_bands;" [value]="service_band.name">{{service_band.name}}</option>
                                                  </select>
                                               </div>
@@ -426,7 +432,7 @@
                                                  <label class="form-label" for="injectionstation"><b>Injection Substation</b></label>
                                               </div>
                                               <div class="col-10">
-                                                 <input [(ngModel)]="newCustomer.injection_sub_station" name="injection_sub_station" type="text" class="form-control shadow caps" id="injection_sub_station"/>
+                                                 <input [(ngModel)]="newCustomer.injection_sub_station" name="injection_sub_station" (ngModelChange)="markAsEdited('injection_sub_station')" type="text" class="form-control shadow caps" id="injection_sub_station"/>
                                               </div>
                                            </div>
                                            <br/>
@@ -435,7 +441,7 @@
                                                  <label class="form-label" for="meteroem"><b>Meter OEM</b></label>
                                               </div>
                                               <div class="col-10">
-                                                 <input [(ngModel)]="newCustomer.meteroem" name="meteroem" type="text" class="form-control shadow caps" id="meteroem"/>
+                                                 <input [(ngModel)]="newCustomer.meteroem" name="meteroem" (ngModelChange)="markAsEdited('meteroem')" type="text" class="form-control shadow caps" id="meteroem"/>
                                               </div>
                                            </div>
                                            <br/>
@@ -444,7 +450,7 @@
                                                  <label class="form-label" for="ltpoleid"><b>Low Tension Pole ID</b></label>
                                               </div>
                                               <div class="col-10">
-                                                 <input [(ngModel)]="newCustomer.ltpoleid" name="ltpoleid" type="text" class="form-control shadow caps" id="ltpoleid"/>
+                                                 <input [(ngModel)]="newCustomer.ltpoleid" name="ltpoleid" (ngModelChange)="markAsEdited('ltpoleid')" type="text" class="form-control shadow caps" id="ltpoleid"/>
                                               </div>
                                            </div>
                                            <br/>
@@ -482,7 +488,7 @@
                                                  <label class="form-label" for="lname"><b>Landlord Name</b></label>
                                               </div>
                                               <div class="col-10">
-                                                 <input [(ngModel)]="newCustomer.landlord_name" name="landlord_name" type="text" class="form-control shadow caps" id="lname"/>
+                                                 <input [(ngModel)]="newCustomer.landlord_name" name="landlord_name" (ngModelChange)="markAsEdited('landlord_name')" type="text" class="form-control shadow caps" id="lname"/>
                                               </div>
                                            </div>
                                            <br/>
@@ -491,7 +497,7 @@
                                                  <label class="form-label" for="lphone"><b>Landlord Phone</b></label>
                                               </div>
                                               <div class="col-10">
-                                                 <input [(ngModel)]="newCustomer.landlord_phone" name="landlord_phone" type="text" class="form-control shadow caps" id="lphone"/>
+                                                 <input [(ngModel)]="newCustomer.landlord_phone" name="landlord_phone" (ngModelChange)="markAsEdited('landlord_phone')" type="text" class="form-control shadow caps" id="lphone"/>
                                               </div>
                                            </div>
                                            <br/>

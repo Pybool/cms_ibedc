@@ -19,7 +19,7 @@ REFUND_THRESHOLDS = {
     "range4_lower_limit":250001,
 }
 
-CACHE_CONTROL = "max-age=500"
+CACHE_CONTROL = "max-age=1000"
 
 SETTINGS_CACHE_CONTROL = "max-age=100"
 

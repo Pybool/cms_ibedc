@@ -10,6 +10,7 @@ import { ecmiCustomers, emsCustomers } from '../pages/customersmodule/prepaidcus
 import { UserModifyModel } from '../pages/user/createuser/models/user';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { SharedService } from './shared.service';
+let self;
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +38,7 @@ export class CustomerService {
               private http: HttpClient,private router: Router,
               private sharedService: SharedService) { 
     this.userState = this.store.select(UserState);
+    self = this
   }
 
    getCurrentDate() {
@@ -72,19 +74,22 @@ export class CustomerService {
   }
 
   swapCustomerlist(data){
-    this.newCustomerList = data
-    
-    this.newCustomerList$.next(data)
-    console.log(this.newCustomerList)
+    console.log(data,self)
+    self.newCustomerList = data
+    self.newCustomerList$.next(data)
+    console.log(self.newCustomerList)
   }
 
   public getNewCustomerList(){
     return this.newCustomerList$.asObservable()
   }
+
+  nextPage(page,type){
+    return this.http.get(`${environment.api}/customers/${type}?start_date=${this.getCurrentDate()}&end_date=${this.getCurrentDate()}&limit=100&offset=${parseInt(page)*100}&permission_hierarchy=${this.permission_hierarchy}`)
+  }
   
   
   fetchcustomers(type:string):Observable<any>{
-    // return of({status:true,data:[]})
     this.userState.pipe(
       take(1)
     ).subscribe((user) => {

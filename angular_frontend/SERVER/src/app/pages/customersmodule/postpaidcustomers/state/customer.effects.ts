@@ -22,6 +22,7 @@ import { CustomerActionTypes,
 import { map,catchError, filter, switchMap, tap, mergeMap } from 'rxjs/operators';
 import { NotificationService } from 'src/app/services/notification.service';
 import { Action } from '@ngrx/store';
+import { PaginationService } from 'src/app/services/pagination.service';
 // import { UpdateUser } from '../../createuser/models/user';
 
 @Injectable()
@@ -31,7 +32,8 @@ export class EmsCustomerEffects {
     private actions$: Actions,
     private customersService: CustomerService,
     private router: Router,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private paginationService: PaginationService
   ) {}
   // effects go here
 
@@ -169,6 +171,7 @@ FetchEmsCustomers$= createEffect(() =>
                 map((response) => {
                     console.log(response);
                     if(response.status){
+                        this.paginationService.setLinks(response.next,response.last,'postpaidcustomers')
                         return new FetchEmsCustomersSuccess(response) as Action; // cast to Action
                     }
                     else{

@@ -58,6 +58,11 @@ import { TodaycollectionsemsComponent } from './pages/todaycollectionsems/todayc
 import { NotificationmodalComponent } from './ui/notificationmodal/notificationmodal.component';
 import { LocationsEffects } from './pages/locations/state/location.effects';
 import { CaadComponent } from './pages/customerdetails/caad/caad.component';
+import { PaginationComponent } from './pages/pagination/pagination.component';
+import { PaginationService } from './services/pagination.service';
+import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
+import { AuthGuard } from './services/auth-guard.service';
+import { AdminGuard } from './services/admin-guard.service';
 
 
 const metaReducers: Array<MetaReducer<any, any>> = [localStorageReducer];
@@ -88,7 +93,9 @@ const metaReducers: Array<MetaReducer<any, any>> = [localStorageReducer];
     TodaycollectionsecmiComponent,
     TodaycollectionsemsComponent,
     NotificationmodalComponent,
-    CaadComponent
+    CaadComponent,
+    PaginationComponent,
+    UnauthorizedComponent
     
   ],
   imports: [
@@ -119,7 +126,7 @@ const metaReducers: Array<MetaReducer<any, any>> = [localStorageReducer];
     // CustomercreationModule
   ],
   
-  providers: [AuthService,DecimalPipe,
+  providers: [AuthService,DecimalPipe,PaginationService,AuthGuard,AdminGuard,
 
     {
       provide: HTTP_INTERCEPTORS,

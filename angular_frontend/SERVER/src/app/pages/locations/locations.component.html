@@ -36,14 +36,14 @@
                                                 <div class="card-tools">
                                                     <div class="form-inline flex-nowrap gx-3">
                                                         <div class="form-wrap w-150px">
-                                                            <select class="form-select" data-search="off" data-placeholder="----" >
+                                                            <select disabled class="form-select" data-search="off" data-placeholder="----" >
                                                                 <option value="" data-select2-id="3">Activate</option>
                                                                 <option value="email">Activate</option>
                                                                 <option value="suspend">Suspend location</option>
                                                             </select>
                                                             <!-- <span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="2" style="width: 134px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-rx8f-container"><span class="select2-selection__rendered" id="select2-rx8f-container" role="textbox" aria-readonly="true"><span class="select2-selection__placeholder">----</span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span> -->
                                                         </div>
-                                                        <div class="btn-wrap"><span class="d-none d-md-block"><button class="btn btn-dim btn-outline-light">Toggle View</button></span><span class="d-md-none"><button class="btn btn-dim btn-outline-light btn-icon disabled"><em class="icon ni ni-arrow-right"></em></button></span></div>
+                                                        <div class="btn-wrap"><span class="d-none d-md-block"><button disabled class="btn btn-dim btn-outline-light">Toggle View</button></span><span class="d-md-none"><button class="btn btn-dim btn-outline-light btn-icon disabled"><em class="icon ni ni-arrow-right"></em></button></span></div>
                                                     </div>
                                                 </div>
                                                 <div class="card-tools me-n1">
@@ -232,7 +232,7 @@
             </div>
             
             <div class="col-6">
-                <button type="submit" style="width:100%;color:white;" class="btn btn-primary d-none d-md-inline-flex">Save Location</button>
+                <button disabled type="submit" style="width:100%;color:white;" class="btn btn-primary d-none d-md-inline-flex">Save Location</button>
             </div>
             <div class="col-6">
                 <button (click)="exitForm($event)" data-target="edit-locations" type="button" style="width:100%;color:white;" class="toggle btn btn-primary d-none d-md-inline-flex"><span>Exit</span></button>

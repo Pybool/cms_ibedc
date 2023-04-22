@@ -48,11 +48,12 @@ CreateNewUser$= createEffect(() =>
         map((action: CreateNewUser) => action.payload),
         switchMap(payload => {
             return this.userService.createUser(payload).pipe(
-                map((user) => {
-                    console.log(user);
-                    if(user.status){
-                        user.email = payload.email
-                        return new CreateUserSuccess(user.data) as Action; // cast to Action
+                map((response) => {
+                    console.log(response);
+                    if(response.status){
+                        response.email = payload.email
+                        this.notificationService.success(response.message,'Creation successfull',{})
+                        return new CreateUserSuccess(response.data) as Action; // cast to Action
                     }
                     else{
                         throw new Error("Server returned false status for login")

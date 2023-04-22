@@ -18,6 +18,12 @@ export class CrmdComponent {
    awaitingCustomers$:any;
    loadedAwaitingCustomer:any;
    activeAccordionItem:string;
+   editedFields:string[] = []
+   newFieldsBasicInfo:any[] = []
+   newFieldsAccountInfo:any[] = []
+   newFieldsLocationInfo:any[] = []
+   newFieldsAssetsInfo:any[] = []
+   newFieldsLandlordInfo:any[] = []
   constructor(private crmdService:CrmdService,private notificationService: NotificationService){}
 
   ngOnInit(){
@@ -36,9 +42,26 @@ export class CrmdComponent {
   }
 
   viewAwaitingCustomer($event){
+    const self = this
     this.loadedAwaitingCustomer = this.getItemById(this.awaitingCustomers,$event.target.closest('li')?.value)
     console.log("[LOADED AWAITING CUSTOMER]:: ",this.loadedAwaitingCustomer)
+    this.editedFields = this.loadedAwaitingCustomer.last_edited_fields.fields
     document.getElementById('awaiting_customer_details').classList.add("content-active")
+    const basic_info:any = document.getElementById('basic-info')
+    const account_info:any = document.getElementById('account-info')
+    const location_info:any = document.getElementById('location-info')
+    const assets_info:any = document.getElementById('assets-info')
+    const landlord_info:any = document.getElementById('landlord-info')
+    console.log(basic_info)
+    setTimeout(()=>{
+      self.newFieldsBasicInfo =basic_info.querySelectorAll('span.up')
+      self.newFieldsAccountInfo =account_info.querySelectorAll('span.up')
+      self.newFieldsLocationInfo =location_info.querySelectorAll('span.up')
+      self.newFieldsAssetsInfo =assets_info.querySelectorAll('span.up')
+      self.newFieldsLandlordInfo =landlord_info.querySelectorAll('span.up')
+      // console.log(newFieldsBasicInfo)
+    },1000)
+    
   }
 
   setActive($event){
@@ -60,6 +83,10 @@ export class CrmdComponent {
     })
     if (el){el.style.color = 'orange';this.activeAccordionItem = el.closest('a').id}
     else{el.querySelector('h6').style.color = 'orange';this.activeAccordionItem = el.closest('a').id}
+    
+  }
+
+  ngAfterViewInit(){
     
   }
 

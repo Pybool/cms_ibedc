@@ -1,3 +1,10 @@
 select{
     font-size:13px!important;
 }
+
+.up{
+    width:5px;
+    height:5px;
+    color:lightgreen;
+    text-transform: capitalize;
+}

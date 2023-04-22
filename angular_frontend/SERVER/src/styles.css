@@ -360,7 +360,7 @@ padding-bottom:40px;
 display:flex;
 flex-direction:row; 
 flex-wrap:wrap;
-justify-content:space-evenly;
+justify-content:space-around;
 align-items:center;
 gap:20px;
 background:whitesmoke;

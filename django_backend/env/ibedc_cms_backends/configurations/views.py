@@ -4,11 +4,12 @@ from rest_framework.response import Response
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from authentication.models import User, UserPositions
-from .models import UserProcessHierarchy, AccountType,BuildingDescription, CustomerCategory,CustomerType,PremiseType,SupplyType,ServiceBand, CaadVat
+from .models import UserProcessHierarchy, AccountType,BuildingDescription, CustomerCategory,CustomerType,PremiseType,SupplyType,ServiceBand, CaadVat, PositionCodes
 from authentication.helpers.permissions import Permissions
 from authentication.cms_authenticate import ( JWTAuthenticationMiddleWare )
 model_map = {
                 'accounttype': AccountType,
+                'account_type': AccountType,
                 'building_description': BuildingDescription,
                 'customer_category': CustomerCategory,
                 'customer_type': CustomerType,
@@ -64,6 +65,7 @@ class SettingsView(APIView):
             biz_hub_ops_roles = UserProcessHierarchy.objects.filter(process_code='BHM-OPC').values()
             caad_roles = UserProcessHierarchy.objects.filter(process_code='CAAD').values()
             processes = UserProcessHierarchy.get_processes()
+            user_position_codes = PositionCodes.objects.all().values()
             print({
                 'cust_cu_roles': cust_cu_roles,
                 'cust_kyc_roles': cust_kyc_roles,
@@ -84,6 +86,7 @@ class SettingsView(APIView):
                 'user_positions': user_positions,
                 'create_perm': create_perm,
                 'caad_perm': caad_perm,
+                'user_position_codes':user_position_codes,
                 'current_user': User.objects.get(id=request.user.id).name
             })
             
@@ -115,10 +118,8 @@ class CreateOptions(APIView):
             if len(options) == 2 and 'precedence' in options[1]:
                 hierarchy_data = options[1]
                 options[0]['position_code'] = buffer
-                # print("Position code ===> ", buffer)
                 hierarchy_data['position_code'] = buffer
                 hierarchy_data['precedence'] = int(hierarchy_data['precedence'])
-                print('To create ===> ',options[0])
                 created_option = model_class.objects.create(**options[0])
                 if created_option.id:
                     UserProcessHierarchy.objects.create(**hierarchy_data)
@@ -126,19 +127,52 @@ class CreateOptions(APIView):
             else:
                 # Create options
                 created_options = []
-                print("Options====> ", options)
                 for option in options:
-                    created_option = model_class.objects.create(**option)
-                    created_options.append(created_option)
-                    print("created option:", created_option)
+                    if 'precedence' not in option.keys():
+                        created_option = model_class.objects.create(**option)
+                        created_options.append(created_option)
+                        print("created option-->:", created_option)
 
             response = {"status": True, "message": "New options were created..."}
             return Response(response)
         except Exception as e:
-            response = {"status": False, "message": f"Could not create options... {str(e)}"}
+            print(str(e)) #The duplicate key value is (Business Hub Manager (BHM)).
+            if 'unique index' in str(e):
+                msg = f'This Position name or code already exists: {str(e).split("The duplicate key value is (")[1].split("). ")[0]}'
+            else:
+                msg = 'Something went wrong while performing this operation'
+            response = {"status": False, "message": msg}
             return Response(response)
 
+class CreatePositionCodes(APIView):
+    
+    def get(self,request):
+        try:
+            position_codes = PositionCodes.objects.all().values()
+            return Response({'status':True,'data':position_codes})
+        except:
+             return Response({'status':True,'data':[]})
 
+    def post(self,request):
+        data = request.data
+        if len(data['name']) > 1 and len(data['name']) < 6:
+            PositionCodes.objects.create(**data)
+            response = {"status": True, "message": "Position codes were created..."}
+        else:
+           response =  {"status": False, "message": "Position codes could not be created as the value supplied did not match length requirements"}
+        
+        return Response(response)
+    
+    def delete(self,request):
+        try:
+            id = request.GET.get('id',None)
+            if id is not None:
+                PositionCodes.objects.filter(id=int(id)).delete()
+                return Response({'status':True,'message':'Position code was deleted'})
+            else:
+                return Response({'status':False,'message':'Invalid query arguments for position code'})
+        except:
+             return Response({'status':False,'message':'Position code could not be deleted'})
     
     # @http.route('/cms/settings/read_options/',website=True,auth='user',csrf=False)
 class ReadSettingsView(APIView):
@@ -151,7 +185,7 @@ class ReadSettingsView(APIView):
             response.headers['Cache-Control'] = 'no-cache'#SETTINGS_CACHE_CONTROL
             return response 
         except Exception as e:
-            print("::::::",str(e))
+            return Response({"status":False,"message":"An error occured while fetching settings"})
             # return request.render("cms_ibedc.settings_page",{"error":str(e)}) 
         
     # @http.route('/cms/settings/update_options/',website=True,auth='user')

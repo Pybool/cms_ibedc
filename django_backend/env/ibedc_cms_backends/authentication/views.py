@@ -161,7 +161,7 @@ class AuthSignin(APIView):
                         user_details = {}
                         user[0]['is_admin'] = Permissions.user_in_groups(email,'IBEDC ADMIN')
                         if user[0]['is_admin'] == False:
-                            user[0]['is_admin'] = True #Permissions.user_in_groups(email,'DEVOPS')
+                            user[0]['is_admin'] = Permissions.user_in_groups(email,'DEVOPS')
                         user_details['status'] = True
                         user_details['data'] = user[0]
                         user_details['data']['token'] = token

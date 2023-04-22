@@ -62,6 +62,7 @@ class CustomerEditQueue(models.Model):
     
     bhm_approver = models.CharField(max_length=255, default='')
     adt_approver = models.CharField(max_length=255, default='')
+    last_edited_fields = models.JSONField(default={'fields':[]})
     
     class Meta:
         managed = True
@@ -98,7 +99,7 @@ class CustomerDrafts(models.Model):
     landlord_name = models.CharField(max_length=255, default='')
     landlord_phone = models.CharField(max_length=255, default='')
     injection_sub_station = models.CharField(max_length=255, default='')
-    meter_oem = models.CharField(max_length=255, default='')
+    meteroem = models.CharField(max_length=255, default='')
     cin = models.CharField(max_length=255, default='')
     feeder_name = models.CharField(max_length=255, default='')
     feeder_type = models.CharField(max_length=255, default='')
@@ -132,5 +133,5 @@ class CustomerDrafts(models.Model):
     auditor_approved = models.BooleanField(default=False)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'customer_drafts'

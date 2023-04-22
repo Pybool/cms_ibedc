@@ -60,6 +60,8 @@ export class CaadComponent implements OnInit {
           console.log(response)
           if (response.status){
             this.customer = response.data[0]
+            this.is_metered = this.customer
+            
             this.customerCaadService.fetchCaadHistory(params).subscribe((response)=>{
               console.log(response)
               if(response.status){
@@ -101,7 +103,13 @@ export class CaadComponent implements OnInit {
       console.log(response)
       if (response.status){
         console.log(response.data)
-        this.customer = response.data[0]
+        this.customer = response.data[0] || response.data
+        console.log(this.customer)
+        console.log("Is Metered ",this.customer?.accounttype.toString().toLowerCase())
+            if(this.customer?.accounttype.toString().toLowerCase() == 'prepaid'){
+              this.is_metered = true
+            }
+            else{this.is_metered = false}
         this.notificationService.success('Customer has been bound to this caad request','Success',{})
       }
       else{this.customer={};this.notificationService.error(response.message,'Failure',{})}

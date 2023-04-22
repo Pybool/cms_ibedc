@@ -62,22 +62,33 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <div class="form-control-wrap">
-                                    <div class="_box">
+                                    <div class="card">
                                         <label id="inner-text" for="tagList">...</label>
-                                        <input required="1" placeholder="Type and Press enter..." style="border: 1px solid !important;" type="text" class="form-control" id="newTag" value=""/>
+                                        <input required="1" placeholder="Type position name" type="text" class="form-control" id="newTag" value=""/>
                                         <div id="user-settings" class="user-settings">
-                                            <input required="1" placeholder="Type Position Code and Press ENTER..." style="border: 1px solid !important;" type="text" class="form-control" id="position_code" value=""/>
+                                            <!-- <input required="1" placeholder="Type position code and press enter..." type="text" class="form-control" id="position_code" value=""/> -->
+                                            <select value="" class="form-select shadow caps" id="position_code">
+                                                <option disabled="1" value="">Select position code for user</option>
+                                                <option *ngFor="let position_code of position_codes" [value]="position_code.name" t-esc="position_code['name']">{{position_code.name}}</option>
+                                            </select>
                                             <br/>
-                                            <select value="" class="form-control shadow caps" id="sel_position_code">
+                                            <select value="" class="form-select shadow caps" id="sel_position_code">
                                                 <option disabled="1" value="">Select process stream for user</option>
                                                 <option *ngFor="let process of processes" [value]="process['code']" t-esc="process['name']">{{process.name}}</option>
                                             </select>
                                             <br/>
-                                            <input value="-1" placeholder="Type Precedence code and press enter..." style="border: 1px solid !important;" type="number" class="form-control" id="precedence"/>
+                                            <input value="0" placeholder="Type precedence code and press enter..." type="number" class="form-control" id="precedence"/>
                                         </div>
-                                        <ul class="tagList" id="tagList">
-                                            <!-- All TagList Here! -->
-                                        </ul>
+                                        <br>
+                                        <!-- <p>Items</p> -->
+                                        <div class="positions-cart">
+                                            <ul class="tagList" id="tagList">
+                                                <!-- All TagList Here! -->
+                                            </ul>
+                                        </div>
+                                        <br>
+                                        <button id="position-cart" style="display:none" class="btn btn-outline-light col-4" onclick="window.addToList()"><em class="icon ni ni-plus"></em> Add more</button>
+                                        <!-- <button>Save</button> -->
                                     </div>
                                 </div>
                             </div>

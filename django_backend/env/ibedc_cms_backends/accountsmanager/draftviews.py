@@ -48,10 +48,10 @@ class DraftsView(APIView):
 
             else:
                 draft_object['edited_by'] = request.user.email
-                try:
-                    draft_object['meter_oem'] = draft_object.pop('meteroem')
-                except:
-                    pass
+                # try:
+                #     draft_object['meter_oem'] = draft_object.pop('meteroem')
+                # except:
+                #     pass
                 draftcheck.update(**draft_object)
                 if draft_object:
                     self.id = draftcheck.values('id')[0]['id']

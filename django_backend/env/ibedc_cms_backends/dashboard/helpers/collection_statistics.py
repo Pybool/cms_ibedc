@@ -47,6 +47,7 @@ class CollectionsStatisticsGraph(object):
         self.EMS_AND = f"AND #TABLE_NAME#.{self.get_permission_query('ems')}" if self.key !='hq' else ''
         self.ECMI_AND = f"AND #TABLE_NAME#.{self.get_permission_query('ecmi')}" if self.key !='hq' else ''
         today = datetime.now()
+        print( self.past_date, self.current_date , today, self.current_date ,today.strftime('%Y-%m-%d'))
         if self.past_date == self.current_date and self.current_date == today.strftime('%Y-%m-%d'):
             dates = self.last_365_days_date()
             self.past_date = dates[0]
@@ -103,6 +104,6 @@ class CollectionsStatisticsGraph(object):
                         ) AS data
                         GROUP BY DATEADD(day, DATEDIFF(day, 0, date), 0)
                     """
-        # print("\n\n\nCollections stas qury ====> ", query_list)
+        print("\n\n\nCollections stas qury ====> ", query_list)
         return query_list, ['default_graph']
        

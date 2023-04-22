@@ -9,6 +9,9 @@ urlpatterns = [
     path('cms/settings/delete_options', DeleteSettingsView.as_view()),
     path('cms/settings/getdata', SettingsView.as_view()),
     path('cms/settings/update_role_hierarchy/', UpdateHierarchyView.as_view()),
+    path('cms/settings/position_codes', CreatePositionCodes.as_view()),
+    
+    
         
     
     

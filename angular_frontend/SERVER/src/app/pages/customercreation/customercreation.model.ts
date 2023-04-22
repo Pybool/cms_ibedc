@@ -34,7 +34,7 @@ export class NewCustomer {
     landlord_name?: string | null;
     landlord_phone?: string | null;
     injection_sub_station?: string | null;
-    
+    last_edited_fields?:any;
     upriserid?: string | null;
     feederid?: string | null;
     ltpoleid?: string | null;

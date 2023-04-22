@@ -224,15 +224,14 @@
                <div class="card-title-group">
                   <div class="card-tools">
                      <div class="form-inline flex-nowrap">
-                        <div class="form-wrap w-150px">
+                        <!-- <div class="form-wrap w-150px">
                            <select disabled style="width:150px;" class="form-select" data-search="off" data-placeholder="Oyo" >
                               <option value="" data-select2-id="3">Oyo</option>
                               <option value="email">Osun</option>
                               <option value="group">Ogun</option>
                               <option value="suspend">Kwara</option>
-                              <!-- <option value="delete">Delete User</option> -->
                            </select>
-                        </div>&nbsp;
+                        </div>&nbsp; -->
                         <div class="btn-wrap"><span class="d-none d-md-block"><button (click)="toggleView($event)" class="btn btn-dim btn-outline-light">Toggle View</button></span><span class="d-md-none"><button class="btn btn-dim btn-outline-light btn-icon disabled"><em class="icon ni ni-arrow-right"></em></button></span></div>
                      </div>
                   </div>
@@ -437,18 +436,49 @@
                                                    <label class="col-5 bold" >Ser Cen</label>
                                                    <div class="col-7"><span t-esc="">{{customer['servicecenter']}}</span></div>
                                                 </div>
-                                                <div class="flex-row col-12">
+                                                <div class="flex-row col-12 nk-tb-item">
                                                    <a  href="javascript:void(0)" 
                                                       (click)="loadCustomerInformation($event,customer.accountno,customer.meterno,customer.accounttype)" 
                                                       _ngcontent-vqw-c59="" 
                                                       data-bs-toggle="tooltip" 
                                                       data-bs-placement="left" 
-                                                      title="" class="btn btn-secondary col-12" 
+                                                      title="" class="btn btn-secondary col-5" 
                                                       data-bs-original-title="View Details">
-                                                      <em _ngcontent-vqw-c59="" class="icon ni ni-download-cloud">
-
-                                                      </em><span _ngcontent-vqw-c59="">View Details</span>
+                                                      <span _ngcontent-vqw-c59="">Details</span>
                                                    </a>
+                                                   <div style="display:flex;flex-direction:row;align-items:start" class="col-7 nk-tb-col-tools">
+                                                      <ul class="nk-tb-actions gx-2">
+                                                          <li  class="nk-tb-action-hidden"><a [id]="customer.accountno.trim()" onclick="window.openCustomerUpdateForm(this.id)" (click)="openCustomerUpdateForm($event)" class="btn btn-sm btn-icon btn-trigger" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit" aria-label="Edit"><em id="--" title = {{customer.surname}}  class="icon material-icons">edit</em></a></li>
+                                                          <li  class="nk-tb-action-hidden"><a  [id]="customer.accountno.trim()" onclick="window.initiateCaad(this.id)"  class="btn btn-sm btn-icon btn-trigger" data-bs-toggle="tooltip" data-bs-placement="right" [title]="'Initiate new CAAD request'" aria-label="Suspend"><em data-bs-toggle="tooltip" data-bs-placement="right" [title]="'Initiate new CAAD request'" class="icon ni ni-money"></em></a></li>
+                                                          <li>
+                                                            <div class="dropdown">
+                                                                <a href="#" class="btn btn-sm btn-icon btn-trigger dropdown-toggle" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                                                <div class="dropdown-menu dropdown-menu-end">
+                                                                   
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                      </ul>
+                                                  </div>
+                                                  
+                                                   
+                                                   <!-- <a [id]="customer.accountno.trim()" onclick="window.openCustomerUpdateForm(this.id)" (click)="openCustomerUpdateForm($event)"  
+                                                      _ngcontent-vqw-c59="" 
+                                                      data-bs-toggle="tooltip" 
+                                                      data-bs-placement="left" 
+                                                      style="border:none;border-color: transparent;"
+                                                      title="" class="btn btn-outline-light col-4" >
+                                                      <a href="javascript:void(0)" _ngcontent-vqw-c59="">Init CAAD</a>
+                                                   </a>
+                                                   <a [id]="customer.accountno.trim()" onclick="window.openCustomerUpdateForm(this.id)" (click)="openCustomerUpdateForm($event)"  
+                                                      _ngcontent-vqw-c59="" 
+                                                      data-bs-toggle="tooltip" 
+                                                      data-bs-placement="left" 
+                                                      style="border:none;border-color: transparent;"
+                                                      title="" class="btn btn-outline-light col-3" 
+                                                      data-bs-original-title="View Details">
+                                                      <em _ngcontent-vqw-c59="" class="icon ni ni-edit"></em>
+                                                   </a> -->
                                                 </div>
                                                  <br>
                                                  <br>
@@ -469,19 +499,10 @@
          </div> -->
       <!-- </div> -->
    </div>
-   <div _ngcontent-ltp-c55="" class="card-inner">
-      <ul _ngcontent-ltp-c55="" class="pagination justify-content-center justify-content-md-start">
-         <li _ngcontent-ltp-c55="" class="page-item"><a _ngcontent-ltp-c55="" href="#" class="page-link">Prev</a></li>
-         <li _ngcontent-ltp-c55="" class="page-item"><a _ngcontent-ltp-c55="" href="#" class="page-link">1</a></li>
-         <li _ngcontent-ltp-c55="" class="page-item"><a _ngcontent-ltp-c55="" href="#" class="page-link">2</a></li>
-         <li _ngcontent-ltp-c55="" class="page-item"><span _ngcontent-ltp-c55="" class="page-link"><em _ngcontent-ltp-c55="" class="icon ni ni-more-h"></em></span></li>
-         <li _ngcontent-ltp-c55="" class="page-item"><a _ngcontent-ltp-c55="" href="#" class="page-link">6</a></li>
-         <li _ngcontent-ltp-c55="" class="page-item"><a _ngcontent-ltp-c55="" href="#" class="page-link">7</a></li>
-         <li _ngcontent-ltp-c55="" class="page-item"><a _ngcontent-ltp-c55="" href="#" class="page-link">Next</a></li>
-      </ul>
-   </div>
+   <app-pagination></app-pagination>
 </div>
 
+<button style="display: none;" id="cdrbtn" (click)="forceUpdate($event)"></button>
 
 <div #editcustomerplaceholder></div>
 <div #createcustomerplaceholder></div>

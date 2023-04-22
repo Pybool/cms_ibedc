@@ -76,6 +76,10 @@ SaveDraft$= createEffect(() =>
                 map((response) => {
                     console.log(response);
                     if(response.status){
+                        let notification = {type:'success',title:'Draft saved Successfully',
+                        message:'Draft has been saved',
+                        subMessage:''}
+                        this.notificationService.setModalNotification(notification)
                         return new SaveDraftSuccess(response) as Action; // cast to Action
                     }
                     else{

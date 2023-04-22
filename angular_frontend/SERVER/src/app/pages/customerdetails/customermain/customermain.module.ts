@@ -11,6 +11,8 @@ import { BillinginformationModule } from '../billinginformation/billinginformati
 import { PaymentsinformationModule } from '../paymentsinformation/paymentsinformation.module';
 import { CaadComponent } from '../caad/caad.component';
 import { DataTablesModule } from 'angular-datatables';
+import { AuthGuard } from 'src/app/services/auth-guard.service';
+import { AdminGuard } from 'src/app/services/admin-guard.service';
 // import { CaadModule } from '../caad/caad.module';
 //Basic-Information: http://127.0.0.1:4200/customer/information/basic-information?accounttype=postpaid&accountno=20/29/13/1200-01
 //Billing-Information: http://127.0.0.1:4200/customer/information/billing-information?accounttype=postpaid&accountno=20/29/13/1200-01&page=7
@@ -21,13 +23,14 @@ import { DataTablesModule } from 'angular-datatables';
 const routes: Routes = [{
             path: '',
             component: CustomermainComponent,
+            canActivate: [AdminGuard] ,
             children: [
-                { path: 'basic-information', component: BasicinformationComponent },
-                { path: 'billing-information', component: BillinginformationComponent },
-                { path: 'payment-information', component: PaymentsinformationComponent },
-                { path: 'metering-information', component: MeteringinformationComponent },
-                { path: 'assets-information', component: AssetsinformationComponent },
-                { path: 'caad-information', component: CaadComponent },
+                { path: 'basic-information', component: BasicinformationComponent,canActivate: [AuthGuard] },
+                { path: 'billing-information', component: BillinginformationComponent,canActivate: [AuthGuard] },
+                { path: 'payment-information', component: PaymentsinformationComponent,canActivate: [AuthGuard] },
+                { path: 'metering-information', component: MeteringinformationComponent,canActivate: [AuthGuard] },
+                { path: 'assets-information', component: AssetsinformationComponent,canActivate: [AuthGuard] },
+                { path: 'caad-information', component: CaadComponent,canActivate: [AuthGuard] },
             ],
           },
           ]

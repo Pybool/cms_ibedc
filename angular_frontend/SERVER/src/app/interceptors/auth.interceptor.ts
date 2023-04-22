@@ -43,6 +43,10 @@ export class AuthInterceptor implements HttpInterceptor {
           })
         );
       }
+      if (err.status >= 500) {
+        // Handle the error here
+        alert('Something went wrong while performing this operation');
+      }
       this.refresh = false;
       return throwError(() => err);
     }));

@@ -106,7 +106,7 @@ class CustomerBills(APIView):
                         .replace("#page_size#",page_size)\
                         .replace("#page_no#",page_no)\
                         .replace("#hierarchy#",field_name)\
-                        .replace("#hierarchy_value#",request.user.region)\
+                        .replace("state",request.user.region)\
                         .replace("#BUID#",buid)\
                         .replace("#SERVICECENTER#",location)\
                         .replace("#DATE_CONJUNCTION#",'')
@@ -119,8 +119,9 @@ class CustomerBills(APIView):
                         
         self.custom_paginator = CustomPaginatorClass(CustomerBills.pagination_class,request)
         bills = None
-        bills_query = EmsBills.objects.all().order_by('-billdate')[:10000]
+        # bills_query = EmsBills.objects.all().order_by('-billdate')[:10000]
         total_bills = 0#bills_query.count()
+        print(query)
         bills = dict_fetch_all(query)
         
         if bills:

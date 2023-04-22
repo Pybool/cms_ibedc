@@ -31,7 +31,11 @@
                 <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>
                 <h4 id="fail-title" class="nk-modal-title">{{title}}</h4>
                 <div class="nk-modal-text">
-                    <p id="fail-msg" class="lead">{{message}}</p>
+                    <!-- <p id="fail-msg" class="lead">{{message}}</p> -->
+                    <div *ngIf="!msgIsArray" id="fail-msg" class="caption-text">{{message}}</div>
+                    <ul *ngIf="msgIsArray" class="link-list-opt">
+                        <li *ngFor="let kycerror of kycerrors"><a href="javascript:void(0)"  >{{kycerror}}</a></li>
+                    </ul>
                     <p id="fail-sub-msg" class="text-soft">{{subMessage}}</p>
                 </div>
                 <div class="nk-modal-action mt-5"><a (click)="closeModal($event)" href="javascript:closeModal('fail-modalAlert')" class="btn btn-lg btn-mw " data-bs-dismiss="modal">Return</a></div>

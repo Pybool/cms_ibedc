@@ -49,6 +49,7 @@ class CustomerEditQueueView(APIView):
                 awaiting_customer['is_fresh'] = True
                 awaiting_customer['is_draft'] = False
                 awaiting_customer['address1'] =awaiting_customer.pop('address')
+                awaiting_customer['meter_oem'] = awaiting_customer.pop('meteroem')
                 
                 customer = CustomerEditQueue.objects.create(**awaiting_customer)
                 if customer.id:

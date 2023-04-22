@@ -146,6 +146,26 @@ export function tagList_render (value='_new') {
   setevents(value)
 };
 
+function addToList(){
+    let positionCodes = window.positionCodes 
+     
+        let positionCode = document.getElementById('position_code').value
+        if(positionCodes.includes(positionCode)){
+
+        }
+        else{
+            return alert("Position code was not found to be valid, position code must be one of ( RH , MD ,  RPU ,   CCU  ,  CCO  ,  HCS ,  MD , BHM ,  BHA , ADT )")
+        }
+    var position_code = $("#position_code").val();
+        if( position_code.replace(/\s/g, '') !== '' ){
+        tagList.push($("#newTag").val() + ` (${position_code})`);
+        tagList_render($("#newTag").val() + ` (${position_code})`);
+        document.getElementById("position_code").value = ''
+        document.getElementById("newTag").value = ''
+        document.getElementById("sel_position_code").value = ''
+        }
+}
+
 export function renderTags (taglist,value) {
     // initial render 
     if (value == "user_positions_new" || value == "user_positions_edit"){
@@ -155,19 +175,13 @@ export function renderTags (taglist,value) {
     tagList_render(value);
    
 
-    $("#position_code").on('keyup', function (e) {
-        console.log("Taglist ===> ",tagList)
-        if (e.keyCode == 13) {
-          var position_code = $("#position_code").val();
-          if( position_code.replace(/\s/g, '') !== '' ){
-            tagList.push($("#newTag").val() + ` (${position_code})`);
-            tagList_render($("#newTag").val() + ` (${position_code})`);
-            document.getElementById("position_code").setAttribute('disabled',true)
-            document.getElementById("position_code").style.opacity = 0.3;
-          }
-        }
-    })
-    console.log($("#newTag"))
+    // $("#position_code").on('keyup', function (e) {
+    //     console.log("Taglist ===> ",tagList)
+    //     if (e.keyCode == 13) {
+    //       addToList()
+    //     }
+    // })
+    // console.log($("#newTag"))
     
     
     $("#newTag").on('keyup', function (e) {
@@ -184,7 +198,6 @@ export function renderTags (taglist,value) {
         else{
             tagList.push(newTag);
             $("#newTag").val('');
-            console.log(10000, value)
             tagList_render(value);
         }
           
@@ -365,16 +378,18 @@ export function renderTags (taglist,value) {
             document.getElementById('user-settings').classList.remove('user-settings')
             customizemodal.classList.add('show')
             customizemodal.style.display = "block"
-            modaltitle.innerHTML = 'Add New Position option'
+            modaltitle.innerHTML = 'Add New Positions'
             innertext.innerHTML = 'Add new option'
+            document.getElementById('position-cart').style.display = 'block'
             renderTags(tagList,value)
             break;
                 
         case 'user_positions_edit':
             customizemodal.classList.add('show')
             customizemodal.style.display = "block"
-            modaltitle.innerHTML = 'Edit Position options'
+            modaltitle.innerHTML = 'Edit Positions'
             innertext.innerHTML = 'Remove/edit an option'
+            document.getElementById('position-cart').style.display = 'none'
             renderTags(tagList,value)
             break;
 
@@ -399,6 +414,7 @@ export function renderTags (taglist,value) {
   })
 
   window.handleCustomize  = handleCustomize
+  window.addToList = addToList
   window.toProperCase =  String.prototype.toProperCase = function () {
     return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
   };
@@ -470,6 +486,7 @@ export function modalclose(){
     let customizemodal = document.querySelector("#customizeModal")
     customizemodal.classList.remove('show')
     customizemodal.style.display = "none"
+    document.getElementById('position-cart').style.display = 'none'
 }
 
 export async function deleteRole(position_code,process_code){

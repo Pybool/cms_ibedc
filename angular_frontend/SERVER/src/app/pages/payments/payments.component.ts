@@ -1,6 +1,7 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
 import { take } from 'rxjs/operators';
 import { ConvertTableService } from 'src/app/services/convert-table.service';
+import { PaginationService } from 'src/app/services/pagination.service';
 import { PaymentsService } from 'src/app/services/payments.service';
 import { SharedService } from 'src/app/services/shared.service';
 import { SpinnerService } from 'src/app/services/spinner.service';
@@ -29,6 +30,7 @@ export class PaymentsComponent implements OnInit {
     private spinnerService: SpinnerService,
     private sharedService:SharedService,
     private convertTableService: ConvertTableService,
+    private paginationService : PaginationService,
     private paymentService: PaymentsService) { }
 
   ngOnInit(): void {
@@ -49,8 +51,9 @@ export class PaymentsComponent implements OnInit {
     })
 
     this.paymentService.fetchCustomersPayments().pipe(take(1)).subscribe((response)=>{
-      console.log(response.data)
+      console.log(response)
       if(response.status){
+        this.paginationService.setLinks(response.next,response.last,'prepaidpayments')
         this.payments = response.data
       }
       else{this.spinnerService.hideSpinner();alert(response?.message)}

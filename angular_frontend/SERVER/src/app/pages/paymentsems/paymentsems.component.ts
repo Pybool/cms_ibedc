@@ -1,6 +1,7 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
 import { take } from 'rxjs/operators';
 import { ConvertTableService } from 'src/app/services/convert-table.service';
+import { PaginationService } from 'src/app/services/pagination.service';
 import { PaymentsService } from 'src/app/services/payments.service';
 import { SharedService } from 'src/app/services/shared.service';
 import { SpinnerService } from 'src/app/services/spinner.service';
@@ -32,7 +33,8 @@ export class PaymentsemsComponent implements OnInit {
     private spinnerService: SpinnerService,
     private sharedService:SharedService,
     private convertTableService: ConvertTableService,
-    private paymentService: PaymentsService) { }
+    private paymentService: PaymentsService,
+    private paginationService:PaginationService) { }
 
   ngOnInit(): void {
     this.loadScript('https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.js');
@@ -54,6 +56,7 @@ export class PaymentsemsComponent implements OnInit {
     this.paymentService.fetchEmsCustomersPayments().pipe(take(1)).subscribe((response)=>{
       console.log(response.data)
       if(response.status){
+        this.paginationService.setLinks(response.next,response.last,'postpaidpayments')
         this.payments = response.data
       }
       else{this.spinnerService.hideSpinner();alert(response?.message)}

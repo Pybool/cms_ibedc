@@ -20,6 +20,18 @@ export class ConfigurationsService {
 
     return this.metaData$.asObservable()
   }
+
+  createPositionCode(payload){
+    return this.http.post<any>(`${environment.api}/cms/settings/position_codes`,payload)
+  }
+
+  getPositionCodes(){
+    return this.http.get<any>(`${environment.api}/cms/settings/position_codes`)
+  }
+
+  deletePositionCode(id){
+    return this.http.delete<any>(`${environment.api}/cms/settings/position_codes?id=${id}`)
+  }
   
 
   createConfigOption(payload:any){

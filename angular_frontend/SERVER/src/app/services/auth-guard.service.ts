@@ -8,7 +8,7 @@ import { AppState, selectAuthState } from '../basestore/app.states';
 import { AuthService } from './auth.service';
 
 @Injectable()
-export class AuthGuardService implements CanActivate {
+export class AuthGuard implements CanActivate {
   getState: Observable<any>;
   constructor(
     public auth: AuthService,

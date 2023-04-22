@@ -59,15 +59,10 @@ export class Customers{
               let input, filter, grid, div, td, i, txtValue, accountno, custname, abbr_name, divt;
               input = $event.target
               filter = input.value.toUpperCase();
-              console.log(filter)
               grid = document.getElementById("kanban-wraps");
               for (i = 0; i < grid.childElementCount; i++) {
                  div = grid.children[i]
                  let spans = div.getElementsByTagName("span");
-                 custname = spans[1]
-                 accountno = spans[2]
-                 console.log(custname, accountno)
-               //   abbr_name = div.getElementsByClassName("abbr_name")[0]
                  if (accountno) {
                     txtValue = spans[1].textContent + spans[2].textContent + spans[4].textContent + spans[5].textContent + spans[6].textContent
                     if (txtValue.toUpperCase().indexOf(filter) > -1) {

@@ -1,0 +1,33 @@
+<div _ngcontent-ltp-c55="" class="card-inner">
+    <ul _ngcontent-ltp-c55="" class="pagination justify-content-center justify-content-md-start">
+        <ng-container *ngFor="let link of links">
+            <li [class.active]="link.page === currentPage"  _ngcontent-ltp-c55="" class="page-item pointer"><a _ngcontent-ltp-c55="" *ngIf="link.page" (click)="nextPage($event,link.link,link.cmp)" [class.active]="link.page === currentPage" class="page-link">{{link.page}}</a></li>
+            <li  *ngIf="!link.page && activateLessButton" _ngcontent-ltp-c55="" (click)="backTrackPages()" class="page-item pointer"><span _ngcontent-ltp-c55="" class="page-link pointer"><em _ngcontent-ltp-c55="" class="icon ni ni-arrow-from-left"></em></span></li>
+            <li  *ngIf="!link.page && showLoadMoreButton" _ngcontent-ltp-c55="" (click)="loadMorePages()" class="page-item pointer"><span _ngcontent-ltp-c55="" class="page-link pointer"><em _ngcontent-ltp-c55="" class="icon ni ni-arrow-from-right"></em></span></li>
+        </ng-container>
+        <li >
+            <div style="opacity:0.5" class="dropdown">
+                <a disabled data-bs-toggle="tooltip" data-bs-placement="left" title="Load More"  class="btn btn-white btn-outline-light dropdown-toggle"  data-bs-toggle="dropdown" aria-expanded="false"><em class="icon ni ni-more-h"></em><span>Load More</span></a>
+                <div class="scroll-container" (scroll)="onScroll($event)" style="max-height:40vh; overflow-y:auto" class="dropdown-menu" >
+                    <ul class="link-list-opt">
+                        <li  *ngFor="let block of blocks;let i = index" class="col-12 flex-row g-3">
+                            <div  class="col-4"><a style="padding-top:10px;" href="javascript:void(0)" value = "Account Number" name="accountno">{{block+1}}</a></div>
+                            <div class="col-4"><a href="javascript:void(0)" value = "1" name="accountno">{{2+block}}</a></div>
+                            <div class="col-4"><a href="javascript:void(0)" value = "1" name="accountno">{{3+block}}</a></div>
+                        </li>
+                        
+                       
+                    </ul>
+                </div>
+            </div>
+        </li>
+
+       <!-- <span *ngIf="!link.page">{{ link.link }}</span> -->
+       <!-- <li _ngcontent-ltp-c55="" class="page-item"><a _ngcontent-ltp-c55="" href="#" class="page-link">1</a></li>
+       <li _ngcontent-ltp-c55="" class="page-item"><a _ngcontent-ltp-c55="" href="#" class="page-link">2</a></li>
+       <li _ngcontent-ltp-c55="" class="page-item"><span _ngcontent-ltp-c55="" class="page-link"><em _ngcontent-ltp-c55="" class="icon ni ni-more-h"></em></span></li>
+       <li _ngcontent-ltp-c55="" class="page-item"><a _ngcontent-ltp-c55="" href="#" class="page-link">6</a></li>
+       <li _ngcontent-ltp-c55="" class="page-item"><a _ngcontent-ltp-c55="" href="#" class="page-link">7</a></li>
+       <li _ngcontent-ltp-c55="" class="page-item"><a _ngcontent-ltp-c55="" href="#" class="page-link">Next</a></li> -->
+    </ul>
+ </div>

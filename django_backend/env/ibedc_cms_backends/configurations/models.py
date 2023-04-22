@@ -1,5 +1,10 @@
 from django.db import models
 
+class PositionCodes(models.Model):
+    name = models.CharField(max_length=255, unique=True)    
+    class Meta:
+        db_table = 'user_position_codes'
+
 class AccountType(models.Model):
     name = models.CharField(max_length=255, unique=True)
     code = models.CharField(max_length=255, unique=True)

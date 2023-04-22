@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { data } from 'jquery';
 import { UserState } from 'src/app/authentication/state/auth.selector';
@@ -16,6 +16,7 @@ import { fetchedDrafts, loadedDraft } from './state/customercreation.selector';
 
 interface CustomWindow extends Window {
   DataTable: (searchTerm: string,{}) => void;
+  assetsTouched:[];
 }
 
 declare let window: CustomWindow;
@@ -29,6 +30,8 @@ declare let window: CustomWindow;
 export class CustomercreationComponent implements OnInit {
   newCustomer = new NewCustomer()
   formHeader:string = 'Create Customer'
+  legacyCustomer = {}
+  editedFields:string[] = [];
   locationType;
   locations;
   userState;
@@ -64,7 +67,7 @@ export class CustomercreationComponent implements OnInit {
                 asset_information:['dss_id','feederid','service_band','injection_sub_station','meteroem','ltpoleid','dss_name','dss_owner','feeder_type','feeder_name',],
                 landlord_information:['landlord_name','landlord_phone']}
 
-  constructor(private store: Store<AppState>,
+  constructor(private store: Store<AppState>,private cdr: ChangeDetectorRef,
               private customerService: CustomerService,
               private sharedService: SharedService,private notificationService: NotificationService,
               private customerCreateUpdateService:CustomercreationupdateService,
@@ -83,8 +86,7 @@ export class CustomercreationComponent implements OnInit {
         this.user_region = user.region
         this.user_buid = user.business_unit 
         this.user_servicecenter = user.service_center   
-        console.log(user)
-        console.log(user.region, user.business_unit, user.service_center, user.permission_hierarchy)  
+    
       }
     });
 
@@ -241,7 +243,9 @@ export class CustomercreationComponent implements OnInit {
       for(let field of flattenedFields){
         dataToLoad[field] = data[field]
       }
-      this.newCustomer = new LoadCustomer(dataToLoad) 
+      this.newCustomer  = new LoadCustomer(dataToLoad) 
+      this.legacyCustomer = JSON.parse(JSON.stringify(this.newCustomer))
+      delete this.legacyCustomer['customer']
       this.setAssetsDropdowns()   
       console.log("Loaded ====> ", this.newCustomer)  
 
@@ -261,16 +265,38 @@ export class CustomercreationComponent implements OnInit {
     })
   }
 
+  markAsEdited(field: string) {
+    if(this.editedFields.includes(field)==false){
+      this.editedFields.push(field);
+    }
+  }
+
+  private getDifferentKeys(obj1, obj2) {
+    const differentKeys = [];
+  
+    for (const key in obj1) {
+      if (obj1.hasOwnProperty(key) && obj2.hasOwnProperty(key)) {
+        if (obj1[key] !== obj2[key]) {
+          differentKeys.push(key);
+        }
+      }
+    }
+  
+    return differentKeys;
+  }
+  
+
   submit(){
-    console.log("Customer data =====> ",this.newCustomer)
+    console.log("Customer data =====> ",this.newCustomer, this.editedFields)
     let buffer = new Array()
+    let cdrbtn:any = document.querySelector("#cdrbtn")
 
     const mandatoryField =  [ 'accountno', 'accounttype', 'gender', 'surname', 'firstname', 'othernames', 'mobile', 'state', 'region','buid', 'servicecenter', 'city','address', 'address1', 'dss_id', 'feederid', 'statuscode', 'email' ] 
     mandatoryField.forEach((field)=>{
       buffer.push(this.newCustomer[field])
     })
-    let status = this.customervalidationService.check_kyc_compliance(buffer,'create')
-    if(status == true){
+    let kycstatus = this.customervalidationService.check_kyc_compliance(buffer,'create')
+    if(kycstatus == true){
       console.log("Submitting awaiting customer ")
       this.customerCreateUpdateService.checkOrCreateNewAwaitingCustomer(this.newCustomer).subscribe((response)=>{
         console.log("[SERVER::::::>] ", response)
@@ -280,12 +306,14 @@ export class CustomercreationComponent implements OnInit {
           this.accountnoExistsRows = response.data.accountno_exists
           return this.existspopupModal("Found records sharing some key fields!",response.message,response.data)
         }
+        
         if(response.status == true && response.exists == false){
           //Load Notification Modal here....
           let notification = {type:'success',title:'Awaiting Customer Created',
           message:response?.message,
           subMessage:'A mail has been sent to the approving officer'}
           this.notificationService.setModalNotification(notification)
+          cdrbtn.click()
         }
         else{
           //Load Notification Modal here....
@@ -293,13 +321,45 @@ export class CustomercreationComponent implements OnInit {
           message:response?.message,
           subMessage:'Awaiting Customer failed'}
           this.notificationService.setModalNotification(notification)
+          cdrbtn.click()
         }
       })
-    }
-    return console.log(status)
+    }let notification = {type:'failure',title:'Kyc Verification failed',message:kycstatus,subMessage:'Kyc Verification data was incomplete'}
+   this.notificationService.setModalNotification(notification)
+   cdrbtn.click()
+   this.cdr.detectChanges();
+  }
+
+  getFreshAssets(){
+    let asset:any
+    const arr = ['dss_owner','dss_id','dss_name','feederid','feeder_type','feeder_name']
+    arr.forEach((field)=>{
+      asset = document.getElementById(field)
+     
+      if(field.includes('name')){
+        if(field=='dss_name'){
+          let dss_id= document.getElementById('dss_id')
+          let dss_name = dss_id.textContent
+          this.newCustomer.dss_name = dss_name
+          console.log(dss_name)
+        }
+        if(field=='feeder_name'){
+          let feederid= document.getElementById('feederid')
+          let feeder_name = feederid.textContent
+          this.newCustomer.feeder_name = feeder_name
+          console.log(feeder_name)
+        }
+      }
+      else{
+        this.newCustomer[field] = asset.value || asset.getAttribute('value')
+        console.log(asset.value || asset.getAttribute('value'))
+      }
+    })
   }
 
   createUpdateAwaitingCustomer($event,create=false){
+
+    this.getFreshAssets()
     
     if(create == false){
       console.log("Awaiting customer to update ---> ", $event.target.closest('tr')?.id)
@@ -308,9 +368,22 @@ export class CustomercreationComponent implements OnInit {
       if (action){
           if(this.newCustomer != undefined){
             this.newCustomer['force'] = false
-            const payload = {rowid:rowid,data:this.newCustomer}
+            console.log(this.newCustomer, this.legacyCustomer)
+            console.log("difference ---> ", this.getDifferentKeys(this.newCustomer, this.legacyCustomer))
+            const payload = {rowid:rowid,data:this.newCustomer,touched:this.editedFields}
+            payload.data.last_edited_fields = {fields:this.getDifferentKeys(this.newCustomer, this.legacyCustomer)}
             this.customerCreateUpdateService.updateExistsAwaitingCustomer(payload).subscribe((response)=>{
-
+              
+              if(response.status){
+                let notification = {type:'success',title:'Awaiting Customer updated',message:response.message,subMessage:''}
+                this.notificationService.setModalNotification(notification)
+                this.cdr.detectChanges();
+                return 
+              }
+              let notification = {type:'failure',title:'Awaiting Customer update failed',message:response.message,subMessage:''}
+                this.notificationService.setModalNotification(notification)
+                this.cdr.detectChanges();
+              
             })
           }
       }

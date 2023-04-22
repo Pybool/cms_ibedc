@@ -28,11 +28,18 @@ class Permission(object):
             self.PERMISSION = f"""{self.key} = '{self.permissions_dict[self.key].lower()}'"""
             
         if self.business_unit_user or self.service_center_user:
-            if type == 'ems':
-                buids = fetch_and_cache_buids()
-                self.buid = search_for_buid(self.permissions_dict.get(self.key, '').lower(), self.request.user.region, buids)
-            if type =='ecmi':
-                self.buid = self.permissions_dict.get(self.key, '').lower()
+            if self.business_unit_user:
+                if type == 'ems':
+                    buids = fetch_and_cache_buids()
+                    self.buid = search_for_buid(self.permissions_dict.get(self.key, '').lower(), self.request.user.region, buids)
+                if type =='ecmi':
+                    self.buid = self.permissions_dict.get(self.key, '').lower()
+            if self.service_center_user:
+                if type == 'ems':
+                    buids = fetch_and_cache_buids()
+                    self.buid = search_for_buid(self.request.user.business_unit, self.request.user.region, buids)
+                if type =='ecmi':
+                    self.buid = self.request.user.business_unit
                 
         if self.business_unit_user:
             self.key = 'buid' 

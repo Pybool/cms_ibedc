@@ -20,6 +20,8 @@ import { CustomerActionTypes,
 import { map,catchError, filter, switchMap, tap, mergeMap } from 'rxjs/operators';
 import { NotificationService } from 'src/app/services/notification.service';
 import { Action } from '@ngrx/store';
+import { PaginationService } from 'src/app/services/pagination.service';
+import { SpinnerService } from 'src/app/services/spinner.service';
 // import { UpdateUser } from '../../createuser/models/user';
 
 @Injectable()
@@ -29,7 +31,9 @@ export class CustomerEffects {
     private actions$: Actions,
     private customersService: CustomerService,
     private router: Router,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private paginationService: PaginationService,
+    private spinnerService: SpinnerService
   ) {}
   // effects go here
 
@@ -140,9 +144,12 @@ FetchEcmiCustomers$= createEffect(() =>
                 map((response) => {
                     console.log(response);
                     if(response.status){
+                        this.paginationService.setLinks(response.next,response.last,'prepaidcustomers')
                         return new FetchEcmiCustomersSuccess(response) as Action; // cast to Action
                     }
                     else{
+                        this.spinnerService.hideSpinner()
+                        // this.notificationService.setModalNotification({type:'failure','message':response?.message,'subMessage':''})
                         throw new Error("Server returned false status for fetch Ecmi Customers")
                     }
                 }),
@@ -170,6 +177,8 @@ FetchEmsCustomers$= createEffect(() =>
                         return new FetchEmsCustomersSuccess(response) as Action; // cast to Action
                     }
                     else{
+                        this.spinnerService.hideSpinner()
+                        // this.notificationService.setModalNotification({type:'failure','message':response?.message,'subMessage':''})
                         throw new Error("Server returned false status for fetch Ems Customers")
                     }
                 }),
@@ -197,6 +206,8 @@ DeepFetchEcmiCustomers$= createEffect(() =>
                         return new DeepFetchEcmiCustomersSuccess(response) as Action; // cast to Action
                     }
                     else{
+                        this.spinnerService.hideSpinner()
+                        // this.notificationService.setModalNotification({type:'failure','message':response?.message,'subMessage':''})
                         throw new Error("Data was not fetched from server")
                     }
                 }),
@@ -222,6 +233,7 @@ DeepFetchEcmiCustomers$= createEffect(() =>
 //                         return new DeepFetchEmsCustomersSuccess(response) as Action; // cast to Action
 //                     }
 //                     else{
+                            // this.notificationService.setModalNotification({type:'failure','message':response?.message,'subMessage':''})
 //                         throw new Error("Server returned false status for fetch Ems Customers")
 //                     }
 //                 }),

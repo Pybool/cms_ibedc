@@ -14,12 +14,12 @@
                             <div class="toggle-wrap nk-block-tools-toggle">
                                 <a class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu"><em class="icon ni ni-menu-alt-r"></em></a>
                                 <div class="toggle-expand-content show" data-content="pageMenu">
-                                    <ul class="nk-block-tools g-3">
+                                    <!-- <ul class="nk-block-tools g-3">
                                         <li><a  (click)="createqueueForm()" class="btn btn-white btn-outline-light"><em class="icon ni ni-download-cloud"></em><span>New queue</span></a></li>
                                         <li class="nk-block-tools-opt">
                                             <a (click)="createqueueForm()" class="dropdown-toggle btn btn-icon btn-primary" data-bs-toggle="dropdown"><em class="icon ni ni-plus"></em></a>
                                         </li>
-                                    </ul>
+                                    </ul> -->
                                 </div>
                             </div>
                         </div>
@@ -31,7 +31,7 @@
                             <div style="max-height:100%;overflow-y:auto;overflow-x:hidden;" class="card-inner position-relative card-tools-toggle">
                                 <div>
                                     <div>
-                                        <div class="card-inner position-relative card-tools-toggle">
+                                        <!-- <div class="card-inner position-relative card-tools-toggle">
                                             <div class="card-title-group">
                                                 <div class="card-tools">
                                                     <div class="form-inline flex-nowrap gx-3">
@@ -41,7 +41,6 @@
                                                                 <option value="email">Activate</option>
                                                                 <option value="suspend">Suspend queue</option>
                                                             </select>
-                                                            <!-- <span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="2" style="width: 134px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-rx8f-container"><span class="select2-selection__rendered" id="select2-rx8f-container" role="textbox" aria-readonly="true"><span class="select2-selection__placeholder">----</span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span> -->
                                                         </div>
                                                         <div class="btn-wrap"><span class="d-none d-md-block"><button (click)="viewMode()" class="btn btn-dim btn-outline-light">Toggle View</button></span><span class="d-md-none"><button class="btn btn-dim btn-outline-light btn-icon disabled"><em class="icon ni ni-arrow-right"></em></button></span></div>
                                                     </div>
@@ -62,113 +61,7 @@
                                                                                     <div class="dot dot-primary"></div>
                                                                                     <em class="icon ni ni-filter-alt"></em>
                                                                                 </a>
-                                                                                <!-- <div class="filter-wg dropdown-menu dropdown-menu-xl dropdown-menu-end">
-                                                                                    <div class="dropdown-head">
-                                                                                        <span class="sub-title dropdown-title">Filter queues</span>
-                                                                                        <div class="dropdown"><a href="#" class="btn btn-sm btn-icon"><em class="icon ni ni-more-h"></em></a></div>
-                                                                                    </div>
-                                                                                    <div class="dropdown-body dropdown-body-rg">
-                                                                                        <div class="row gx-6 gy-3">
-                                                                                            <form id="queue_filter_form" class="form-validate is-alter row gx-6 gy-3" autocomplete="off" (ngSubmit)="submitFilter()" ngNativeValidate>
-                                                                                                <div class="col-6">
-                                                                                                    <div class="custom-control custom-control-sm custom-checkbox"><input [(ngModel)]="filter.can_create_queue" name="can_create_queue" type="checkbox" class="custom-control-input" id="can-create-queues"><label class="custom-control-label" for="can-create-queues">Can Create queues</label></div>
-                                                                                                </div>
-                                                                                                <div class="col-6">
-                                                                                                    <div class="custom-control custom-control-sm custom-checkbox"><input [(ngModel)]="filter.can_approve_caad" name="can_approve_caad" type="checkbox" class="custom-control-input" id="can-approve-caad"><label class="custom-control-label" for="can-approve-caad">Can Approve CAAD</label></div>
-                                                                                                </div>
-                                                                                                <div class="col-6">
-                                                                                                    <div class="custom-control custom-control-sm custom-checkbox"><input [(ngModel)]="filter.can_create_customers" name="can_create_customers" type="checkbox" class="custom-control-input" id="can-create-customers"><label class="custom-control-label" for="can-create-customers">Can Create Customers</label></div>
-                                                                                                </div>
-                                                                                                <div class="col-6">
-                                                                                                    <div class="custom-control custom-control-sm custom-checkbox"><input [(ngModel)]="filter.can_approve" name="can_approve" type="checkbox" class="custom-control-input" id="can-approve-customer"><label class="custom-control-label" for="can-approve-customer">Can Approve Customers</label></div>
-                                                                                                </div>
-                                                                                                <div class="col-6">
-                                                                                                    <div class="custom-control custom-control-sm custom-checkbox"><input [(ngModel)]="filter.can_manage_2fa" name="can_manage_2fa" type="checkbox" class="custom-control-input" id="can-manage-2fa"><label class="custom-control-label" for="can-manage-2fa">Can Manage 2FA</label></div>
-                                                                                                </div>
-                                                                                                <div class="col-6">
-                                                                                                </div>
-                                                                                                <div class="col-6">
-                                                                                                    <div class="form-group">
-                                                                                                        <label class="overline-title overline-title-alt">Positions</label>
-                                                                                                        <select [(ngModel)]="filter.position" class="form-select" name = "position" data-select2-id="4" tabindex="-1" aria-hidden="true">
-                                                                                                            <option value="any" data-select2-id="6">Any Role</option>
-                                                                                                            <option value="investor">Investor</option>
-                                                                                                            <option value="seller">Seller</option>
-                                                                                                            <option value="buyer">Buyer</option>
-                                                                                                        </select>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                                <div class="col-6">
-                                                                                                    <div class="form-group">
-                                                                                                        <label class="overline-title overline-title-alt">Permission</label>
-                                                                                                        <select [(ngModel)]="filter.permissions_hierarchy" class="form-select" name = "permissions_hierarchy" data-select2-id="7" tabindex="-1" aria-hidden="true">
-                                                                                                            <option value="any" data-select2-id="9">Any Status</option>
-                                                                                                            <option value="active">Active</option>
-                                                                                                            <option value="pending">Pending</option>
-                                                                                                            <option value="suspend">Suspend</option>
-                                                                                                            <option value="deleted">Deleted</option>
-                                                                                                        </select>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                                <div class="col-6">
-                                                                                                    <div class="form-group">
-                                                                                                        <label class="overline-title overline-title-alt">Region</label>
-                                                                                                        <select [(ngModel)]="filter.region" class="form-select" name = "region" data-select2-id="reg" tabindex="-1" aria-hidden="true">
-                                                                                                            <option value="any" data-select2-id="region">Any Role</option>
-                                                                                                            <option value="investor">Investor</option>
-                                                                                                            <option value="seller">Seller</option>
-                                                                                                            <option value="buyer">Buyer</option>
-                                                                                                        </select>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                                <div class="col-6">
-                                                                                                    <div class="form-group">
-                                                                                                        <label class="overline-title overline-title-alt">Business Units</label>
-                                                                                                        <select [(ngModel)]="filter.business_unit" class="form-select"  name = "business_unit" data-select2-id="biz" tabindex="-1" aria-hidden="true">
-                                                                                                            <option value="any" data-select2-id="bizhub">Any Status</option>
-                                                                                                            <option value="active">Active</option>
-                                                                                                            <option value="pending">Pending</option>
-                                                                                                            <option value="suspend">Suspend</option>
-                                                                                                            <option value="deleted">Deleted</option>
-                                                                                                        </select>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                                <div class="col-6">
-                                                                                                    <div class="form-group">
-                                                                                                        <label class="overline-title overline-title-alt">Service Center</label>
-                                                                                                        <select [(ngModel)]="filter.servicecenter" class="form-select"  name = "servicecenter" data-select2-id="sc" tabindex="-1" aria-hidden="true">
-                                                                                                            <option value="any" data-select2-id="servicecenter">Any Status</option>
-                                                                                                            <option value="active">Active</option>
-                                                                                                            <option value="pending">Pending</option>
-                                                                                                            <option value="suspend">Suspend</option>
-                                                                                                            <option value="deleted">Deleted</option>
-                                                                                                        </select>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                                <div class="col-6">
-                                                                                                    <div class="form-group">
-                                                                                                        <label class="overline-title overline-title-alt">Status</label>
-                                                                                                        <select [(ngModel)]="filter.status" class="form-select" name="status" data-select2-id="st" tabindex="-1" aria-hidden="true">
-                                                                                                            <option value="any" data-select2-id="status">Any Status</option>
-                                                                                                            <option value="active">Active</option>
-                                                                                                            <option value="pending">Pending</option>
-                                                                                                            <option value="suspend">Suspend</option>
-                                                                                                            <option value="deleted">Deleted</option>
-                                                                                                        </select>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                                <div class="col-12">
-                                                                                                    <div class="form-group"><button type="submit" class="btn btn-secondary">Filter</button></div>
-                                                                                                </div>
-
-                                                                                            </form>
-                                                                                            
-                                                                                            
-                                                                                            
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="dropdown-foot between"><a class="clickable" (click)="resetFilter()" href="javscript:void(0)">Reset Filter</a></div>
-                                                                                </div> -->
+                                                                                
                                                                             </div>
                                                                         </li>
                                                                         <li>
@@ -201,7 +94,7 @@
                                                     <div class="search-content"><a href="#" class="search-back btn btn-icon toggle-search" data-target="search"><em class="icon ni ni-arrow-left"></em></a><input type="text" class="form-control border-transparent form-focus-none" placeholder="Search by queue or email"><button class="search-submit btn btn-icon"><em class="icon ni ni-search"></em></button></div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <div style="height:60vh; overflow-y:auto" class="card-inner p-0">
                                             <div class="nk-tb-list nk-tb-ulist is-compact">
                                                 <div class="nk-tb-item nk-tb-head">
@@ -335,94 +228,94 @@
       <div id="accordion" class="accordion">
          <div class="accordion-item">
             <a id="basic_information_accordion" href="javascript:void(0)" (click)="setActive($event)" class="accordion-head" data-bs-toggle="collapse" data-bs-target="#accordion-item-1">
-               <h6 class="title">Basic Information</h6>
+               <h6 class="title">Basic Information <sup><span *ngIf="newFieldsBasicInfo.length > 0" class="up badge badge-dot bg-success">New</span></sup></h6> 
                <span class="accordion-icon"></span>      
             </a>
             <div class="accordion-body collapse" id="accordion-item-1" data-bs-parent="#accordion">
                <div class="accordion-inner">
-                <ul style="max-height:50vh;overflow-y: auto;" class="link-list-opt">
-                    <li ><div class="col-12 row g-3"><label class="col-6">Titles</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.title || 'N/A'}}</span></a></div></li>
-                    <li ><div class="col-12 row g-3"><label class="col-6">Firstname</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.firstname || 'N/A'}}</span></a></div></li>
-                    <li ><div class="col-12 row g-3"><label class="col-6">Surname</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.surname || 'N/A'}}</span></a></div></li>
-                    <li ><div class="col-12 row g-3"><label class="col-6">Othernames</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.othernames || 'N/A'}}</span></a></div></li>
-                    <li ><div class="col-12 row g-3"><label class="col-6">Gender</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.gender || 'N/A'}}</span></a></div></li>
-                    <li ><div class="col-12 row g-3"><label class="col-6">Email</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.email || 'N/A'}}</span></a></div></li>
-                    <li ><div class="col-12 row g-3"><label class="col-6">Mobile</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.mobile || 'N/A'}}</span></a></div></li>
+                <ul id="basic-info" style="max-height:50vh;overflow-y: auto;" class="link-list-opt">
+                    <li ><div class="col-12 row g-3"><label class="col-6">Titles <sup><span *ngIf="editedFields.includes('title')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.title || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">Firstname <sup><span *ngIf="editedFields.includes('firstname')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.firstname || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">Surname <sup><span *ngIf="editedFields.includes('surname')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.surname || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">Othernames <sup><span *ngIf="editedFields.includes('othernames')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.othernames || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">Gender <sup><span *ngIf="editedFields.includes('gender')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.gender || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">Email <sup><span *ngIf="editedFields.includes('email')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.email || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">Mobile <sup><span *ngIf="editedFields.includes('mobile')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.mobile || 'N/A'}}</span></a></div></li>
                 </ul>
                </div>
             </div>
          </div>
          <div class="accordion-item">
             <a id="account_information_accordion" href="javascript:void(0)" (click)="setActive($event)" class="accordion-head" data-bs-toggle="collapse" data-bs-target="#accordion-item-2">
-               <h6 class="title">Accounts Information</h6>
+               <h6 class="title">Accounts Information  <sup><span *ngIf="newFieldsAccountInfo.length > 0" class="up badge badge-dot bg-success">New</span></sup></h6>
                <span class="accordion-icon"></span>      
             </a>
             <div class="accordion-body collapse" id="accordion-item-2" data-bs-parent="#accordion">
                <div class="accordion-inner">
-                <ul style="max-height:50vh;overflow-y: auto;" class="link-list-opt">
-                    <li ><div class="col-12 row g-3"><label class="col-6">Account Number</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.accountno || 'N/A'}}</span></a></div></li>
-                    <li ><div class="col-12 row g-3"><label class="col-6">Account Type</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.accounttype || 'N/A'}}</span></a></div></li>
-                    <li ><div class="col-12 row g-3"><label class="col-6">Customer Type</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.customer_type || 'N/A'}}</span></a></div></li>
-                    <li ><div class="col-12 row g-3"><label class="col-6">Business Type</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.business_type || 'N/A'}}</span></a></div></li>
-                    <li ><div class="col-12 row g-3"><label class="col-6">Status Code</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.statuscode || 'N/A'}}</span></a></div></li>
-                    <li ><div class="col-12 row g-3"><label class="col-6">CIN</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.cin || 'N/A'}}</span></a></div></li>
+                <ul id="account-info" style="max-height:50vh;overflow-y: auto;" class="link-list-opt">
+                    <li ><div class="col-12 row g-3"><label class="col-6">Account Number <sup><span *ngIf="editedFields.includes('accountno')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.accountno || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">Account Type <sup><span *ngIf="editedFields.includes('accounttype')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.accounttype || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">Customer Type <sup><span *ngIf="editedFields.includes('customer_type')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.customer_type || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">Business Type <sup><span *ngIf="editedFields.includes('business_type')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.business_type || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">Status Code <sup><span *ngIf="editedFields.includes('statuscode')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.statuscode || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">CIN <sup><span *ngIf="editedFields.includes('cin')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.cin || 'N/A'}}</span></a></div></li>
                 </ul>
                </div>
             </div>
          </div>
          <div class="accordion-item">
             <a id="location_information_accordion" href="javascript:void(0)" (click)="setActive($event)" class="accordion-head" data-bs-toggle="collapse" data-bs-target="#accordion-item-3">
-               <h6 class="title">Locations Information</h6>
+               <h6 class="title">Locations Information <sup><span *ngIf="newFieldsLocationInfo.length > 0" class="up badge badge-dot bg-success">New</span></sup></h6>
                <span class="accordion-icon"></span>      
             </a>
             <div class="accordion-body collapse" id="accordion-item-3" data-bs-parent="#accordion">
                <div class="accordion-inner">
-                <ul style="max-height:50vh;overflow-y: auto;" class="link-list-opt">
-                    <li ><div class="col-12 row g-3"><label class="col-6">BUILDING DESCRIPTION</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.building_description || 'N/A'}}</span></a></div></li>
-                    <li ><div class="col-12 row g-3"><label class="col-6">PREMISES TYPE</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.premise_type || 'N/A'}}</span></a></div></li>
-                    <li ><div class="col-12 row g-3"><label class="col-6">ADDRESS</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.address1 || 'N/A'}}</span></a></div></li>
-                    <li ><div class="col-12 row g-3"><label class="col-6">LOCAL GOVT</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.lga || 'N/A'}}</span></a></div></li>
-                    <li ><div class="col-12 row g-3"><label class="col-6">REGION</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.region || 'N/A' |titlecase}}</span></a></div></li>
-                    <li ><div class="col-12 row g-3"><label class="col-6">BUSINESS HUB</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.buid || 'N/A' |titlecase}}</span></a></div></li>
-                    <li ><div class="col-12 row g-3"><label class="col-6">SERVICE CENTER</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.servicecenter || 'N/A' |titlecase }}</span></a></div></li>
-                    <li ><div class="col-12 row g-3"><label class="col-6">CITY</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.city || 'N/A'}}</span></a></div></li>
-                    <li ><div class="col-12 row g-3"><label class="col-6">STATE</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.state || 'N/A'}}</span></a></div></li>
+                <ul id="location-info" style="max-height:50vh;overflow-y: auto;" class="link-list-opt">
+                    <li ><div class="col-12 row g-3"><label class="col-6">BUILDING DESCRIPTION <sup><span *ngIf="editedFields.includes('building_description')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.building_description || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">PREMISES TYPE <sup><span *ngIf="editedFields.includes('premise_type')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.premise_type || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">ADDRESS <sup><span *ngIf="editedFields.includes('address') || editedFields.includes('address1')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.address1 || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">LOCAL GOVT <sup><span *ngIf="editedFields.includes('lga')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.lga || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">REGION <sup><span *ngIf="editedFields.includes('region')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.region || 'N/A' |titlecase}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">BUSINESS HUB <sup><span *ngIf="editedFields.includes('buid')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.buid || 'N/A' |titlecase}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">SERVICE CENTER <sup><span *ngIf="editedFields.includes('servicecenter')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.servicecenter || 'N/A' |titlecase }}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">CITY <sup><span *ngIf="editedFields.includes('city')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.city || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">STATE <sup><span *ngIf="editedFields.includes('state')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.state || 'N/A'}}</span></a></div></li>
                 </ul>
                </div>
             </div>
          </div>
          <div class="accordion-item">
             <a id="asset_information_accordion" href="javascript:void(0)" (click)="setActive($event)" class="accordion-head" data-bs-toggle="collapse" data-bs-target="#accordion-item-4">
-               <h6 class="title">Assets Information</h6>
+               <h6 class="title">Assets Information <sup><span *ngIf="newFieldsAssetsInfo.length > 0" class="up badge badge-dot bg-success">New</span></sup></h6>
                <span class="accordion-icon"></span>      
             </a>
             <div class="accordion-body collapse" id="accordion-item-4" data-bs-parent="#accordion">
                <div class="accordion-inner">
-                <ul style="max-height:50vh;overflow-y: auto;" class="link-list-opt">
-                    <li ><div class="col-12 row g-3"><label class="col-6">DSS OWNER</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.dss_owner || 'N/A'}}</span></a></div></li>
-                    <li ><div class="col-12 row g-3"><label class="col-6">DSS NAME</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.dss_name || 'N/A'}}</span></a></div></li>
-                    <li ><div class="col-12 row g-3"><label class="col-6">DSS ID</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.dss_id || 'N/A'}}</span></a></div></li>
-                    <li ><div class="col-12 row g-3"><label class="col-6">FEEDER TYPE</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.feeder_type || 'N/A'}}</span></a></div></li>
-                    <li ><div class="col-12 row g-3"><label class="col-6">FEEDER NAME</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.feeder_name || 'N/A'}}</span></a></div></li>
-                    <li ><div class="col-12 row g-3"><label class="col-6">FEEDER ID</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.feederid || 'N/A'}}</span></a></div></li>
-                    <li ><div class="col-12 row g-3"><label class="col-6">SERVICE BAND</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.service_band || 'N/A'}}</span></a></div></li>
-                    <li ><div class="col-12 row g-3"><label class="col-6">INJECTION SUBSTATION</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.injection_sub_station || 'N/A'}}</span></a></div></li>
-                    <li ><div class="col-12 row g-3"><label class="col-6">METER OEM</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.meter_oem || 'N/A'}}</span></a></div></li>
-                    <li ><div class="col-12 row g-3"><label class="col-6">LOW TENSION POLE ID</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.ltpoleid || 'N/A'}}</span></a></div></li>
+                <ul id="assets-info" style="max-height:50vh;overflow-y: auto;" class="link-list-opt">
+                    <li ><div class="col-12 row g-3"><label class="col-6">DSS OWNER <sup><span *ngIf="editedFields.includes('dss_owner')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.dss_owner || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">DSS NAME <sup><span *ngIf="editedFields.includes('dss_name')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.dss_name || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">DSS ID <sup><span *ngIf="editedFields.includes('dss_id')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.dss_id || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">FEEDER TYPE <sup><span *ngIf="editedFields.includes('feeder_type')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.feeder_type || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">FEEDER NAME <sup><span *ngIf="editedFields.includes('feeder_name')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.feeder_name || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">FEEDER ID <sup><span *ngIf="editedFields.includes('feederid')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.feederid || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">SERVICE BAND <sup><span *ngIf="editedFields.includes('service_band')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.service_band || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">INJECTION SUBSTATION <sup><span *ngIf="editedFields.includes('injection_sub_station')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.injection_sub_station || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">METER OEM <sup><span *ngIf="editedFields.includes('meter_oem')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.meter_oem || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">LOW TENSION POLE ID <sup><span *ngIf="editedFields.includes('ltpoleid')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.ltpoleid || 'N/A'}}</span></a></div></li>
                 </ul>
                </div>
             </div>
          </div>
          <div class="accordion-item">
             <a id="po_information_accordion" href="javascript:void(0)" (click)="setActive($event)" class="accordion-head" data-bs-toggle="collapse" data-bs-target="#accordion-item-5">
-               <h6 class="title">Property Ownership Information</h6>
+               <h6 class="title">Property Ownership Information <sup><span *ngIf="newFieldsLandlordInfo.length > 0" class="up badge badge-dot bg-success">New</span></sup></h6>
                <span class="accordion-icon"></span>      
             </a>
             <div class="accordion-body collapse" id="accordion-item-5" data-bs-parent="#accordion">
                <div class="accordion-inner">
                 <ul style="max-height:50vh;overflow-y: auto;" class="link-list-opt">
-                    <li ><div class="col-12 row g-3"><label class="col-6">LANDLORD NAME</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.landlord_name || 'N/A'}}</span></a></div></li>
-                    <li ><div class="col-12 row g-3"><label class="col-6">LANDLORD PHONE</label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.landlord_phone || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">LANDLORD NAME <sup><span *ngIf="editedFields.includes('landlord_name')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.landlord_name || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">LANDLORD PHONE <sup><span *ngIf="editedFields.includes('landlord_phone')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.landlord_phone || 'N/A'}}</span></a></div></li>
                 </ul>
                </div>
             </div>

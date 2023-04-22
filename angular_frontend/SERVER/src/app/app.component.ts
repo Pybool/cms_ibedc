@@ -1,4 +1,4 @@
-import { Component ,OnInit} from '@angular/core';
+import { ApplicationRef, Component ,OnInit} from '@angular/core';
 import {Router} from '@angular/router'; // import router from angular router
 import { Store } from '@ngrx/store';
 import { AppState } from './basestore/app.states';
@@ -53,6 +53,7 @@ export class AppComponent {
               private spinnerService:SpinnerService,
               private billingService:BillingService,
               private paymentService: PaymentsService,
+              private appRef: ApplicationRef,
               private notificationService:NotificationService) {
     this.store.dispatch(new RehydrateLogIn(''));
     this.getState = this.store.select(isAuthenticated);
@@ -61,6 +62,8 @@ export class AppComponent {
 
  
   ngOnInit(){
+
+   
 
     this.sharedService.getActiveSearchInput()?.subscribe({
       next: activeSearchbar => {
@@ -125,6 +128,10 @@ export class AppComponent {
 
   darkMode(){
 
+  }
+
+  prv($event){
+    // $event.preventDefault()
   }
 
   searchCustomer($event){
@@ -282,13 +289,13 @@ export class AppComponent {
 
 ngAfterViewInit() {
   
-  try{
-    myfunction()
+  // try{
+  //   myfunction()
     
-  }
-  catch(err:any){
-    
-  }
+  // }
+  // catch(err:any){
+  //   console.log(err)
+  // }
   
   
 }

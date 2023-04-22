@@ -83,17 +83,20 @@ class PrepaidCustomers(APIView):
                     total_customers = location_customers.count()
                     customers = location_customers.values(*ECMI_FIELDS)[:1000]
                 elif field_name == 'buid':
-                    location_customers = EcmiCustomersNew.objects.filter(state=request.user.region).filter(**{f"{field_name}__icontains": location})  #.filter(accountno='2451679551979')#
+                    print(request.GET)
+                    offset = request.GET.get('offset') or 0
+                    location_customers = EcmiCustomersNew.objects.filter(state=request.user.region).filter(**{f"{field_name}__icontains": location}).order_by('-surname')#[offset:request.GET.get('offset',0)+request.GET.get('limit',100)]  #.filter(accountno='2451679551979')#
                     total_customers = location_customers.count()
+                    
                     customers = location_customers.values(*ECMI_FIELDS)
                     
                 elif field_name == 'servicecenter':
-                    location_customers = EcmiCustomersNew.objects.filter(state=request.user.region).filter(buid=request.user.business_unit).filter(**{f"{field_name}__icontains": location})
+                    location_customers = EcmiCustomersNew.objects.filter(state=request.user.region).filter(buid=request.user.business_unit).filter(**{f"{field_name}__icontains": location}).order_by('-updated_at')
                     total_customers = location_customers.count()
                     customers = location_customers.values(*ECMI_FIELDS)            
             else:
                 total_customers =EcmiCustomersNew.objects.all().count()
-                customers = EcmiCustomersNew.objects.filter(state='Oyo').order_by('-updated_at')[:10000].values(*ECMI_FIELDS)
+                customers = EcmiCustomersNew.objects.filter(state='Oyo').order_by('-updated_at').values(*ECMI_FIELDS)
         
         if customers:
             customers = self.custom_paginator.paginate_queryset(customers)
@@ -105,7 +108,9 @@ class PrepaidCustomers(APIView):
         else:
             response = Response({"status": False, "message": "ECMI Customers could not be fetched", "data": []})
         
-        return response
+        response_cc = response
+        response_cc.headers['Cache-Control'] = CACHE_CONTROL
+        return response_cc
       
 class PostpaidCustomers(APIView):
     authentication_classes = [JWTAuthenticationMiddleWare]
@@ -161,7 +166,7 @@ class PostpaidCustomers(APIView):
                     customers = location_customers.values(*EMS_FIELDS)            
             else:
                 total_customers = EmsCustomersNew.objects.all().count()
-                customers = EmsCustomersNew.objects.filter(state='Oyo')[:5000].values(*EMS_FIELDS)
+                customers = EmsCustomersNew.objects.filter(state='Oyo')[:100024].values(*EMS_FIELDS)
                 
         if customers:
             customers = self.custom_paginator.paginate_queryset(customers)

@@ -14,6 +14,30 @@
     <!-- .nk-block-head -->
     <div class="nk-block">
         <div class="gy-3 form-settings">
+            <hr>
+            <div class="row g-3 align-center">
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label class="form-label" for="site-name">Positions Codes</label>
+                        <span class="form-note">Specify the options for user positions codes</span>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <div class="form-control-wrap">
+                            <form style="display:flex;gap:10px;" class="form-wrap">
+                                <input required id="position-codes-input" class="form-control" type="text" placeholder="Enter a position code not more than 5 characters"/>
+                                <button value="user_positions_codes_new" style="color:white;" (click)="submit($event)" class="btn btn-lg btn-primary">Add</button>
+                            </form>
+                        </div>
+                        <br>
+                        <ul class="tagList">
+                            <li *ngFor="let user_position_code of user_position_codes" value="user_position_code.name" class="option-item">{{user_position_code.name}}<span (click)="deletePill($event)" id="{{user_position_code.id}}" class="rmTag">×</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <br/>
             <hr/>
             <div class="row g-3 align-center">
                 <div class="col-lg-3">
@@ -44,7 +68,7 @@
                         <select onchange="window.add_selection_to_tag(this,'customer_creation_users_tagList','cust_creation_users','CUST-CU','cust_cu_template_precendence','db-roles')" class="form-select shadow caps" id="sel_customer_creation_role">
                             <option disabled="1" value="">Select position for user</option>
                             <ng-container *ngFor="let user_position of user_positions" >
-                                <option [value]="user_position.position_code" >{{user_position.name}}</option>
+                                <option [value]="user_position.position_code || user_position.name.split('(')[1].split(')')[0]" >{{user_position.name}}</option>
                             </ng-container>
                         </select>
                     </div>
@@ -78,7 +102,7 @@
                         <select onchange="window.add_selection_to_tag(this,'customer_approval_users_tagList','cust_approval_users','CUST-KYC','cust_kyc_template_precendence','db-roles')" class="form-select shadow caps" id="sel_customer_approval_role">
                             <option disabled="1" value="">Select position for user</option>
                             <ng-container *ngFor="let user_position of user_positions" >
-                                <option [value]="user_position.position_code" >{{user_position.name}}</option>
+                                <option [value]="user_position.position_code || user_position.name.split('(')[1].split(')')[0]" >{{user_position.name}}</option>
                             </ng-container>
                         </select>
                     </div>
@@ -112,7 +136,7 @@
                         <select onchange="window.add_selection_to_tag(this,'biz_hub_ops_users_tagList' ,'biz_hub_ops_users','BHM-OPC','biz_hub_ops_template_precendence','db-roles2')" class="form-select shadow caps" id="sel_biz_hub_ops_role">
                             <option disabled="1" value="">Select position for user</option>
                             <ng-container *ngFor="let user_position of user_positions" >
-                                <option [value]="user_position.position_code" >{{user_position.name}}</option>
+                                <option [value]="user_position.position_code || user_position.name.split('(')[1].split(')')[0]" >{{user_position.name}}</option>
                             </ng-container>
                         </select>
                     </div>
@@ -146,7 +170,7 @@
                         <select onchange="window.add_selection_to_tag(this,'caad_users_tagList' ,'caad_users','CAAD','caad_template_precendence','db-roles3')" class="form-select shadow caps" id="sel_caad_role">
                             <option disabled="1" value="">Select position for user</option>
                             <ng-container *ngFor="let user_position of user_positions" >
-                                <option [value]="user_position.position_code" >{{user_position.name}}</option>
+                                <option [value]="user_position.position_code || user_position.name.split('(')[1].split(')')[0]" >{{user_position.name}}</option>
                             </ng-container>
                         </select>
                     </div>
@@ -162,6 +186,7 @@
                         </li>
                     </ng-container>
                 </ul>
+                
                 <!-- <input id='db-roles3' hidden="1" type="text" t-att-value="self.convert_record_to_dict(caad_roles)"/> -->
                 <button id="caad-roles-save" type="button" onclick="window.saveRoles('CAAD','caad_template_precendence')" style="color:white;" class="btn btn-lg btn-primary">Save Roles</button>
             </div>

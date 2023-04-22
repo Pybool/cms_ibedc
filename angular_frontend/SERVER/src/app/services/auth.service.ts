@@ -19,6 +19,10 @@ export class AuthService {
   constructor(private http: HttpClient,private router: Router,) {
   }
 
+  getAdminStatus(){
+    return this.getUserFromLocalStorage().is_admin;
+  }
+
   newUser(body: any) {
     return this.http.post(`${environment.api}/newUser`, body);
   }

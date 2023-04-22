@@ -3,9 +3,11 @@ import { environment } from 'src/environments/environment';
 interface CustomWindow extends Window {
   filterDropdownItems: (searchTerm: string,para:string) => void;
   setDropdownValue:(arg1,args2) => void;
+  assetsTouched:any[]
 }
 
 declare let window: CustomWindow;
+window.assetsTouched = []
 // Helper function to set dropdown value
 
 function clearNextDropdowns(){
@@ -18,7 +20,7 @@ function clearNextDropdowns(){
 }
 
 export async function setDropdownValue(dropdownId, value, text='N/A') {
-  
+    window.assetsTouched.push(dropdownId)
     const dropdown = document.getElementById(dropdownId);
     dropdown.setAttribute('value', value);
     dropdown.innerHTML = value;

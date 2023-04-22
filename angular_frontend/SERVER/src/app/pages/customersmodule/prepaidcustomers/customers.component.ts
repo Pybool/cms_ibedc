@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ComponentFactoryResolver, OnInit,AfterViewInit, Renderer2, ViewChild, ViewContainerRef } from '@angular/core';
+import { ChangeDetectorRef, Component, ComponentFactoryResolver, OnInit,AfterViewInit, Renderer2, ViewChild, ViewContainerRef, ChangeDetectionStrategy } from '@angular/core';
 import { customerData } from './customerdata.js'
 import { abbreviateName } from '../../../../utils'
 import { of } from 'rxjs';
@@ -14,15 +14,11 @@ import { CustomerService } from 'src/app/services/customer.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgZone } from '@angular/core';
 import { map, take, tap } from 'rxjs/operators';
-import { DataTablesModule } from 'angular-datatables';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
 import { DataTableDirective } from 'angular-datatables';
 import { SpinnerService } from 'src/app/services/spinner.service';
 import { ConvertTableService } from 'src/app/services/convert-table.service';
 import { NotificationService } from 'src/app/services/notification.service';
-import { table } from 'console';
+import { PaginationService } from 'src/app/services/pagination.service';
 
 var self;
 interface CustomWindow extends Window {
@@ -41,7 +37,8 @@ declare let window: CustomWindow;
 @Component({
   selector: 'app-customers',
   templateUrl: './customers.component.html',
-  styleUrls: ['./customers.component.css']
+  styleUrls: ['./customers.component.css'],
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class CustomersComponent implements AfterViewInit {
   public metaData;
@@ -98,7 +95,10 @@ export class CustomersComponent implements AfterViewInit {
               private renderer: Renderer2,
               private spinnerService: SpinnerService,
               private convertTableService:ConvertTableService,
-              private route: ActivatedRoute,private notificationService: NotificationService) { 
+              private route: ActivatedRoute,
+              private notificationService: NotificationService,
+              private paginationService: PaginationService,
+              private cdr: ChangeDetectorRef) { 
     this.sharedService.setActiveSearchInput('customers')
     this.custs$ = customerData.customer_data
     this.metaData = customerData.metadata
@@ -117,12 +117,8 @@ export class CustomersComponent implements AfterViewInit {
     this.userState = this.store.select(UserState);
     this.ecmiCustomersList = this.store.select(ecmiCustomers);
     //Dispatch a request for Prepaid Customers by default....
-    // this.zone.runOutsideAngular(() => {
       this.store.dispatch(new FetchEcmiCustomers());
-    //   this.zone.run(() => {
-        
-    //   });
-    // });
+
   }
 
   toggleView($event){
@@ -153,6 +149,7 @@ export class CustomersComponent implements AfterViewInit {
         const keyEvent = new KeyboardEvent('keyup', { key: 'Enter' });
         searchBar.dispatchEvent(keyEvent);
       },500)
+      
       
     })
     
@@ -206,7 +203,11 @@ export class CustomersComponent implements AfterViewInit {
 
   openCustomerUpdateForm(accountno){
     console.log(accountno)
-    self.currentAccountno = accountno // $event.target.closest('a').id
+    if(accountno.target == undefined){
+      self.currentAccountno =  accountno
+    }
+    else{self.currentAccountno =  accountno.target.closest('a').id}
+    
     console.log("Account no ===> ", self.currentAccountno)
     self.openCustomerCreateForm()//Bug
     self.sharedService.setFormHeader(['edit','Update Existing Customer',self.activePage,self.currentAccountno])
@@ -235,6 +236,15 @@ export class CustomersComponent implements AfterViewInit {
     window.initiateCaad = this.initiateCaad
     window.openCustomerUpdateForm = this.openCustomerUpdateForm
    self = this //make this class instance available to the window object by storing in variable
+
+   try{
+    const tablewraps:any = document.querySelector("#table-wraps")
+    const kanbanwraps:any = document.querySelector("#kanban-wraps")
+    kanbanwraps.style.display = 'none'
+      tablewraps.style.display = 'block'
+      localStorage.setItem('cust_view_mode','list')
+   }
+   catch{}
     
   }
 
@@ -257,7 +267,13 @@ export class CustomersComponent implements AfterViewInit {
     })
   }
 
+  forceUpdate($event){
+
+  }
+
   initiateCaad(accountno){
+    let cdrbtn:any = document.querySelector("#cdrbtn")
+    
     self.customerService.fetchSinglecustomer({accounttype:'prepaid',accountno:accountno}).subscribe((response) => {
       if(response.status){
         self.customerService.initiateCaad(response.data).pipe(take(1)).subscribe((response)=>{
@@ -267,12 +283,18 @@ export class CustomersComponent implements AfterViewInit {
             message:response?.message,
             subMessage:'The RPU for this location will take mext steps'}
             self.notificationService.setModalNotification(notification)
+            cdrbtn.click()
+            self.cdr.detectChanges(); // Forces change detection
           }
           else{
             let notification = {type:'failure',title:'Uh oh!',
             message:response?.message,
             subMessage:'Something went wrong'}
+       
             self.notificationService.setModalNotification(notification) //Not showing up until a random button is clicked
+            cdrbtn.click()
+            self.cdr.detectChanges(); // Forces change detection
+            
           }
         })
       }

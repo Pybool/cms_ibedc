@@ -14,6 +14,8 @@ export class NotificationmodalComponent {
   title = 'CAAD Approval Success'
   message = 'This action completed successfully and an email has been sent to the Regional head'
   subMessage = 'Please await further approvals'
+  msgIsArray = false;
+  kycerrors = []
 
   constructor(private notificationService: NotificationService,private changeDetectorRef: ChangeDetectorRef){
     this.notificationService.getActiveNotification().subscribe((notification)=>{
@@ -21,13 +23,25 @@ export class NotificationmodalComponent {
       this.title = notification.title
       this.message = notification.message
       this.subMessage = notification.subMessage
-      console.log(notification.type)
+      console.log(notification)
+      if(Array.isArray(this.message)){
+        this.msgIsArray = true
+        this.kycerrors = this.message
+      }
+      else{
+
+      }
     })
+  }
+
+  ngAfterViewInit(){
+    console.log("Resizing viewport")
   }
 
   closeModal($event){
     this.resetModal()
 }
+
 
   resetModal(){
     this.type = null

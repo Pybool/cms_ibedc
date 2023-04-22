@@ -14,6 +14,11 @@ def fetch_all(query):
         
     return rows
 
+def execute(query):
+    with connection.cursor() as cursor:
+        cursor.execute(query)
+    
+
 def dict_fetch_all(query):
     with connection.cursor() as cursor:
         cursor.execute(query)

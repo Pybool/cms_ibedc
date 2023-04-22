@@ -5,13 +5,15 @@ import { RouterModule, Routes } from '@angular/router';
 import { CustomersettingsComponent } from './customersettings/customersettings.component';
 import { UsersettingsComponent } from './usersettings/usersettings.component';
 import { UserSettingsModule } from './usersettings/usersettings.module';
+import { AdminGuard } from 'src/app/services/admin-guard.service';
 
 const routes: Routes = [{
   path: '',
   component: ConfigurationsComponent,
+  canActivate: [AdminGuard] ,
   children: [
-      { path: 'customer-configurations', component: CustomersettingsComponent },
-      { path: 'user-configurations', component: UsersettingsComponent },
+      { path: 'customer-configurations', component: CustomersettingsComponent,canActivate: [AdminGuard] },
+      { path: 'user-configurations', component: UsersettingsComponent ,canActivate: [AdminGuard] },
 
     ],
 },

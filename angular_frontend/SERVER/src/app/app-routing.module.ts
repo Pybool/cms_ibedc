@@ -16,35 +16,40 @@ import { TodaycollectionsecmiComponent } from './pages/todaycollectionsecmi/toda
 import { TodaycollectionsemsComponent } from './pages/todaycollectionsems/todaycollectionsems.component';
 import { NotificationmodalComponent } from './ui/notificationmodal/notificationmodal.component';
 import { LocationsComponent } from './pages/locations/locations.component';
+import { AdminGuard } from './services/admin-guard.service';
+import { AuthGuard } from './services/auth-guard.service';
+import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 
 const routes: Routes = [
                         { path:'cms/web/login', component:LoginComponent},
-                        { path:'admin/users', component:UsersComponent},
-                        { path:'dashboard',component: DashboardComponent },
-                        { path:'customers/prepaid', component:CustomersComponent},
-                        { path:'customers/postpaid', component:PostpaidcustomersComponent},
-                        { path:'cms/customers/crmd', component:CrmdComponent},
-                        { path:'cms/caadlist', component:CaadlistComponent},
-                        { path:'admin/locations', component:LocationsComponent},
-                        { path:'cms/notification/modal', component:NotificationmodalComponent},
-                        { path:'cms/customers/billing', component:BillingComponent},
-                        { path:'cms/customers/ecmi/payments', component:PaymentsComponent},
-                        { path:'cms/customers/ems/payments', component:PaymentsemsComponent},
-                        { path:'cms/today/prepaid/collections', component:TodaycollectionsecmiComponent},
-                        { path:'cms/today/postpaid/collections', component:TodaycollectionsemsComponent},
+                        { path:'unauthorized', component:UnauthorizedComponent},
+                        { path:'admin/users', component:UsersComponent, canActivate: [AdminGuard]},
+                        { path:'dashboard',component: DashboardComponent , canActivate: [AuthGuard]},
+                        { path:'customers/prepaid', component:CustomersComponent, canActivate: [AuthGuard]},
+                        { path:'customers/postpaid', component:PostpaidcustomersComponent, canActivate: [AuthGuard]},
+                        { path:'cms/customers/crmd', component:CrmdComponent, canActivate: [AuthGuard]},
+                        { path:'cms/caadlist', component:CaadlistComponent, canActivate: [AuthGuard]},
+                        { path:'admin/locations', component:LocationsComponent, canActivate: [AdminGuard]},
+                        { path:'cms/notification/modal', component:NotificationmodalComponent, canActivate: [AuthGuard]},
+                        { path:'cms/customers/billing', component:BillingComponent, canActivate: [AuthGuard]},
+                        { path:'cms/customers/ecmi/payments', component:PaymentsComponent, canActivate: [AuthGuard]},
+                        { path:'cms/customers/ems/payments', component:PaymentsemsComponent, canActivate: [AuthGuard]},
+                        { path:'cms/today/prepaid/collections', component:TodaycollectionsecmiComponent, canActivate: [AuthGuard]},
+                        { path:'cms/today/postpaid/collections', component:TodaycollectionsemsComponent, canActivate: [AuthGuard]},
 
                         
                         {
                           path: 'customer/information',
                           loadChildren: () =>
                             import('./pages/customerdetails/customermain/customermain.module').then((m) => m.CustomermainModule),
+                          canActivate: [AuthGuard]
                             
                         },
                         {
                           path: 'admin/configurations',
                           loadChildren: () =>
                             import('./pages/configurations/configurations.module').then((m) => m.ConfigurationsModule),
-                            
+                          canActivate: [AdminGuard]
                         }
                       ];
 

@@ -12,7 +12,8 @@ export class UsersettingsComponent {
   cust_cu_roles;
   cust_kyc_roles;
   biz_hub_ops_roles;
-  caad_roles
+  caad_roles;
+  user_position_codes;
 
   constructor(private userService : UserService, private configurationService:ConfigurationsService){}
 
@@ -28,6 +29,31 @@ export class UsersettingsComponent {
       this.cust_kyc_roles = metaData.cust_kyc_roles
       this.biz_hub_ops_roles = metaData.biz_hub_ops_roles
       this.caad_roles = metaData.caad_roles
+      this.user_position_codes = metaData.user_position_codes
+    })
+  }
+
+  submit($event){
+    const positionCodesInput:any = document.getElementById('position-codes-input')
+    const positionCode = positionCodesInput.value?.toUpperCase().replace(/\s/g, "");
+    this.configurationService.createPositionCode({name:positionCode}).subscribe((response)=>{
+      alert(response?.message)
+    })
+  }
+
+  private deleteByKey(array, keyToDelete) {
+    return array.filter(item => item.id !== keyToDelete);
+  }
+  
+
+  deletePill($event){
+    this.configurationService.deletePositionCode($event.target.id).subscribe((response)=>{
+      if(response.status){
+        const newArr = this.deleteByKey(this.user_position_codes,parseInt($event.target.id))
+        console.log(newArr)
+        this.user_position_codes = newArr
+      }
+      alert(response?.message)
     })
   }
 }

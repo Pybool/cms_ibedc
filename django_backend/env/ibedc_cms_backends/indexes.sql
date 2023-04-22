@@ -56,6 +56,10 @@ CREATE INDEX idx_gis_Power_Transformer_33KV_11KV_assetid ON [gis_Power Transform
 CREATE INDEX idx_gis_InjectionSub_Station_assetid ON [gis_InjectionSub Station] (assetid);
 
 
+CREATE INDEX IX_ecmi_customers_new_State_BUID_AccountNo
+ON [CMS_DB].[dbo].[ecmi_customers_new] (State, BUID, AccountNo);
+
+
 CREATE INDEX idx_ops_meter_readings_account_number ON ops_meter_readings(account_number);
 CREATE INDEX idx_ops_meter_readings_created_at ON ops_meter_readings(created_at);
 CREATE INDEX idx_ops_bill_distribution_account_number ON ops_bill_distribution(account_number);

@@ -19,6 +19,7 @@ class CustomerEditQueueView(APIView):
     def post(self,request):
         try:
             data = request.data
+            data['accountno'] = generate_account_no()
             # if not EcmiCustomersNew.objects.filter(accountno=data['accountno']).exists() and not EmsCustomersNew.objects.filter(accountno=data['accountno']).exists():
             email_exists = CustomerEditQueue.objects.filter(email=data['email']).values()
             mobile_exists = CustomerEditQueue.objects.filter(mobile=data['mobile']).values()
@@ -35,9 +36,11 @@ class CustomerEditQueueView(APIView):
                 response = {'status': True, 'message': 'There are very similar record(s) with either the same Email, Phone number or Account no as this draft being submitted', 'exists': True, 'data': queues}
             else:
                 awaiting_customer = data
-                awaiting_customer.pop('customer')   
+                try:
+                    awaiting_customer.pop('customer') 
+                except:
+                    pass  
                 awaiting_customer['name'] = awaiting_customer.get('firstname') + ' ' +  awaiting_customer.get('surname')
-                awaiting_customer['accountno'] = generate_account_no()
                 awaiting_customer['othernames'] = awaiting_customer.pop('othernames')
                 awaiting_customer['edited_by'] = request.user.email
                 awaiting_customer['customer_created_by'] = request.user.email
@@ -60,7 +63,7 @@ class CustomerEditQueueView(APIView):
                     self.audit_log.create_user_audit()
                     """Audit ths action at this point"""
                     users = User.objects.filter(region=awaiting_customer['state'],business_unit=awaiting_customer['buid'],position__icontains='BHM').values('email')
-                    print("++++++ ",users)
+                    print("CRMD users -----------------> ",users)
                     emails = []
                     for user in users:
                         emails.append(user.get('email'))
@@ -84,7 +87,10 @@ class CustomerEditQueueView(APIView):
             base_data = request.data
             
             data = base_data.get('data')
-            data.pop('customer')
+            try:
+                data.pop('customer') 
+            except:
+                pass 
             force = data.get('force')
             print("Force ===> ", force)
             if force == False:
@@ -101,22 +107,47 @@ class CustomerEditQueueView(APIView):
                     data['is_fresh'] = False
                     data['is_draft'] = False
                     data['address1'] = data.pop('address')
+                    data['bhm_aproved'] = False
+                    data['auditor_approved'] = False
                     try:
                         data['meter_oem'] = data.pop('meteroem')
                     except:
                         pass
                     data.pop('force')
                     draft_cursor = CustomerEditQueue.objects.filter(id=base_data.get('rowid'))
-                    if draft_cursor:
-                        print(draft_cursor)
-                        draft_cursor.update(**data)
-                        response = {
-                            "status": True,
-                            "message": f"Draft customer was updated and pending with account no {draft_cursor.values('accountno').first().get('accountno')}",
-                            "exists": True,
-                        }
-                    else:
-                        response = {"status": False, "message": "Draft customer was not found", "exists": False}
+                    with transaction.atomic():
+                        if draft_cursor:
+                            print(draft_cursor)
+                            rows_affected = draft_cursor.update(**data)
+                            if rows_affected > 0:
+                                customer = CustomerEditQueue.objects.get(id=base_data.get('rowid'))
+                                print("Customer --------> ", customer.id, customer.name)
+                                self.audit_log = AuditLogView({"table_name":"customer_drafts",
+                                                                "record":customer,"request":request,
+                                                                "description":f"Awaiting customer {customer.name} was updated in approval queue by modal action by {request.user.email}"
+                                                            })
+                                self.audit_log.create_user_audit()
+                                """Audit ths action at this point"""
+                                users = User.objects.filter(region=data['state'],business_unit=data['buid'],position__icontains='BHM').values('email')
+                                print("++++++ ",users)
+                                emails = []
+                                for user in users:
+                                    emails.append(user.get('email'))
+                                print(emails)
+                                mail = {"ir_template":"crmd_update",
+                                        "url":"",
+                                        "subject":"Customer Record Modification Document Update",
+                                        "sender":'noreply@ibedc.com', 
+                                        "recipients":emails}
+                                
+                                send_outward_mail.delay(mail)
+                            response = {
+                                "status": True,
+                                "message": f"Draft customer was updated and pending with account no {draft_cursor.values('accountno').first().get('accountno')}",
+                                "exists": True,
+                            }
+                        else:
+                            response = {"status": False, "message": "Draft customer was not found", "exists": False}
                    
             elif force == True:
                 
@@ -143,5 +174,6 @@ class CustomerEditQueueView(APIView):
             return JsonResponse(response)
 
         except Exception as err:
+            print(str(err))
             response = {"error": str(err)}
             return JsonResponse(response)

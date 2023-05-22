@@ -83,7 +83,7 @@ class SearchEcmiPayments(APIView):
                         .replace("#DATE_CONJUNCTION#",'AND' + self.filter)
                     
         else:
-            query =  CUSTOMER_PAYMENTS_ECMI_NO_HIERARCHY\
+            query =  CUSTOMER_PAYMENTS_ECMI_NO_HIERARCHY[1]\
                         .replace("#page_size#",page_size)\
                         .replace("#page_no#",page_no)\
                         .replace("#DATE_CONJUNCTION#",'WHERE' + self.filter)
@@ -104,7 +104,7 @@ class SearchEcmiPayments(APIView):
             response.data["rawQueryUsed"] = query is not None
             
         else:
-            response = Response({"status": False, "message": "No customer payments found "})
+            response = Response({"status": False, "data":[], "message": "No customer payments found "})
         response_cc = response
         response_cc.headers['Cache-Control'] = CACHE_CONTROL
         return response_cc

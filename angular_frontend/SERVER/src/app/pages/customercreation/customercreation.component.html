@@ -23,10 +23,10 @@
                 <div class="card-inner">
                    <ul class="nav nav-tabs mt-n3">
                       <li class="nav-item"><a id="basic-info-tab" class="nav-link customer-review-tabs active" data-bs-toggle="tab" href="#customer-basic-info" value="#customer-basic-info"><em class="icon ni ni-user"></em><span>Basic Information</span></a></li>
-                      <li class="nav-item"><a class="nav-link customer-review-tabs" data-bs-toggle="tab" href="#customer-account-info"  value="#customer-account-info"><em class="icon ni ni-account-setting"></em><span>Account Information</span></a></li>
-                      <li class="nav-item"><a class="nav-link customer-review-tabs" data-bs-toggle="tab" href="#customer-location-info" value="#customer-location-info" ><em class="icon ni ni-location"></em><span>Location / Residence</span></a></li>
-                      <li class="nav-item"><a class="nav-link customer-review-tabs" data-bs-toggle="tab" href="#customer-assets-info" value="#customer-assets-info"><em class="icon ni ni-link"></em><span>Assets Information</span></a></li>
-                      <li class="nav-item"><a class="nav-link customer-review-tabs" data-bs-toggle="tab" href="#customer-property-type-info" value="#customer-property-type-info"><em class="icon ni ni-property"></em><span>Property Type</span></a></li>
+                      <li class="nav-item"><a id="customer-account-info-link" class="nav-link customer-review-tabs" data-bs-toggle="tab" href="#customer-account-info"  value="#customer-account-info"><em class="icon ni ni-account-setting"></em><span>Account Information</span></a></li>
+                      <li class="nav-item"><a id="customer-location-info-link" class="nav-link customer-review-tabs" data-bs-toggle="tab" href="#customer-location-info" value="#customer-location-info" ><em class="icon ni ni-location"></em><span>Location / Residence</span></a></li>
+                      <li class="nav-item"><a id="customer-assets-info-link" class="nav-link customer-review-tabs" data-bs-toggle="tab" href="#customer-assets-info" value="#customer-assets-info"><em class="icon ni ni-link"></em><span>Assets Information</span></a></li>
+                      <li class="nav-item"><a id="customer-property-type-info-link" class="nav-link customer-review-tabs" data-bs-toggle="tab" href="#customer-property-type-info" value="#customer-property-type-info"><em class="icon ni ni-property"></em><span>Property Ownership</span></a></li>
                       <li class="nav-item"><a id="creation-draft" class="nav-link customer-review-tabs" data-bs-toggle="tab" href="#drafts" (click)="fetchDrafts()" value="#drafts"><em class="icon ni ni-property"></em><span>Drafts</span></a></li>
                    </ul>
                    <div class="tab-content">
@@ -104,8 +104,10 @@
                                                  <label class="form-label" for="email"><b>Email</b></label>
                                               </div>
                                               <div class="col-10">
-                                                 <input [(ngModel)]="newCustomer.email" name="email" (ngModelChange)="markAsEdited('email')" type="email" class="form-control shadow" id="email"/>
-                                              </div>
+                                                 <input [(ngModel)]="newCustomer.email" name="email" (keyup)="validateEmail()" (ngModelChange)="markAsEdited('email')" type="email" class="form-control shadow" id="email"/>
+                                                 <div *ngIf="emailRequiredError">Email address is required</div>
+                                                 <div *ngIf="emailInvalidError">Please enter a valid email address</div>
+                                                </div>
                                            </div>
                                            <br/>
                                            <div class="row g-3">
@@ -113,11 +115,17 @@
                                                  <label class="form-label" for="mobile"><b>Mobile</b></label>
                                               </div>
                                               <div class="col-10">
-                                                 <input [(ngModel)]="newCustomer.mobile" name="mobile" type="mobile" (ngModelChange)="markAsEdited('mobile')" class="form-control shadow caps" id="mobile"/>
+                                                 <input [(ngModel)]="newCustomer.mobile" name="mobile" type="mobile" (keyup)="validatePhoneNumber()" (ngModelChange)="markAsEdited('mobile')" class="form-control shadow caps" id="mobile"/>
+                                                 <div *ngIf="phoneNumberRequiredError">Phone number is required</div>
+                                                <div *ngIf="phoneNumberInvalidError">Please enter a valid Nigerian phone number</div>
                                               </div>
                                            </div>
                                            <br/>
-                                           <a style="color:white;" (click)="saveDraft($event,'basic_information')" type="button" tab="basicInfo" class= "btn btn-primary kyc-save">Save</a>
+                                           <div class="col-6 row g-gs">
+                                             <a style="color:black;" data-bs-toggle="tab" value="#customer-account-info" (click)="switchTab('customer-account-info-link')" type="button" class= "col-2 kyc-save btn btn-outline-light">Next <em class="icon ni ni-arrow-right"></em></a>&nbsp;&nbsp;
+                                             <a style="color:white;" (click)="saveDraft($event,'basic_information')" type="button" tab="basicInfo" class= "col-2 kyc-save btn btn-primary">Save</a>
+                                           </div>
+                                           <!-- <a style="color:white;" (click)="saveDraft($event,'basic_information')" type="button" tab="basicInfo" class= "btn btn-primary kyc-save">Save</a> -->
                                         </div>
                                      </div>
                                   </div>
@@ -210,7 +218,11 @@
                                            </div>
                                            <br/>
                                            <br/>
-                                           <a style="color:white;" (click)="saveDraft($event,'account_information')" type="button" tab="accountInfo" class= " kyc-save btn btn-primary">Save</a>
+                                           <div class="col-6 row g-gs">
+                                             <a style="color:black;" data-bs-toggle="tab" value="#customer-location-info" (click)="switchTab('basic-info-tab')" type="button" class= "nav-link customer-review-tabs col-2 kyc-save btn btn-outline-light"><em class="icon ni ni-arrow-left"></em>Previous</a>&nbsp;&nbsp;
+                                             <a style="color:black;" data-bs-toggle="tab" value="#customer-property-type-info" (click)="switchTab('customer-location-info-link')" type="button" class= "col-2 kyc-save btn btn-outline-light">Next <em class="icon ni ni-arrow-right"></em></a>&nbsp;&nbsp;
+                                             <a style="color:white;" (click)="saveDraft($event,'account_information')" type="button" tab="accountInfo" class= "col-2 kyc-save btn btn-primary">Save</a>
+                                           </div>
                                         </div>
                                      </div>
                                   </div>
@@ -272,15 +284,7 @@
                                                  </ng-container>
                                               </div>
                                            </div>
-                                           <br/>
-                                           <div class="row g-3">
-                                              <div class="col-2">
-                                                 <label class="form-label" for="lga"><b>Local Govt</b></label>
-                                              </div>
-                                              <div class="col-10">
-                                                 <input [(ngModel)]="newCustomer.lga" name="lga" (ngModelChange)="markAsEdited('lga')" type="text" class="form-control shadow caps" id="lga"/>
-                                              </div>
-                                           </div>
+                                           
                                            <br/>
                                            <div *ngIf="permission_hierarchy != 'region' && permission_hierarchy != 'business_unit' && permission_hierarchy != 'service_center'" class="row g-3">
                                               <div class="col-2">
@@ -334,6 +338,15 @@
                                            <br/>
                                            <div class="row g-3">
                                               <div class="col-2">
+                                                 <label class="form-label" for="lga"><b>Local Govt</b></label>
+                                              </div>
+                                              <div class="col-10">
+                                                 <input [(ngModel)]="newCustomer.lga" name="lga" (ngModelChange)="markAsEdited('lga')" type="text" class="form-control shadow caps" id="lga"/>
+                                              </div>
+                                           </div>
+                                           <br/>
+                                           <div class="row g-3">
+                                              <div class="col-2">
                                                  <label class="form-label" for="state"><b>State</b></label>
                                               </div>
                                               <div class="col-10">
@@ -347,8 +360,14 @@
                                               </div>
                                            </div>
                                            
+                                           
                                            <br/>
-                                           <a style="color:white;" (click)="saveDraft($event,'location_information')" type="button" tab="locationInfo" class= " kyc-save btn btn-primary">Save</a>
+                                           <div class="col-6 row g-gs">
+                                             <a style="color:black;" data-bs-toggle="tab" value="#customer-location-info" (click)="switchTab('customer-account-info-link')" type="button" class= "nav-link customer-review-tabs col-2 kyc-save btn btn-outline-light"><em class="icon ni ni-arrow-left"></em>Previous</a>&nbsp;&nbsp;
+                                             <a style="color:black;" data-bs-toggle="tab" value="#customer-property-type-info" (click)="switchTab('customer-assets-info-link')" type="button" class= "col-2 kyc-save btn btn-outline-light">Next <em class="icon ni ni-arrow-right"></em></a>&nbsp;&nbsp;
+                                             <a style="color:white;" (click)="saveDraft($event,'location_information')" type="button" tab="locationInfo" class= "col-2 kyc-save btn btn-primary">Save</a>
+                                           </div>
+                                           <!-- <a style="color:white;" (click)="saveDraft($event,'location_information')" type="button" tab="locationInfo" class= " kyc-save btn btn-primary">Save</a> -->
                                         </div>
                                      </div>
                                   </div>
@@ -379,10 +398,10 @@
                                            <br/>
                                            <div class="row">
                                               <div class="col-2">
-                                                 <label class="form-label" for="dss_owner"><b>DSS Owner</b></label>
+                                                 <label class="form-label" for="dss_owner"><b>Service Center</b></label>
                                               </div>
                                               <div class="dropdown col-4">
-                                                 <a href="#" (click)="getGisAssetdata('dss_owner')" (ngModelChange)="markAsEdited('dss_owner')" id="dss_owner" style="width:100%;" class="shadow pointer dropdown-toggle dropdown-indicator btn " data-bs-toggle="dropdown" aria-expanded="false">Select DSS Owner</a>
+                                                 <a href="#" (click)="getGisAssetdata('dss_owner')" (ngModelChange)="markAsEdited('dss_owner')" id="dss_owner" style="width:100%;" class="shadow pointer dropdown-toggle dropdown-indicator btn " data-bs-toggle="dropdown" aria-expanded="false"></a>
                                                  <div style="width:100%;" class="dropdown-menu">
                                                     <ul id="dss_owner_list" style="width:100%;max-height:20vh!important;overflow-y:auto!important;" class="link-list-opt pointer">
                                                     </ul>
@@ -392,7 +411,7 @@
                                                  <label class="form-label" for="dss_owner"><b>DSS Name</b></label>
                                               </div>
                                               <div class="dropdown col-4">
-                                                 <button [(ngModel)]="newCustomer.dss_id" (ngModelChange)="markAsEdited('dss_id')" name="dss_id" (click)="getGisAssetdata('dss')" id="dss_id" style="width:100%;" class="shadow pointer dropdown-toggle dropdown-indicator btn " data-bs-toggle="dropdown" aria-expanded="false">Select DSS Name</button>
+                                                 <button [(ngModel)]="newCustomer.dss_id" (ngModelChange)="markAsEdited('dss_id')" name="dss_id" (click)="getGisAssetdata('dss')" id="dss_id" style="width:100%;" class="shadow pointer dropdown-toggle dropdown-indicator btn " data-bs-toggle="dropdown" aria-expanded="false"></button>
                                                  <div style="width:100%;"  class="dropdown-menu">
                                                     <ul id="dss_list" style="width:100%;max-height:20vh!important;overflow-y:auto!important;" class="link-list-opt pointer">
                                                     </ul>
@@ -406,13 +425,13 @@
                                                  <label class="form-label" for="feeder_type"><b>Feeder Type</b></label>
                                               </div>
                                               <div class=" col-4">
-                                                 <a disabled='1' href="#" id="feeder_type" style="width:100%;" class="shadow pointer dropdown-toggle btn " data-bs-toggle="dropdown" aria-expanded="false">Select Feeder Type</a>
+                                                 <a disabled='1' href="#" id="feeder_type" style="width:100%;" class="shadow pointer dropdown-toggle btn " data-bs-toggle="dropdown" aria-expanded="false"></a>
                                               </div>
                                               <div class="col-2">
                                                  <label class="form-label" for="feeder_name"><b>Feeder Name</b></label>
                                               </div>
                                               <div class=" col-4">
-                                                 <button  [(ngModel)]="newCustomer.feederid" (ngModelChange)="markAsEdited('feederid')" name="feederid" id="feederid" style="width:100%;" class="shadow dropdown-toggle pointer btn " data-bs-toggle="dropdown" aria-expanded="false">Select Feeder Name</button>
+                                                 <button  [(ngModel)]="newCustomer.feederid" (ngModelChange)="markAsEdited('feederid')" name="feederid" id="feederid" style="width:100%;" class="shadow dropdown-toggle pointer btn " data-bs-toggle="dropdown" aria-expanded="false"></button>
                                               </div>
                                            </div>
                                            <br/>
@@ -445,16 +464,20 @@
                                               </div>
                                            </div>
                                            <br/>
-                                           <div class="row g-3">
+                                           <div style="display:none" class="row g-3">
                                               <div class="col-2">
                                                  <label class="form-label" for="ltpoleid"><b>Low Tension Pole ID</b></label>
                                               </div>
                                               <div class="col-10">
-                                                 <input [(ngModel)]="newCustomer.ltpoleid" name="ltpoleid" (ngModelChange)="markAsEdited('ltpoleid')" type="text" class="form-control shadow caps" id="ltpoleid"/>
+                                                 <input value="''" [(ngModel)]="newCustomer.ltpoleid" name="ltpoleid" (ngModelChange)="markAsEdited('ltpoleid')" type="text" class="form-control shadow caps" id="ltpoleid"/>
                                               </div>
                                            </div>
                                            <br/>
-                                           <a style="color:white;" (click)="saveDraft($event,'asset_information')" type="button" tab="assetsInfo" class= " kyc-save btn btn-primary">Save</a>
+                                           <div class="col-6 row g-gs">
+                                             <a style="color:black;" data-bs-toggle="tab" value="#customer-location-info" (click)="switchTab('customer-location-info-link')" type="button" class= "nav-link customer-review-tabs col-2 kyc-save btn btn-outline-light"><em class="icon ni ni-arrow-left"></em>Previous</a>&nbsp;&nbsp;
+                                             <a style="color:black;" data-bs-toggle="tab" value="#customer-property-type-info" (click)="switchTab('customer-property-type-info-link')" type="button" class= "col-2 kyc-save btn btn-outline-light">Next <em class="icon ni ni-arrow-right"></em></a>&nbsp;&nbsp;
+                                             <a style="color:white;" (click)="saveDraft($event,'asset_information')" type="button" tab="assetsInfo" class= "col-2 kyc-save btn btn-primary">Save</a>
+                                           </div>
                                         </div>
                                      </div>
                                   </div>
@@ -501,7 +524,10 @@
                                               </div>
                                            </div>
                                            <br/>
-                                           <a style="color:white;" (click)="saveDraft($event,'landlord_information')" type="button" tab="propertyInfo" class= " kyc-save btn btn-primary">Save</a>
+                                           <div class="col-6 row g-gs">
+                                             <a style="color:black;" data-bs-toggle="tab" value="#customer-property-type-info" (click)="switchTab('customer-assets-info-link')" type="button" class= "col-2 kyc-save btn btn-outline-light">Previous <em class="icon ni ni-arrow-left"></em></a>&nbsp;&nbsp;
+                                             <a style="color:white;" (click)="saveDraft($event,'landlord_information')" type="button" class= "col-2 kyc-save btn btn-primary">Save</a>
+                                           </div>
                                         </div>
                                      </div>
                                   </div>
@@ -542,7 +568,7 @@
                                                   </thead>
                                                   <tbody>
                                                    <tr  class="nk-tb-item" *ngFor="let draft of drafts;">
-                                                      <td [id]="draft.draft_tag" (click)="loadDraft($event)" class="nk-tb-col">{{draft.draft_tag.split("##")[0]}}</td>
+                                                      <td class="nk-tb-col" ><a style="text-decoration: underline;" href="javascript:void(0)" [id]="draft.draft_tag" (click)="loadDraft($event)" >{{draft.draft_tag.split("##")[0] || 'N/A'}}</a></td>
                                                       <td class="nk-tb-col">{{draft.surname}}</td>
                                                       <td class="nk-tb-col">{{draft.firstname}}</td>
                                                       <td class="nk-tb-col">{{draft.othernames}}</td>
@@ -597,7 +623,7 @@
     </div>
  </div>
 
- <div class="modal fade" tabindex="-1" id="exists-modalAlert" style="display: none;" aria-modal="true" role="dialog">
+ <div class="modal fade bg" tabindex="-1" id="exists-modalAlert" style="display: none;" aria-modal="true" role="dialog">
    <div class="modal-dialog modal-lg" role="document">
        <div class="modal-content center" style="width:80vw;">
            <a href="javascript:void(0)" (click)="closeModal($event,'exists-modalAlert')" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross"></em></a>

@@ -5,7 +5,7 @@ export class BillingScripts{
         try {
             var input, filter, table, tr, tds, i, txtValue;
             input = document.getElementById("billing-history-search-bar");
-            filter = input?.value.toUpperCase();
+            filter = input.value.trim().toUpperCase();
             table = document.getElementById("billinghistory_table");
             tr = table.getElementsByTagName("tr");
             for (i = 0; i < tr.length; i++) {

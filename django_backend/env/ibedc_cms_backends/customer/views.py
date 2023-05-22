@@ -6,7 +6,7 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from rest_framework.pagination import PageNumberPagination
 from .fields import ECMI_FIELDS, EMS_FIELDS
-from .models import EcmiCustomersNew, EmsCustomersNew
+from .models import EcmiCustomersNew, EmsCustomersNew, EcmiTariff, EmsTariff
 from authentication.models import User
 from django.utils.text import slugify
 import itertools
@@ -29,6 +29,9 @@ def search_for_buid(name,state,lst):
     for d in lst:
         if d["name"].lower() == name.lower() and d["state"].lower() == state.lower():
             return d["buid"]
+        
+        if d["name"].lower() == name.lower() and d['state'].lower()=='oyo' and state.lower() == 'ibadan':
+            return d["buid"]
     return None
 
 class SingleCustomer(APIView):
@@ -45,6 +48,25 @@ class SingleCustomer(APIView):
         else:
             response = {"status": False, "message": "No customer found with the provided account number."}
         return Response(response)
+    
+class TarrifCode(APIView):
+    authentication_classes = [JWTAuthenticationMiddleWare]
+    def get(self, request):
+        tariffid = request.GET.get('tariffid')
+        accounttype = request.GET.get('accounttype')
+        if accounttype == 'Prepaid':
+            tarrif = EcmiTariff.objects.filter(tariffid=int(tariffid)).values().first() 
+        elif accounttype == 'Postpaid':
+            tarrif = EmsTariff.objects.filter(tariffid=int(tariffid)).values().first() 
+      
+        if tarrif:
+            response = Response({"status": True, "data": tarrif})
+            response.headers['Cache-Control'] = CACHE_CONTROL
+            return response
+        else:
+            response = {"status": False, "message": "No tariff code found."}
+            return Response(response)
+    
         
 class PrepaidCustomers(APIView):
     authentication_classes = [JWTAuthenticationMiddleWare]
@@ -148,15 +170,14 @@ class PostpaidCustomers(APIView):
                 if field_name == 'region' or 'state':
                     location_customers = EmsCustomersNew.objects.filter(**{f"{field_name}__icontains": location})
                     total_customers = location_customers.count()
-                    customers = location_customers.values(*EMS_FIELDS)[:200000]
+                    customers = location_customers.values(*EMS_FIELDS)[:2000]
                     
                 if field_name == 'buid':
                     buids = fetch_and_cache_buids()
                     buid = search_for_buid(location, request.user.region, buids)
-                    print('Int ',buid)
-                    location_customers = EmsCustomersNew.objects.filter(state=request.user.region).filter(**{f"{field_name}__icontains": buid})
-                    total_customers = location_customers.count()
-                    customers = location_customers.values(*EMS_FIELDS)[:200000]
+                    location_customersx = EmsCustomersNew.objects.filter(**{f"{field_name}__icontains": buid})
+                    total_customers =location_customers.count()
+                    customers = location_customersx.values(*EMS_FIELDS)[:2000]
                     
                 if field_name == 'servicecenter':
                     buids = fetch_and_cache_buids()
@@ -175,9 +196,11 @@ class PostpaidCustomers(APIView):
             response.data["message"] = "EMS Customers were successfully fetched"
             response.data["data"] = response.data.pop('results')
             response.data["total_customers"] = total_customers
+            response_cc = response
+            response_cc.headers['Cache-Control'] = CACHE_CONTROL
         else:
             response = Response({"status": False, "message": "EMS Customers could not be fetched", "data": []})
         
         response_cc = response
-        response_cc.headers['Cache-Control'] = CACHE_CONTROL
+        # response_cc.headers['Cache-Control'] = CACHE_CONTROL
         return response_cc

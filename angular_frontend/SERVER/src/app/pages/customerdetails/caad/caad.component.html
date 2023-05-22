@@ -337,75 +337,77 @@
                                        <div class="accordion-body collapse" id="accordion-item-4" data-bs-parent="#accordion">
                                           <div style="padding:0px;" class="accordion-inner">
                                             <form class="form-validate is-alter" autocomplete="off" (ngSubmit)="submit()" ngNativeValidate>
-                                                <table style="width:100%; text-align:center;overflow-x: hidden;" id="caad_line_items_table" class="datatable-init dataTable nowrap nk-tb-list is-separate shadow" data-auto-responsive="true">
-                                                    <thead class="" style="position:sticky;top:0;">
-                                                        <th id='checkbox-th' style="display:none;">.</th>
-                                                        <th><b>From</b></th>
-                                                        <th><b>To</b></th>
-                                                        <th><b>Months</b></th>
-                                                        <th><b>Tarrif</b></th>
-                                                        <ng-container *ngIf="is_metered">
-                                                            <th><b>Present Reading</b></th>
-                                                            <th><b>Last Actual Reading</b></th>
-                                                            <th><b>Consumed</b></th>
-                                                        </ng-container>
-                                                        <th><b>Recom Unit</b></th>
-                                                        <th><b>MAB</b></th>
-                                                        <th><b>EBM</b></th>
-                                                        <th><b></b></th>
-                                                    </thead>
-                                                    <tbody>
-                                                        <ng-container *ngIf="is_metered">
-                                                            <tr  *ngFor="let lineItem of lineItems; trackBy: trackByFn" [id]="'caad-line-item_'+ lineItem.index" style="height:30px;padding:5px!important;align-items:center;justify-content:center;" class="nk-tb-item is-separate">
-                                                                <!-- <td class="nk-tb-col nk-tb-col-check">
-                                                                    <div style="z-index:1;" class="custom-control custom-control-sm custom-checkbox notext ">
-                                                                        <div class="custom-control custom-control-sm custom-checkbox notext">
-                                                                            <input type="checkbox" class="custom-control-input error-lineitem" id="err-flag_1">
-                                                                            <label class="custom-control-label" for="err-flag_1"></label>
+                                                <div style="width:100%;overflow-x:scroll">
+                                                    <table style="width:100%; text-align:center;overflow-x: auto;" id="caad_line_items_table" class="datatable-init dataTable nowrap nk-tb-list is-separate shadow" data-auto-responsive="true">
+                                                        <thead class="" style="position:sticky;top:0;">
+                                                            <th id='checkbox-th' style="display:none;">.</th>
+                                                            <th><b>From</b></th>
+                                                            <th><b>To</b></th>
+                                                            <th><b>Months</b></th>
+                                                            <th><b>Tarrif</b></th>
+                                                            <ng-container *ngIf="is_metered">
+                                                                <th><b>Present Reading</b></th>
+                                                                <th><b>Last Actual Reading</b></th>
+                                                                <th><b>Consumed</b></th>
+                                                            </ng-container>
+                                                            <th><b>Recom Unit</b></th>
+                                                            <th><b>MAB</b></th>
+                                                            <th><b>EBM</b></th>
+                                                            <th><b></b></th>
+                                                        </thead>
+                                                        <tbody>
+                                                            <ng-container *ngIf="is_metered">
+                                                                <tr  *ngFor="let lineItem of lineItems; trackBy: trackByFn" [id]="'caad-line-item_'+ lineItem.index" style="height:30px;padding:5px!important;align-items:center;justify-content:center;" class="nk-tb-item is-separate">
+                                                                    <!-- <td class="nk-tb-col nk-tb-col-check">
+                                                                        <div style="z-index:1;" class="custom-control custom-control-sm custom-checkbox notext ">
+                                                                            <div class="custom-control custom-control-sm custom-checkbox notext">
+                                                                                <input type="checkbox" class="custom-control-input error-lineitem" id="err-flag_1">
+                                                                                <label class="custom-control-label" for="err-flag_1"></label>
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-                                                                </td> -->
-                                                                <td  class="nk-tb-col date"><input [disabled]="!totalEstimate || !selectedVat" [(ngModel)]="lineItem.from_date" [ngModelOptions]="{standalone: true}" name="'from_'+ lineItem.index" (change)="enableToDate($event,lineItem.index)" class="form-control line_item_from_date" style="width:100%;" type="date"  placeholder="From date"></td>
-                                                                <td  class="nk-tb-col date"><input [disabled]="!totalEstimate || !selectedVat" [id]="'to_'+ lineItem.index" disabled [(ngModel)]="lineItem.to_date" [ngModelOptions]="{standalone: true}" [name]="'to_'+ lineItem.index" class="form-control line_item_to_date" style="width:100%;" type="date" (change)="lineItemHandler($event,lineItem.index);" placeholder="To date" onfocus="(this.type='date')"></td>
-                                                                <td class="nk-tb-col"><input disabled type="text" [(ngModel)]="lineItem.months" [ngModelOptions]="{standalone: true}" name="'months_'+ lineItem.index" class="caadmonths form-control" id="caad-months"/></td>
-                                                                <td class="nk-tb-col"><select [disabled]="!totalEstimate || !selectedVat" [(ngModel)]="lineItem.tarrif" style="width:200px;" [ngModelOptions]="{standalone: true}" name="1" (change)="tarrifSelected(lineItem.index)" class="form-select"><option></option><option value="24.5">24.5</option><option value="38.7">38.7</option></select></td>
-                                                                <td class="nk-tb-col"><input [disabled]="!totalEstimate || !selectedVat" [disabled]="!totalEstimate || !selectedVat" [(ngModel)]="lineItem.present_reading" [ngModelOptions]="{standalone: true}" id="" name="1" (keyup)="recomUnits($event,lineItem.index-1)" class="present-reading form-control"  type="text"></td>
-                                                                <td class="nk-tb-col"><input [disabled]="!totalEstimate || !selectedVat"  [(ngModel)]="lineItem.last_actual_reading" [ngModelOptions]="{standalone: true}" id="" name="1" (keyup)="recomUnits($event,lineItem.index-1)" class="last-actual-reading form-control"  type="text"></td>
-                                                                <td class="nk-tb-col"><input [(ngModel)]="lineItem.consumed" [ngModelOptions]="{standalone: true}" name="1" class="form-control consumed" readonly="1" type="text" value=""></td>
-                                                                                
-                                                                <td class="nk-tb-col"><input [(ngModel)]="lineItem.recom_unit" [ngModelOptions]="{standalone: true}" disabled="1" name="1"  class="form-control recoms" type="text"></td>
-                                                                <td class="nk-tb-col"><input [(ngModel)]="lineItem.mab" [ngModelOptions]="{standalone: true}" name="1" class="form-control" readonly="1" type="text" value=""></td>
-                                                                <td class="nk-tb-col"><input [(ngModel)]="lineItem.ebm" [ngModelOptions]="{standalone: true}" type="text" disabled class="form-control" class="ebm" name="1"/></td>
-                                                                <td class="pointer" (click)="deleteLineItem(lineItem.uuid)"><i class="material-icons">delete</i></td>
-                                                            </tr>
-                                                        </ng-container>
-                                                        <ng-container *ngIf="!is_metered">
-                                                            <tr *ngFor="let lineItem of lineItems;" [id]="'caad-line-item_'+ lineItem.index" style="height:30px;padding:5px!important;align-items:center;justify-content:center;" class="nk-tb-item is-separate">
-                                                                <!-- <td class="nk-tb-col nk-tb-col-check">
-                                                                    <div style="z-index:1;" class="custom-control custom-control-sm custom-checkbox notext ">
-                                                                        <div class="custom-control custom-control-sm custom-checkbox notext">
-                                                                            <input type="checkbox" class="custom-control-input error-lineitem" id="err-flag_1">
-                                                                            <label class="custom-control-label" for="err-flag_1"></label>
+                                                                    </td> -->
+                                                                    <td  class="nk-tb-col date"><input [disabled]="!totalEstimate || !selectedVat" [(ngModel)]="lineItem.from_date" [ngModelOptions]="{standalone: true}" name="'from_'+ lineItem.index" (change)="enableToDate($event,lineItem.index)" class="form-control line_item_from_date" style="width:100%;" type="date"  placeholder="From date"></td>
+                                                                    <td  class="nk-tb-col date"><input [disabled]="!totalEstimate || !selectedVat" [id]="'to_'+ lineItem.index" disabled [(ngModel)]="lineItem.to_date" [ngModelOptions]="{standalone: true}" [name]="'to_'+ lineItem.index" class="form-control line_item_to_date" style="width:100%;" type="date" (change)="lineItemHandler($event,lineItem.index);" placeholder="To date" onfocus="(this.type='date')"></td>
+                                                                    <td class="nk-tb-col"><input disabled type="text" [(ngModel)]="lineItem.months" [ngModelOptions]="{standalone: true}" name="'months_'+ lineItem.index" class="caadmonths form-control" id="caad-months"/></td>
+                                                                    <td class="nk-tb-col"><select [disabled]="!totalEstimate || !selectedVat" [(ngModel)]="lineItem.tarrif" style="width:200px;" [ngModelOptions]="{standalone: true}" name="1" (change)="tarrifSelected(lineItem.index)" class="form-select"><option></option><option value="24.5">24.5</option><option value="38.7">38.7</option></select></td>
+                                                                    <td class="nk-tb-col"><input [disabled]="!totalEstimate || !selectedVat" [disabled]="!totalEstimate || !selectedVat" [(ngModel)]="lineItem.present_reading" [ngModelOptions]="{standalone: true}" id="" name="1" (keyup)="recomUnits($event,lineItem.index-1)" class="present-reading form-control"  type="text"></td>
+                                                                    <td class="nk-tb-col"><input [disabled]="!totalEstimate || !selectedVat"  [(ngModel)]="lineItem.last_actual_reading" [ngModelOptions]="{standalone: true}" id="" name="1" (keyup)="recomUnits($event,lineItem.index-1)" class="last-actual-reading form-control"  type="text"></td>
+                                                                    <td class="nk-tb-col"><input [(ngModel)]="lineItem.consumed" [ngModelOptions]="{standalone: true}" name="1" class="form-control consumed" readonly="1" type="text" value=""></td>
+                                                                                    
+                                                                    <td class="nk-tb-col"><input [(ngModel)]="lineItem.recom_unit" [ngModelOptions]="{standalone: true}" disabled="1" name="1"  class="form-control recoms" type="text"></td>
+                                                                    <td class="nk-tb-col"><input [(ngModel)]="lineItem.mab" [ngModelOptions]="{standalone: true}" name="1" class="form-control" readonly="1" type="text" value=""></td>
+                                                                    <td class="nk-tb-col"><input [(ngModel)]="lineItem.ebm" [ngModelOptions]="{standalone: true}" type="text" disabled class="form-control" class="ebm" name="1"/></td>
+                                                                    <td class="pointer" (click)="deleteLineItem(lineItem.uuid)"><i class="material-icons">delete</i></td>
+                                                                </tr>
+                                                            </ng-container>
+                                                            <ng-container *ngIf="!is_metered">
+                                                                <tr *ngFor="let lineItem of lineItems;" [id]="'caad-line-item_'+ lineItem.index" style="height:30px;padding:5px!important;align-items:center;justify-content:center;" class="nk-tb-item is-separate">
+                                                                    <!-- <td class="nk-tb-col nk-tb-col-check">
+                                                                        <div style="z-index:1;" class="custom-control custom-control-sm custom-checkbox notext ">
+                                                                            <div class="custom-control custom-control-sm custom-checkbox notext">
+                                                                                <input type="checkbox" class="custom-control-input error-lineitem" id="err-flag_1">
+                                                                                <label class="custom-control-label" for="err-flag_1"></label>
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-                                                                </td> -->
-                                                                <td  class="nk-tb-col date"><input [disabled]="!totalEstimate || !selectedVat" [(ngModel)]="lineItem.from_date" [ngModelOptions]="{standalone: true}" name="'from_'+ lineItem.index" (change)="enableToDate($event,lineItem.index)" class="form-control line_item_from_date" style="width:100%;" type="date"  placeholder="From date"></td>
-                                                                <td  class="nk-tb-col date"><input [disabled]="!totalEstimate || !selectedVat" [id]="'to_'+ lineItem.index" disabled [(ngModel)]="lineItem.to_date" [ngModelOptions]="{standalone: true}" [name]="'to_'+ lineItem.index" class="form-control line_item_to_date" style="width:100%;" type="date" (change)="lineItemHandler($event,lineItem.index);" placeholder="To date" onfocus="(this.type='date')"></td>
-                                                                <td class="nk-tb-col"><input disabled type="text" [(ngModel)]="lineItem.months" [ngModelOptions]="{standalone: true}" name="'months_'+ lineItem.index" class="caadmonths form-control" id="caad-months"/></td>
-                                                                <td class="nk-tb-col"><select [disabled]="!totalEstimate || !selectedVat" [(ngModel)]="lineItem.tarrif" style="width:200px;" [ngModelOptions]="{standalone: true}" name="1" (change)="tarrifSelected(lineItem.index)" class="form-select"><option></option><option value="24.5">24.5</option><option value="38.7">38.7</option></select></td>
-                                                                
-                                                                <td class="nk-tb-col"><input [disabled]="!totalEstimate || !selectedVat" [(ngModel)]="lineItem.recom_unit" [ngModelOptions]="{standalone: true}" (keyup)="recomUnits($event,lineItem.index-1)" name="1"  class="form-control recoms" type="text"></td>
-                                                                <td class="nk-tb-col"><input [(ngModel)]="lineItem.mab" [ngModelOptions]="{standalone: true}" name="1" class="form-control" readonly="1" type="text" value=""></td>
-                                                                <td class="nk-tb-col"><input [(ngModel)]="lineItem.ebm" [ngModelOptions]="{standalone: true}" type="text" disabled class="form-control" class="ebm" name="1"/></td>
-                                                                <td class="pointer" (click)="deleteLineItem(lineItem.uuid)"><i class="material-icons">delete</i></td>
-                                                            </tr>
-                                                        </ng-container>
-                                                      
-                                                    </tbody>
-                                                   
-                                                    <input id="is_metered" hidden="1" type="text" t-att-value="customerdata['is_metered']"/>
-                                                    <input id="caad_rows_count" hidden="1" type="text"/>
-                                                </table>
+                                                                    </td> -->
+                                                                    <td  class="nk-tb-col date"><input [disabled]="!totalEstimate || !selectedVat" [(ngModel)]="lineItem.from_date" [ngModelOptions]="{standalone: true}" name="'from_'+ lineItem.index" (change)="enableToDate($event,lineItem.index)" class="form-control line_item_from_date" style="width:100%;" type="date"  placeholder="From date"></td>
+                                                                    <td  class="nk-tb-col date"><input [disabled]="!totalEstimate || !selectedVat" [id]="'to_'+ lineItem.index" disabled [(ngModel)]="lineItem.to_date" [ngModelOptions]="{standalone: true}" [name]="'to_'+ lineItem.index" class="form-control line_item_to_date" style="width:100%;" type="date" (change)="lineItemHandler($event,lineItem.index);" placeholder="To date" onfocus="(this.type='date')"></td>
+                                                                    <td class="nk-tb-col"><input disabled type="text" [(ngModel)]="lineItem.months" [ngModelOptions]="{standalone: true}" name="'months_'+ lineItem.index" class="caadmonths form-control" id="caad-months"/></td>
+                                                                    <td class="nk-tb-col"><select [disabled]="!totalEstimate || !selectedVat" [(ngModel)]="lineItem.tarrif" style="width:200px;" [ngModelOptions]="{standalone: true}" name="1" (change)="tarrifSelected(lineItem.index)" class="form-select"><option></option><option value="24.5">24.5</option><option value="38.7">38.7</option></select></td>
+                                                                    
+                                                                    <td class="nk-tb-col"><input [disabled]="!totalEstimate || !selectedVat" [(ngModel)]="lineItem.recom_unit" [ngModelOptions]="{standalone: true}" (keyup)="recomUnits($event,lineItem.index-1)" name="1"  class="form-control recoms" type="text"></td>
+                                                                    <td class="nk-tb-col"><input [(ngModel)]="lineItem.mab" [ngModelOptions]="{standalone: true}" name="1" class="form-control" readonly="1" type="text" value=""></td>
+                                                                    <td class="nk-tb-col"><input [(ngModel)]="lineItem.ebm" [ngModelOptions]="{standalone: true}" type="text" disabled class="form-control" class="ebm" name="1"/></td>
+                                                                    <td class="pointer" (click)="deleteLineItem(lineItem.uuid)"><i class="material-icons">delete</i></td>
+                                                                </tr>
+                                                            </ng-container>
+                                                          
+                                                        </tbody>
+                                                       
+                                                        <input id="is_metered" hidden="1" type="text" t-att-value="customerdata['is_metered']"/>
+                                                        <input id="caad_rows_count" hidden="1" type="text"/>
+                                                    </table>
+                                                </div>
                                                 <br>
                                                 <div class="col-12 row g-3">
                                                     <ul style="padding:10px;" class="nk-block-tools g-3 col-8">
@@ -568,14 +570,14 @@
                                         </div>
                                         <div style="height:60vh; overflow-y:auto" class="card-inner p-0">
                                             <div class="nk-tb-list nk-tb-ulist is-compact">
-                                                <div class="nk-tb-item nk-tb-head">
+                                                <div class="nk-tb-item nk-tb-head data-table-init dataTable">
                                                     <div class="nk-tb-col nk-tb-col-check">
                                                         <div class="custom-control custom-control-sm custom-checkbox notext">
                                                             <input onClick="toggle(this)" type="checkbox" class="custom-control-input" id="uid"/>
                                                             <label class="custom-control-label" for="uid"></label>
                                                         </div>
                                                     </div>
-                                                     <div class="nk-tb-col"><span><b>Customer Name</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Customer Name</b></span></div>
                                                     <div class="nk-tb-col"><span><b>Account Number</b></span></div>
                                                     <div class="nk-tb-col"><span><b>Region</b></span></div>
                                                     <div class="nk-tb-col"><span><b>Business Hub</b></span></div>

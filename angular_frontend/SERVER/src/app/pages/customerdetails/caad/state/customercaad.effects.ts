@@ -74,9 +74,17 @@ CreateCaad$= createEffect(() =>
                 map((response:any) => {
                     console.log(response);
                     if(response.status){
+                        let notification = {type:'success',title:'CAAD Creation Successful!',
+                        message:response?.message,
+                        subMessage:'...'}
+                        this.notificationService.setModalNotification(notification)
                         return new CreateCaadSuccess(response) as Action; // cast to Action
                     }
                     else{
+                        let notification = {type:'failure',title:'CAAD Creation Failure!',
+                        message:response?.message,
+                        subMessage:'...'}
+                        this.notificationService.setModalNotification(notification)
                         throw new Error("Server returned false status for saving draft")
                     }
                 }),

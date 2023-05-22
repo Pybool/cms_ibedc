@@ -56,8 +56,8 @@ export class CaadComponent implements OnInit {
   ngOnInit(): void {
     
     this.route.queryParams.subscribe(params => {
+      if(params?.accountno != undefined && params?.accountno != null){
         this.customerService.fetchSinglecustomer(params).subscribe((response)=>{
-          console.log(response)
           if (response.status){
             this.customer = response.data[0]
             this.is_metered = this.customer
@@ -75,7 +75,7 @@ export class CaadComponent implements OnInit {
           }
           else{alert(response.message)}
         })
-    
+      }
     });
 
     
@@ -281,7 +281,7 @@ export class CaadComponent implements OnInit {
 
   getCaadHeaders(){
     console.log("Headers region ",this.customer,  this.customer.region, this.customer.servicecenter)
-    if (this.customer.account_no == undefined){
+    if (this.customer.accountno == undefined){
       return alert('No customer was loaded')
     }
     let headersObject:any = {}

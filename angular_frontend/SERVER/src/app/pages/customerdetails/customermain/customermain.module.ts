@@ -23,7 +23,7 @@ import { AdminGuard } from 'src/app/services/admin-guard.service';
 const routes: Routes = [{
             path: '',
             component: CustomermainComponent,
-            canActivate: [AdminGuard] ,
+            canActivate: [AuthGuard] ,
             children: [
                 { path: 'basic-information', component: BasicinformationComponent,canActivate: [AuthGuard] },
                 { path: 'billing-information', component: BillinginformationComponent,canActivate: [AuthGuard] },

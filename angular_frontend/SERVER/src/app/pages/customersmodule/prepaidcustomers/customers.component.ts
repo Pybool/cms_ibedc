@@ -139,15 +139,20 @@ export class CustomersComponent implements AfterViewInit {
 
     /* For swapping customer list observable after searching for customers with neither search bar or advanced filters */
     this.customerService.getNewCustomerList().subscribe((data)=>{
+      // this.convertTableService.convertTable({id:'customer_table'})
       console.log(data)
+      
       this.sharedService.setSpinnerText('Processing search results..')
       this.ecmi_total_customers = data?.total_customers
+      
       this.customers$ = of(data.data)
+      
       this.spinnerService.hideSpinner()
       setTimeout(()=>{//Wait for table to render search results and dispatch keydown to show table rows
         const searchBar:HTMLInputElement = document.querySelector('#search-customer-input')
         const keyEvent = new KeyboardEvent('keyup', { key: 'Enter' });
         searchBar.dispatchEvent(keyEvent);
+        
       },500)
       
       
@@ -262,8 +267,9 @@ export class CustomersComponent implements AfterViewInit {
     console.log("---------> ", parentElement)
     this.spinnerService.showSpinner(parentElement);
     this.sharedService.setSpinnerText('Processing your request')
-    this.customerService.advancedFilterEcmiCustomers(this.filter).pipe(take(1)).subscribe((response)=>{
+    this.customerService.advancedFilterEcmiCustomers(this.filter).subscribe((response)=>{
        this.customerService.swapCustomerlist(response)
+       this.convertTableService.convertTable({id:'customer_table'})
     })
   }
 
@@ -276,7 +282,7 @@ export class CustomersComponent implements AfterViewInit {
     
     self.customerService.fetchSinglecustomer({accounttype:'prepaid',accountno:accountno}).subscribe((response) => {
       if(response.status){
-        self.customerService.initiateCaad(response.data).pipe(take(1)).subscribe((response)=>{
+        self.customerService.initiateCaad(response.data).subscribe((response)=>{
           console.log(response)
           if(response.status){
             let notification = {type:'success',title:'CAAD Initiation!',

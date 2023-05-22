@@ -8,6 +8,7 @@ import { AuthActionTypes, LogIn, LogInFailure, LogInSuccess,SignUp,SignUpFailure
   SignUpSuccess,VerifyOtp, VerifyOtpFailure, VerifyOtpSuccess, LogOut, GetStatus, RehydrateLogIn, AuthRehydrateSuccess 
 } from './auth.actions';
 import { map,catchError, filter, switchMap, tap, mergeMap } from 'rxjs/operators';
+import Swal from 'sweetalert2';
 
 @Injectable()
 export class AuthEffects {
@@ -121,9 +122,15 @@ LogInSuccess$= createEffect(() =>
         tap((user:any) => {
             localStorage.setItem('token', user.payload.token);
             this.router.navigateByUrl('/dashboard');
-            this.notificationService.success("Logged in Successfully","CMS Authentication Successful",{titleClass: 'toast-title',
-                                                                                    iconClasses:'toast-success',
-                                                                                    autoDismiss:false});
+            
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Logged in Successfully!',
+                text:'CMS Authentication Successful!!',
+                showConfirmButton: false,
+                timer: 1500
+                })
         })
     ),
     { dispatch: false }
@@ -134,9 +141,14 @@ LogInFailure$= createEffect(() =>
     this.actions$.pipe(
         ofType(AuthActionTypes.LOGIN_FAILURE),
         tap((msg) => {
-            this.notificationService.error("Incorrect credentials supplied!!","CMS Authentication Failure",{titleClass: 'toast-title',
-                                                                                    iconClasses:'toast-error',
-                                                                                    autoDismiss:false});
+            Swal.fire({
+                position: 'top-end',
+                icon: 'error',
+                title: 'CMS Authentication Failure',
+                text:'Incorrect credentials supplied!!',
+                showConfirmButton: false,
+                timer: 1500
+                })
           })
     ),
     { dispatch: false }

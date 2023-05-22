@@ -36,7 +36,6 @@ export class LoginComponent implements OnInit {
 
   submit() {
     this.Loginpayload = {email:this.user.email,password:this.user.password}
-    console.log("User ====> ", this.Loginpayload)
     this.store.dispatch(new LogIn(this.Loginpayload));
   }
 

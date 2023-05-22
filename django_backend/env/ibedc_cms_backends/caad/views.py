@@ -66,10 +66,13 @@ class CaadApprovalsView(APIView):
             locale_positions = ['BHA','BHM','OC','RH']
             inverse_last_approvals = {"BHA":"","BHM":"BHA APPROVED","OC":"BHM APPROVED","RH":"OC APPROVED","HCS":"RH APPROVED","CCO":"HCS APPROVED","MD":"CCO APPROVED"}
             user_position = get_user_position_code(request.user.position)
-            if user_position in locale_positions:
-                pending_queue = queries[self.field_name].filter(last_approval = inverse_last_approvals[user_position],revert_status=False).order_by('-created_date').values()
-            else:
-                pending_queue = CaadHeader.objects.filter(last_approval = inverse_last_approvals[user_position],revert_status=False).order_by('-created_date').values()
+            try:
+                if user_position in locale_positions:
+                    pending_queue = queries[self.field_name].filter(revert_status=False).order_by('-created_date').values()
+                else:
+                    pending_queue = CaadHeader.objects.filter(revert_status=False).order_by('-created_date').values()
+            except:
+                return Response({"status":True,"data":[],"message":"No caad records were fetched"})
         else:
             line_items = CaadLineItems.objects.filter(header_id = int(id)).values()
             approvers = CaadApprovalUsers.objects.filter(caad_id =int(id)).order_by('-date_approved').values()

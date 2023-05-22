@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { take } from 'rxjs/operators';
 import { CrmdService } from 'src/app/services/crmd.service';
 import { NotificationService } from 'src/app/services/notification.service';
 
@@ -93,6 +94,7 @@ export class CrmdComponent {
   queueAction($event,action){
     const commentsEl:any = document.querySelector('#comments')
     let comments = commentsEl?.value
+    let loadedaccountno = this.loadedAwaitingCustomer.accountno
     let payload = {id:this.loadedAwaitingCustomer.id,
                   accountno:this.loadedAwaitingCustomer.accountno,
                   action:action,
@@ -100,9 +102,12 @@ export class CrmdComponent {
                   is_draft:this.loadedAwaitingCustomer.is_draft,
                   is_fresh:this.loadedAwaitingCustomer.is_fresh,
                   customer_id:this.loadedAwaitingCustomer.customer_id}
-    this.crmdService.performAwaitingCustomerAction(payload).subscribe((response)=>{
+    this.crmdService.performAwaitingCustomerAction(payload).pipe(take(1)).subscribe((response)=>{
         if (response?.status){
           //Load Notification Modal here....
+          this.awaitingCustomers = this.awaitingCustomers.filter(function( obj ) {
+            return obj.accountno !== loadedaccountno;
+         });
           let notification = {type:'success',title:'CRMD Approval Successful!',
           message:response?.message,
           subMessage:'CRMD Approval Sequence Milestone'}

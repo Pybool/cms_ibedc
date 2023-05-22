@@ -32,6 +32,9 @@ def search_for_buid(name,state,lst,alt=None):
         if alt is None:
             if d["name"].lower() == name.lower() and d["state"].lower() == state.lower():
                 return d["buid"]
+            
+            if d["name"].lower() == name.lower() and d['state'].lower()=='oyo' and state.lower() == 'ibadan':
+                return d["buid"]
         else:
             if d["name"].lower() == name.lower():
                 return d["buid"]
@@ -73,7 +76,6 @@ class CustomerBills(APIView):
             response = {"status":False, "message":"Hierarchy specified does not match legacy", "data":[]}
             return Response(response)
         
-        print("fiedanem ", field_name=='buid')
         if permission_hierarchy != '' and permission_hierarchy != 'head-quarters':
             if field_name is not None:#For Non-HQ users
                 
@@ -86,16 +88,26 @@ class CustomerBills(APIView):
                         .replace("#DATE_CONJUNCTION#",'')
                         
                 if field_name == 'buid':
-                    print("This buid ",'buids')
                     buids = fetch_and_cache_buids()
                     
                     buid = search_for_buid(location, request.user.region, buids)
-                    
+                    if request.user.region == 'ibadan':
+                        region = 'oyo'
+                    else:
+                        region = request.user.region
                     query =  BILLING_HISTORY_HIERARCHY_BUID\
                         .replace("#page_size#",page_size)\
                         .replace("#page_no#",page_no)\
                         .replace("#hierarchy#",'State')\
-                        .replace("#hierarchy_value#",request.user.region)\
+                        .replace("#hierarchy_value#",region)\
+                        .replace("#BUID#",buid)\
+                        .replace("#DATE_CONJUNCTION#",'')
+                    
+                    query_count =  COUNT_BILLING_HISTORY_HIERARCHY_BUID\
+                        .replace("#page_size#",page_size)\
+                        .replace("#page_no#",page_no)\
+                        .replace("#hierarchy#",'State')\
+                        .replace("#hierarchy_value#",region)\
                         .replace("#BUID#",buid)\
                         .replace("#DATE_CONJUNCTION#",'')
                     
@@ -120,7 +132,12 @@ class CustomerBills(APIView):
         self.custom_paginator = CustomPaginatorClass(CustomerBills.pagination_class,request)
         bills = None
         # bills_query = EmsBills.objects.all().order_by('-billdate')[:10000]
-        total_bills = 0#bills_query.count()
+        try:
+           total_bills = dict_fetch_all(query_count)
+           total_bills = list(total_bills[0].values())[0]
+           print("Total bills-----> ", total_bills)
+        except:
+            total_bills = 0
         print(query)
         bills = dict_fetch_all(query)
         
@@ -135,6 +152,6 @@ class CustomerBills(APIView):
             
         else:
             response = Response({"status": False, "message": "No customer bills found."})
-        response.headers['Cache-Control'] = CACHE_CONTROL
+        # response.headers['Cache-Control'] = CACHE_CONTROL
         return response
         

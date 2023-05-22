@@ -116,28 +116,9 @@
                                                     <div class="nk-tb-col"><span><b>Created Date</b></span></div>
                                                     <div class="nk-tb-col"><span class="sub-text"><b>Status</b></span></div>
                                                     <div class="nk-tb-col"><span><b>Action</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Type</b></span></div>
                                                     
-                                                    <div class="nk-tb-col nk-tb-col-tools text-end">
-                                                        <div class="dropdown">
-                                                            <a href="#" class="btn btn-xs btn-outline-light btn-icon dropdown-toggle" data-bs-toggle="dropdown" data-offset="0,5"><em class="icon ni ni-plus"></em></a>
-                                                            <div class="dropdown-menu dropdown-menu-xs dropdown-menu-end">
-                                                                <ul class="link-tidy sm no-bdr">
-                                                                    <li>
-                                                                        <div class="custom-control custom-control-sm custom-checkbox checked"><input type="checkbox" class="custom-control-input" checked="" id="bl"><label class="custom-control-label" for="bl">Balance</label></div>
-                                                                    </li>
-                                                                    <li>
-                                                                        <div class="custom-control custom-control-sm custom-checkbox checked"><input type="checkbox" class="custom-control-input" checked="" id="ph"><label class="custom-control-label" for="ph">Phone</label></div>
-                                                                    </li>
-                                                                    <li>
-                                                                        <div class="custom-control custom-control-sm custom-checkbox"><input type="checkbox" class="custom-control-input" id="vri"><label class="custom-control-label" for="vri">Verified</label></div>
-                                                                    </li>
-                                                                    <li>
-                                                                        <div class="custom-control custom-control-sm custom-checkbox"><input type="checkbox" class="custom-control-input" id="st"><label class="custom-control-label" for="st">Status</label></div>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                    
                                                 </div>
                                                 
                                                 <ng-container *ngFor="let queue of awaitingCustomers;">
@@ -149,9 +130,9 @@
                                                             </div>
                                                         </div>
                                                         
-                                                        <div class="nk-tb-col tb-col-md"><span>{{queue.firstname}}</span></div>
-                                                        <div class="nk-tb-col tb-col-sm"><span>{{queue.surname}}</span></div>
-                                                        <div class="nk-tb-col tb-col-md"><span>{{queue.othernames}}</span></div>
+                                                        <div class="nk-tb-col tb-col-md"><span><b>{{queue.firstname}}</b></span></div>
+                                                        <div class="nk-tb-col tb-col-sm"><span><b>{{queue.surname}}</b></span></div>
+                                                        <div class="nk-tb-col tb-col-md"><span><b>{{queue.othernames}}</b></span></div>
                                                         <div class="nk-tb-col tb-col-sm"><span>{{queue.accountno}}</span></div>
                                                         <div class="nk-tb-col tb-col-md"><span>{{queue.accounttype}}</span></div>
                                                         <div class="nk-tb-col tb-col-sm"><span>{{queue.email}}</span></div>
@@ -166,6 +147,7 @@
                                                         <div *ngIf="queue.bhm_approved" class="nk-tb-col tb-col-sm"><span style="color:steelblue;">{{queue.status | titlecase}}</span></div>
                                                         <div *ngIf="queue.bhm_approved && queue.adt_approved" class="nk-tb-col tb-col-sm"><span style="color:lightgreen;">{{queue.status | titlecase}}</span></div>
                                                         <div *ngIf="queue.status == 'Declined'" class="nk-tb-col tb-col-sm"><span style="color:red;">{{queue.status | titlecase}}</span></div>
+                                                        
                                                         <!-- <div *ngIf="queue.servicecenter == 'granted'" class="nk-tb-col tb-col-md"><i style="color:orange" class="material-icons">verified_queue</i></div> --> 
 
                                                         <div class="nk-tb-col nk-tb-col-tools">
@@ -176,14 +158,18 @@
                                                                         <div class="dropdown-menu dropdown-menu-end">
                                                                             <ul class="link-list-opt no-bdr">
                                                                                 <li  value="{{queue.id}}"><a href="javascript:void(0)" (click)="viewAwaitingCustomer($event)"><em class="icon ni ni-eye"></em><span>View Details</span></a></li>
-                                                                                <li class="divider"></li>
+                                                                                <!-- <li class="divider"></li>
                                                                                 <li  value="{{queue.id}}"><a href="javascript:void(0)"><em class="icon ni ni-shield-off"></em><span>Revert</span></a></li>
-                                                                                <li  value="{{queue.id}}"><a href="javascript:void(0)"><em class="icon ni ni-na"></em><span>Approve</span></a></li>
+                                                                                <li  value="{{queue.id}}"><a href="javascript:void(0)"><em class="icon ni ni-na"></em><span>Approve</span></a></li> -->
                                                                             </ul>
                                                                         </div>
                                                                     </div>
                                                                 </li>
                                                             </ul>
+                                                        </div>
+                                                        <div class="nk-tb-col tb-col-md">
+                                                            <span *ngIf="queue.is_fresh" class="up-fresh badge badge-dot bg-primary">Fresh</span>
+                                                            <span *ngIf="!queue.is_fresh" class="up-unfresh badge badge-dot bg-primary">Exists</span>
                                                         </div>
                                                     </div>
                                                 </ng-container>

@@ -27,7 +27,7 @@
                                             <li class="nk-menu-item"><a href="#" [routerLink]="['cms/customers/ecmi/payments']" class="nk-menu-link" data-bs-original-title="" title=""><span class="nk-menu-icon"><em class="icon ni ni-wifi"></em></span><span class="nk-menu-text">Payment History</span></a></li>                                            
                                             
                                             <li *ngIf="is_admin" class="nk-menu-item has-sub current-page">
-                                                <a href="'/admin/users" class="nk-menu-link nk-menu-toggle" data-bs-original-title="" title=""><span class="nk-menu-icon"><em class="icon ni ni-users"></em></span><span class="nk-menu-text">Administration</span></a>
+                                                <a href="/admin/users" class="nk-menu-link nk-menu-toggle" data-bs-original-title="" title=""><span class="nk-menu-icon"><em class="icon ni ni-users"></em></span><span class="nk-menu-text">Administration</span></a>
                                                 <ul class="nk-menu-sub" style="display: none;">
                                                     <li class="nk-menu-item"><a href="#" [routerLink]="['admin/users']" class="nk-menu-link" data-bs-original-title="" title=""><span class="nk-menu-text">Manage Users</span></a></li>
                                                     <li class="nk-menu-item active current-page"><a href="#" [routerLink]="['admin/locations']" class="nk-menu-link" data-bs-original-title="" title=""><span class="nk-menu-text">Manage Locations</span></a></li>
@@ -104,18 +104,19 @@
                                             <li><a href="javascript:void(0)" (click)="paymentSearchBarFilter($event)" value = "Account Number" name="AccountNo">ECMI Account Number</a></li>
                                             <li><a href="javascript:void(0)" value = "Meter Number" name="meterno" (click)="paymentSearchBarFilter($event)">Meter Number</a></li>
                                             <li><a href="javascript:void(0)" value = "Trans Ref" name="TransRef" (click)="paymentSearchBarFilter($event)">Trans Ref</a></li>
-                                            <!-- <li><a href="javascript:void(0)" value = "Token" name="Token" (click)="paymentSearchBarFilter($event)">Token</a></li> -->
                                          </ul>
                                          <ul *ngIf="activeSearchbar=='billing'" class="link-list-opt">
                                             <li><a href="javascript:void(0)" (click)="billingSearchBarFilter($event)" value = "Account Number" name="accountno">Account Number</a></li>
-                                            <li><a href="javascript:void(0)" name="names" (click)="billingSearchBarFilter($event)">Names</a></li>
-                                            <li><a href="javascript:void(0)" name="accounttype" (click)="billingSearchBarFilter($event)">Account Type</a></li>
-                                            <li><a href="javascript:void(0)" name="address" (click)="billingSearchBarFilter($event)">Address</a></li>
-                                            <li><a href="javascript:void(0)" name="buname1" (click)="billingSearchBarFilter($event)">Business Unit</a></li>
-                                            <li><a href="javascript:void(0)" name="buid" (click)="billingSearchBarFilter($event)">Business Unit Code</a></li>
-                                            <li><a href="javascript:void(0)" name="serviceaddress" (click)="billingSearchBarFilter($event)">Service Address</a></li>
-                                            <li><a href="javascript:void(0)" name="serviceid" (click)="billingSearchBarFilter($event)">Service ID</a></li>
-                                            <li><a href="javascript:void(0)" name="tarrifcode" (click)="billingSearchBarFilter($event)">Tarrif Code</a></li>
+                                            <!-- <li><a href="javascript:void(0)" name="CustomerName" (click)="billingSearchBarFilter($event)">Names</a></li> -->
+                                            <!-- <li><a href="javascript:void(0)" name="accounttype" (click)="billingSearchBarFilter($event)">Account Type</a></li> -->
+                                            <!-- <li><a href="javascript:void(0)" name="address" (click)="billingSearchBarFilter($event)">Address</a></li> -->
+                                            <li><a href="javascript:void(0)" name="BUName1" (click)="billingSearchBarFilter($event)">Business Unit</a></li>
+                                            <li><a href="javascript:void(0)" name="BUID" (click)="billingSearchBarFilter($event)">Business Unit Code</a></li>
+                                            <li><a href="javascript:void(0)" name="ServiceAddress1" (click)="billingSearchBarFilter($event)">Service Address 1</a></li>
+                                            <li><a href="javascript:void(0)" name="ServiceAddress2" (click)="billingSearchBarFilter($event)">Service Address 2</a></li>
+                                            <li><a href="javascript:void(0)" name="ServiceAddress3" (click)="billingSearchBarFilter($event)">Service Address 3</a></li>
+                                            <li><a href="javascript:void(0)" name="ServiceID" (click)="billingSearchBarFilter($event)">Service ID</a></li>
+                                            <li><a href="javascript:void(0)" name="TarrifCode" (click)="billingSearchBarFilter($event)">Tarrif Code</a></li>
                                          </ul>
                                         </div>
                                     </div>
@@ -134,21 +135,24 @@
                                             </div>
                                         </div>
                                         <div class="dropdown-inner">
-                                            <ul class="link-list">
-                                                <li><a href="#" onclick="document.getElementById('pending_view').click()" style="width:100%;">
-                                                    <em class="icon ni ni-update"></em>Approval Board
+                                            <ul class="link-list-opt">
+                                                <li><a href="javascript:void(0)"  style="width:100%;">
+                                                    {{positionCode}}
                                                     </a>
                                                  </li>
+                                                 <li><a href="javascript:void(0)" (click)="logout()"><em class="icon ni ni-signout"></em><span>Region: {{userRegion}}</span></a></li>
+                                                 <li><a href="javascript:void(0)" onclick="document.getElementById('pending_view').click()" style="width:100%;">
+                                                    <em class="icon ni ni-update"></em>CRMD Customers Board
+                                                    </a>
+                                                 </li>
+                                                 <li><a href="javascript:void(0)" (click)="logout()"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
+                                                 <!-- onclick="document.getElementById('pending_view').click()" -->
                                                 <!-- <li><a href="user-profile-setting.html"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li> -->
                                                 <!-- <li><a class="dark-switch pointer" (click)="darkMode()"><em class="icon ni ni-moon"></em><span>Dark Mode</span></a></li> -->
                                                 <!-- <li><a href="user-profile-activity.html"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li> -->
                                             </ul>
                                         </div>
-                                        <div class="dropdown-inner">
-                                            <ul class="link-list">
-                                                <li><a href="#"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
-                                            </ul>
-                                        </div>
+                                       
                                     </div>
                                 </li>
                             </ul>

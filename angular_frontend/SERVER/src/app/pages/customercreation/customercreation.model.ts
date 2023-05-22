@@ -10,7 +10,6 @@ export class NewCustomer {
     accounttype: string | null;
     customer_type?: string | null;
     business_type?: string | null;
-
     cin?: string | null;
     statuscode:string;
 

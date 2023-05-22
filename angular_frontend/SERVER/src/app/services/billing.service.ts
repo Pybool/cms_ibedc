@@ -15,7 +15,7 @@ export class BillingService {
   userState
   permission_hierarchy
   billingList;
-  billingList$:any = new BehaviorSubject<any>({});
+  billingList$:any = new BehaviorSubject<any>([]);
   constructor(private http: HttpClient,private store: Store<AppState>,
     private router: Router) {  this.userState = this.store.select(UserState);}
 

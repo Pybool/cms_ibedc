@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-%g8utpknh!bv^-$^ak30y_p5k_u#40f!s5x6&49+(1#yy=l2of
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','localhost','192.168.15.161']
+ALLOWED_HOSTS = ['127.0.0.1','localhost','192.168.15.160','192.168.15.161','192.168.15.162']
 
 # find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
 
@@ -176,12 +176,23 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#DEVELOPMENT
+
 EMAIL_HOST = 'smtp.mailtrap.io'
 EMAIL_PORT = '2525'
 EMAIL_HOST_USER = '9ecad1c5aa4175'
 EMAIL_HOST_PASSWORD = 'b0dcb7fe86beee'
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
+
+#PRODUCTION
+
+# EMAIL_HOST = 'webmail.ibedc.com'
+# EMAIL_PORT = '587'
+# EMAIL_HOST_USER = 'no-reply-cms@ibedc.com'
+# EMAIL_HOST_PASSWORD = 'ibedc@5102023'
+# EMAIL_USE_TLS = True
+# EMAIL_USE_SSL = False
 # 
 # BROKER_URL = 'redis://localhost:6379'
 

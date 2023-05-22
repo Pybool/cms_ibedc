@@ -100,6 +100,18 @@ class EcmiCustomersNew(models.Model):
     #statuscode,address1, city, dss_name, dss_owner, and the last ones in emscustomers are  added by developer
 # """POSTPAID CUSTOMERS MODEL"""
 
+class EcmiTariff(models.Model):
+    tariffid = models.DecimalField(db_column='TariffID', primary_key=True, max_digits=20, decimal_places=0,default=0)  # Field name made lowercase.
+    tariffcode = models.CharField(db_column='TariffCode', max_length=50, blank=True, null=True)  # Field name made lowercase.
+    description = models.CharField(db_column='Description', max_length=500, blank=True, null=True)  # Field name made lowercase.
+    addeddate = models.DateTimeField(db_column='AddedDate', blank=True, null=True)  # Field name made lowercase.
+    status1 = models.CharField(max_length=2, blank=True, null=True)
+    oldtariffcode = models.CharField(db_column='OldTariffCode', max_length=5, blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'ecmi_tariff'
+        
 class EmsCustomersNew(models.Model):
     accountno = models.CharField(db_column='AccountNo', max_length=20)  # Field name made lowercase.
     booknumber = models.CharField(max_length=100, blank=True, null=True)
@@ -205,3 +217,19 @@ class EmsCustomersNew(models.Model):
     class Meta:
         managed = True
         db_table = 'ems_customers_new'
+        
+class EmsTariff(models.Model):
+    tariffid = models.DecimalField(db_column='TariffID', primary_key=True, max_digits=20, decimal_places=0,default=0)  # Field name made lowercase.
+    tariffcode = models.CharField(db_column='TariffCode', max_length=50, blank=True, null=True)  # Field name made lowercase.
+    description = models.CharField(db_column='Description', max_length=500, blank=True, null=True)  # Field name made lowercase.
+    accounttype = models.CharField(db_column='AccountType', max_length=50, blank=True, null=True)  # Field name made lowercase.
+    addeddate = models.DateTimeField(db_column='AddedDate', blank=True, null=True)  # Field name made lowercase.
+    storedaverage = models.IntegerField(db_column='StoredAverage', blank=True, null=True)  # Field name made lowercase.
+    ismd = models.BooleanField(db_column='isMD', blank=True, null=True)  # Field name made lowercase.
+    usageratio = models.DecimalField(max_digits=50, decimal_places=1, blank=True, null=True)
+    rowguid = models.CharField(max_length=360, blank=True, null=True)
+    newtariffcode = models.CharField(db_column='NewTariffCode', max_length=50, blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'ems_tariff'

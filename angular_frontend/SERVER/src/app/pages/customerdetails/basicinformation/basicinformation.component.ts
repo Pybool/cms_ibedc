@@ -5,7 +5,7 @@ import { SharedService } from 'src/app/services/shared.service';
 import { ActivatedRoute } from '@angular/router';
 import { LoadEmsCustomer } from '../../customersmodule/prepaidcustomers/state/customer.actions';
 import { CustomerService } from 'src/app/services/customer.service';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-basicinformation',
@@ -17,6 +17,7 @@ export class BasicinformationComponent implements OnInit {
   getCustomer;
   accountno;
   accounttype;
+  tariff;
   constructor(private store: Store<AppState>,
               private sharedService:SharedService,
               private route: ActivatedRoute,
@@ -32,11 +33,19 @@ export class BasicinformationComponent implements OnInit {
           console.log(response)
           if (response.status){
             this.customer = response.data[0] || response.data
+            console.log(this.customer)
+            if(this.customer.tariffid != undefined && this.customer.tariffid != null ){
+              this.customerService.fetchTariffCode(this.customer.tariffid,this.customer.accounttype).pipe(take(1)).subscribe((response:any)=>{
+                console.log("Tarrif Info ---> ", response)
+                this.tariff = response?.data
+              })
+            }
+            
           }
+        
           else{alert(response.message)}
         })
-      // }
-      // else{}
+
       
     });
     

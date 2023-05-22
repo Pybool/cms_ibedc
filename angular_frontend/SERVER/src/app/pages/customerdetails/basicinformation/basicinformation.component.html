@@ -41,13 +41,13 @@
             <li >
                 <div class="col-12 row g-3">
                     <label class="col-3">Firstname</label>
-                    <a class="col-3" href="javascript:void(0)" >
+                    <p class="col-3">
                         <span>{{customer?.firstname || 'N/A'}}</span>
-                    </a>
+                    </p>
                     <label class="col-3">Surname</label>
-                    <a class="col-3" href="javascript:void(0)" >
+                    <p class="col-3">
                         <span>{{customer?.surname || 'N/A'}}</span>
-                    </a>
+                    </p>
                 </div>
                 
             </li>
@@ -55,13 +55,13 @@
                 <div class="col-12 row g-3">
                     
                     <label class="col-3">Othernames</label>
-                    <a class="col-3" href="javascript:void(0)" >
+                    <p class="col-3">
                         <span>{{customer?.othernames || 'N/A'}}</span>
-                    </a>
+                    </p>
                     <label class="col-3">Email</label>
-                    <a class="col-3" href="javascript:void(0)" >
+                    <p class="col-3">
                         <span>{{customer?.email || 'N/A'}}</span>
-                    </a>
+                    </p>
                 </div>
                 
             </li>
@@ -69,18 +69,18 @@
                 <div class="col-12 row g-3">
                     
                     <label class="col-3">Phone Number</label>
-                    <a class="col-3" href="javascript:void(0)" >
+                    <p class="col-3">
                         <span>{{customer?.mobile || 'N/A'}}</span>
-                    </a>
+                    </p>
                     <label class="col-3">Home Address</label>
-                    <a class="col-3" href="javascript:void(0)" >
+                    <p class="col-3">
                         <span >
-                            <span >{{customer?.address1}}</span>,
-                            <span >{{customer?.address2}}</span>,
+                            <span >{{customer?.address1 || ''}}</span>
+                            <span >{{customer?.address2 || ''}}</span>
                             <span >{{customer?.address}}</span>&nbsp;
                             <span >{{customer?.state}}</span>
                         </span>
-                    </a>
+                    </p>
                 </div>
                 
             </li>
@@ -97,166 +97,158 @@
             <li >
                 <div class="col-12 row g-3">
                     <label class="col-3">Account Number</label>
-                    <a class="col-3" href="javascript:void(0)" >
+                    <p class="col-3" >
                         <span>{{customer?.accountno || 'N/A'}}</span>
-                    </a>
+                    </p>
                     <label class="col-3">Account Type</label>
-                    <a class="col-3" href="javascript:void(0)" >
+                    <p class="col-3">
                         <span>{{customer?.accounttype || 'N/A'}}</span>
-                    </a>
+                    </p>
+                </div>
+                
+            </li>
+            <li >
+                <div class="col-12 row g-3">
+                    <label class="col-3">Meter Number</label>
+                    <p class="col-3" >
+                        <span>{{customer?.meterno || 'N/A'}}</span>
+                    </p>
+                    <label class="col-3">Book Number</label>
+                    <p class="col-3"  >
+                        <span>{{customer?.bookno || 'N/A'}}</span>
+                    </p>
                 </div>
                 
             </li>
             <li>
                 <div class="col-12 row g-3">
                     <label class="col-3">Old Account Number</label>
-                    <a class="col-3" href="javascript:void(0)" >
+                    <p class="col-3"  >
                         <span>{{customer?.oldaccountno || 'N/A'}}</span>
-                    </a>
+                    </p>
                     <label class="col-3">Map ID</label>
-                    <a class="col-3" href="javascript:void(0)" >
+                    <p class="col-3">
                         <span>{{customer?.map_id || 'N/A'}}</span>
-                    </a>
+                    </p>
                 </div>
             </li>
             <li>
                 <div class="col-12 row g-3">
-                    <label class="col-3">State</label>
-                    <a class="col-3" href="javascript:void(0)" >
-                        <span>{{customer?.state +' State' || 'N/A'}}</span>
-                    </a>
+                    
                     <label class="col-3">Tariff Code</label>
-                    <a class="col-3" href="javascript:void(0)" >
-                        <span>{{customer?.newtariffcode || 'N/A'}}</span>
-                    </a>
+                    <p class="col-3">
+                        <span>{{customer?.newtariffcode || tariff?.tariffcode}}</span>
+                    </p>
+                    <label class="col-3">Tariff Description</label>
+                    <p class="col-3">
+                        <span>{{tariff?.description || 'N/A'}}</span>
+                    </p>
                 </div>
+            </li>
+            <li >
+                <div class="col-12 row g-3">
+                    
+                    <label class="col-3">State</label>
+                    <p class="col-3">
+                        <span>{{customer?.state +' State' || 'N/A'}}</span>
+                    </p>
+                    <label class="col-3">Business Unit</label>
+                    <p class="col-3"  >
+                        <span>{{customer?.buid || 'N/A'}}</span>
+                    </p>
+                </div>
+                
+            </li>
+            <li >
+                <div class="col-12 row g-3">
+                    <label class="col-3">UTID</label>
+                    <p class="col-3" >
+                        <span>{{customer?.utid || 'N/A'}}</span>
+                    </p>
+                    <label class="col-3">Transformer ID</label>
+                    <p class="col-3"  >
+                        <span>{{customer?.transid || 'N/A'}}</span>
+                    </p>
+                </div>
+                
+            </li>
+            <li >
+                <div class="col-12 row g-3">
+                    <label class="col-3">Operator Name</label>
+                    <p class="col-3" >
+                        <span>{{customer?.operatorname || 'N/A'}}</span>
+                    </p>
+                    <label class="col-3">Operator Modified</label>
+                    <p class="col-3"  >
+                        <span>{{customer?.operatormodified || 'N/A'}}</span>
+                    </p>
+                </div>
+                
+            </li>
+            <li >
+                <div class="col-12 row g-3">
+                    <label class="col-3">Last Modified Date</label>
+                    <p class="col-3" >
+                        <span>{{customer?.lastmodifieddate || 'N/A'}}</span>
+                    </p>
+                    <label class="col-3">Activated</label>
+                    <p class="col-3"  >
+                        <span>{{customer?.activated || 'N/A'}}</span>
+                    </p>
+                </div>
+                
+            </li>
+            <li >
+                <div class="col-12 row g-3">
+                    <label class="col-3">Modified Count</label>
+                    <p class="col-3" >
+                        <span>{{customer?.modifiedcount || 'N/A'}}</span>
+                    </p>
+                    <label class="col-3">Service Band</label>
+                    <p class="col-3"  >
+                        <span>{{customer?.service_band || 'N/A'}}</span>
+                    </p>
+                </div>
+                
             </li>
             <li>
                 <div class="col-12 row g-3">
                     <label class="col-3">Arrears Balance</label>
-                    <a class="col-3" href="javascript:void(0)" >
+                    <p class="col-3">
                         <span>{{customer?.arrearsbalance  || 'N/A'}}</span>
-                    </a>
+                    </p>
                     <label class="col-3">Application Date</label>
-                    <a class="col-3" href="javascript:void(0)" >
+                    <p class="col-3">
                         <span>{{customer?.applicationdate || 'N/A'}}</span>
-                    </a>
+                    </p>
                 </div>
             </li>
             <li>
                 <div class="col-12 row g-3">
                     <label class="col-3">Guarantor Name</label>
-                    <a class="col-3" href="javascript:void(0)" >
+                    <p class="col-3">
                         <span>{{customer?.guarantorname  || 'N/A'}}</span>
-                    </a>
+                    </p>
                     <label class="col-3">Guarantor Address</label>
-                    <a class="col-3" href="javascript:void(0)" >
+                    <p class="col-3">
                         <span>{{customer?.guarantoraddress || 'N/A'}}</span>
-                    </a>
-                </div>
-            </li>
-            
-        </ul>
-
-        <div class="data-head">
-            <h6 class="overline-title">Assets/Location Information</h6>
-        </div>
-        <br>
-        <ul style="max-height:50vh;overflow-y: auto;" class="link-list-opt">
-            <li >
-                <div class="col-12 row g-3">
-                    <label class="col-3">DSS Owner</label>
-                    <a class="col-3" href="javascript:void(0)" >
-                        <span>{{customer?.dss_owner || 'N/A'}}</span>
-                    </a>
-                    <label class="col-3">DSS Name</label>
-                    <a class="col-3" href="javascript:void(0)" >
-                        <span>{{customer?.dss_name || 'N/A'}}</span>
-                    </a>
-                    
+                    </p>
                 </div>
             </li>
             <li>
                 <div class="col-12 row g-3">
-                    <label class="col-3">DSS ID</label>
-                    <a class="col-3" href="javascript:void(0)" >
-                        <span>{{customer?.dss_id || 'N/A'}}</span>
-                    </a>
-                    <label class="col-3">Feeder Name</label>
-                    <a class="col-3" href="javascript:void(0)" >
-                        <span>{{customer?.feeder_name || 'N/A'}}</span>
-                    </a>
-                </div>
-                
-            </li>
-            <li>
-                <div class="col-12 row g-3">
-                    <label class="col-3">Feeder Type</label>
-                    <a class="col-3" href="javascript:void(0)" >
-                        <span>{{customer?.feeder_type || 'N/A'}}</span>
-                    </a>
-                    <label class="col-3">Feeder ID</label>
-                    <a class="col-3" href="javascript:void(0)" >
-                        <span>{{customer?.feederid || 'N/A'}}</span>
-                    </a>
-                </div>
-                
-            </li>
-            <li>
-                <div class="col-12 row g-3">
-                    
-                    <label class="col-3">Region</label>
-                    <a class="col-3" href="javascript:void(0)" >
-                        <span>{{customer?.region || 'N/A'}}</span>
-                    </a>
-                    <label class="col-3">Business Unit</label>
-                    <a class="col-3" href="javascript:void(0)" >
-                        <span>{{customer?.buid || 'N/A'}}</span>
-                    </a>
-                </div>
-                
-            </li>
-            <li>
-                <div class="col-12 row g-3">
-                    
-                    <label class="col-3">Service Center</label>
-                    <a class="col-3" href="javascript:void(0)" >
-                        <span>{{customer?.servicecenter || 'N/A'}}</span>
-                    </a>
-                    <label class="col-3">Premise Type</label>
-                    <a class="col-3" href="javascript:void(0)" >
-                        <span>{{customer?.premise_type || 'N/A'}}</span>
-                    </a>
-                </div>
-                
-            </li>
-            <li>
-                <div class="col-12 row g-3">
-                    
-                    <label class="col-3">Service Band</label>
-                    <a class="col-3" href="javascript:void(0)" >
-                        <span>{{customer?.service_band || 'N/A'}}</span>
-                    </a>
+                    <label class="col-3">Open Date</label>
+                    <p class="col-3" >
+                        <span>{{customer?.opendate || 'N/A'}}</span>
+                    </p>
                     <label class="col-3">Gis Coordinates</label>
-                    <a class="col-3" href="javascript:void(0)" >
+                    <p class="col-3" >
                         <span>{{customer?.giscoordinate || 'N/A'}}</span>
-                    </a>
-                </div>
-                
-            </li>
-            <li>
-                <div class="col-12 row g-3">
-                    
-                    <label class="col-3">Landlord Name</label>
-                    <a class="col-3" href="javascript:void(0)" >
-                        <span>{{customer?.landlord_name || 'N/A'}}</span>
-                    </a>
-                    <label class="col-3">Landlord Phone</label>
-                    <a class="col-3" href="javascript:void(0)" >
-                        <span>{{customer?.landlord_phone || 'N/A'}}</span>
-                    </a>
+                    </p>
                 </div>
             </li>
+           
+            
         </ul>
       
         

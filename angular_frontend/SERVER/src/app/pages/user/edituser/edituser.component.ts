@@ -10,6 +10,7 @@ import { getLocationsState } from 'src/app/ui/customselect/state/customselect.se
 import { UpdateExistingUser } from '../state/createuser.actions';
 import { CustomerService } from 'src/app/services/customer.service';
 import { NotificationService } from 'src/app/services/notification.service';
+import { take } from 'rxjs/operators';
 
 const  _ = require('lodash');
 
@@ -95,7 +96,8 @@ export class EdituserComponent implements OnInit {
     this.userService.returnUser().subscribe((data) => {
       this.user = data.user
       this.id = data.id
-      this.userService.fetchUserLocationMetadata({region:this.user.region,business_unit:this.user.business_unit,serviccenter:this.user.servicecenter}).subscribe((data:any) => {
+      this.userService.fetchUserLocationMetadata({region:this.user.region,business_unit:this.user.business_unit,serviccenter:this.user.servicecenter})
+      .subscribe((data:any) => {
           this.regions = data.regions
           this.business_units = data.business_units
           this.service_centers = data.servicecenters
@@ -215,29 +217,35 @@ export class EdituserComponent implements OnInit {
     this.userForm.patchValue({permission_hierarchy:this.permission_hierarchy})
 }
 
+getPositionCodeObj(array, name) {
+  return array.find(item => item.name === name);
+}
+
 getDropdownsValues(){
   let ids = {'position':'position-dropdown-menu'}
             
   for(let key of Object.keys(ids)){
     let id = ids[key]
     let dropdown:any = document.getElementById(id)
-    console.log("drop ", dropdown)
     if(dropdown != null){
       if (Array.from(dropdown.querySelector('ul.link-list-opt').children).length< 1){
         return 
       }
       else{
         dropdown = document.getElementById('position-dropdown')
-        console.log(dropdown)
         let value = dropdown?.name;
-        console.log("dropval ", value)
         if (value != undefined && value != null){
           
           let patch = { [`${key}`]: String(value)?.trim() }
-          console.log("Patch & ID",patch,id)
           if (id ==  'position-dropdown-menu'){
-            console.log("Patch positions ===> ",dropdown, id ,value)
-            console.log(patch)
+            if(key=='position' && value==''){
+              
+              this.userService.getPositions().pipe(take(1)).subscribe((positions)=>{
+                const positionObj = this.getPositionCodeObj(positions,this.user.position)
+                this.user.position = positionObj?.code
+                patch = { [`${key}`]: this.user.position }
+              })
+            }
           }
           this.userForm.patchValue(patch)
         }
@@ -297,6 +305,7 @@ fetchBusinessUnits($event){
     this.getDropdownsValues()
     let payload = this.userForm.value
     payload['id'] = this.id
+    console.log(payload)
     this.store.dispatch(new UpdateExistingUser(payload));
     // this.userForm = Object.assign({}, this.userForm);
   }

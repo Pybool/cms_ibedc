@@ -149,7 +149,6 @@ FetchEcmiCustomers$= createEffect(() =>
                     }
                     else{
                         this.spinnerService.hideSpinner()
-                        // this.notificationService.setModalNotification({type:'failure','message':response?.message,'subMessage':''})
                         throw new Error("Server returned false status for fetch Ecmi Customers")
                     }
                 }),

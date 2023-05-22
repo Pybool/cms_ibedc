@@ -1,5 +1,6 @@
 ECMI_FIELDS = [
         "accountno",
+        "bookno",
         "meterno",
         "tariffid",
         "oldaccountno",
@@ -39,6 +40,15 @@ ECMI_FIELDS = [
         "landlord",
         "injection_sub_station",
         "cin",
+        "opendate",
+        "utid",
+        "transid",
+        "operatorname",
+        "activated",
+        "lastmodifieddate",
+        "operatormodified",
+        "modifiedcount",
+        
         "meteroem",
         "upriserid",
         "feederid",

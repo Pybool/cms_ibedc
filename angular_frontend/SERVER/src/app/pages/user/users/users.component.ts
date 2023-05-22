@@ -30,18 +30,9 @@ export class UsersComponent implements OnInit {
 
   ngOnInit(): void {
     this.userListState = this.store.select(usersData);
-    // this.usersListObs$ = this.userListState.subscribe((user) => {
-    //   console.log(user)
-    //   if(user.isFetched){
-    //     this.usersData = user.users.users
-    //     console.log(this.usersData)
-    //   }
-    //   else{
-    //     this.usersData = []
-    //   }
-    // });
     this.userService.fetchusers().subscribe((users) => {
       this.usersData = users.data.users
+      this.userService.storePositions(users.data.user_positions)
       
     })
   }

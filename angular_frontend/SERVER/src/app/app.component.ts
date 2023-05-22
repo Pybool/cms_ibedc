@@ -19,6 +19,7 @@ import { BillingService } from './services/billing.service';
 import { take } from 'rxjs/operators';
 import { NotificationService } from './services/notification.service';
 import { PaymentsService } from './services/payments.service';
+import { ConvertTableService } from './services/convert-table.service';
 
 declare function myfunction(): any;
 
@@ -41,8 +42,10 @@ export class AppComponent {
   can_approve_caad:boolean;
   is_authenticated:boolean;
   activeCustomerPage:string;
-  activeSearchbar:string = 'customers'
+  activeSearchbar:string = 'dashboard'
   activePayments = 'ems'
+  positionCode;
+  userRegion;
   
   constructor(private router: Router,
               private store: Store<AppState>,
@@ -54,7 +57,8 @@ export class AppComponent {
               private billingService:BillingService,
               private paymentService: PaymentsService,
               private appRef: ApplicationRef,
-              private notificationService:NotificationService) {
+              private notificationService:NotificationService,
+              private convertTableService :ConvertTableService) {
     this.store.dispatch(new RehydrateLogIn(''));
     this.getState = this.store.select(isAuthenticated);
     this.userState = this.store.select(UserState);
@@ -95,6 +99,8 @@ export class AppComponent {
         this.usersName = user.name
         this.is_admin = user.is_admin
         this.is_authenticated = true
+        this.positionCode = user.position
+        this.userRegion = user.region.toUpperCase()
         // this.router.navigateByUrl("/dashboard")
       }
     });
@@ -142,7 +148,6 @@ export class AppComponent {
     this.sharedService.shallowSearchBilling($event)
   }
   
-
   activateDualSearch($event){
     this.sharedService.activateDualSearch($event.target.checked)
   }
@@ -159,6 +164,7 @@ export class AppComponent {
             const parentElement = document.getElementById('search-status');
             this.spinnerService.showSpinner(parentElement);
             this.sharedService.setSpinnerText('Processing your request')
+            
             this.store.dispatch(new DeepFetchEcmiCustomers(payload))
           }
           else if(this.activeCustomerPage == 'postpaid'){
@@ -169,6 +175,7 @@ export class AppComponent {
           }
           
           console.log(`Searching for a ${$event.target.textContent} ==> `, searchBarValue)
+          searchBar.value=''
       }
       else{
         console.log("Search Bar Empty!",`Please type a/an ${$event.target.textContent}  in the search bar and click ${$event.target.textContent} filter again`)
@@ -194,6 +201,7 @@ export class AppComponent {
               if (response.status){
               //Load toastr Notification Modal here...
               this.billingService.swapBillinglist(response)
+                searchBar.value=''
                 this.notificationService.success('Records matching your search criteria were found','Search results found',{})
               }
               else{

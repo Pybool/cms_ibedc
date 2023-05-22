@@ -31,7 +31,7 @@ export class Customers{
              var input, filter, table, tr, tds, i, txtValue;
              
              input = $event.target
-             filter = input.value.toUpperCase();
+             filter = input.value.trim().toUpperCase();
              table = document.getElementById("customer_table");
              tr = table.getElementsByTagName("tr");
              for (i = 0; i < tr.length; i++) {

@@ -15,6 +15,7 @@ import { map,catchError, filter, switchMap, tap, mergeMap } from 'rxjs/operators
 import { NotificationService } from 'src/app/services/notification.service';
 import { Action } from '@ngrx/store';
 import { CustomercreationupdateService } from 'src/app/services/customercreationupdate.service';
+import Swal from 'sweetalert2'
 // import { UpdateUser } from '../../createuser/models/user';
 
 @Injectable()
@@ -76,10 +77,18 @@ SaveDraft$= createEffect(() =>
                 map((response) => {
                     console.log(response);
                     if(response.status){
-                        let notification = {type:'success',title:'Draft saved Successfully',
-                        message:'Draft has been saved',
-                        subMessage:''}
-                        this.notificationService.setModalNotification(notification)
+                        // let notification = {type:'success',title:'Draft saved Successfully',
+                        // message:'Draft has been saved',
+                        // subMessage:''}
+                        // this.notificationService.setModalNotification(notification)
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'Draft saved Successfully',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                        
                         return new SaveDraftSuccess(response) as Action; // cast to Action
                     }
                     else{
@@ -130,10 +139,17 @@ LoadDraftsSuccess$= createEffect(() =>
         ofType(CustomerCreationActionTypes.LOAD_DRAFT_SUCCESS),
         tap((data:any) => {
             //Load Notification Modal here....
-            let notification = {type:'success',title:'Draft loaded Successfully',
-            message:'Selected draft has been loaded into the form',
-            subMessage:'You can proceed to edit the data'}
-            this.notificationService.setModalNotification(notification)
+            // let notification = {type:'success',title:'Draft loaded Successfully',
+            // message:'Selected draft has been loaded into the form',
+            // subMessage:'You can proceed to edit the data'}
+            // this.notificationService.setModalNotification(notification)
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Draft loaded Successfully',
+                showConfirmButton: false,
+                timer: 1500
+              })
         })
     ),
     { dispatch: false }
@@ -144,10 +160,17 @@ LoadDraftsFailure$= createEffect(() =>
     this.actions$.pipe(
         ofType(CustomerCreationActionTypes.LOAD_DRAFT_FAILURE),
         tap((data:any)=>{
-            let notification = {type:'failure',title:'Loading draft failed!',
-            message:'Selected draft could not be loaded into the form',
-            subMessage:'Something went wrong somewhere'}
-            this.notificationService.setModalNotification(notification)
+            // let notification = {type:'failure',title:'Loading draft failed!',
+            // message:'Selected draft could not be loaded into the form',
+            // subMessage:'Something went wrong somewhere'}
+            // this.notificationService.setModalNotification(notification)
+            Swal.fire({
+                position: 'top-end',
+                icon: 'error',
+                title: 'Selected draft could not be loaded into the form',
+                showConfirmButton: false,
+                timer: 1500
+              })
         })
     ),
     { dispatch: false }

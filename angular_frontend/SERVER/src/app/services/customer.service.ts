@@ -10,6 +10,7 @@ import { ecmiCustomers, emsCustomers } from '../pages/customersmodule/prepaidcus
 import { UserModifyModel } from '../pages/user/createuser/models/user';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { SharedService } from './shared.service';
+import { AuthService } from './auth.service';
 let self;
 
 @Injectable({
@@ -30,14 +31,17 @@ export class CustomerService {
   dual:boolean = false
   newCustomerList;
   kanban = false;
+  user_id;
   newCustomerList$:any = new BehaviorSubject<any>({});
   
   private readonly cacheTimeMs = 5 * 60 * 1000; // Cache for 5 minutes
 
   constructor(private store: Store<AppState>,
               private http: HttpClient,private router: Router,
-              private sharedService: SharedService) { 
+              private sharedService: SharedService, private auth: AuthService,) { 
     this.userState = this.store.select(UserState);
+
+    this.user_id = this.auth.getUserFromLocalStorage()?.id
     self = this
   }
 
@@ -85,7 +89,7 @@ export class CustomerService {
   }
 
   nextPage(page,type){
-    return this.http.get(`${environment.api}/customers/${type}?start_date=${this.getCurrentDate()}&end_date=${this.getCurrentDate()}&limit=100&offset=${parseInt(page)*100}&permission_hierarchy=${this.permission_hierarchy}`)
+    return this.http.get(`${environment.api}/customers/${type}?start_date=${this.getCurrentDate()}&end_date=${this.getCurrentDate()}&limit=100&offset=${parseInt(page)*100}&permission_hierarchy=${this.permission_hierarchy}&cuid=${this.user_id}`)
   }
   
   
@@ -104,7 +108,7 @@ export class CustomerService {
           // this.cachedData$.subscribe((data) => {
           //   console.log("checking cache ===> ",!data.customers || (data?.timestamp || 0), this.cacheTimeMs, currentTime)
           //   if (!data.customers || (data?.timestamp || 0) + this.cacheTimeMs < currentTime) {
-              return this.http.get(`${environment.api}/customers/postpaid?start_date=${this.getCurrentDate()}&end_date=${this.getCurrentDate()}&permission_hierarchy=${this.permission_hierarchy}`)
+              return this.http.get(`${environment.api}/customers/postpaid?start_date=${this.getCurrentDate()}&end_date=${this.getCurrentDate()}&permission_hierarchy=${this.permission_hierarchy}&cuid=${this.user_id}`)
           //   }
           //   return of(this.cachedData$)
           // })
@@ -123,7 +127,7 @@ export class CustomerService {
               switchMap((data:any) => {
                 const currentTime = new Date().getTime();
                 if ((currentTime - data?.timestamp) > this.cacheTimeMs) {
-                  return this.http.get(`${environment.api}/customers/prepaid?start_date=${this.getCurrentDate()}&end_date=${this.getCurrentDate()}&permission_hierarchy=${this.permission_hierarchy}`).pipe(
+                  return this.http.get(`${environment.api}/customers/prepaid?start_date=${this.getCurrentDate()}&end_date=${this.getCurrentDate()}&permission_hierarchy=${this.permission_hierarchy}&cuid=${this.user_id}`).pipe(
                     map((newData) => {
                       newData['timestamp'] = new Date().getTime()
                       return newData
@@ -143,6 +147,11 @@ export class CustomerService {
   getItemById(array, accountno) {
 
     return array?.find(item => item.accountno == accountno);
+  }
+
+  fetchTariffCode(tariffId,accounttype){ 
+  return this.http.get<any>(`${environment.api}/singlecustomer/tariffcode?tariffid=${tariffId}&accounttype=${accounttype}&cuid=${this.user_id}`)
+
   }
 
   fetchSinglecustomer(payload){
@@ -173,29 +182,29 @@ export class CustomerService {
     
     /*next searching in search results store if not in customers list store */
     /*Send a fresh request to backend to fetch customer data if not found in store */
-    return this.http.get<any>(`${environment.api}/customer/information/basic-information?accounttype=${payload?.accounttype}&accountno=${payload?.accountno}`)
+    return this.http.get<any>(`${environment.api}/customer/information/basic-information?accounttype=${payload?.accounttype}&accountno=${payload?.accountno}&cuid=${this.user_id}`)
   }
 
   fetchSingleCustomerBills(payload){
-    return this.http.get<any>(`${environment.api}/singlecustomer-bills?accounttype=${payload?.accounttype}&accountno=${payload?.accountno}&page=${1}`)
+    return this.http.get<any>(`${environment.api}/singlecustomer-bills?accounttype=${payload?.accounttype}&accountno=${payload?.accountno}&cuid=${this.user_id}&page=${1}`)
   }
 
   fetchSingleCustomerPayments(payload){
     const customerUID = payload?.accounttype === 'prepaid' ? payload?.meterno : payload.accountno;
-    return this.http.get<any>(`${environment.api}/singlecustomer-payments?accounttype=${payload?.accounttype}&accountno=${customerUID}&page=${1}`)
+    return this.http.get<any>(`${environment.api}/singlecustomer-payments?accounttype=${payload?.accounttype}&accountno=${customerUID}&cuid=${this.user_id}&page=${1}`)
   }
 
   fetchSingleCustomerMetering(payload){
-    return this.http.get<any>(`${environment.api}/singlecustomer-meteringInfo?accounttype=${payload?.accounttype}&accountno=${payload?.accountno}`)
+    return this.http.get<any>(`${environment.api}/singlecustomer-meteringInfo?accounttype=${payload?.accounttype}&accountno=${payload?.accountno}&cuid=${this.user_id}`)
   }
 
   fetchSingleCustomerAssets(payload){
-    return this.http.get<any>(`${environment.api}/singlecustomer-assets?accounttype=${payload?.accounttype}&accountno=${payload?.accountno}`)
+    return this.http.get<any>(`${environment.api}/singlecustomer-assets?accounttype=${payload?.accounttype}&accountno=${payload?.accountno}&cuid=${this.user_id}`)
   }
 
   // /singlecustomer-assets?accountno=12/28/52/1258-01&accounttype=postpaid
   fetchLocations(hierarchy:string,q:string){
-    return this.http.get<any>(`${environment.api}/locations/getdata?hierarchy=${hierarchy}&q=${q}`)
+    return this.http.get<any>(`${environment.api}/locations/getdata?hierarchy=${hierarchy}&q=${q}&cuid=${this.user_id}`)
   }
 
   deepFetchCustomers(payload):Observable<any>{
@@ -204,7 +213,7 @@ export class CustomerService {
       this.permission_hierarchy = user.permission_hierarchy//user.can_create_customers
       
     });    
-    return  this.http.post(`${environment.api}/searching/prepaid/customers?permission_hierarchy=${this.permission_hierarchy}`,payload)
+    return  this.http.post(`${environment.api}/searching/prepaid/customers?permission_hierarchy=${this.permission_hierarchy}&cuid=${this.user_id}`,payload)
 
   }
 
@@ -214,7 +223,7 @@ export class CustomerService {
       this.permission_hierarchy = user.permission_hierarchy//user.can_create_customers
       
     });    
-    return  this.http.post(`${environment.api}/searching/postpaid/customers?permission_hierarchy=${this.permission_hierarchy}`,payload)
+    return  this.http.post(`${environment.api}/searching/postpaid/customers?permission_hierarchy=${this.permission_hierarchy}&cuid=${this.user_id}`,payload)
 
   }
 
@@ -227,7 +236,7 @@ export class CustomerService {
       this.permission_hierarchy = user.permission_hierarchy//user.can_create_customers
       
     });    
-    return  this.http.post(`${environment.api}/advancedsearching/prepaid/customers?permission_hierarchy=${this.permission_hierarchy}&dual=${this.dual}`,payload)
+    return  this.http.post(`${environment.api}/advancedsearching/prepaid/customers?permission_hierarchy=${this.permission_hierarchy}&dual=${this.dual}&cuid=${this.user_id}`,payload)
 
   }
 
@@ -240,18 +249,18 @@ export class CustomerService {
       this.permission_hierarchy = user.permission_hierarchy//user.can_create_customers
       
     });    
-    return  this.http.post(`${environment.api}/advancedsearching/postpaid/customers?permission_hierarchy=${this.permission_hierarchy}`,payload)
+    return  this.http.post(`${environment.api}/advancedsearching/postpaid/customers?permission_hierarchy=${this.permission_hierarchy}&cuid=${this.user_id}`,payload)
 
   }
 
   fecthCustomerFormMetadata(){
-    return this.http.get<any>(`${environment.api}/cms/customerform/metadata?as_method=${true}`)
+    return this.http.get<any>(`${environment.api}/cms/customerform/metadata?as_method=${true}&cuid=${this.user_id}`)
     
   }
 
   initiateCaad(payload){
     console.log(payload)
-    return this.http.post<any>(`${environment.api}/cms/customer/initiate-caad`,payload)
+    return this.http.post<any>(`${environment.api}/cms/customer/initiate-caad?cuid=${this.user_id}`,payload)
     
   }
 

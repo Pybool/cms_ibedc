@@ -1,5 +1,5 @@
 <div style="padding-top:10px;" class="container">
-    <h2 style="width:70%;">Payment History for {{payments[0]?.CustomerName || 'Customer'}}</h2>
+    <h4 style="width:70%;">{{payments[0]?.CustomerName || 'Customer'}} Payment History</h4>
     <div id = "norecord_found" style="display:none; color:orange;"></div>
     
     <div appDynamicScript>
@@ -15,70 +15,9 @@
            <div _ngcontent-ltp-c55="" class="card-inner position-relative card-tools-toggle" style="max-height: 100%; overflow-y: auto; overflow-x: hidden;">
               <div _ngcontent-ltp-c55="">
                  <div _ngcontent-ltp-c55="">
-                    <div _ngcontent-ltp-c55="" class="card-inner position-relative card-tools-toggle">
-                       <div _ngcontent-ltp-c55="" class="card-title-group">
-                          <div _ngcontent-ltp-c55="" class="card-tools">
-                             <div _ngcontent-ltp-c55="" class="form-inline flex-nowrap gx-3">
-                                <div _ngcontent-ltp-c55="" class="form-wrap w-150px">
-                                   <select _ngcontent-ltp-c55="" data-search="off" data-placeholder="----" class="form-select">
-                                      <option _ngcontent-ltp-c55="" value="" data-select2-id="3" ng-reflect-value="">Activate</option>
-                                      <option _ngcontent-ltp-c55="" value="email" ng-reflect-value="email">Activate</option>
-                                      <option _ngcontent-ltp-c55="" value="suspend" ng-reflect-value="suspend">Suspend queue</option>
-                                   </select>
-                                </div>
-                                <div _ngcontent-ltp-c55="" class="btn-wrap"><span _ngcontent-ltp-c55="" class="d-none d-md-block"><button _ngcontent-ltp-c55="" class="btn btn-dim btn-outline-light">Toggle View</button></span><span _ngcontent-ltp-c55="" class="d-md-none"><button _ngcontent-ltp-c55="" class="btn btn-dim btn-outline-light btn-icon disabled"><em _ngcontent-ltp-c55="" class="icon ni ni-arrow-right"></em></button></span></div>
-                             </div>
-                          </div>
-                          <div _ngcontent-ltp-c55="" class="card-tools me-n1">
-                             <ul _ngcontent-ltp-c55="" class="btn-toolbar gx-1">
-                                <li _ngcontent-ltp-c55=""><a _ngcontent-ltp-c55="" href="#" data-target="search" class="btn btn-icon search-toggle toggle-search"><em _ngcontent-ltp-c55="" class="icon ni ni-search"></em></a></li>
-                                <li _ngcontent-ltp-c55="" class="btn-toolbar-sep"></li>
-                                <li _ngcontent-ltp-c55="">
-                                   <div _ngcontent-ltp-c55="" class="toggle-wrap">
-                                      <a _ngcontent-ltp-c55="" href="#" data-target="cardTools" class="btn btn-icon btn-trigger toggle"><em _ngcontent-ltp-c55="" class="icon ni ni-menu-right"></em></a>
-                                      <div _ngcontent-ltp-c55="" data-content="cardTools" class="toggle-content">
-                                         <ul _ngcontent-ltp-c55="" class="btn-toolbar gx-1">
-                                            <li _ngcontent-ltp-c55="" class="toggle-close"><a _ngcontent-ltp-c55="" href="#" data-target="cardTools" class="btn btn-icon btn-trigger toggle"><em _ngcontent-ltp-c55="" class="icon ni ni-arrow-left"></em></a></li>
-                                            <li _ngcontent-ltp-c55="">
-                                               <div _ngcontent-ltp-c55="" class="dropdown">
-                                                  <a _ngcontent-ltp-c55="" href="#" data-bs-toggle="dropdown" class="btn btn-trigger btn-icon dropdown-toggle">
-                                                     <div _ngcontent-ltp-c55="" class="dot dot-primary"></div>
-                                                     <em _ngcontent-ltp-c55="" class="icon ni ni-filter-alt"></em>
-                                                  </a>
-                                               </div>
-                                            </li>
-                                            <li _ngcontent-ltp-c55="">
-                                               <div _ngcontent-ltp-c55="" class="dropdown">
-                                                  <a _ngcontent-ltp-c55="" href="#" data-bs-toggle="dropdown" class="btn btn-trigger btn-icon dropdown-toggle"><em _ngcontent-ltp-c55="" class="icon ni ni-setting"></em></a>
-                                                  <div _ngcontent-ltp-c55="" class="dropdown-menu dropdown-menu-xs dropdown-menu-end">
-                                                     <ul _ngcontent-ltp-c55="" class="link-check">
-                                                        <li _ngcontent-ltp-c55=""><span _ngcontent-ltp-c55="">Show</span></li>
-                                                        <li _ngcontent-ltp-c55="" class="active"><a _ngcontent-ltp-c55="" href="#">10</a></li>
-                                                        <li _ngcontent-ltp-c55=""><a _ngcontent-ltp-c55="" href="#">20</a></li>
-                                                        <li _ngcontent-ltp-c55=""><a _ngcontent-ltp-c55="" href="#">50</a></li>
-                                                     </ul>
-                                                     <ul _ngcontent-ltp-c55="" class="link-check">
-                                                        <li _ngcontent-ltp-c55=""><span _ngcontent-ltp-c55="">Order</span></li>
-                                                        <li _ngcontent-ltp-c55="" class="active"><a _ngcontent-ltp-c55="" href="#">DESC</a></li>
-                                                        <li _ngcontent-ltp-c55=""><a _ngcontent-ltp-c55="" href="#">ASC</a></li>
-                                                     </ul>
-                                                  </div>
-                                               </div>
-                                            </li>
-                                         </ul>
-                                      </div>
-                                   </div>
-                                </li>
-                             </ul>
-                          </div>
-                       </div>
-                       <div _ngcontent-ltp-c55="" data-search="search" class="card-search search-wrap">
-                          <div _ngcontent-ltp-c55="" class="card-body">
-                             <div _ngcontent-ltp-c55="" class="search-content"><a _ngcontent-ltp-c55="" href="#" data-target="search" class="search-back btn btn-icon toggle-search"><em _ngcontent-ltp-c55="" class="icon ni ni-arrow-left"></em></a><input _ngcontent-ltp-c55="" type="text" placeholder="Search by queue or email" class="form-control border-transparent form-focus-none"><button _ngcontent-ltp-c55="" class="search-submit btn btn-icon"><em _ngcontent-ltp-c55="" class="icon ni ni-search"></em></button></div>
-                          </div>
-                       </div>
-                    </div>
-                    <div id="wrapper">
+                   
+                    <div style="width:100%;">
+                     <div id="wrapper"></div>
                         <table style="width:100%; background:#f5f6fa;overflow:auto" id="customer_payment_history"  class="nowrap nk-tb-list is-separate shadow no-footer dtr-inline responsive collapsed" data-searching="false" data-auto-responsive="true">
                             <thead *ngIf="accounttype=='postpaid'" id="postpaid_header_alt" class="darkify thead-dark" style="background:white;position:sticky;top:0;">
                                 <tr>

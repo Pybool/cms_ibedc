@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/basestore/app.states';
 import { CustomerService } from 'src/app/services/customer.service';
 import { SharedService } from 'src/app/services/shared.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-meteringinformation',
@@ -29,7 +30,16 @@ export class MeteringinformationComponent implements OnInit {
           this.meterData = response.data[0]
           console.log(this.meterData)
         }
-        else{alert(response.message)}
+        else{
+          Swal.fire({
+            position: 'top-end',
+            icon: 'error',
+            title: `Customer metering!`,
+            text:`${response?.message}`,
+            showConfirmButton: false,
+            timer: 1500
+          })
+        }
       })
       
     });

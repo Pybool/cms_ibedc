@@ -9,6 +9,7 @@ interface CustomWindow extends Window {
   DataTable: (searchTerm: string,{}) => void;
 }
 declare let window: CustomWindow;
+var tableObj = null
 
 @Injectable({
   providedIn: 'root'
@@ -21,13 +22,27 @@ export class ConvertTableService {
   convertTable(args){
     return new Promise((resolve, reject)=>{
       var subscription
+      if(tableObj!=null){
+        console.log(tableObj)
+        tableObj.clear();
+        // tableObj.destroy();
+        // $(`#${args.id}` + " tbody").empty();
+        // $(`#${args.id}` + " thead").empty();
+        }
+        
+      
       try{
           subscription = interval(100).subscribe(() => {
           let len = document.querySelector('tbody')?.querySelectorAll('tr')?.length
           if(len > 0){
+            
             window.waitForElm(`#${args.id}`).then((elm) => {
+              
+
+               
               this.sharedService.setSpinnerText('Constructing data table...')
-              new window.DataTable(`#${args.id}`, {
+              console.log("Table obj ----> ", tableObj)
+              tableObj = new window.DataTable(`#${args.id}`, {
                     destroy: true,"pageLength": 10,"bPaginate": false,
                     "responsive": true,
                     "processing": true,

@@ -12,11 +12,20 @@ export class UserService {
   singleUser:Observable<any>;
   user_id;
   editComponent;
+  positionsData;
   editComponent$:any = new BehaviorSubject<any>([]);
+  positionsData$:any = new BehaviorSubject<any>([]);
   constructor(private http: HttpClient,private router: Router) { }
 
   
+ public storePositions(positions){
+  this.positionsData = positions
+  this.positionsData$.next(this.positionsData)
+ }
 
+ public getPositions(){
+  return this.positionsData$.asObservable()
+ }
 
   public cacheEditComponent(editComponent){
     this.editComponent = editComponent

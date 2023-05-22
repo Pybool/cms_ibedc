@@ -62,7 +62,7 @@ export class ConfigurationsComponent implements OnInit,  OnDestroy {
       let positionName = pc.value
       let positionCode =pn.value
       
-      data = [`${positionName} (${positionCode})`,]
+      data = [`${positionCode} (${positionName})`,]
     }
 
     let precedence:any = document.getElementById('precedence')

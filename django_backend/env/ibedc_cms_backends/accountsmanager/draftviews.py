@@ -18,7 +18,7 @@ class DraftsView(APIView):
         data = request.data
         id = data.get('draft_id',0)
         self.message = ''
-        draft_object = data.get('draft')
+        draft_object = data.get('full_draft') #data.get('draft') The commented is for partial draft update
         draft_object['draft_tag'] = data.get('draft_tag')
         tab = data.get('type')
         self.key, self.val = get_permission_hierarchy(request)
@@ -48,10 +48,10 @@ class DraftsView(APIView):
 
             else:
                 draft_object['edited_by'] = request.user.email
-                # try:
-                #     draft_object['meter_oem'] = draft_object.pop('meteroem')
-                # except:
-                #     pass
+                try:
+                    draft_object.pop('customer')
+                except:
+                    pass
                 draftcheck.update(**draft_object)
                 if draft_object:
                     self.id = draftcheck.values('id')[0]['id']

@@ -13,6 +13,7 @@ import { NewCustomer, LoadCustomer } from './customercreation.model';
 import * as helper from './scripts'
 import { FetchDrafts, LoadDraft, SaveDraft } from './state/customercreation.actions';
 import { fetchedDrafts, loadedDraft } from './state/customercreation.selector';
+import Swal from 'sweetalert2'
 
 interface CustomWindow extends Window {
   DataTable: (searchTerm: string,{}) => void;
@@ -61,6 +62,10 @@ export class CustomercreationComponent implements OnInit {
   emailExistsRows;
   mobileExistsRows;
   accountnoExistsRows;
+  phoneNumberRequiredError: boolean = false;
+  phoneNumberInvalidError: boolean = false;
+  emailRequiredError = false;
+  emailInvalidError = false;
   draftFields = {basic_information:['title','surname','firstname','othernames','gender','email','mobile'],
                 account_information:['accountno','accounttype','customer_type','business_type','statuscode','cin'],
                 location_information:['building_description','premise_type','address','address1','lga','region','buid','servicecenter','city','state'],
@@ -76,6 +81,41 @@ export class CustomercreationComponent implements OnInit {
     this.userState = this.store.select(UserState);
     
   }
+
+  validatePhoneNumber() {
+    const phoneNumberRegex = /^(\+?234|0)[789]\d{9}$/;
+    if (!this.newCustomer.mobile) {
+      this.phoneNumberRequiredError = true;
+      this.phoneNumberInvalidError = false;
+    } else if (!phoneNumberRegex.test(this.newCustomer.mobile)) {
+      this.phoneNumberRequiredError = false;
+      this.phoneNumberInvalidError = true;
+    } else {
+      this.phoneNumberRequiredError = false;
+      this.phoneNumberInvalidError = false;
+    }
+  }
+
+  validateEmail() {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!this.newCustomer.email) {
+      this.emailRequiredError = true;
+      this.emailInvalidError = false;
+    } else if (!emailRegex.test(this.newCustomer.email)) {
+      this.emailRequiredError = false;
+      this.emailInvalidError = true;
+    } else {
+      this.emailRequiredError = false;
+      this.emailInvalidError = false;
+    }
+  }
+
+  switchTab(id){
+    const tabLink:any = document.querySelector(`#${id}`)
+    tabLink.click()
+  }
+
+
 
   ngOnInit(): void {
     this.userState.subscribe((user) => {
@@ -148,6 +188,13 @@ export class CustomercreationComponent implements OnInit {
     }
     
     let customer = Object.assign({}, this.newCustomer);
+    let draft = this.getLocationsAndAssetsIfMissing(type,customer)
+    console.log(`${type}`,draft)
+    let payload = {type:type,draft:draft[0],full_draft:draft[1],is_new:this.loadedDraftIsNew,draft_id:this.draft_id,draft_tag:this.draftTag}
+    this.store.dispatch(new SaveDraft(payload))
+  }
+
+  getLocationsAndAssetsIfMissing(type,customer,modifyLocation=false){
     let dss_id:any = document.getElementById('dss_id')
     let dss_owner:any = document.getElementById('dss_owner')
     let feederid:any = document.getElementById('feederid')
@@ -165,24 +212,75 @@ export class CustomercreationComponent implements OnInit {
         draft[field] = customer[field] || ''
       }
       else{
+        if(modifyLocation){
+          console.log(field)
+          switch(field){
+            case 'region':
+              if(this.user_region != null && this.user_region != undefined){
+                customer[field] = this.user_region
+              }
+              break;
+            case 'buid':
+              if(this.user_buid != null && this.user_buid != undefined){
+                customer[field] = this.user_buid
+              }
+              break;
+            case 'servicecenter':
+              if(this.user_servicecenter != null && this.user_servicecenter != undefined){
+                customer[field] = this.user_servicecenter
+              }
+              break;
+            default:
+              break;
+          }
+
+        }
         switch(field){
           case 'region':
-            draft[field] = customer[field] || this.user_region
+            if(this.user_region != null && this.user_region != undefined){
+              draft[field] = customer[field] || this.user_region
+              customer[field] = customer[field] || this.user_region
+            }
             break;
           case 'buid':
-            draft[field] = customer[field] || this.user_buid
+            if(this.user_buid != null && this.user_buid != undefined){
+              draft[field] = customer[field] || this.user_buid
+              customer[field] = customer[field] || this.user_buid
+            }
             break;
           case 'servicecenter':
-            draft[field] = customer[field] || this.user_servicecenter
+            if(this.user_servicecenter != null && this.user_servicecenter != undefined){
+              draft[field] = customer[field] || this.user_servicecenter
+              customer[field] = customer[field] || this.user_servicecenter
+            }
             break;
           default:
             break;
         }
       }
     }
-    console.log(`${type}`,draft)
-    let payload = {type:type,draft:draft,is_new:this.loadedDraftIsNew,draft_id:this.draft_id,draft_tag:this.draftTag}
-    this.store.dispatch(new SaveDraft(payload))
+    return [draft, customer]
+  }
+
+  fillMissingFields(){
+    this.setAssetsDropdowns()
+    this.loadedDraft$.unsubscribe()
+
+    /* If Regional User, service centers  */
+    if(this.permission_hierarchy == 'region'){
+      this.customerService.fetchLocations('servicecenter',this.newCustomer.buid).subscribe((data)=>{
+        this.service_centers = data.data.service_centers
+      })
+    }
+    /* If Head Quarters User, get business uints and corresponding service centers  */
+    else if(this.permission_hierarchy == 'hq'){
+      this.customerService.fetchLocations('business_unit',this.newCustomer.region).subscribe((data)=>{
+        this.business_units = data.data.service_centers
+      })
+      this.customerService.fetchLocations('servicecenter',this.newCustomer.buid).subscribe((data)=>{
+        this.service_centers = data.data.service_centers
+      })
+    }
   }
 
   fetchDrafts(){
@@ -205,39 +303,13 @@ export class CustomercreationComponent implements OnInit {
       }
       this.newCustomer = new LoadCustomer(dataToLoad)
       this.draftTag = state.draft.draft_tag
-      
-      
-      
     });
-    this.setAssetsDropdowns()
-    this.loadedDraft$.unsubscribe()
-
-
-    /* If Regional User, service centers  */
-    if(this.permission_hierarchy == 'region'){
-      this.customerService.fetchLocations('servicecenter',this.newCustomer.buid).subscribe((data)=>{
-        this.service_centers = data.data.service_centers
-      })
-    }
-    /* If Head Quarters User, get business uints and corresponding service centers  */
-    else if(this.permission_hierarchy == 'hq'){
-      this.customerService.fetchLocations('business_unit',this.newCustomer.region).subscribe((data)=>{
-        this.business_units = data.data.service_centers
-      })
-      this.customerService.fetchLocations('servicecenter',this.newCustomer.buid).subscribe((data)=>{
-        this.service_centers = data.data.service_centers
-      })
-    }
+    this.fillMissingFields()
     // else{alert()}
   }
 
   loadCustomer(data){
-    // if(data.accounttype == 'Prepaid'){
-    //   this.draftFields.account_information.push('address')
-    // }
-    // else if (data.accounttype == 'Postpaid'){
-    //   this.draftFields.account_information.push('address1')
-    // }
+   
     let dataToLoad = {}
     let flattenedFields = Object.values(this.draftFields).flat();
       for(let field of flattenedFields){
@@ -277,7 +349,9 @@ export class CustomercreationComponent implements OnInit {
     for (const key in obj1) {
       if (obj1.hasOwnProperty(key) && obj2.hasOwnProperty(key)) {
         if (obj1[key] !== obj2[key]) {
-          differentKeys.push(key);
+          if(this.editedFields.includes(key)){
+            differentKeys.push(key);
+          }
         }
       }
     }
@@ -287,7 +361,10 @@ export class CustomercreationComponent implements OnInit {
   
 
   submit(){
-    console.log("Customer data =====> ",this.newCustomer, this.editedFields)
+    console.log("Before filling ====> ", this.newCustomer)
+    this.getLocationsAndAssetsIfMissing('asset_information',this.newCustomer)
+    this.getLocationsAndAssetsIfMissing('location_information',this.newCustomer,true)
+    console.log("Customer data After filling =====> ",this.newCustomer)
     let buffer = new Array()
     let cdrbtn:any = document.querySelector("#cdrbtn")
 
@@ -295,6 +372,7 @@ export class CustomercreationComponent implements OnInit {
     mandatoryField.forEach((field)=>{
       buffer.push(this.newCustomer[field])
     })
+
     let kycstatus = this.customervalidationService.check_kyc_compliance(buffer,'create')
     if(kycstatus == true){
       console.log("Submitting awaiting customer ")
@@ -309,19 +387,35 @@ export class CustomercreationComponent implements OnInit {
         
         if(response.status == true && response.exists == false){
           //Load Notification Modal here....
-          let notification = {type:'success',title:'Awaiting Customer Created',
-          message:response?.message,
-          subMessage:'A mail has been sent to the approving officer'}
-          this.notificationService.setModalNotification(notification)
-          cdrbtn.click()
+          // let notification = {type:'success',title:'Awaiting Customer Created',
+          // message:response?.message,
+          // subMessage:'A mail has been sent to the approving officer'}
+          // this.notificationService.setModalNotification(notification)
+          Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: `Awaiting Customer Created `,
+            text:`${response?.message} \nA mail has been sent to the approving officer`,
+            showConfirmButton: false,
+            timer: 1500
+          })
+          return cdrbtn.click()
         }
         else{
           //Load Notification Modal here....
-          let notification = {type:'failure',title:'Something went wrong',
-          message:response?.message,
-          subMessage:'Awaiting Customer failed'}
-          this.notificationService.setModalNotification(notification)
-          cdrbtn.click()
+          // let notification = {type:'failure',title:'Something went wrong',
+          // message:response?.message,
+          // subMessage:'Awaiting Customer failed'}
+          // this.notificationService.setModalNotification(notification)
+          Swal.fire({
+            position: 'top-end',
+            icon: 'error',
+            title: `Something went wrong!`,
+            text:`${response?.message} \nAwaiting Customer Creation Failed`,
+            showConfirmButton: false,
+            timer: 1500
+          })
+          return cdrbtn.click()
         }
       })
     }let notification = {type:'failure',title:'Kyc Verification failed',message:kycstatus,subMessage:'Kyc Verification data was incomplete'}
@@ -351,8 +445,11 @@ export class CustomercreationComponent implements OnInit {
         }
       }
       else{
-        this.newCustomer[field] = asset.value || asset.getAttribute('value')
-        console.log(asset.value || asset.getAttribute('value'))
+        if(this.newCustomer[field] == null || this.newCustomer[field] == undefined || this.newCustomer[field] == ''){
+          this.newCustomer[field] = asset.value || asset.getAttribute('value')
+          console.log(asset.value || asset.getAttribute('value'))
+        }
+        
       }
     })
   }
@@ -375,13 +472,28 @@ export class CustomercreationComponent implements OnInit {
             this.customerCreateUpdateService.updateExistsAwaitingCustomer(payload).subscribe((response)=>{
               
               if(response.status){
-                let notification = {type:'success',title:'Awaiting Customer updated',message:response.message,subMessage:''}
-                this.notificationService.setModalNotification(notification)
+                // let notification = {type:'success',title:'Awaiting Customer updated',message:response.message,subMessage:''}
+                // this.notificationService.setModalNotification(notification)
+                Swal.fire({
+                  position: 'top-end',
+                  icon: 'success',
+                  title: `Awaiting Customer updated!`,
+                  text:`${response?.message}`,
+                  showConfirmButton: false,
+                  timer: 1500
+                })
                 this.cdr.detectChanges();
                 return 
               }
               let notification = {type:'failure',title:'Awaiting Customer update failed',message:response.message,subMessage:''}
-                this.notificationService.setModalNotification(notification)
+                // this.notificationService.setModalNotification(notification)
+                Swal.fire({
+                  position: 'top-end',
+                  icon: 'error',
+                  title: `${response?.message}! `,
+                  showConfirmButton: false,
+                  timer: 1500
+                })
                 this.cdr.detectChanges();
               
             })

@@ -136,6 +136,7 @@ class SearchPrepaidCustomers(APIView):
             else:
                 total_customers =EcmiCustomersNew.objects.filter(query).count()
                 customers = EcmiCustomersNew.objects.filter(query).values(*ECMI_FIELDS)
+                print(customers)
             
             if customers:
                 customers = self.custom_paginator.paginate_queryset(customers)

@@ -129,3 +129,38 @@ class AwaitingCustomersView(APIView):
         # if awaiting_customers:
         #     return Response({"status":True, 'data':awaiting_customers,'message':f'{status.title()} customers were fetched successfully'})
         # return Response({"status":False, 'data':list(),'message':f'{status.title()} customers could not be fetched at this time'})
+        
+
+class PendingCustomerEditsView(APIView):
+    authentication_classes = [JWTAuthenticationMiddleWare]
+    
+    def get(self,request):
+        action = request.GET.get('action')
+        field_name, location = get_permission_hierarchy(request)
+        position_code = get_user_position_code(request.user.position)
+        print(field_name,location)
+        if request.GET.get('accountno') == None:
+            queries = {'region':CustomerEditQueue.objects.filter(**{f"{field_name}__icontains": location}),
+                        'state':CustomerEditQueue.objects.filter(**{f"{field_name}__icontains": location}),
+                        'buid':CustomerEditQueue.objects.filter(state=request.user.region).filter(**{f"{field_name}__icontains": location}),
+                        'servicecenter':CustomerEditQueue.objects.filter(state=request.user.region).filter(buid=request.user.business_unit)\
+                            .filter(**{f"{field_name}__icontains": location})
+                        }
+        else:
+            accountno = request.GET.get('accountno')
+            queries = {'region':CustomerEditQueue.objects.filter(**{f"{field_name}__icontains": location}).filter(accountno=accountno),
+                        'state':CustomerEditQueue.objects.filter(**{f"{field_name}__icontains": location}).filter(accountno=accountno),
+                        'buid':CustomerEditQueue.objects.filter(state=request.user.region).filter(**{f"{field_name}__icontains": location}).filter(accountno=accountno),
+                        'servicecenter':CustomerEditQueue.objects.filter(state=request.user.region).filter(buid=request.user.business_unit)\
+                            .filter(**{f"{field_name}__icontains": location}).filter(accountno=accountno)
+                        }
+        awaiting_customers = queries[field_name].filter(status=action.title()).filter().values()
+        print(awaiting_customers)
+        
+        #     response =  Response(json.dumps(response, default=Serializables.jsonSerializer),content_type='text/json;charset=utf-8') 
+        #     response.headers['Cache-Control'] = CACHE_CONTROL
+        #     return response
+        
+        # except Exception as e:
+            # response = {"status":False,"message":"Action Failed"}  
+        return Response({'status':True,'data':awaiting_customers}) 

@@ -7,6 +7,7 @@ import { SharedService } from 'src/app/services/shared.service';
 import { DataTablesModule } from 'angular-datatables';
 import { SpinnerService } from 'src/app/services/spinner.service';
 import { ConvertTableService } from 'src/app/services/convert-table.service';
+import Swal from 'sweetalert2';
 
 
 interface CustomWindow extends Window {
@@ -46,7 +47,18 @@ export class PaymentsinformationComponent implements OnInit {
             this.payments = response.data
             console.log(this.payments)
           }
-          else{this.message=response.message;this.payments = false}
+          else{
+            Swal.fire({
+              position: 'top-end',
+              icon: 'error',
+              title: `Customer payments!`,
+              text:`${response?.message}`,
+              showConfirmButton: false,
+              timer: 1500
+            })
+              this.spinnerService.hideSpinner();
+               this.message=response.message;this.payments = false
+              }
         })
     });
   }

@@ -8,13 +8,18 @@ def search_for_buid(name,state,lst):
     for d in lst:
         if d["name"].lower() == name.lower() and d["state"].lower() == state.lower():
             return d["buid"]
+        if d["name"].lower() == name.lower() and d['state'].lower()=='oyo' and state.lower() == 'ibadan':
+            return d["buid"]
     return None
 
 class Permission(object):
     
     def __init__(self,request,hierarchy_order,key,permissions_dict):
+        
         self.key = key
         self.request = request
+        if self.request.user.region == 'ibadan':
+            self.request.user.region = 'oyo'
         self.service_center_user = hierarchy_order.get('servicecenter', False) 
         self.business_unit_user = hierarchy_order.get('buid', False) 
         self.regional_user = hierarchy_order.get('state', False) 

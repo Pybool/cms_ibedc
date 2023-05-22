@@ -100,6 +100,7 @@ ApproveCaad$= createEffect(() =>
                         message:response?.message,
                         subMessage:'...'}
                         this.notificationService.setModalNotification(notification)
+                        this.caadService.setCaadSucess(true)
                         return new ApproveCaadSuccess(response) as Action; // cast to Action
                     }
                     else{

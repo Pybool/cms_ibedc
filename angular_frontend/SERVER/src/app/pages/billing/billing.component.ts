@@ -23,6 +23,7 @@ declare let window: CustomWindow;
 export class BillingComponent implements OnInit {
   bills:any[];
   rawQueryUsed = false;
+  total_bills:number = 0
   headers:string[] = ['Customer Name', 'Account Number', 'Tarrif Code', 'Billing Date', 'Due Date', 'Consumption (kw/h)', 'Net Arrears', 'Total Due', 'Back Balance', 'BUID', 'BU Name', 'BM Mobile', 'CSO Mobile', 'Bill ID', 'Account Type', 'Bill Year', 'Bill Month', 'Previous Balance', 'Meter Number', 'Payment', 'Service Address 1', 'Service Address 2', 'Service Address 3', 'ADC', 'Adjustment', 'Dials', 'Energy Read Date', 'Minimum CHG Read Date', 'Minimum Current CHG', 'Present KWH', 'Previous KWH', 'Demand Read Date', 'Present Demand', 'Previous Demand', 'Multiplier', 'Consumption MD', 'Current KWH', 'Current MD', 'Rate', 'FC', 'MMF', 'Reconnection Fee', 'Last Pay', 'Current CHG Total', 'VAT', 'Customer Care', 'Old Account No', 'Vat No', 'Lar Date', 'Lar', 'Mobile', 'Last Pay Amount', 'Email', 'E-mail2', 'E-mail3', 'Is Selected', 'Is Confirmed', 'Is Sms Sent', 'Read Mode', 'Row Guid', 'Refund', 'Back Arrears', 'Back Charge', 'Back Kwh', 'B Vat', 'Net Back Arrears', 'Grand Total', 'Service Id', 'Band Adjustment']
   
   constructor(private renderer: Renderer2,
@@ -35,12 +36,15 @@ export class BillingComponent implements OnInit {
     this.loadScript('https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.js');
     this.sharedService.setActiveSearchInput('billing')
     this.billingService.getbillingList().subscribe((response)=>{
+      console.log(response)
       this.bills = []
       if(response.rawQueryUsed == true){
         this.rawQueryUsed = true
       }
       this.bills = response.data
+      this.total_bills = response.total_bills
       console.log(this.bills)
+      this.spinnerService.hideSpinner();
       this.convertTableService.convertTable({id:'billinghistory_table'})
     })
   }
@@ -58,10 +62,11 @@ export class BillingComponent implements OnInit {
     })
 
     this.billingService.fetchCustomersBilling().pipe(take(1)).subscribe((response)=>{
-      console.log(response.data)
+      console.log(response)
       if(response.rawQueryUsed == true){
         this.rawQueryUsed = true
       }
+      this.total_bills = response.total_bills
       this.bills = response.data
     })
   }

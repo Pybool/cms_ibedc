@@ -10,6 +10,8 @@ urlpatterns = [
    path('advancedsearching/prepaid/customers', AdvancedSearchPrepaidCustomers.as_view()),
    path('searching/postpaid/customers', SearchPostpaidCustomers.as_view()),
    path('advancedsearching/postpaid/customers', AdvancedSearchPostpaidCustomers.as_view()),
+   path('singlecustomer/tariffcode', TarrifCode.as_view()),
+   
    
      
    

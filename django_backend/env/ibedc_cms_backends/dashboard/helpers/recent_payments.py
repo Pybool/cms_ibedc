@@ -32,7 +32,7 @@ class RecentPayments(object):
             
                     """
                 #  ORDER BY [ecmi_payment_history].transdate DESC; 
-        # print(query)  
+        print(query)  
         return dict_fetch_all(query) 
     
     def get_ems_payments(self):

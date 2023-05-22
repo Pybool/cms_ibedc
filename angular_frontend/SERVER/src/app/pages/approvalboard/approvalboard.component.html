@@ -1,11 +1,17 @@
 <div id="edit_customerp" style="width:80%;background:whitesmoke!important;" class="nk-add-product toggle-slide toggle-slide-right" data-content="pending_view" data-toggle-screen="any" data-toggle-overlay="true" data-toggle-body="true" data-simplebar='1'>
-                  
+   <div appDynamicScript>
+      <div
+          src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.js"
+          my-custom-attr="some value"
+      >
+      </div>
+  </div>
     <div class="nk-block-head">
        <div class="nk-block-head-content">
           <h5 id="create_edit_user_title" class="nk-block-title"></h5>
           <div class="nk-block-des">
              <div class="data-head">
-                <h3 class="overline-title">Pending Customer Edits</h3>
+                <h3 class="overline-title">CRMD Awaiting Customers</h3>
              </div>
           </div>
        </div>
@@ -26,12 +32,12 @@
           </div>
           <div class="row g-gs form-control-wrap">
              <div class="col-xxl-3 col-sm-3">
-                <div class="card pointer shadow zoom" value="approved" onclick="openCity(this, 'Approved')">
+                <div class="card pointer shadow zoom cardtab" value="approved" (click)="getPendingCustomers($event,'approved')">
                    <div class="nk-ecwg nk-ecwg6">
                       <div class="card-inner">
                          <div class="card-title-group">
                             <div class="card-title">
-                               <h4 class="title">Approved Updates</h4>
+                               <h4 class="title">Approved Awaiting Customers</h4>
                             </div>
                          </div>
                          <div class="data">
@@ -53,12 +59,12 @@
                 </div>
              </div>
              <div class="col-xxl-3 col-sm-3">
-                <div class="card pointer shadow zoom" value="pending" onclick="openCity(this, 'Pending')">
+                <div class="card pointer shadow zoom cardtab" value="pending" (click)="getPendingCustomers($event,'pending')">
                    <div class="nk-ecwg nk-ecwg6">
                       <div class="card-inner">
                          <div class="card-title-group">
                             <div class="card-title">
-                               <h4 class="title">Pending Updates</h4>
+                               <h4 class="title">Pending Awaiting Customers</h4>
                             </div>
                          </div>
                          <div class="data">
@@ -80,12 +86,12 @@
                 </div>
              </div>
              <div class="col-xxl-3 col-sm-3">
-                <div class="card pointer shadow zoom" value="declined" onclick="openCity(this, 'Declined')">
+                <div class="card pointer shadow zoom cardtab" value="declined" (click)="getPendingCustomers($event,'declined')">
                    <div class="nk-ecwg nk-ecwg6">
                       <div class="card-inner">
                          <div class="card-title-group">
                             <div class="card-title">
-                               <h4 class="title">Declined Updates</h4>
+                               <h4 class="title">Declined Awaiting Customers</h4>
                             </div>
                          </div>
                          <div class="data">
@@ -106,8 +112,8 @@
                    <span class="dot"></span>
                 </div>
              </div>
-             <div style="border-width:3px!important;border-color:#FF7518!important;" class="col-xxl-3 col-sm-3">
-                <div class="card pointer shadow zoom" value="customers_created" onclick="openCity(this, 'customers_created')">
+             <div style="border-width:3px!important;border-color:#FF7518!important;opacity:0.6;" class="col-xxl-3 col-sm-3">
+                <div class="card shadow " value="customers_created" (click)="getPendingCustomers($event,'created')">
                    <div class="nk-ecwg nk-ecwg6">
                       <div class="card-inner">
                          <div class="card-title-group">
@@ -135,15 +141,85 @@
              </div>
           </div>
        </div>
-       <div style="height:80%;overflow:auto">
-          <div id="loading_mini" style="display:none" class="loading_mini">Loading&#8230;</div>
-          <div class="col-12">
+       <div style="height:80%;overflow:auto" id="pendingcustwrapper">
+          <!-- <div id="loading_mini" style="display:none" class="loading_mini">Loading&#8230;</div> -->
+          <div *ngIf="active=='approved'" class="col-12">
              <div class="form-group">
-                <div id="Approved" class="tabcontent">
-                   <h3>Approved customer edits</h3>
-                   <table style="width:100%; background:#f5f6fa;overflow:auto" id="approved_edits_widget_history_table" class="datatable-init dataTable nowrap nk-tb-list is-separate pending_custs" data-auto-responsive="false">
+                <div id="Approved" >
+                   <h3>Approved Awaiting Customers</h3>
+                   <table style="width:100%; background:#f5f6fa;overflow:auto" id="approved_edits_widget_history_table" class="nowrap nk-tb-list is-separate shadow no-footer dtr-inline responsive collapsed" data-searching="false" data-auto-responsive="true">
                       <thead style="position:sticky;top:0;">
-                         <th>.</th>
+                         <tr>
+                           <th>.</th>
+                           <th class="nk-tb-col nk-tb-col-check">
+                              <div style="z-index:1;" class="custom-control custom-control-sm custom-checkbox notext ">
+                                 <input (change)="highlightRow($event)" style="z-index:1;" type="checkbox" class="customer-table-check custom-control-input shadow" id="approved-all">
+                                 <label class="custom-control-label" for="approved-all"></label>
+                              </div>
+                           </th>
+                           <th class="nk-tb-col">Firstname</th>
+                           <th class="nk-tb-col">Surname</th>
+                           <th class="nk-tb-col">Othernames</th>
+                           <th class="nk-tb-col">Account no</th>
+                           <th class="nk-tb-col">Email</th>
+                           <th class="nk-tb-col">Mobile</th>
+                           <th class="nk-tb-col">City</th>
+                           <th class="nk-tb-col">State</th>
+                           <th class="nk-tb-col">Business Unit</th>
+                           <th class="nk-tb-col">Service Center</th>
+                           <th class="nk-tb-col">BHM Approved</th>
+                           <th class="nk-tb-col">ADT Approved</th>
+                           <th class="nk-tb-col">Comments</th>
+                           <th class="nk-tb-col">Approved date</th>
+                           <th>Action</th>
+                         </tr>
+                      </thead>
+                      <tbody>
+                        <tr class="nk-tb-item" *ngFor="let customer of customers;">
+                           <td class="nk-tb-col"></td>
+                           <td class="nk-tb-col nk-tb-col-check">
+                              <div style="z-index:1;" class="custom-control custom-control-sm custom-checkbox notext ">
+                                  <input (change)="highlightRow($event)" style="z-index:1;" type="checkbox" class="customer-table-check custom-control-input shadow" id="approved-${{customer.id}}">
+                                  <label class="custom-control-label" for="approved-${{customer.id}}"></label>
+                              </div>
+                          </td>
+                           <td class="nk-tb-col">{{customer.firstname}}</td>
+                           <td class="nk-tb-col">{{customer.surname}}</td>
+                           <td class="nk-tb-col">{{customer.othernames}}</td>
+                           <td class="nk-tb-col">{{customer.accountno}}</td>
+                           <td class="nk-tb-col">{{customer.email}}</td>
+                           <td class="nk-tb-col">{{customer.mobile}}</td>
+                           <td class="nk-tb-col">{{customer.city}}</td>
+                           <td class="nk-tb-col">{{customer.state}}</td>
+                           <td class="nk-tb-col">{{customer.buid}}</td>
+                           <td class="nk-tb-col">{{customer.servicecenter}}</td>
+                           <td class="nk-tb-col">{{customer.bhm_aproved}}</td>
+                           <td class="nk-tb-col">{{customer.auditor_approved}}</td>
+                           <td class="nk-tb-col">{{customer?.comments}}</td>
+                           <td class="nk-tb-col">{{customer.approved_date}}</td>
+                           <td class="nk-tb-col">
+                              <a style="color:white;background-color: #FF7518!important;" (click)="download($event,customer.id,customer.accountno)" type="button" class="btn btn-primary">Export</a>
+                           </td>
+                        </tr>
+                      </tbody>
+                   </table>
+                </div>
+             </div>
+          </div>
+          <div *ngIf="active=='pending'" class="col-12">
+             <div class="form-group">
+                <div id="Pending">
+                   <h3>Pending Awaiting Customers</h3>
+                   <table style="width:100%; background:#f5f6fa;overflow:auto" id="pending_edits_widget_history_table" class="nowrap nk-tb-list is-separate shadow no-footer dtr-inline responsive collapsed" data-searching="false" data-auto-responsive="true">
+                      <thead style="position:sticky;top:0;">
+                         <tr>
+                           <th>.</th>
+                           <th class="nk-tb-col nk-tb-col-check">
+                              <div style="z-index:1;" class="custom-control custom-control-sm custom-checkbox notext ">
+                                 <input onchange="highlightRow(this,event)" style="z-index:1;" type="checkbox" class="customer-table-check custom-control-input shadow" id="pending-all">
+                                 <label class="custom-control-label" for="pending-all"></label>
+                              </div>
+                           </th>
                          <th class="nk-tb-col">Firstname</th>
                          <th class="nk-tb-col">Surname</th>
                          <th class="nk-tb-col">Othernames</th>
@@ -152,50 +228,110 @@
                          <th class="nk-tb-col">Mobile</th>
                          <th class="nk-tb-col">City</th>
                          <th class="nk-tb-col">State</th>
+                         <th class="nk-tb-col">Business Unit</th>
+                         <th class="nk-tb-col">Service Center</th>
+                         <th class="nk-tb-col">BHM Approved</th>
+                         <th class="nk-tb-col">ADT Approved</th>
                          <th class="nk-tb-col">Comments</th>
                          <th class="nk-tb-col">Approved date</th>
                          <th>Action</th>
+                         </tr>
                       </thead>
+                      <tbody>
+                        <tr class="nk-tb-item" *ngFor="let customer of customers;">
+                           
+                          <td class="nk-tb-col"></td>
+                          <td class="nk-tb-col nk-tb-col-check">
+                                 <div style="z-index:1;" class="custom-control custom-control-sm custom-checkbox notext ">
+                                    <input (change)="highlightRow($event)" style="z-index:1;" type="checkbox" class="customer-table-check custom-control-input shadow" id="pending-${{customer.id}}">
+                                    <label class="custom-control-label" for="pending-${{customer.id}}"></label>
+                                 </div>
+                           </td>
+                           <td class="nk-tb-col">{{customer.firstname}}</td>
+                           <td class="nk-tb-col">{{customer.surname}}</td>
+                           <td class="nk-tb-col">{{customer.othernames}}</td>
+                           <td class="nk-tb-col">{{customer.accountno}}</td>
+                           <td class="nk-tb-col">{{customer.email}}</td>
+                           <td class="nk-tb-col">{{customer.mobile}}</td>
+                           <td class="nk-tb-col">{{customer.city}}</td>
+                           <td class="nk-tb-col">{{customer.state}}</td>
+                           <td class="nk-tb-col">{{customer.buid}}</td>
+                           <td class="nk-tb-col">{{customer.servicecenter}}</td>
+
+                           <td class="nk-tb-col">{{customer.bhm_aproved}}</td>
+                           <td class="nk-tb-col">{{customer.auditor_approved}}</td>
+                           <td class="nk-tb-col">{{customer?.comments}}</td>
+                           <td class="nk-tb-col">{{customer.approved_date}}</td>
+                           <td class="nk-tb-col">
+                              <a style="color:white;background-color: #FF7518!important;" (click)="download($event,customer.id,customer.accountno)" type="button" class="btn btn-primary">Export</a>
+                           </td>
+                        </tr>
+                      </tbody>
                    </table>
                 </div>
              </div>
           </div>
-          <div class="col-12">
+          <div *ngIf="active=='declined'" class="col-12">
              <div class="form-group">
-                <div id="Pending" class="tabcontent">
-                   <h3>Pending customer edits</h3>
-                   <table style="width:100%; background:#f5f6fa;overflow:auto" id="pending_edits_widget_history_table" class="datatable-init nowrap nk-tb-list is-separate pending_custs" data-auto-responsive="false">
-                      <thead style="position:sticky;top:0;">
-                         <th class="nk-tb-col">Firstname</th>
-                         <th class="nk-tb-col">Surname</th>
-                         <th class="nk-tb-col">Othernames</th>
-                         <th class="nk-tb-col">Account no</th>
-                         <th class="nk-tb-col">Email</th>
-                         <th class="nk-tb-col">Mobile</th>
-                         <th class="nk-tb-col">City</th>
-                         <th class="nk-tb-col">State</th>
-                         <th class="nk-tb-col">Comments</th>
-                      </thead>
-                   </table>
-                </div>
-             </div>
-          </div>
-          <div class="col-12">
-             <div class="form-group">
-                <div id="Declined" class="tabcontent">
-                   <h3>Declined customer edits</h3>
+                <div id="Declined">
+                   <h3>Declined Awaiting Customers</h3>
                    <table style="width:100%; background:#f5f6fa;overflow:auto" id="declined_edits_widget_history_table" class="datatable-init nowrap nk-tb-list is-separate pending_custs" data-auto-responsive="false">
-                      <thead style="position:sticky;top:0;">
-                         <th class="nk-tb-col">Firstname</th>
-                         <th class="nk-tb-col">Surname</th>
-                         <th class="nk-tb-col">Othernames</th>
-                         <th class="nk-tb-col">Account no</th>
-                         <th class="nk-tb-col">Email</th>
-                         <th class="nk-tb-col">Mobile</th>
-                         <th class="nk-tb-col">City</th>
-                         <th class="nk-tb-col">State</th>
-                         <th class="nk-tb-col">Comments</th>
-                      </thead>
+                     <thead style="position:sticky;top:0;">
+                        <tr>
+                          <th>.</th>
+                          <th class="nk-tb-col nk-tb-col-check">
+                             <div style="z-index:1;" class="custom-control custom-control-sm custom-checkbox notext ">
+                                <input onchange="highlightRow(this,event)" style="z-index:1;" type="checkbox" class="customer-table-check custom-control-input shadow" id="pending-all">
+                                <label class="custom-control-label" for="pending-all"></label>
+                             </div>
+                          </th>
+                        <th class="nk-tb-col">Firstname</th>
+                        <th class="nk-tb-col">Surname</th>
+                        <th class="nk-tb-col">Othernames</th>
+                        <th class="nk-tb-col">Account no</th>
+                        <th class="nk-tb-col">Email</th>
+                        <th class="nk-tb-col">Mobile</th>
+                        <th class="nk-tb-col">City</th>
+                        <th class="nk-tb-col">State</th>
+                        <th class="nk-tb-col">Business Unit</th>
+                        <th class="nk-tb-col">Service Center</th>
+                        <th class="nk-tb-col">BHM Approved</th>
+                        <th class="nk-tb-col">ADT Approved</th>
+                        <th class="nk-tb-col">Comments</th>
+                        <th class="nk-tb-col">Declined date</th>
+                        <th>Action</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr class="nk-tb-item" *ngFor="let customer of customers;">
+                           
+                          <td class="nk-tb-col"></td>
+                          <td class="nk-tb-col nk-tb-col-check">
+                                 <div style="z-index:1;" class="custom-control custom-control-sm custom-checkbox notext ">
+                                    <input (change)="highlightRow($event)" style="z-index:1;" type="checkbox" class="customer-table-check custom-control-input shadow" id="pending-${{customer.id}}">
+                                    <label class="custom-control-label" for="pending-${{customer.id}}"></label>
+                                 </div>
+                           </td>
+                           <td class="nk-tb-col">{{customer.firstname}}</td>
+                           <td class="nk-tb-col">{{customer.surname}}</td>
+                           <td class="nk-tb-col">{{customer.othernames}}</td>
+                           <td class="nk-tb-col">{{customer.accountno}}</td>
+                           <td class="nk-tb-col">{{customer.email}}</td>
+                           <td class="nk-tb-col">{{customer.mobile}}</td>
+                           <td class="nk-tb-col">{{customer.city}}</td>
+                           <td class="nk-tb-col">{{customer.state}}</td>
+                           <td class="nk-tb-col">{{customer.buid}}</td>
+                           <td class="nk-tb-col">{{customer.servicecenter}}</td>
+
+                           <td class="nk-tb-col">{{customer.bhm_aproved}}</td>
+                           <td class="nk-tb-col">{{customer.auditor_approved}}</td>
+                           <td class="nk-tb-col">{{customer?.comments}}</td>
+                           <td class="nk-tb-col">{{customer.edited_date}}</td>
+                           <td class="nk-tb-col">
+                              <a style="color:white;background-color: #FF7518!important;" (click)="download($event,customer.id,customer.accountno)" type="button" class="btn btn-primary">Export</a>
+                           </td>
+                        </tr>
+                      </tbody>
                    </table>
                 </div>
              </div>
@@ -229,3 +365,26 @@
     <a id="pending_view" data-target="pending_view" class="toggle" style="background:transparent;width:700px" ></a>
     <!-- <script src="/cms_ibedc/static/src/js/record-exporter.js?version=0.0.3" ></script> -->
  </div>
+
+ <div class="modal fade" tabindex="-1" id="exportModal" aria-hidden="true" style="display: none;">
+   <div class="modal-dialog" role="document">
+       <div class="modal-content">
+           <a href="javascript:closeModal('exportModal')" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross"></em></a>
+           <div class="modal-body modal-body-lg text-center">
+               <div class="nk-modal">
+               <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-check bg-success"></em>
+               <h4 id="success-title" class="nk-modal-title"></h4>
+               <div class="nk-modal-text">
+                   <a type="button" class="btn btn-outline-light" (click)="exportSingle('csv')">Export as CSV</a>&nbsp;
+                   <a type="button" class="btn btn-outline-light" (click)="exportSingle('xlsx')">Export as XLSX</a>
+               </div>
+               <div class="nk-modal-action"><a autofocus="1" href="javascript:closeModal('exportModal')" class="btn btn-lg btn-mw btn-primary" data-bs-dismiss="modal">OK</a></div>
+               </div>
+           </div>
+           <div class="modal-footer bg-lighter">
+               <div class="text-center w-100">
+               </div>
+           </div>
+       </div>
+   </div>
+</div>

@@ -52,6 +52,7 @@
     "ng-bootstrap": "^1.6.3",
     "ngx-toastr": "^16.0.2",
     "rxjs": "~6.6.0",
+    "sweetalert2": "^11.7.5",
     "tslib": "^2.5.0",
     "zone.js": "^0.12.0"
   }

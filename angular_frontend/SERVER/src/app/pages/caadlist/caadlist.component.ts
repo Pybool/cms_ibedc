@@ -6,6 +6,7 @@ import { AutoUnsubscribe } from 'src/auto-unsubscribe.decorator';
 import { ApproveCaad } from '../customerdetails/caad/state/customercaad.actions';
 import { caadApprovalData } from './state/caad.selector';
 import { FetchCaadList } from './state/caadlist.actions';
+let self;
 
 @AutoUnsubscribe
 @Component({
@@ -37,6 +38,7 @@ export class CaadlistComponent implements OnDestroy {
 
   constructor(private store :Store,private caadService: CaadService,){
     this.store.dispatch(new FetchCaadList())
+    self = this
   }
 
   ngOnInit(){
@@ -67,13 +69,12 @@ export class CaadlistComponent implements OnDestroy {
   }
 
   viewCaadRecord($event,id){
-    this.caadService.fetchCaadLineItems(id).subscribe((response)=>{
+    this.caadService.fetchCaadLineItems(id).pipe(take(1)).subscribe((response)=>{
       if(response.status){
         this.header = id
         this.lineItems = response.data
-        console.log(response.approvers)
         this.approvers = response.approvers
-        console.log(this.lineItems)
+        console.log(response,this.lineItems)
         const sebmRaw = this.lineItems.reduce((acc, obj) => acc + (obj.ebm || 0), 0);
         this.sebm = `NGN ${sebmRaw.toLocaleString('en-US')}`
         let activeHeader = this.getItemByKey(this.approvalList,id)
@@ -85,6 +86,16 @@ export class CaadlistComponent implements OnDestroy {
   }
 
   approveCaad($event){
+    this.caadService.getCaadSucess().pipe(take(2)).subscribe((data)=>{
+      console.log(data)
+      if (data){
+        this.approvalList = this.approvalList.filter(function( obj ) {
+          console.log(obj)
+          document.getElementById('caad_approval').classList.remove("content-active")
+          return obj.id !== self.header;
+       });
+      }
+    })
     this.store.dispatch(new ApproveCaad(this.header))
   }
 

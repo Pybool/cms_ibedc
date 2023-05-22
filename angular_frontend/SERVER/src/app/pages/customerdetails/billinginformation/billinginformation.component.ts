@@ -7,6 +7,7 @@ import { SharedService } from 'src/app/services/shared.service';
 import { DataTablesModule } from 'angular-datatables';
 import { SpinnerService } from 'src/app/services/spinner.service';
 import { ConvertTableService } from 'src/app/services/convert-table.service';
+import Swal from 'sweetalert2';
 
 interface CustomWindow extends Window {
   
@@ -24,7 +25,7 @@ declare let window: CustomWindow;
 })
 export class BillinginformationComponent implements OnInit {
 
-  public bills
+  public bills = []
   JSON
   message=''
   intervalId
@@ -54,9 +55,17 @@ export class BillinginformationComponent implements OnInit {
         }
         else{
           console.log(response.status)
+          Swal.fire({
+            position: 'top-end',
+            icon: 'error',
+            title: `Customer billing!`,
+            text:`${response?.message}`,
+            showConfirmButton: false,
+            timer: 1500
+          })
           this.spinnerService.hideSpinner();
           this.message=response.message;
-          this.bills = false}
+          this.bills = []}
       })
     });
   }

@@ -111,6 +111,15 @@ CREATE INDEX IX_ems_payments_MeterNo ON [CMS_DB].[dbo].[ems_payments] (MeterNo);
 
 CREATE INDEX IX_ems_payments_CustomerID ON [CMS_DB].[dbo].[ems_payments] (CustomerID);
 
+CREATE INDEX idx_ecmi_customers_new_State_BUID
+ON [CMS_DB].[dbo].[ecmi_customers_new] (State, BUID);
+
+CREATE INDEX idx_ecmi_payment_history_transref_transdate
+ON [CMS_DB].[dbo].[ecmi_payment_history] (transref, transdate DESC);
+
+CREATE INDEX idx_ecmi_transactions_transref_AccountNo
+ON [CMS_DB].[dbo].[ecmi_transactions] (transref, AccountNo);
+
 
 
 

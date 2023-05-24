@@ -5,6 +5,8 @@ urlpatterns = [
    path('singlecustomer-assets', SingleCustomerAssets.as_view()),
    path('cms/gis/getasset_info', FetchGisAssetInfo.as_view()),
    path('cms/gis/getfeeder_info', FetchFeederView.as_view()),
+   path('cms/gis/iss_info', FetchISSView.as_view()),
+   
    
    
       

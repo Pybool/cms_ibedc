@@ -52,7 +52,7 @@ export class CustomervalidationService {
       if (!validate_email(email)) error_list.push('Invalid email entered');
       
       if(error_list.length == 0){
-        return true
+        return []
       }
       return error_list;
     }

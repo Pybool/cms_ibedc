@@ -320,8 +320,8 @@
                                                  <label class="form-label" for="servicecenter"><b>Service Center</b></label>
                                               </div>
                                               <div class="dropup col-10">
-                                                <select [(ngModel)]="newCustomer.servicecenter" name="servicecenter" (ngModelChange)="markAsEdited('servicecenter')" class="form-select shadow" id="servicecenter">
-                                                   <option *ngFor="let servicecenter of service_centers;" [value]="servicecenter.name | lowercase">{{servicecenter.name}}</option>
+                                                <select [(ngModel)]="newCustomer.servicecenter" #servicecenterdropdown name="servicecenter" (ngModelChange)="markAsEdited('servicecenter')" class="form-select shadow" id="servicecenter">
+                                                   <option *ngFor="let servicecenter of service_centers;" [value]="servicecenter.name | lowercase">{{servicecenter.name | uppercase}}</option>
                                                 </select>
                                                  
                                               </div>

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ComponentRef, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { data } from 'jquery';
 import { UserState } from 'src/app/authentication/state/auth.selector';
@@ -14,13 +14,18 @@ import * as helper from './scripts'
 import { FetchDrafts, LoadDraft, SaveDraft } from './state/customercreation.actions';
 import { fetchedDrafts, loadedDraft } from './state/customercreation.selector';
 import Swal from 'sweetalert2'
+import { take } from 'rxjs/operators';
 
 interface CustomWindow extends Window {
   DataTable: (searchTerm: string,{}) => void;
   assetsTouched:[];
+  updateServiceCenterValue:any;
+  CustomercreationComponent:CustomercreationComponent;
 }
 
 declare let window: CustomWindow;
+declare let updateServiceCenterValue: (componentRef: any, newValue: any) => void;
+
 // Helper function to set dropdown value
 
 @Component({
@@ -29,6 +34,8 @@ declare let window: CustomWindow;
   styleUrls: ['./customercreation.component.css']
 })
 export class CustomercreationComponent implements OnInit {
+  
+  @ViewChild('servicecenterdropdown') servicecenterdropdown: ElementRef;
   newCustomer = new NewCustomer()
   formHeader:string = 'Create Customer'
   legacyCustomer = {}
@@ -66,17 +73,20 @@ export class CustomercreationComponent implements OnInit {
   phoneNumberInvalidError: boolean = false;
   emailRequiredError = false;
   emailInvalidError = false;
+  dss_names = []
+  componentRef: CustomercreationComponent;
   draftFields = {basic_information:['title','surname','firstname','othernames','gender','email','mobile'],
                 account_information:['accountno','accounttype','customer_type','business_type','statuscode','cin'],
                 location_information:['building_description','premise_type','address','address1','lga','region','buid','servicecenter','city','state'],
                 asset_information:['dss_id','feederid','service_band','injection_sub_station','meteroem','ltpoleid','dss_name','dss_owner','feeder_type','feeder_name',],
                 landlord_information:['landlord_name','landlord_phone']}
 
-  constructor(private store: Store<AppState>,private cdr: ChangeDetectorRef,
+  constructor(private store: Store<AppState>,private cdr: ChangeDetectorRef, 
               private customerService: CustomerService,
               private sharedService: SharedService,private notificationService: NotificationService,
               private customerCreateUpdateService:CustomercreationupdateService,
-              private customervalidationService: CustomervalidationService
+              private customervalidationService: CustomervalidationService,
+              private renderer: Renderer2
               ) { 
     this.userState = this.store.select(UserState);
     
@@ -118,6 +128,9 @@ export class CustomercreationComponent implements OnInit {
 
 
   ngOnInit(): void {
+    window.CustomercreationComponent = this;
+    this.componentRef = this;
+    window['ComponentRef'] = this.componentRef;
     this.userState.subscribe((user) => {
       if (user == undefined){}
       else{
@@ -126,6 +139,9 @@ export class CustomercreationComponent implements OnInit {
         this.user_region = user.region
         this.user_buid = user.business_unit 
         this.user_servicecenter = user.service_center   
+        if(this.permission_hierarchy == 'service_center'){
+          this.service_centers = [{name:this.user_servicecenter}]
+        }
     
       }
     });
@@ -150,10 +166,8 @@ export class CustomercreationComponent implements OnInit {
   }
 
   ngAfterViewInit(){
-    
-    this.customerService.fecthCustomerFormMetadata().subscribe((data)=>{
-      console.log(data)
-      console.log(data.locations.type,data.locations[data.locations.type])
+
+    this.customerService.fecthCustomerFormMetadata().pipe(take(1)).subscribe((data)=>{
       this.locationType = data.locations.type
       this.locations = data.locations[data.locations.type]
       this.accounttypes = data.options_object_dict.accounttype
@@ -163,15 +177,21 @@ export class CustomercreationComponent implements OnInit {
       this.premise_types = data.options_object_dict.premises_type
       this.supply_types = data.options_object_dict.supply_type
       this.service_bands = data.options_object_dict.service_band
-
       this[data.locations.type] = data.locations[data.locations.type]
     })
-    console.log(this.service_centers)
+    
   }
 
-  getGisAssetdata(asset_type){
-    console.log(asset_type)
-    helper.getGisAssetdata(asset_type)
+  async symlinkServiceCenters(){
+    await helper.symLinkServiceCenters(this.newCustomer.servicecenter)
+  }
+
+  async getGisAssetdata(asset_type){
+    const data = await helper.getGisAssetdata(asset_type)
+    console.log(data)
+    if(data !=1){
+      this.dss_names = data
+    }
   }
 
   saveDraft($event,type){
@@ -279,6 +299,7 @@ export class CustomercreationComponent implements OnInit {
       })
       this.customerService.fetchLocations('servicecenter',this.newCustomer.buid).subscribe((data)=>{
         this.service_centers = data.data.service_centers
+        
       })
     }
   }
@@ -286,7 +307,7 @@ export class CustomercreationComponent implements OnInit {
   fetchDrafts(){
     this.store.dispatch(new FetchDrafts())
     this.fetchedDraftsList = this.store.select(fetchedDrafts);
-    this.fetchedDraftsList.subscribe((state) => {
+    this.fetchedDraftsList.pipe(take(1)).subscribe((state) => {
       this.drafts = state.drafts
     });
   }
@@ -295,9 +316,8 @@ export class CustomercreationComponent implements OnInit {
     this.store.dispatch(new LoadDraft({tag:$event.target.id,drafts:this.drafts}))
     let dataToLoad = {}
     let flattenedFields = Object.values(this.draftFields).flat();
-    this.loadedDraft$ = this.store.select(loadedDraft).subscribe((state) => {
+    this.loadedDraft$ = this.store.select(loadedDraft).pipe(take(1)).subscribe((state) => {
       this.loadedDraft = state.draft
-      console.log(state.draft)
       for(let field of flattenedFields){
         dataToLoad[field] = this.loadedDraft[field]
       }
@@ -305,7 +325,6 @@ export class CustomercreationComponent implements OnInit {
       this.draftTag = state.draft.draft_tag
     });
     this.fillMissingFields()
-    // else{alert()}
   }
 
   loadCustomer(data){
@@ -323,10 +342,13 @@ export class CustomercreationComponent implements OnInit {
 
   }
 
+  
+
   fetchServiceCenters($event){
     this.customerService.fetchLocations('servicecenter',$event.target.value).subscribe((data)=>{
       this.service_centers = data.data.service_centers
     })
+    
   }
 
   fetchBusinessUnits($event){
@@ -340,6 +362,9 @@ export class CustomercreationComponent implements OnInit {
   markAsEdited(field: string) {
     if(this.editedFields.includes(field)==false){
       this.editedFields.push(field);
+    }
+    if(field=='servicecenter'){
+      this.symlinkServiceCenters()
     }
   }
 
@@ -359,7 +384,6 @@ export class CustomercreationComponent implements OnInit {
     return differentKeys;
   }
   
-
   submit(){
     console.log("Before filling ====> ", this.newCustomer)
     this.getLocationsAndAssetsIfMissing('asset_information',this.newCustomer)
@@ -374,8 +398,8 @@ export class CustomercreationComponent implements OnInit {
     })
 
     let kycstatus = this.customervalidationService.check_kyc_compliance(buffer,'create')
-    if(kycstatus == true){
-      console.log("Submitting awaiting customer ")
+    if(kycstatus?.length == 0){
+      console.log("Submitting awaiting customer ", buffer)
       this.customerCreateUpdateService.checkOrCreateNewAwaitingCustomer(this.newCustomer).subscribe((response)=>{
         console.log("[SERVER::::::>] ", response)
         if(response.exists){
@@ -418,10 +442,14 @@ export class CustomercreationComponent implements OnInit {
           return cdrbtn.click()
         }
       })
-    }let notification = {type:'failure',title:'Kyc Verification failed',message:kycstatus,subMessage:'Kyc Verification data was incomplete'}
-   this.notificationService.setModalNotification(notification)
-   cdrbtn.click()
-   this.cdr.detectChanges();
+    }
+    if(kycstatus?.length > 0){
+      let notification = {type:'failure',title:'Kyc Verification failed',message:kycstatus,subMessage:'Kyc Verification data was incomplete'}
+      this.notificationService.setModalNotification(notification)
+      cdrbtn.click()
+      this.cdr.detectChanges();
+    }
+   
   }
 
   getFreshAssets(){

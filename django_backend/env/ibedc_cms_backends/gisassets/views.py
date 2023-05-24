@@ -5,6 +5,7 @@ from authentication.models import User
 from authentication.cms_authenticate import ( JWTAuthenticationMiddleWare )
 from connection_executor import dict_fetch_all
 from .raw_queries import *
+from config import CACHE_CONTROL
 
 
 class SingleCustomerAssets(APIView):
@@ -79,3 +80,19 @@ class FetchFeederView(APIView):
         except Exception as e:
             response = {'status':False,'message': str(e)}
             return Response(response)
+        
+
+class FetchISSView(APIView):
+    def get(self,request,**kw):
+        try:
+            dss_id = request.GET.get('dss_id')
+            query = FETCH_ISS_INFO.replace('#dss_id#',dss_id)
+            iss = dict_fetch_all(query)
+            data = {"status":True,"data":iss}
+            response =  Response(data)
+            return response 
+        except Exception as e:
+            response = {'status':False,'message': str(e)}
+            response = Response(response)
+            response.headers['Cache-Control'] = CACHE_CONTROL
+            return response

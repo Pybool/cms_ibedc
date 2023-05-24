@@ -83,14 +83,48 @@ SINGLE_CUSTOMER_ASSETS_INFO_33KV = """SELECT
 								WHERE E.AccountNo = '#AccountNo#'
 """
 
-FETCH_GIS_ASSETS_INFO = """ SELECT DSS_11KV_415V_Name as dss_name, assetid FROM [gis_distribution_substation_11KV_415] WHERE dss_11kv_415v_owner = '#dss_owner#'
-                                UNION
-                            SELECT DSS_33KV_415V_Name,assetid FROM [gis_distribution_substation_33KV_415] WHERE dss_33kv_415v_owner = '#dss_owner#'
+FETCH_GIS_ASSETS_INFO = """ SELECT DSS_11KV_415V_Name as dss_name, assetid, FeederName, FeederID, hub_name 
+                            FROM [CMS_DB].[dbo].[GIS_DSS] WHERE dss_11kv_415v_owner = '#dss_owner#'
+                               
                         """
                         
-FETCH_GIS_ASSETS_INFO_DSS_OWNER  = """SELECT distinct dss_11kv_415v_owner as dss_owner FROM [gis_distribution_substation_11KV_415]
-                                          UNION
-                                      SELECT distinct dss_33kv_415v_owner FROM [gis_distribution_substation_33KV_415]"""
+FETCH_ISS_INFO  = """
+                        SELECT DISTINCT D11.DSS_11KV_415V_Name,
+
+       [E].Assetid,
+
+	   
+	   D11.DSS_11KV_415V_Name,
+	   D11.DSS_11KV_415V_Owner,
+         [F].[F11kvFeeder_Name]
+
+         ,[P].[PT_33KV_11KV_Name],
+          [F].[assettype],
+
+         [I].[ISS_Name] AS INJECTION_SUBSTATION_NAME
+
+  FROM [CMS_DB].[dbo].[GIS_DSS] AS [E]
+
+  INNER JOIN [CMS_DB].[dbo].[gis_distribution_substation_11kv_415] AS [D11] ON D11.Assetid = [E].Assetid
+
+  INNER JOIN [CMS_DB].[dbo].[gis_Upriser] AS U ON U.UP_parent = [D11].Assetid
+
+  INNER JOIN [CMS_DB].[dbo].[gis_Low Tension Pole] AS [L] ON [L].LT_parent = U.Assetid
+
+  INNER JOIN [CMS_DB].[dbo].[gis_Service Units] AS [S] ON S.Name = [D11].DSS_11KV_415V_Owner
+
+  INNER JOIN [CMS_DB].[dbo].[gis_High_Tension_Pole 11KV] AS [H] ON [H].Assetid = [D11].[DSS_11KV_415V_parent]
+
+  INNER JOIN [CMS_DB].[dbo].[gis_11KV Feeder] AS [F] ON [F].Assetid = [H].[HT_11KV_parent]
+
+  INNER JOIN [CMS_DB].[dbo].[gis_Power Transformer 33KV_11KV] AS [P] ON [P].Assetid = [F].[F11kvFeeder_parent]
+
+  INNER JOIN [CMS_DB].[dbo].[gis_InjectionSub Station] AS [I] ON [I].[Assetid] = [P].[PT_33KV_11KV_parent]
+
+  WHERE D11.Assetid = '#dss_id#'"""
+                        
+FETCH_GIS_ASSETS_INFO_DSS_OWNER  = """SELECT distinct dss_11kv_415v_owner as dss_owner FROM [CMS_DB].[dbo].[GIS_DSS]
+                                        """
                                         
 FETCH_GIS_FEEDER_INFO = """   
                             SELECT 

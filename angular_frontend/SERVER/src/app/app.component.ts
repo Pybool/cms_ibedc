@@ -46,6 +46,7 @@ export class AppComponent {
   activePayments = 'ems'
   positionCode;
   userRegion;
+  user:any
   
   constructor(private router: Router,
               private store: Store<AppState>,
@@ -92,7 +93,7 @@ export class AppComponent {
         this.router.navigateByUrl("/cms/web/login")
       }
       else{
-
+        this.user = user
         this.can_approve = user.can_approve
         this.can_approve_caad = user.can_approve_caad
         this.usersMail = user.email
@@ -105,30 +106,30 @@ export class AppComponent {
       }
     });
 
-    (function(){
-      const dropdowns = document.querySelectorAll('.dropdown');
-      const dropups = document.querySelectorAll('.dropup');
-      dropdowns.forEach(dropdown => {
-          dropdown.addEventListener('mouseover', function hoverOn(event) {
-              try{dropdown.children[1].classList.add('show');}
-              catch{}
-          });
-          dropdown.addEventListener('mouseout', async function hoverOut(event) {
-              try{dropdown.children[1].classList.remove('show');}
-              catch{}
-          });
-      });
+    // (function(){
+    //   const dropdowns = document.querySelectorAll('.dropdown');
+    //   const dropups = document.querySelectorAll('.dropup');
+    //   dropdowns.forEach(dropdown => {
+    //       dropdown.addEventListener('mouseover', function hoverOn(event) {
+    //           try{dropdown.children[1].classList.add('show');}
+    //           catch{}
+    //       });
+    //       dropdown.addEventListener('mouseout', async function hoverOut(event) {
+    //           try{dropdown.children[1].classList.remove('show');}
+    //           catch{}
+    //       });
+    //   });
       
-      dropups.forEach(dropup => {
-          dropup.addEventListener('mouseover', function hoverOn(event) {
-              dropup.children[1].classList.add('show');
-          });
-          dropup.addEventListener('mouseout', async function hoverOut(event) {
+    //   dropups.forEach(dropup => {
+    //       dropup.addEventListener('mouseover', function hoverOn(event) {
+    //           dropup.children[1].classList.add('show');
+    //       });
+    //       dropup.addEventListener('mouseout', async function hoverOut(event) {
               
-              dropup.children[1].classList.remove('show');
-          });
-      });
-    })()
+    //           dropup.children[1].classList.remove('show');
+    //       });
+    //   });
+    // })()
     
   }
 

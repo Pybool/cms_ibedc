@@ -127,20 +127,29 @@
                                             <div class="user-avatar sm"><em class="icon ni ni-user-alt"></em></div>
                                         </div>
                                     </a>
-                                    <div class="dropdown-menu dropdown-menu-md dropdown-menu-right">
+                                    <div style="width:400px!important;" class="dropdown-menu dropdown-menu dropdown-menu-right">
                                         <div class="dropdown-inner user-card-wrap bg-lighter">
                                             <div class="user-card">
                                                 <div class="user-avatar"><span>{{abbreviateName(usersName)}}</span></div>
                                                 <div class="user-info"><span class="lead-text">{{usersName}}</span><span class="sub-text">{{usersMail}}</span></div>
                                             </div>
                                         </div>
-                                        <div class="dropdown-inner">
+                                        <div  style="width:500px!important;" class="dropdown-inner">
                                             <ul class="link-list-opt">
-                                                <li><a href="javascript:void(0)"  style="width:100%;">
-                                                    {{positionCode}}
+                                                <li><a style="white-space: nowrap;" *ngIf="user.permission_hierarchy == 'Business Unit'" href="javascript:void(0)"  style="width:100%;">
+                                                    {{positionCode}}: {{user.business_unit | uppercase}}
+                                                    </a>
+                                                    <a *ngIf="user.permission_hierarchy == 'Service Center'" href="javascript:void(0)"  style="width:100%;">
+                                                    {{positionCode}}: {{user.service_center | uppercase}}
+                                                    </a>
+                                                    <a *ngIf="user.permission_hierarchy == 'Region'" href="javascript:void(0)"  style="width:100%;">
+                                                    {{positionCode}}: {{user.region | uppercase}}
+                                                    </a>
+                                                    <a *ngIf="user.permission_hierarchy == 'Head Quarters'" href="javascript:void(0)"  style="width:100%;">
+                                                    {{positionCode}}: {{user.region | uppercase}}
                                                     </a>
                                                  </li>
-                                                 <li><a href="javascript:void(0)" (click)="logout()"><em class="icon ni ni-signout"></em><span>Region: {{userRegion}}</span></a></li>
+                                                 <li><a href="javascript:void(0)" ><em class="icon ni ni-signout"></em><span>Region: {{userRegion}}</span></a></li>
                                                  <li><a href="javascript:void(0)" onclick="document.getElementById('pending_view').click()" style="width:100%;">
                                                     <em class="icon ni ni-update"></em>CRMD Customers Board
                                                     </a>
